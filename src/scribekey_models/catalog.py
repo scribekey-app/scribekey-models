@@ -116,6 +116,10 @@ def generate_speech_catalog() -> dict[str, Any]:
             entry["replacementId"] = model["replacementId"]
         if model.get("streamLanguage"):
             entry["streamLanguage"] = model["streamLanguage"]
+        if model.get("counterpartId"):
+            entry["counterpartId"] = model["counterpartId"]
+        if model.get("languageCodes"):
+            entry["languageCodes"] = list(model["languageCodes"])
         entry["files"] = [
             {
                 "name": file["name"],

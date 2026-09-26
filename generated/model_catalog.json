@@ -3,7 +3,7 @@
     {
       "id": "moonshine-tiny",
       "family": "MOONSHINE",
-      "displayName": "Moonshine Tiny",
+      "displayName": "Moonshine Tiny v1",
       "badge": "Legacy",
       "diskMb": 119,
       "minRamMb": 2048,
@@ -12,10 +12,13 @@
       "supportsTimestamps": false,
       "supportsPunctuation": false,
       "supportsLanguageDetection": false,
-      "description": "Compact offline English dictation for legacy devices.",
-      "bestFor": "Low-storage legacy phones needing basic English dictation.",
+      "description": "The original Moonshine Tiny, kept so existing installs keep working.",
+      "bestFor": "Existing installs only",
       "deprecated": true,
       "replacementId": "moonshine-v2-tiny-en",
+      "languageCodes": [
+        "en"
+      ],
       "files": [
         {
           "name": "preprocess.onnx",
@@ -56,12 +59,20 @@
         "paramsBadge": "26M",
         "architecture": "Encoder-Decoder",
         "languages": "English"
+      },
+      "provenance": {
+        "sourceModel": "moonshine-ai/moonshine-tiny",
+        "exportRepository": "csukuangfj/sherpa-onnx-moonshine-tiny-en-int8",
+        "exportRevision": "bf2b762c076d8ea61e2af0b3851c9564fb77552e",
+        "exportVariant": "English INT8",
+        "licenseId": "MIT",
+        "licenseUrl": "https://huggingface.co/moonshine-ai/moonshine-tiny"
       }
     },
     {
       "id": "moonshine-base",
       "family": "MOONSHINE",
-      "displayName": "Moonshine Base",
+      "displayName": "Moonshine Base v1",
       "badge": "Legacy",
       "diskMb": 274,
       "minRamMb": 2048,
@@ -70,10 +81,13 @@
       "supportsTimestamps": false,
       "supportsPunctuation": false,
       "supportsLanguageDetection": false,
-      "description": "Standard offline English dictation for older hardware.",
-      "bestFor": "English dictation on older phones with moderate storage.",
+      "description": "The original Moonshine Base, kept so existing installs keep working.",
+      "bestFor": "Existing installs only",
       "deprecated": true,
       "replacementId": "moonshine-v2-base-en",
+      "languageCodes": [
+        "en"
+      ],
       "files": [
         {
           "name": "preprocess.onnx",
@@ -114,6 +128,14 @@
         "paramsBadge": "58M",
         "architecture": "Encoder-Decoder",
         "languages": "English"
+      },
+      "provenance": {
+        "sourceModel": "moonshine-ai/moonshine-base",
+        "exportRepository": "csukuangfj/sherpa-onnx-moonshine-base-en-int8",
+        "exportRevision": "052b0798ad1bf046a140fdd4efcd9426530fa3f5",
+        "exportVariant": "English INT8",
+        "licenseId": "MIT",
+        "licenseUrl": "https://huggingface.co/moonshine-ai/moonshine-base"
       }
     },
     {
@@ -121,7 +143,7 @@
       "outcome": "LIGHTWEIGHT",
       "family": "MOONSHINE",
       "displayName": "Moonshine Tiny",
-      "badge": "New",
+      "badge": "",
       "diskMb": 43,
       "minRamMb": 2048,
       "minApiLevel": 28,
@@ -129,8 +151,11 @@
       "supportsTimestamps": false,
       "supportsPunctuation": false,
       "supportsLanguageDetection": false,
-      "description": "Compact English transcription for everyday notes and lower-storage devices.",
-      "bestFor": "Lightweight English transcription when download size and memory matter most.",
+      "description": "The smallest English model. Quick on any phone; transcripts come without punctuation.",
+      "bestFor": "Smallest download and memory use",
+      "languageCodes": [
+        "en"
+      ],
       "files": [
         {
           "name": "encoder_model.ort",
@@ -174,7 +199,7 @@
       "outcome": "LIGHTWEIGHT",
       "family": "MOONSHINE",
       "displayName": "Moonshine Base",
-      "badge": "New",
+      "badge": "",
       "diskMb": 135,
       "minRamMb": 2048,
       "minApiLevel": 28,
@@ -182,8 +207,11 @@
       "supportsTimestamps": false,
       "supportsPunctuation": false,
       "supportsLanguageDetection": false,
-      "description": "English transcription with a larger Moonshine model for users who can spare more storage.",
-      "bestFor": "English transcription when you want more model capacity than the Tiny option.",
+      "description": "A larger Moonshine for English. More accurate than Moonshine Tiny, still light on memory.",
+      "bestFor": "English on older or low-memory phones",
+      "languageCodes": [
+        "en"
+      ],
       "files": [
         {
           "name": "encoder_model.ort",
@@ -235,8 +263,11 @@
       "supportsTimestamps": false,
       "supportsPunctuation": false,
       "supportsLanguageDetection": false,
-      "description": "English transcription in a compact Whisper-derived model.",
-      "bestFor": "A familiar English model when you want a middle-ground download size.",
+      "description": "A distilled Whisper model for English. Transcripts come without punctuation.",
+      "bestFor": "Whisper-style English at a mid-size download",
+      "languageCodes": [
+        "en"
+      ],
       "files": [
         {
           "name": "encoder.int8.onnx",
@@ -265,6 +296,14 @@
         "paramsBadge": "190M",
         "architecture": "Encoder-Decoder",
         "languages": "English"
+      },
+      "provenance": {
+        "sourceModel": "distil-whisper/distil-small.en",
+        "exportRepository": "csukuangfj/sherpa-onnx-whisper-distil-small.en",
+        "exportRevision": "0492324bca9e12a6fca0089bb846f2dd723b50d8",
+        "exportVariant": "English INT8",
+        "licenseId": "MIT",
+        "licenseUrl": "https://huggingface.co/distil-whisper/distil-small.en"
       }
     },
     {
@@ -280,8 +319,11 @@
       "supportsTimestamps": true,
       "supportsPunctuation": true,
       "supportsLanguageDetection": false,
-      "description": "Compact English transcription with timestamps and punctuation support.",
-      "bestFor": "English notes on devices that cannot comfortably fit the larger models.",
+      "description": "A small NVIDIA Parakeet model that writes English with punctuation and capitals.",
+      "bestFor": "Punctuated English on mid-range phones",
+      "languageCodes": [
+        "en"
+      ],
       "files": [
         {
           "name": "model.onnx",
@@ -304,6 +346,14 @@
         "paramsBadge": "110M",
         "architecture": "TDT-CTC",
         "languages": "English"
+      },
+      "provenance": {
+        "sourceModel": "nvidia/parakeet-tdt_ctc-110m",
+        "exportRepository": "csukuangfj/sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000",
+        "exportRevision": "3af92f152d32c836acabf38f4c993bc96b80eb2d",
+        "exportVariant": "English CTC",
+        "licenseId": "CC-BY-4.0",
+        "licenseUrl": "https://huggingface.co/nvidia/parakeet-tdt_ctc-110m"
       }
     },
     {
@@ -319,8 +369,14 @@
       "supportsTimestamps": false,
       "supportsPunctuation": true,
       "supportsLanguageDetection": true,
-      "description": "Multilingual transcription for English, Spanish, German, and French audio.",
-      "bestFor": "Switching among the four supported languages with punctuation.",
+      "description": "Transcribes English, Spanish, German and French with punctuation, and detects which one you speak.",
+      "bestFor": "Four European languages in a small download",
+      "languageCodes": [
+        "en",
+        "es",
+        "de",
+        "fr"
+      ],
       "files": [
         {
           "name": "encoder.int8.onnx",
@@ -349,6 +405,14 @@
         "paramsBadge": "180M",
         "architecture": "CTC Flash",
         "languages": "Multilingual"
+      },
+      "provenance": {
+        "sourceModel": "nvidia/canary-180m-flash",
+        "exportRepository": "csukuangfj/sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8",
+        "exportRevision": "9077164e0d3dd1d5353743e89ceaa1d3a770838c",
+        "exportVariant": "INT8",
+        "licenseId": "CC-BY-4.0",
+        "licenseUrl": "https://huggingface.co/nvidia/canary-180m-flash"
       }
     },
     {
@@ -364,8 +428,8 @@
       "supportsTimestamps": false,
       "supportsPunctuation": false,
       "supportsLanguageDetection": false,
-      "description": "Broad-coverage transcription from Meta's Omnilingual ASR family.",
-      "bestFor": "Exploring transcription across 1600+ languages, especially languages underserved by smaller models.",
+      "description": "Meta's broad-coverage model for more than 1,600 languages. Transcripts come without punctuation.",
+      "bestFor": "Languages other models do not cover",
       "files": [
         {
           "name": "model.int8.onnx",
@@ -411,8 +475,8 @@
       "supportsTimestamps": false,
       "supportsPunctuation": false,
       "supportsLanguageDetection": false,
-      "description": "Multilingual speech recognition covering 30 languages and Chinese dialects.",
-      "bestFor": "Multilingual transcription when broad language and dialect coverage matter more than download size.",
+      "description": "Transcribes 30 languages and 22 Chinese dialects.",
+      "bestFor": "Chinese dialects and wide language coverage",
       "files": [
         {
           "name": "conv_frontend.onnx",
@@ -472,7 +536,7 @@
     {
       "id": "parakeet-0.6b-v2",
       "family": "PARAKEET",
-      "displayName": "Parakeet 0.6B v2",
+      "displayName": "Parakeet English v2",
       "badge": "",
       "diskMb": 631,
       "minRamMb": 6144,
@@ -481,10 +545,13 @@
       "supportsTimestamps": true,
       "supportsPunctuation": true,
       "supportsLanguageDetection": false,
-      "description": "High-accuracy FastConformer transducer model for English transcription with timestamps.",
-      "bestFor": "Accurate English transcription when storage allows a larger download.",
+      "description": "An earlier Parakeet English model, kept so existing installs keep working.",
+      "bestFor": "Existing installs only",
       "retired": true,
       "replacementId": "parakeet-unified-0.6b",
+      "languageCodes": [
+        "en"
+      ],
       "files": [
         {
           "name": "encoder.int8.onnx",
@@ -519,6 +586,14 @@
         "paramsBadge": "600M",
         "architecture": "TDT",
         "languages": "English"
+      },
+      "provenance": {
+        "sourceModel": "nvidia/parakeet-tdt-0.6b-v2",
+        "exportRepository": "csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8",
+        "exportRevision": "1ab9323565ddb038682214b292f588070a538ce2",
+        "exportVariant": "INT8",
+        "licenseId": "CC-BY-4.0",
+        "licenseUrl": "https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2"
       }
     },
     {
@@ -534,8 +609,36 @@
       "supportsTimestamps": true,
       "supportsPunctuation": true,
       "supportsLanguageDetection": true,
-      "description": "Multilingual transcription for 25 European languages with timestamps.",
-      "bestFor": "Accurate timestamped dictation across 25 European languages.",
+      "description": "Transcribes 25 European languages with punctuation and timestamps, and detects which one you speak.",
+      "bestFor": "Accurate final text in European languages",
+      "counterpartId": "nemotron-3.5-0.6b-560ms",
+      "languageCodes": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "bg",
+        "hr",
+        "cs",
+        "da",
+        "nl",
+        "et",
+        "fi",
+        "el",
+        "hu",
+        "it",
+        "lv",
+        "lt",
+        "mt",
+        "pl",
+        "pt",
+        "ro",
+        "sk",
+        "sl",
+        "sv",
+        "ru",
+        "uk"
+      ],
       "files": [
         {
           "name": "encoder.int8.onnx",
@@ -570,6 +673,14 @@
         "paramsBadge": "600M",
         "architecture": "TDT",
         "languages": "25 European languages"
+      },
+      "provenance": {
+        "sourceModel": "nvidia/parakeet-tdt-0.6b-v3",
+        "exportRepository": "csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8",
+        "exportRevision": "2bda32ec70b097a55adaa07d9a7173915b43cc78",
+        "exportVariant": "INT8",
+        "licenseId": "CC-BY-4.0",
+        "licenseUrl": "https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3"
       }
     },
     {
@@ -585,8 +696,12 @@
       "supportsTimestamps": true,
       "supportsPunctuation": true,
       "supportsLanguageDetection": false,
-      "description": "English transcription with timestamps and punctuation support.",
-      "bestFor": "Final English transcripts when English accuracy is the priority.",
+      "description": "A large English model with punctuation and timestamps. Text arrives when you stop speaking.",
+      "bestFor": "Most accurate final English",
+      "counterpartId": "nemotron-en-0.6b",
+      "languageCodes": [
+        "en"
+      ],
       "files": [
         {
           "name": "encoder.int8.onnx",
@@ -621,13 +736,21 @@
         "paramsBadge": "600M",
         "architecture": "TDT",
         "languages": "English"
+      },
+      "provenance": {
+        "sourceModel": "nvidia/parakeet-unified-en-0.6b",
+        "exportRepository": "csukuangfj2/sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming",
+        "exportRevision": "8c3a10fb13408c7a7054f6898958bf1c64a8d6c7",
+        "exportVariant": "INT8",
+        "licenseId": "NVIDIA Open Model License",
+        "licenseUrl": "https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/"
       }
     },
     {
       "id": "parakeet-unified-0.6b-streaming-560ms",
       "family": "PARAKEET",
-      "displayName": "Parakeet Unified 0.6B Live",
-      "badge": "Experimental",
+      "displayName": "Parakeet English Live preview",
+      "badge": "",
       "diskMb": 633,
       "minRamMb": 6144,
       "minApiLevel": 31,
@@ -635,10 +758,13 @@
       "supportsTimestamps": false,
       "supportsPunctuation": true,
       "supportsLanguageDetection": false,
-      "description": "Low-latency streaming English model producing live transcripts in 560 ms increments.",
-      "bestFor": "Live English dictation with real-time word output.",
+      "description": "An early live English preview, kept so existing installs keep working.",
+      "bestFor": "Existing installs only",
       "retired": true,
       "replacementId": "nemotron-en-0.6b",
+      "languageCodes": [
+        "en"
+      ],
       "files": [
         {
           "name": "encoder.int8.onnx",
@@ -673,6 +799,14 @@
         "paramsBadge": "600M",
         "architecture": "Streaming export · 560 ms",
         "languages": "English"
+      },
+      "provenance": {
+        "sourceModel": "nvidia/parakeet-unified-en-0.6b",
+        "exportRepository": "csukuangfj2/sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-streaming-560ms",
+        "exportRevision": "7551fd26fc810cc1e4e043e608db4d13b59be31e",
+        "exportVariant": "Streaming 560 ms INT8",
+        "licenseId": "NVIDIA Open Model License",
+        "licenseUrl": "https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/"
       }
     },
     {
@@ -688,8 +822,12 @@
       "supportsTimestamps": false,
       "supportsPunctuation": true,
       "supportsLanguageDetection": false,
-      "description": "English live transcription using a cache-aware streaming model.",
-      "bestFor": "Live English dictation and captions with low-latency incremental results.",
+      "description": "Shows English words while you speak, with punctuation.",
+      "bestFor": "Live English dictation and captions",
+      "counterpartId": "parakeet-unified-0.6b",
+      "languageCodes": [
+        "en"
+      ],
       "files": [
         {
           "name": "encoder.int8.onnx",
@@ -747,9 +885,10 @@
       "supportsTimestamps": false,
       "supportsPunctuation": true,
       "supportsLanguageDetection": false,
-      "description": "Cache-aware live transcription across a qualified set of 40 locales.",
-      "bestFor": "Live multilingual dictation when automatic language selection is useful.",
+      "description": "Shows words while you speak in 40 locales and picks the language for you.",
+      "bestFor": "Live dictation in many languages",
       "streamLanguage": "auto",
+      "counterpartId": "parakeet-0.6b-v3",
       "files": [
         {
           "name": "encoder.int8.onnx",

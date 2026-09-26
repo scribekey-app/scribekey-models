@@ -247,6 +247,8 @@ def validate_identities_and_integrity(
         if repl and repl not in all_speech_ids:
             issues.append(GuardrailIssue("catalog/speech.yaml", f"Model '{model.get('id')}' replacementId '{repl}' not found in catalogue"))
 
+    issues.extend(_validate_speech_presentation(speech_data.get("models", [])))
+
     # Diarization digests
     for model in diarization_data.get("models", []):
         role = model.get("role", "unknown")
@@ -272,6 +274,74 @@ def validate_identities_and_integrity(
         if not isinstance(size, int) or size <= 0:
             issues.append(GuardrailIssue("catalog/cleanup.yaml", f"Cleanup model '{m_id}' invalid sizeBytes: '{size}'"))
 
+    return issues
+
+
+def _validate_speech_presentation(models: list[dict[str, Any]]) -> list[GuardrailIssue]:
+    """Checks the facts Android shows side by side, where a clash reads as one model twice.
+
+    A legacy entry that shares its replacement's display name makes Settings say "Moonshine Base"
+    for two different downloads, so names are unique. The card shows ``bestFor`` under the name
+    and the info sheet shows ``description`` beneath it; the same sentence twice is noise.
+    A counterpart is the same job in the other mode (live versus final), so the pairing must be
+    mutual and must cross modes, or the app would offer a "live version" that is not live.
+    """
+    issues: list[GuardrailIssue] = []
+    by_id = {m.get("id"): m for m in models if m.get("id")}
+    seen_names: dict[str, str] = {}
+    for model in models:
+        mid = model.get("id", "unknown")
+        name = str(model.get("displayName", "")).strip().casefold()
+        if name and name in seen_names:
+            issues.append(
+                GuardrailIssue(
+                    "catalog/speech.yaml",
+                    f"Speech model '{mid}' reuses display name of '{seen_names[name]}'",
+                )
+            )
+        elif name:
+            seen_names[name] = mid
+
+        best_for = str(model.get("bestFor", "")).strip().casefold()
+        description = str(model.get("description", "")).strip().casefold()
+        if best_for and best_for == description:
+            issues.append(
+                GuardrailIssue("catalog/speech.yaml", f"Speech model '{mid}' repeats description as bestFor")
+            )
+
+        counterpart_id = model.get("counterpartId")
+        if not counterpart_id:
+            continue
+        counterpart = by_id.get(counterpart_id)
+        if counterpart is None:
+            issues.append(
+                GuardrailIssue(
+                    "catalog/speech.yaml",
+                    f"Speech model '{mid}' counterpartId '{counterpart_id}' not found in catalogue",
+                )
+            )
+            continue
+        if counterpart.get("counterpartId") != mid:
+            issues.append(
+                GuardrailIssue(
+                    "catalog/speech.yaml",
+                    f"Speech model '{mid}' counterpart '{counterpart_id}' does not point back",
+                )
+            )
+        if counterpart.get("transcriptionMode", "SEGMENTED") == model.get("transcriptionMode", "SEGMENTED"):
+            issues.append(
+                GuardrailIssue(
+                    "catalog/speech.yaml",
+                    f"Speech model '{mid}' counterpart '{counterpart_id}' uses the same transcription mode",
+                )
+            )
+        if counterpart.get("retired") or counterpart.get("deprecated"):
+            issues.append(
+                GuardrailIssue(
+                    "catalog/speech.yaml",
+                    f"Speech model '{mid}' counterpart '{counterpart_id}' is retired or deprecated",
+                )
+            )
     return issues
 
 
