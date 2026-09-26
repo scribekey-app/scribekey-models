@@ -1,0 +1,18 @@
+schema_version: 1
+releaseId: 2026.09.3
+createdAt: '2026-09-26T23:49:40Z'
+description: Distinct legacy names, verified provenance, language lists and live counterparts
+catalogs:
+  speech:
+    filename: model_catalog.json
+    sha256: 35c9242e21bb03858370492623254441d414f9d9282a86eabbb059b31d4154b4
+    sizeBytes: 40614
+  diarization:
+    filename: speaker_diarization_manifest.json
+    sha256: 7f6d32bb6a20b9ad26a03130645b7dbfaecc97d785dca6538a92f05b5f8cde45
+    sizeBytes: 1521
+  cleanup:
+    filename: cleanup_model_catalog.json
+    sha256: 50649bf2a0a2d38172448dcc74b840ff5ba301d6c1ea90be3a2aef681658a697
+    sizeBytes: 1182
+gitCommit: 77ecad329b74f8ca15ab05404a9651d2bc91da4a
