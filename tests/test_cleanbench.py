@@ -1,4 +1,5 @@
 from scribekey_models.cleanbench import (
+    MAX_CANDIDATE_BYTES,
     Candidate,
     load_candidates,
     load_corpus,
@@ -24,6 +25,7 @@ def test_every_candidate_is_pinned_and_builds_a_prompt() -> None:
     for candidate in candidates:
         assert len(candidate.revision) == 40
         assert candidate.file.endswith(".gguf")
+        assert 0 < candidate.size_bytes <= MAX_CANDIDATE_BYTES, candidate.id
         assert "hello there" in candidate.prompt_for("hello there")
 
 
@@ -69,7 +71,7 @@ def test_output_budget_is_shared_and_bounded() -> None:
 
 def test_report_advances_only_models_that_keep_protected_spans() -> None:
     def candidate(model_id: str) -> Candidate:
-        return Candidate(model_id, "o/r", "a" * 40, "m.gguf", "MIT", "chatml", "")
+        return Candidate(model_id, "o/r", "a" * 40, "m.gguf", 1, "MIT", "chatml", "")
 
     def row(similarity: float, retained: bool) -> dict:
         return {

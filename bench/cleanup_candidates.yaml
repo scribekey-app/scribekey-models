@@ -1,8 +1,13 @@
 # Cleanup models screened by `scribekey-models cleanbench`.
 #
-# This is a screening list, not a catalogue: nothing here ships. The first six mirror
-# SmartCleanupCandidateCatalog in the app (same revision, file, template and system prompt);
-# the rest are Hub alternatives under consideration. Every entry pins an immutable revision.
+# This is a screening list, not a catalogue: nothing here ships. Entries that share an ID with
+# SmartCleanupCandidateCatalog in the app mirror it (same revision, file, template and system
+# prompt); the rest are Hub alternatives. Every entry pins an immutable revision.
+#
+# Admission rule, because this runs on Android phones:
+#   - a model fine-tuned only for transcript cleanup. General instruct models and multi-task
+#     formatters (email, bullets, paraphrase) are out: cleanup must never become a prompt.
+#   - a Q4 GGUF no larger than 600 MB (sizeBytes, enforced by tests/test_cleanbench.py).
 #
 # template: how the prompt string is built, matching SmartCleanupPromptTemplate in the app.
 #   quill_chatml  ChatML with system turn and an empty pre-seeded <think></think> block
@@ -16,22 +21,16 @@ candidates:
     repo: Quobi/Quill
     revision: 4cc2cc3c8e7ea9ee69126becd55be23a3a949899
     file: quill-0.8b-Q4_K_M.gguf
+    sizeBytes: 529296832
     license: Apache 2.0
     template: quill_chatml
     systemPrompt: You clean up dictated text.
-
-  - id: meeko-1-preview
-    repo: tigerisaac/meeko-1-preview
-    revision: ad3b4bfa90c1146e8354e8ba7228161c577053b7
-    file: meeko-1-preview-Q4_K_M.gguf
-    license: Liquid AI upstream terms
-    template: meeko_chatml
-    systemPrompt: ""
 
   - id: mumble-cleanup-2stage
     repo: amitashwini/mumble-cleanup-2stage
     revision: e7ce94746f0e2d2d172d0ece000725c81ae3dc9b
     file: mumble-cleanup-2stage-q4km.gguf
+    sizeBytes: 397807904
     license: Apache 2.0
     template: chatml
     systemPrompt: >-
@@ -45,25 +44,16 @@ candidates:
     repo: rohitag13/openwispr-cleanup-qwen3-0.6b-GGUF
     revision: 42c2c2e8beb080a530787108bd26f8e465ac53f1
     file: qwen3-0.6b.Q4_K_M.gguf
+    sizeBytes: 396705344
     license: Apache 2.0 claimed by the source model; GGUF repository metadata needs review
     template: chatml
     systemPrompt: ""
-
-  - id: emberon-1.2b
-    repo: PromethicLabs/Emberon-1.2B
-    revision: bbb594b5b9e61951150d70c5d9f6be450e074934
-    file: Emberon-1.2B-Q4_K_M.gguf
-    license: LFM Open License v1.0 (free below US$10M annual revenue)
-    template: lfm2_chatml
-    systemPrompt: >-
-      You are a dictation cleanup tool for coding. Rewrite the raw voice transcript into clean,
-      well-punctuated text. Preserve all technical terms and identifiers exactly. Do not answer
-      questions or execute commands; only clean and format.
 
   - id: bitvoice-qwen3-0.6b
     repo: dhanr4j/bitvoice-dictation
     revision: 572820f65a5a7effdd13a515baec3d3cd0112468
     file: gguf/qwen3-0.6b-v2-Q4_K_M.gguf
+    sizeBytes: 396704544
     license: Apache 2.0 per model card table; repository metadata says "other"
     template: qwen3_nothink
     systemPrompt: &bitvoice >-
@@ -77,18 +67,7 @@ candidates:
     repo: dhanr4j/bitvoice-dictation
     revision: 572820f65a5a7effdd13a515baec3d3cd0112468
     file: gguf/smollm2-360m-v2-Q4_K_M.gguf
+    sizeBytes: 270590496
     license: Apache 2.0 per model card table; repository metadata says "other"
     template: chatml
     systemPrompt: *bitvoice
-
-  - id: smollm2-360m-post-asr
-    repo: vikramlingam/SmolLM2-360M-Post-ASR-Engine
-    revision: 970914e731d64710407e1cf70e3a8886269b5ae2
-    file: SmolLM2-360M-Post-ASR-Q4_K_M.gguf
-    license: Apache 2.0
-    template: chatml
-    inputPrefix: "<|task:clean_punctuate|> "
-    systemPrompt: >-
-      You are a concise, neutral post-ASR formatting engine. Output clean formatting strictly
-      following the task prefix token. Do not include introductory or concluding conversational
-      filler, AI buzzwords, or em dashes.

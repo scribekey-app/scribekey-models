@@ -38,6 +38,8 @@ ADDED_CONTENT_RATIO = 1.3
 ADDED_CONTENT_SLACK_CHARS = 20
 # Screening gate: a model that drops protected spans more often than this is not worth a device run.
 MIN_PROTECTED_RETENTION = 0.95
+# Admission ceiling for a phone: a small cleanup model, not a general assistant.
+MAX_CANDIDATE_BYTES = 600_000_000
 
 
 @dataclass(frozen=True)
@@ -46,13 +48,12 @@ class Candidate:
     repo: str
     revision: str
     file: str
+    size_bytes: int
     license: str
     template: str
     system_prompt: str
-    input_prefix: str = ""
 
-    def prompt_for(self, transcript: str) -> str:
-        text = self.input_prefix + transcript
+    def prompt_for(self, text: str) -> str:
         system = self.system_prompt.strip()
         if self.template == "quill_chatml":
             return (
@@ -87,10 +88,10 @@ def load_candidates(path: Path = CANDIDATES_FILE) -> list[Candidate]:
             repo=entry["repo"],
             revision=entry["revision"],
             file=entry["file"],
+            size_bytes=entry["sizeBytes"],
             license=entry["license"],
             template=entry["template"],
             system_prompt=entry.get("systemPrompt", ""),
-            input_prefix=entry.get("inputPrefix", ""),
         )
         for entry in raw["candidates"]
     ]
@@ -311,7 +312,10 @@ def render_report(
     lines += ["", "## Artefacts", ""]
     for model in ranked:
         c = by_id[model]
-        lines.append(f"- `{model}`: `{c.repo}@{c.revision[:12]}` `{c.file}` ({c.license})")
+        lines.append(
+            f"- `{model}`: `{c.repo}@{c.revision[:12]}` `{c.file}`, "
+            f"{c.size_bytes / 1e6:.0f} MB ({c.license})"
+        )
     return "\n".join(lines) + "\n"
 
 
