@@ -19,10 +19,11 @@ channels:
       - cleanup-model-catalog
       - speaker-diarization-manifest
   stable:
-    targetRelease: 2026.09.2
-    sequence: 3
-    issuedAt: '2026-09-15T21:24:32Z'
-    notes: Promote verified model selection guidance release after QA publication
+    targetRelease: 2026.09.9
+    sequence: 4
+    issuedAt: '2026-09-27T23:38:25Z'
+    notes: Cleanup model choice (Quill, Mumble), recorded cleanup samples, and corrected
+      punctuation flags for six speech models.
     compatibility:
       minAndroidApiLevel: 28
       minAppVersionCode: 10
