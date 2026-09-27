@@ -1,9 +1,11 @@
-"""Record cleanup examples from the production model, the way the Android app would run it.
+"""Record cleanup examples from a catalogue cleanup model, the way the Android app would run it.
 
 Usage:
     python tools/record_cleanup_examples/record.py \
         --recorder build/recorder --model quill.gguf --runtime <llama.cpp commit> \
-        "um i think we should ship it today" "..."
+        [--model-id mumble-cleanup-2stage] "um i think we should ship it today" "..."
+
+Without --model-id it records the production model.
 
 Each input runs twice; a difference between runs is an error, because an example that is not
 reproducible cannot be shown as what the model does. Prints YAML to paste under `examples:`.
@@ -23,13 +25,16 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def prompt_for(template: str, system_prompt: str, text: str) -> str:
-    # Mirrors SmartCleanupRuntime.promptFor in the app. Only the templates in production are here.
+    # Mirrors SmartCleanupRuntime.promptFor in the app. Only the templates the catalogue uses are here.
     if template == "QuillChatMl":
         return (
             f"<|im_start|>system\n{system_prompt.strip()}<|im_end|>\n"
             f"<|im_start|>user\n{text}<|im_end|>\n"
             "<|im_start|>assistant\n<think>\n\n</think>\n"
         )
+    if template == "QwenChatMl":
+        system = f"<|im_start|>system\n{system_prompt.strip()}<|im_end|>\n" if system_prompt.strip() else ""
+        return f"{system}<|im_start|>user\n{text}<|im_end|>\n<|im_start|>assistant\n"
     raise SystemExit(f"Prompt template {template} is not supported by the recorder yet")
 
 
@@ -53,10 +58,16 @@ def main() -> None:
     parser.add_argument("--recorder", required=True)
     parser.add_argument("--model", required=True)
     parser.add_argument("--runtime", required=True, help="llama.cpp commit the recorder was built from")
+    parser.add_argument("--model-id", help="catalogue modelId to record; the production model by default")
     parser.add_argument("inputs", nargs="+")
     args = parser.parse_args()
 
-    profile = yaml.safe_load((ROOT / "catalog" / "cleanup.yaml").read_text())["production"]
+    catalog = yaml.safe_load((ROOT / "catalog" / "cleanup.yaml").read_text())
+    entries = [catalog["production"], *catalog.get("candidates", [])]
+    wanted = args.model_id or catalog["production"]["modelId"]
+    profile = next((entry for entry in entries if entry["modelId"] == wanted), None)
+    if profile is None:
+        raise SystemExit(f"No cleanup model {wanted!r} in catalog/cleanup.yaml")
     if not profile.get("deterministicDecoding") or float(profile.get("temperature", 0.0)) != 0.0:
         raise SystemExit("Examples need deterministic decoding")
     examples = []
