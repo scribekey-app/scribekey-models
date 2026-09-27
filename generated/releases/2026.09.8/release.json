@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "releaseId": "2026.09.8",
+  "createdAt": "2026-09-27T13:12:15Z",
+  "description": "Mumble as a second cleanup model",
+  "catalogs": {
+    "speech": {
+      "filename": "model_catalog.json",
+      "sha256": "c2f7449bcabe5a8aeb26d09005f0e3ea0ede2ff47e080b7a60fba097663d5d24",
+      "sizeBytes": 41045
+    },
+    "diarization": {
+      "filename": "speaker_diarization_manifest.json",
+      "sha256": "7f6d32bb6a20b9ad26a03130645b7dbfaecc97d785dca6538a92f05b5f8cde45",
+      "sizeBytes": 1521
+    },
+    "cleanup": {
+      "filename": "cleanup_model_catalog.json",
+      "sha256": "2e23730d2d97a5ee23d405ebe3acae3891cf9a34d31cffb8f2d2caa88cb5133b",
+      "sizeBytes": 7549
+    }
+  },
+  "gitCommit": "d6ce6536e898fa14d25e631ab1a9c305b70c480c"
+}
