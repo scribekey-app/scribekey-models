@@ -19,6 +19,8 @@ from scribekey_models.catalog import (
     load_all_releases_data,
     validate,
 )
+from scribekey_models.cleanbench import BENCH_DIR
+from scribekey_models.cleanbench import run as run_cleanbench
 from scribekey_models.health import check_channel_sources, write_report
 from scribekey_models.mirror import (
     check_mirror_configuration,
@@ -179,6 +181,30 @@ def _parser() -> argparse.ArgumentParser:
         type=Path,
         default=None,
         help="Optional path for the machine-readable JSON report",
+    )
+
+    # cleanbench
+    cleanbench_cmd = subparsers.add_parser(
+        "cleanbench",
+        help="Screen cleanup GGUFs on the frozen CleanBench corpus with llama.cpp (needs [bench])",
+    )
+    cleanbench_cmd.add_argument(
+        "--models",
+        default=None,
+        help="Comma-separated candidate IDs from bench/cleanup_candidates.yaml (default: all)",
+    )
+    cleanbench_cmd.add_argument(
+        "--out",
+        type=Path,
+        default=BENCH_DIR / "results",
+        help="Directory for per-model JSONL and summary.md; finished models are not re-run",
+    )
+    cleanbench_cmd.add_argument("--limit", type=int, default=None, help="Only the first N cases")
+    cleanbench_cmd.add_argument("--threads", type=int, default=4, help="llama.cpp CPU threads")
+    cleanbench_cmd.add_argument(
+        "--report-only",
+        action="store_true",
+        help="Rebuild summary.md from existing results without running any model",
     )
 
     return parser
@@ -355,6 +381,17 @@ def main() -> None:
                 print(f"{check.target.model_id}:{check.target.file_name}: {check.reason}")
             raise SystemExit(1)
         print("All configured model sources are healthy")
+        return
+
+    if args.command == "cleanbench":
+        report = run_cleanbench(
+            out_dir=args.out,
+            model_ids=args.models.split(",") if args.models else None,
+            limit=args.limit,
+            threads=args.threads,
+            report_only=args.report_only,
+        )
+        print(f"Wrote {report}")
         return
 
     issues = validate()
