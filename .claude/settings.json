@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "huggingface-skills": {
+      "source": {
+        "source": "github",
+        "repo": "huggingface/skills"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "hf-cli@huggingface-skills": true
+  }
+}
