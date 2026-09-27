@@ -46,7 +46,10 @@ candidates:
     file: qwen3-0.6b.Q4_K_M.gguf
     sizeBytes: 396705344
     license: Apache 2.0 claimed by the source model; GGUF repository metadata needs review
-    template: chatml
+    # Qwen3 base. The app's QwenChatMl leaves thinking on, so every case filled the budget with a
+    # <think> block (232/240 truncated). Screened with thinking disabled; the source card documents
+    # no prompt, so there is no system turn.
+    template: qwen3_nothink
     systemPrompt: ""
 
   - id: bitvoice-qwen3-0.6b

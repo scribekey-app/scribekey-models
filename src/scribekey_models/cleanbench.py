@@ -78,9 +78,9 @@ class Candidate:
                 "<|im_start|>assistant\n<think>\n\n</think>\n"
             )
         if self.template == "qwen3_nothink":
+            head = f"<|im_start|>system\n{system}<|im_end|>\n" if system else ""
             return (
-                f"<|im_start|>system\n{system}<|im_end|>\n"
-                f"<|im_start|>user\n{text}<|im_end|>\n"
+                f"{head}<|im_start|>user\n{text}<|im_end|>\n"
                 "<|im_start|>assistant\n<think>\n\n</think>\n\n"
             )
         if self.template == "chatml":
