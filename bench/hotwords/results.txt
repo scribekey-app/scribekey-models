@@ -1,0 +1,21 @@
+SAID : Deploy the Kubernetes cluster with Terraform before Friday.
+greedy        : Deploy the Kubernetes cluster with Terraform before Friday.   [2/2]
+beam          : Deploy the Kubernetes cluster with Terraform before Friday.   [2/2]
+beam+hotwords : Deploy the Kubernetes cluster with Terraform before Friday.   [2/2]
+SAID : Email Siobhan Nguyen about the ScribeKey rollout.
+greedy        : Email Shival New Yan about the scribe key roll out.   [0/3]
+beam          : Email Shival Nuyan about the scribe key rollout.   [0/3]
+beam+hotwords : Email Siobhan Nguyen about the ScribeKey rollout.   [3/3]
+SAID : The Grafana dashboard shows Prometheus alerts from Wednesday.
+greedy        : The Grafana dashboard shows Prometheus alerts from Wednesday.   [2/2]
+beam          : The Grafana dashboard shows Prometheus alerts from Wednesday.   [2/2]
+beam+hotwords : The Grafana dashboard shows Prometheus alerts from Wednesday.   [2/2]
+SAID : Ask Aoife to review the Qdrant migration.
+greedy        : Ask Efe to review the Cujrant Migration.   [0/2]
+beam          : Ask Eva to review the cuge rant migration.   [0/2]
+beam+hotwords : Ask Eva to review the QG rant migration.   [0/2]
+SAID : Book a table at Nobu for Saoirse and Tadhg.
+greedy        : Book a table at Nabu for Sea and Tad.   [0/3]
+beam          : Book a table at Nabu for Sea and Tad.   [0/3]
+beam+hotwords : Book a table at Nabu for Surtia and Tad.   [0/3]
+Target words recognised exactly: {'greedy': '4/12', 'beam': '4/12', 'beam+hotwords': '7/12'}

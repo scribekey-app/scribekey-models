@@ -9,6 +9,7 @@ from pathlib import Path
 
 import yaml
 
+from scribekey_models.bpe_vocab import build as build_bpe_vocab
 from scribekey_models.catalog import (
     GENERATED_DIR,
     ROOT,
@@ -207,6 +208,18 @@ def _parser() -> argparse.ArgumentParser:
         help="Rebuild summary.md from existing results without running any model",
     )
 
+    # bpe-vocab
+    bpe_cmd = subparsers.add_parser(
+        "bpe-vocab",
+        help="Build the hotwords bpe.vocab for a NeMo transducer from its upstream .nemo",
+    )
+    bpe_cmd.add_argument("--model", required=True, help="Speech model id in catalog/speech.yaml")
+    bpe_cmd.add_argument(
+        "--upstream-revision", required=True, help="Immutable commit of the sourceModel repo"
+    )
+    bpe_cmd.add_argument("--nemo-file", required=True, help="The .nemo file in that repo")
+    bpe_cmd.add_argument("--out", type=Path, default=ROOT / "assets" / "bpe-vocab")
+
     return parser
 
 
@@ -381,6 +394,11 @@ def main() -> None:
                 print(f"{check.target.model_id}:{check.target.file_name}: {check.reason}")
             raise SystemExit(1)
         print("All configured model sources are healthy")
+        return
+
+    if args.command == "bpe-vocab":
+        target = build_bpe_vocab(args.model, args.upstream_revision, args.nemo_file, args.out)
+        print(f"Wrote {target}")
         return
 
     if args.command == "cleanbench":
