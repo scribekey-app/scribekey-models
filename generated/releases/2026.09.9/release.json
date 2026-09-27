@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "releaseId": "2026.09.9",
+  "createdAt": "2026-09-27T22:51:33Z",
+  "description": "Correct punctuation flags for the models that punctuate",
+  "catalogs": {
+    "speech": {
+      "filename": "model_catalog.json",
+      "sha256": "393e2ade34639594cb12c2ef8fec01249ba6235f58c5e3d8ea15739c19ca49d0",
+      "sizeBytes": 41025
+    },
+    "diarization": {
+      "filename": "speaker_diarization_manifest.json",
+      "sha256": "7f6d32bb6a20b9ad26a03130645b7dbfaecc97d785dca6538a92f05b5f8cde45",
+      "sizeBytes": 1521
+    },
+    "cleanup": {
+      "filename": "cleanup_model_catalog.json",
+      "sha256": "2e23730d2d97a5ee23d405ebe3acae3891cf9a34d31cffb8f2d2caa88cb5133b",
+      "sizeBytes": 7549
+    }
+  },
+  "gitCommit": "ceceaa91ca15d9d90096015f661971a634bb5c02"
+}
