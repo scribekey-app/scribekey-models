@@ -71,3 +71,15 @@ candidates:
     license: Apache 2.0 per model card table; repository metadata says "other"
     template: chatml
     systemPrompt: *bitvoice
+
+  # Non-LLM baseline: sherpa-onnx's English punctuation and casing model (CNN-BiLSTM), which the
+  # app's SherpaOnnxTranscriptionProvider can already host. No filler removal, no rewriting, and
+  # nothing to prompt. Official release is on GitHub only, so it is pinned by archive SHA-256.
+  - id: sherpa-punct-en
+    runtime: sherpa-online-punct
+    archiveUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/punctuation-models/sherpa-onnx-online-punct-en-2024-08-06.tar.bz2
+    archiveSha256: 9f5e5a72c7d2829635bd074fce92b6bbd5b78da8a52e7ad8ed1be933f366b99d
+    file: model.int8.onnx
+    vocabFile: bpe.vocab
+    sizeBytes: 7490500
+    license: Apache 2.0 (upstream frankyoujian/Edge-Punct-Casing)

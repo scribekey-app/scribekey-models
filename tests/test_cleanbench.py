@@ -23,10 +23,14 @@ def test_every_candidate_is_pinned_and_builds_a_prompt() -> None:
 
     assert len({c.id for c in candidates}) == len(candidates)
     for candidate in candidates:
-        assert len(candidate.revision) == 40
-        assert candidate.file.endswith(".gguf")
         assert 0 < candidate.size_bytes <= MAX_CANDIDATE_BYTES, candidate.id
-        assert "hello there" in candidate.prompt_for("hello there")
+        if candidate.is_baseline:
+            assert len(candidate.archive_sha256) == 64
+            assert candidate.archive_url.startswith("https://")
+        else:
+            assert len(candidate.revision) == 40
+            assert candidate.file.endswith(".gguf")
+            assert "hello there" in candidate.prompt_for("hello there")
 
 
 def test_quill_prompt_matches_the_app_template() -> None:
@@ -70,8 +74,8 @@ def test_output_budget_is_shared_and_bounded() -> None:
 
 
 def test_report_advances_only_models_that_keep_protected_spans() -> None:
-    def candidate(model_id: str) -> Candidate:
-        return Candidate(model_id, "o/r", "a" * 40, "m.gguf", 1, "MIT", "chatml", "")
+    def candidate(model_id: str, runtime: str = "llama.cpp") -> Candidate:
+        return Candidate(model_id, "o/r", "a" * 40, "m.gguf", 1, "MIT", "chatml", "", runtime)
 
     def row(similarity: float, retained: bool) -> dict:
         return {
@@ -89,8 +93,9 @@ def test_report_advances_only_models_that_keep_protected_spans() -> None:
         }
 
     report = render_report(
-        [candidate("careful"), candidate("sloppy")],
-        {"careful": [row(0.8, True)], "sloppy": [row(0.95, False)]},
+        [candidate("careful"), candidate("sloppy"), candidate("punct", "sherpa-online-punct")],
+        {"careful": [row(0.8, True)], "sloppy": [row(0.95, False)], "punct": [row(0.99, True)]},
     )
 
     assert "Advance to device qualification: careful " in report
+    assert "| punct *baseline* |" in report

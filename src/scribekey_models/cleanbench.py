@@ -4,6 +4,9 @@ Runs each GGUF in ``bench/cleanup_candidates.yaml`` through llama.cpp on the fro
 corpus the app's device qualification uses, and scores the raw model output. It is a cheap first
 filter for deciding which models earn a device qualification run; it is not release evidence.
 Host CPU latency says nothing absolute about a phone, only how candidates compare with each other.
+
+Entries with ``runtime: sherpa-online-punct`` are non-LLM baselines: sherpa-onnx's punctuation and
+casing model, which the app can already host. They are scored the same way but never advance.
 """
 
 from __future__ import annotations
@@ -12,7 +15,9 @@ import hashlib
 import json
 import math
 import statistics
+import tarfile
 import time
+import urllib.request
 from dataclasses import dataclass
 from difflib import SequenceMatcher
 from pathlib import Path
@@ -40,6 +45,9 @@ ADDED_CONTENT_SLACK_CHARS = 20
 MIN_PROTECTED_RETENTION = 0.95
 # Admission ceiling for a phone: a small cleanup model, not a general assistant.
 MAX_CANDIDATE_BYTES = 600_000_000
+LLAMA_RUNTIME = "llama.cpp"
+SHERPA_PUNCT_RUNTIME = "sherpa-online-punct"
+ARCHIVE_CACHE = Path.home() / ".cache" / "scribekey-cleanbench"
 
 
 @dataclass(frozen=True)
@@ -52,6 +60,14 @@ class Candidate:
     license: str
     template: str
     system_prompt: str
+    runtime: str = LLAMA_RUNTIME
+    archive_url: str = ""
+    archive_sha256: str = ""
+    vocab_file: str = ""
+
+    @property
+    def is_baseline(self) -> bool:
+        return self.runtime != LLAMA_RUNTIME
 
     def prompt_for(self, text: str) -> str:
         system = self.system_prompt.strip()
@@ -85,13 +101,17 @@ def load_candidates(path: Path = CANDIDATES_FILE) -> list[Candidate]:
     return [
         Candidate(
             id=entry["id"],
-            repo=entry["repo"],
-            revision=entry["revision"],
+            repo=entry.get("repo", ""),
+            revision=entry.get("revision", ""),
             file=entry["file"],
             size_bytes=entry["sizeBytes"],
             license=entry["license"],
-            template=entry["template"],
+            template=entry.get("template", ""),
             system_prompt=entry.get("systemPrompt", ""),
+            runtime=entry.get("runtime", LLAMA_RUNTIME),
+            archive_url=entry.get("archiveUrl", ""),
+            archive_sha256=entry.get("archiveSha256", ""),
+            vocab_file=entry.get("vocabFile", ""),
         )
         for entry in raw["candidates"]
     ]
@@ -170,36 +190,16 @@ def run_candidate(
     threads: int,
     log: Any = print,
 ) -> list[dict[str, Any]]:
-    # Imported here so the catalogue tooling does not need the optional [bench] extra.
-    from huggingface_hub import hf_hub_download
-    from llama_cpp import Llama
-
-    model_path = hf_hub_download(candidate.repo, candidate.file, revision=candidate.revision)
-    llm = Llama(
-        model_path=model_path,
-        n_ctx=CONTEXT_TOKENS,
-        n_threads=threads,
-        seed=42,
-        verbose=False,
+    generate = (
+        _sherpa_punct_generator(candidate, threads)
+        if candidate.runtime == SHERPA_PUNCT_RUNTIME
+        else _llama_generator(candidate, threads)
     )
     rows = []
     for index, case in enumerate(cases, start=1):
-        llm.reset()  # fresh conversation per case, as on device
-        transcript_tokens = len(llm.tokenize(case["input"].encode(), add_bos=False))
-        prompt = llm.tokenize(candidate.prompt_for(case["input"]).encode(), add_bos=False, special=True)
         started = time.perf_counter()
-        result = llm.create_completion(
-            prompt,
-            max_tokens=output_budget(transcript_tokens),
-            temperature=0.0,
-            top_k=1,
-            top_p=1.0,
-            repeat_penalty=1.0,
-            stop=STOP_SEQUENCES,
-        )
+        generation = generate(case["input"])
         latency_ms = round((time.perf_counter() - started) * 1000)
-        choice = result["choices"][0]
-        output = choice["text"].strip()
         rows.append(
             {
                 "model": candidate.id,
@@ -209,17 +209,84 @@ def run_candidate(
                 "protectedTokenCount": len(case["protectedTokens"]),
                 "input": case["input"],
                 "expected": case["expected"],
-                "output": output,
-                "truncated": choice["finish_reason"] == "length",
-                "promptTokens": result["usage"]["prompt_tokens"],
-                "generatedTokens": result["usage"]["completion_tokens"],
                 "latencyMs": latency_ms,
-                **score_case(case, output),
+                **generation,
+                **score_case(case, generation["output"]),
             }
         )
         if index % 20 == 0 or index == len(cases):
             log(f"{candidate.id}: {index}/{len(cases)}")
     return rows
+
+
+def _llama_generator(candidate: Candidate, threads: int) -> Any:
+    # Imported here so the catalogue tooling does not need the optional [bench] extra.
+    from huggingface_hub import hf_hub_download
+    from llama_cpp import Llama
+
+    model_path = hf_hub_download(candidate.repo, candidate.file, revision=candidate.revision)
+    llm = Llama(model_path=model_path, n_ctx=CONTEXT_TOKENS, n_threads=threads, seed=42, verbose=False)
+
+    def generate(transcript: str) -> dict[str, Any]:
+        llm.reset()  # fresh conversation per case, as on device
+        transcript_tokens = len(llm.tokenize(transcript.encode(), add_bos=False))
+        prompt = llm.tokenize(candidate.prompt_for(transcript).encode(), add_bos=False, special=True)
+        result = llm.create_completion(
+            prompt,
+            max_tokens=output_budget(transcript_tokens),
+            temperature=0.0,
+            top_k=1,
+            top_p=1.0,
+            repeat_penalty=1.0,
+            stop=STOP_SEQUENCES,
+        )
+        choice = result["choices"][0]
+        return {
+            "output": choice["text"].strip(),
+            "truncated": choice["finish_reason"] == "length",
+            "promptTokens": result["usage"]["prompt_tokens"],
+            "generatedTokens": result["usage"]["completion_tokens"],
+        }
+
+    return generate
+
+
+def _sherpa_punct_generator(candidate: Candidate, threads: int) -> Any:
+    import sherpa_onnx
+
+    model_dir = _fetch_archive(candidate)
+    punct = sherpa_onnx.OnlinePunctuation(
+        sherpa_onnx.OnlinePunctuationConfig(
+            model_config=sherpa_onnx.OnlinePunctuationModelConfig(
+                cnn_bilstm=str(model_dir / candidate.file),
+                bpe_vocab=str(model_dir / candidate.vocab_file),
+                num_threads=threads,
+            )
+        )
+    )
+
+    def generate(transcript: str) -> dict[str, Any]:
+        output = punct.add_punctuation_with_case(transcript).strip()
+        return {"output": output, "truncated": False, "promptTokens": 0, "generatedTokens": 0}
+
+    return generate
+
+
+def _fetch_archive(candidate: Candidate) -> Path:
+    """Download a release archive once, refuse it on a SHA-256 mismatch, and extract it."""
+    target = ARCHIVE_CACHE / candidate.archive_sha256
+    archive = target.with_suffix(".tar.bz2")
+    if not target.exists():
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not archive.exists():
+            urllib.request.urlretrieve(candidate.archive_url, archive)
+        digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+        if digest != candidate.archive_sha256:
+            archive.unlink()
+            raise ValueError(f"{candidate.id}: archive SHA-256 {digest} is not the pinned one")
+        with tarfile.open(archive) as tar:
+            tar.extractall(target, filter="data")
+    return next(path.parent for path in target.rglob(candidate.file))
 
 
 def _percentile(values: list[int], pct: int) -> int:
@@ -243,7 +310,7 @@ def summarize_model(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "empty": sum(r["empty"] for r in rows),
         "p50Ms": _percentile([r["latencyMs"] for r in rows], 50),
         "p95Ms": _percentile([r["latencyMs"] for r in rows], 95),
-        "tokensPerSecond": round(gen_tokens / (gen_ms / 1000), 1) if gen_ms else None,
+        "tokensPerSecond": round(gen_tokens / (gen_ms / 1000), 1) if gen_ms and gen_tokens else None,
         "byCategory": {
             category: round(statistics.mean(r["similarity"] for r in group), 3)
             for category, group in _group(rows, "category").items()
@@ -268,12 +335,13 @@ def render_report(
 ) -> str:
     summaries = {c.id: summarize_model(results[c.id]) for c in candidates if results.get(c.id)}
     ranked = sorted(summaries, key=lambda model: summaries[model]["similarity"], reverse=True)
+    by_id = {c.id: c for c in candidates}
     advancing = [
         model
         for model in ranked
-        if (summaries[model]["protectedRetention"] or 0) >= MIN_PROTECTED_RETENTION
+        if not by_id[model].is_baseline
+        and (summaries[model]["protectedRetention"] or 0) >= MIN_PROTECTED_RETENTION
     ][:2]
-    by_id = {c.id: c for c in candidates}
     lines = [
         "# CleanBench host screen",
         "",
@@ -281,7 +349,8 @@ def render_report(
             "Raw model output on the frozen 240-case CleanBench corpus, llama.cpp on host CPU, "
             "greedy decoding, one output budget for every model. No fidelity guard is applied, "
             "so these numbers are stricter than what a user would see. Latency is host CPU and "
-            "only ranks models against each other."
+            "only ranks models against each other. Rows marked *baseline* are not language "
+            "models and never advance."
         ),
         "",
         (
@@ -290,17 +359,18 @@ def render_report(
         ),
         "",
         (
-            "| Model | Similarity | Exact | Protected spans | Controls kept | Added content "
-            "| Truncated | Host p50 / p95 ms | Tokens/s |"
+            "| Model | Size | Similarity | Exact | Protected spans | Controls kept "
+            "| Added content | Truncated | Host p50 / p95 ms | Tokens/s |"
         ),
-        "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for model in ranked:
         s = summaries[model]
+        label = f"{model} *baseline*" if by_id[model].is_baseline else model
         lines.append(
-            f"| {model} | {s['similarity']:.3f} | {_pct(s['exact'])} | "
+            f"| {label} | {by_id[model].size_bytes / 1e6:.0f} MB | {s['similarity']:.3f} | {_pct(s['exact'])} | "
             f"{_pct(s['protectedRetention'])} | {_pct(s['controlsKept'])} | {s['addedContent']} | "
-            f"{s['truncated']} | {s['p50Ms']} / {s['p95Ms']} | {s['tokensPerSecond']} |"
+            f"{s['truncated']} | {s['p50Ms']} / {s['p95Ms']} | {s['tokensPerSecond'] or 'n/a'} |"
         )
     categories = sorted({c for s in summaries.values() for c in s["byCategory"]})
     lines += ["", "## Mean similarity by category", ""]
@@ -312,10 +382,8 @@ def render_report(
     lines += ["", "## Artefacts", ""]
     for model in ranked:
         c = by_id[model]
-        lines.append(
-            f"- `{model}`: `{c.repo}@{c.revision[:12]}` `{c.file}`, "
-            f"{c.size_bytes / 1e6:.0f} MB ({c.license})"
-        )
+        source = c.archive_url if c.is_baseline else f"{c.repo}@{c.revision[:12]}"
+        lines.append(f"- `{model}`: `{source}` `{c.file}`, {c.size_bytes / 1e6:.0f} MB ({c.license})")
     return "\n".join(lines) + "\n"
 
 
