@@ -70,6 +70,9 @@
               "MULTILINGUAL"
             ]
           },
+          "experimental": {
+            "type": "boolean"
+          },
           "retired": {
             "type": "boolean"
           },

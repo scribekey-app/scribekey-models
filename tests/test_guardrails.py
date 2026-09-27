@@ -504,3 +504,25 @@ def test_guardrail_accepts_mutual_live_and_final_counterparts() -> None:
         ]
     }
     assert validate_identities_and_integrity(speech_data, {}, {}) == []
+
+
+@pytest.mark.parametrize(
+    ("fields", "message"),
+    [
+        ({"badge": "Experimental"}, "badge and experimental flag disagree"),
+        ({"experimental": True}, "badge and experimental flag disagree"),
+        (
+            {"badge": "Experimental", "experimental": True, "retired": True},
+            "is experimental and also retired or deprecated",
+        ),
+    ],
+)
+def test_guardrail_keeps_experimental_badge_and_flag_in_step(fields, message) -> None:
+    speech_data = {"models": [_presented("model", **fields)]}
+    issues = validate_identities_and_integrity(speech_data, {}, {})
+    assert any(message in issue.message for issue in issues)
+
+
+def test_guardrail_accepts_an_experimental_model_with_its_badge() -> None:
+    speech_data = {"models": [_presented("model", badge="Experimental", experimental=True)]}
+    assert validate_identities_and_integrity(speech_data, {}, {}) == []

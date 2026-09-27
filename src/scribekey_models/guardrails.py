@@ -302,6 +302,24 @@ def _validate_speech_presentation(models: list[dict[str, Any]]) -> list[Guardrai
         elif name:
             seen_names[name] = mid
 
+        # The badge is copy and ``experimental`` is the gate; Android hides on the flag alone, so
+        # a card that says "Experimental" must be one the gate actually hides, and vice versa.
+        experimental = bool(model.get("experimental"))
+        if (str(model.get("badge", "")).strip().casefold() == "experimental") != experimental:
+            issues.append(
+                GuardrailIssue(
+                    "catalog/speech.yaml",
+                    f"Speech model '{mid}' badge and experimental flag disagree",
+                )
+            )
+        if experimental and (model.get("retired") or model.get("deprecated")):
+            issues.append(
+                GuardrailIssue(
+                    "catalog/speech.yaml",
+                    f"Speech model '{mid}' is experimental and also retired or deprecated",
+                )
+            )
+
         best_for = str(model.get("bestFor", "")).strip().casefold()
         description = str(model.get("description", "")).strip().casefold()
         if best_for and best_for == description:

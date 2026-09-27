@@ -108,6 +108,9 @@ def generate_speech_catalog() -> dict[str, Any]:
         for field in ("description", "bestFor"):
             if model.get(field) is not None:
                 entry[field] = model[field]
+        # Always present, so Android can tell "not experimental" from a catalogue that predates
+        # the field and fall back to the model ids it gated before.
+        entry["experimental"] = bool(model.get("experimental", False))
         if model.get("retired"):
             entry["retired"] = True
         if model.get("deprecated"):

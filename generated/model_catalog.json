@@ -14,6 +14,7 @@
       "supportsLanguageDetection": false,
       "description": "The original Moonshine Tiny, kept so existing installs keep working.",
       "bestFor": "Existing installs only",
+      "experimental": false,
       "deprecated": true,
       "replacementId": "moonshine-v2-tiny-en",
       "languageCodes": [
@@ -83,6 +84,7 @@
       "supportsLanguageDetection": false,
       "description": "The original Moonshine Base, kept so existing installs keep working.",
       "bestFor": "Existing installs only",
+      "experimental": false,
       "deprecated": true,
       "replacementId": "moonshine-v2-base-en",
       "languageCodes": [
@@ -153,6 +155,7 @@
       "supportsLanguageDetection": false,
       "description": "The smallest English model. Quick on any phone; transcripts come without punctuation.",
       "bestFor": "Smallest download and memory use",
+      "experimental": false,
       "languageCodes": [
         "en"
       ],
@@ -209,6 +212,7 @@
       "supportsLanguageDetection": false,
       "description": "A larger Moonshine for English. More accurate than Moonshine Tiny, still light on memory.",
       "bestFor": "English on older or low-memory phones",
+      "experimental": false,
       "languageCodes": [
         "en"
       ],
@@ -265,6 +269,7 @@
       "supportsLanguageDetection": false,
       "description": "A distilled Whisper model for English. Transcripts come without punctuation.",
       "bestFor": "Whisper-style English at a mid-size download",
+      "experimental": false,
       "languageCodes": [
         "en"
       ],
@@ -321,6 +326,7 @@
       "supportsLanguageDetection": false,
       "description": "A small NVIDIA Parakeet model that writes English with punctuation and capitals.",
       "bestFor": "Punctuated English on mid-range phones",
+      "experimental": false,
       "languageCodes": [
         "en"
       ],
@@ -371,6 +377,7 @@
       "supportsLanguageDetection": true,
       "description": "Transcribes English, Spanish, German and French with punctuation, and detects which one you speak.",
       "bestFor": "Four European languages in a small download",
+      "experimental": false,
       "languageCodes": [
         "en",
         "es",
@@ -430,6 +437,7 @@
       "supportsLanguageDetection": false,
       "description": "Meta's broad-coverage model for more than 1,600 languages. Transcripts come without punctuation.",
       "bestFor": "Languages other models do not cover",
+      "experimental": true,
       "files": [
         {
           "name": "model.int8.onnx",
@@ -477,6 +485,7 @@
       "supportsLanguageDetection": false,
       "description": "Transcribes 30 languages and 22 Chinese dialects.",
       "bestFor": "Chinese dialects and wide language coverage",
+      "experimental": true,
       "files": [
         {
           "name": "conv_frontend.onnx",
@@ -547,6 +556,7 @@
       "supportsLanguageDetection": false,
       "description": "An earlier Parakeet English model, kept so existing installs keep working.",
       "bestFor": "Existing installs only",
+      "experimental": false,
       "retired": true,
       "replacementId": "parakeet-unified-0.6b",
       "languageCodes": [
@@ -611,6 +621,7 @@
       "supportsLanguageDetection": true,
       "description": "Transcribes 25 European languages with punctuation and timestamps, and detects which one you speak.",
       "bestFor": "Accurate final text in European languages",
+      "experimental": false,
       "counterpartId": "nemotron-3.5-0.6b-560ms",
       "languageCodes": [
         "en",
@@ -698,6 +709,7 @@
       "supportsLanguageDetection": false,
       "description": "A large English model with punctuation and timestamps. Text arrives when you stop speaking.",
       "bestFor": "Most accurate final English",
+      "experimental": false,
       "counterpartId": "nemotron-en-0.6b",
       "languageCodes": [
         "en"
@@ -760,6 +772,7 @@
       "supportsLanguageDetection": false,
       "description": "An early live English preview, kept so existing installs keep working.",
       "bestFor": "Existing installs only",
+      "experimental": false,
       "retired": true,
       "replacementId": "nemotron-en-0.6b",
       "languageCodes": [
@@ -824,6 +837,7 @@
       "supportsLanguageDetection": false,
       "description": "Shows English words while you speak, with punctuation.",
       "bestFor": "Live English dictation and captions",
+      "experimental": true,
       "counterpartId": "parakeet-unified-0.6b",
       "languageCodes": [
         "en"
@@ -887,6 +901,7 @@
       "supportsLanguageDetection": false,
       "description": "Shows words while you speak in 40 locales and picks the language for you.",
       "bestFor": "Live dictation in many languages",
+      "experimental": true,
       "streamLanguage": "auto",
       "counterpartId": "parakeet-0.6b-v3",
       "files": [
