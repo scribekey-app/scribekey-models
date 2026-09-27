@@ -46,8 +46,10 @@ The app shows them as what the model does, so they have to be real and reproduci
 - Only a model with deterministic decoding (`temperature: 0`) may have examples.
 - Every example names the `modelRevision` it came from. Changing `revision` without re-recording
   fails `scribekey-models validate`.
-- The app additionally checks each example against its safety guard and shows only those it
-  would accept, since a rejected output falls back to Standard cleanup on a phone.
+- Keep only examples the app's `AiCleanupSafetyGuard` accepts. A rejected output falls back to
+  Standard cleanup on a phone, so it is not what the model does there; the app drops such examples
+  at display time too. On 2026-09-27 the guard rejected Quill's questions ("can you review it" →
+  "…?", as invented question intent) and spoken self-corrections ("no wait", as lost polarity).
 
 ```bash
 cmake -S tools/record_cleanup_examples -B build -DLLAMA_CPP_DIR=../scribekey/third_party/llama.cpp
