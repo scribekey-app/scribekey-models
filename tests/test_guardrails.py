@@ -526,3 +526,68 @@ def test_guardrail_accepts_mutual_live_and_final_counterparts() -> None:
         ]
     }
     assert validate_identities_and_integrity(speech_data, {}, {}) == []
+
+
+@pytest.mark.parametrize(
+    ("fields", "message"),
+    [
+        ({"badge": "Experimental"}, "badge and experimental flag disagree"),
+        ({"experimental": True}, "badge and experimental flag disagree"),
+        (
+            {"badge": "Experimental", "experimental": True, "retired": True},
+            "is experimental and also retired or deprecated",
+        ),
+    ],
+)
+def test_guardrail_keeps_experimental_badge_and_flag_in_step(fields, message) -> None:
+    speech_data = {"models": [_presented("model", **fields)]}
+    issues = validate_identities_and_integrity(speech_data, {}, {})
+    assert any(message in issue.message for issue in issues)
+
+
+def test_guardrail_accepts_an_experimental_model_with_its_badge() -> None:
+    speech_data = {"models": [_presented("model", badge="Experimental", experimental=True)]}
+    assert validate_identities_and_integrity(speech_data, {}, {}) == []
+
+
+def _cleanup_with_examples(**overrides: object) -> dict:
+    model = {
+        "modelId": "quill",
+        "revision": "a" * 40,
+        "sha256": "b" * 64,
+        "sizeBytes": 10,
+        "maxInputCharacters": 4000,
+        "temperature": 0.0,
+        "deterministicDecoding": True,
+        "examples": [
+            {
+                "input": "um hi",
+                "output": "Hi.",
+                "recordedWith": {
+                    "modelRevision": "a" * 40,
+                    "runtime": "llama.cpp@" + "c" * 40,
+                    "recordedAt": "2026-09-27",
+                },
+            },
+        ],
+    }
+    model.update(overrides)
+    return {"production": model, "candidates": []}
+
+
+def test_guardrail_accepts_examples_recorded_with_the_current_revision() -> None:
+    assert validate_identities_and_integrity({}, _cleanup_with_examples(), {}) == []
+
+
+@pytest.mark.parametrize(
+    ("overrides", "message"),
+    [
+        ({"revision": "d" * 40}, "re-record it"),
+        ({"temperature": 0.7}, "has examples but samples its output"),
+        ({"deterministicDecoding": False}, "has examples but samples its output"),
+        ({"maxInputCharacters": 2}, "exceeds maxInputCharacters"),
+    ],
+)
+def test_guardrail_rejects_examples_that_would_not_reproduce(overrides, message) -> None:
+    issues = validate_identities_and_integrity({}, _cleanup_with_examples(**overrides), {})
+    assert any(message in issue.message for issue in issues)

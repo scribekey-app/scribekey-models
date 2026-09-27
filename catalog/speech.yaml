@@ -332,6 +332,7 @@ models:
     description: Meta's broad-coverage model for more than 1,600 languages. Transcripts come without punctuation.
     bestFor: Languages other models do not cover
     badge: Experimental
+    experimental: true
     diskMb: 349
     minRamMb: 4096
     minApiLevel: 28
@@ -370,6 +371,7 @@ models:
     description: Transcribes 30 languages and 22 Chinese dialects.
     bestFor: Chinese dialects and wide language coverage
     badge: Experimental
+    experimental: true
     diskMb: 942
     minRamMb: 6144
     minApiLevel: 28
@@ -644,6 +646,7 @@ models:
     description: Shows English words while you speak, with punctuation.
     bestFor: Live English dictation and captions
     badge: Experimental
+    experimental: true
     diskMb: 632
     minRamMb: 6144
     minApiLevel: 31
@@ -693,6 +696,7 @@ models:
     description: Shows words while you speak in 40 locales and picks the language for you.
     bestFor: Live dictation in many languages
     badge: Experimental
+    experimental: true
     diskMb: 651
     minRamMb: 6144
     minApiLevel: 31

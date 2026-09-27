@@ -2,21 +2,6 @@
   "production": {
     "modelId": "quill",
     "displayName": "Quill",
-    "description": "A small model that fixes punctuation, capitals and filler words in English dictation. Runs on your phone.",
-    "bestFor": "Light cleanup of English dictation",
-    "info": {
-      "paramsBadge": "0.8B",
-      "architecture": "Qwen3.5 fine-tune",
-      "languages": "English"
-    },
-    "provenance": {
-      "sourceModel": "Quobi/Quill",
-      "exportRepository": "Quobi/Quill",
-      "exportRevision": "4cc2cc3c8e7ea9ee69126becd55be23a3a949899",
-      "exportVariant": "Q4_K_M GGUF",
-      "licenseId": "Apache-2.0",
-      "licenseUrl": "https://huggingface.co/Quobi/Quill"
-    },
     "revision": "4cc2cc3c8e7ea9ee69126becd55be23a3a949899",
     "bundleFileName": "quill-0.8b-Q4_K_M.gguf",
     "downloadUrl": "https://huggingface.co/Quobi/Quill/resolve/4cc2cc3c8e7ea9ee69126becd55be23a3a949899/quill-0.8b-Q4_K_M.gguf",
@@ -49,35 +34,26 @@
     "privacyDisclosure": "Transcript text stays on this device.",
     "examples": [
       {
-        "input": "so we need to we need to finish the report by friday",
-        "output": "We need to finish the report by Friday.",
-        "recordedWith": {
-          "modelRevision": "4cc2cc3c8e7ea9ee69126becd55be23a3a949899",
-          "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
-          "recordedAt": "2026-09-27"
-        }
-      },
-      {
-        "input": "um we need milk eggs bread and uh coffee",
-        "output": "We need milk, eggs, bread, and coffee.",
-        "recordedWith": {
-          "modelRevision": "4cc2cc3c8e7ea9ee69126becd55be23a3a949899",
-          "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
-          "recordedAt": "2026-09-27"
-        }
-      },
-      {
-        "input": "the the client wants the the new logo by monday",
-        "output": "The client wants the new logo by Monday.",
-        "recordedWith": {
-          "modelRevision": "4cc2cc3c8e7ea9ee69126becd55be23a3a949899",
-          "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
-          "recordedAt": "2026-09-27"
-        }
-      },
-      {
         "input": "um i think we should ship it today",
         "output": "I think we should ship it today.",
+        "recordedWith": {
+          "modelRevision": "4cc2cc3c8e7ea9ee69126becd55be23a3a949899",
+          "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+          "recordedAt": "2026-09-27"
+        }
+      },
+      {
+        "input": "hey Alex the draft is ready can you review it",
+        "output": "Hey Alex, the draft is ready. Can you review it?",
+        "recordedWith": {
+          "modelRevision": "4cc2cc3c8e7ea9ee69126becd55be23a3a949899",
+          "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+          "recordedAt": "2026-09-27"
+        }
+      },
+      {
+        "input": "so the meeting is on tuesday no wait wednesday at three",
+        "output": "The meeting is on Wednesday at three.",
         "recordedWith": {
           "modelRevision": "4cc2cc3c8e7ea9ee69126becd55be23a3a949899",
           "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
