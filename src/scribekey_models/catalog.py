@@ -225,6 +225,24 @@ def _cleanup_entry(model: dict[str, Any]) -> dict[str, Any]:
         "privacyDisclosure": model.get(
             "privacyDisclosure", "Transcript text stays on this device."
         ),
+        **(
+            {"examples": [_cleanup_example(example) for example in model["examples"]]}
+            if model.get("examples")
+            else {}
+        ),
+    }
+
+
+def _cleanup_example(example: dict[str, Any]) -> dict[str, Any]:
+    recorded = example["recordedWith"]
+    return {
+        "input": example["input"],
+        "output": example["output"],
+        "recordedWith": {
+            "modelRevision": recorded["modelRevision"],
+            "runtime": recorded["runtime"],
+            "recordedAt": str(recorded["recordedAt"]),
+        },
     }
 
 

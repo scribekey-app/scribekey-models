@@ -174,6 +174,18 @@ def test_experimental_flag_is_projected_for_every_model() -> None:
     assert all(isinstance(model["experimental"], bool) for model in models.values())
 
 
+def test_cleanup_examples_are_projected_with_their_recording() -> None:
+    examples = generate_cleanup_catalog()["production"]["examples"]
+
+    assert [example["input"] for example in examples] == [
+        "um i think we should ship it today",
+        "hey Alex the draft is ready can you review it",
+        "so the meeting is on tuesday no wait wednesday at three",
+    ]
+    assert examples[2]["output"] == "The meeting is on Wednesday at three."
+    assert all(example["recordedWith"]["runtime"].startswith("llama.cpp@") for example in examples)
+
+
 def test_speech_guidance_is_optional_for_imported_or_custom_models(monkeypatch) -> None:
     speech = catalog_module.load_speech_catalog_data()
     speech["models"][0].pop("description", None)

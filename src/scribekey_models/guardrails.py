@@ -273,7 +273,45 @@ def validate_identities_and_integrity(
         size = model.get("sizeBytes")
         if not isinstance(size, int) or size <= 0:
             issues.append(GuardrailIssue("catalog/cleanup.yaml", f"Cleanup model '{m_id}' invalid sizeBytes: '{size}'"))
+        issues.extend(_validate_cleanup_examples(model))
 
+    return issues
+
+
+def _validate_cleanup_examples(model: dict[str, Any]) -> list[GuardrailIssue]:
+    """Recorded examples are shown in the app as what this model does, so they must be reproducible.
+
+    That holds only for deterministic decoding and only for the revision they were recorded with.
+    A revision bump that keeps the old examples would show output the new model never produced.
+    """
+    examples = model.get("examples") or []
+    if not examples:
+        return []
+    m_id = model.get("modelId", "unknown")
+    issues: list[GuardrailIssue] = []
+    if not model.get("deterministicDecoding", True) or float(model.get("temperature", 0.0)) != 0.0:
+        issues.append(
+            GuardrailIssue("catalog/cleanup.yaml", f"Cleanup model '{m_id}' has examples but samples its output")
+        )
+    seen_inputs: set[str] = set()
+    for example in examples:
+        recorded = example.get("recordedWith") or {}
+        if recorded.get("modelRevision") != model.get("revision"):
+            issues.append(
+                GuardrailIssue(
+                    "catalog/cleanup.yaml",
+                    f"Cleanup model '{m_id}' example was recorded with revision "
+                    f"'{recorded.get('modelRevision')}', not '{model.get('revision')}'; re-record it",
+                )
+            )
+        text = str(example.get("input", "")).strip()
+        if text in seen_inputs:
+            issues.append(GuardrailIssue("catalog/cleanup.yaml", f"Cleanup model '{m_id}' repeats example '{text}'"))
+        seen_inputs.add(text)
+        if len(text) > int(model.get("maxInputCharacters", 0) or 0):
+            issues.append(
+                GuardrailIssue("catalog/cleanup.yaml", f"Cleanup model '{m_id}' example exceeds maxInputCharacters")
+            )
     return issues
 
 
