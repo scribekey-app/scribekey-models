@@ -32,3 +32,16 @@ Android shows these fields directly, so write them as screen copy (sentence case
 Retired and deprecated entries stay in the catalogue so existing installs keep working. Give them
 `bestFor: Existing installs only` and a `replacementId`; the app groups them under older models.
 `scribekey-models validate` enforces the unique-name, distinct-guidance, and counterpart rules.
+
+
+## How the app presents a cleanup model
+
+Cleanup entries in `catalog/cleanup.yaml` carry the same presentation fields as speech, under the
+same rules: `displayName`, `bestFor` (48 characters or fewer, no full stop), `description` (one or
+two sentences, never a copy of `bestFor`), `info` (`paramsBadge`, `architecture`, `languages`) and
+`provenance` (source model, the exact Hugging Face repository and revision the GGUF comes from, the
+quantisation as `exportVariant`, and the SPDX licence). A replaced model stays in the catalogue with
+`deprecated: true` and a `replacementId`, so existing installs keep working.
+
+Before a cleanup model is added, screen it with `scribekey-models cleanbench` (see
+`bench/README.md`). Only small, cleanup-only models qualify.

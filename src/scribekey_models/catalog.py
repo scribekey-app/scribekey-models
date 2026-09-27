@@ -186,6 +186,15 @@ def _cleanup_entry(model: dict[str, Any]) -> dict[str, Any]:
     return {
         "modelId": model["modelId"],
         "displayName": model["displayName"],
+        "description": model["description"],
+        "bestFor": model["bestFor"],
+        "info": model["info"],
+        "provenance": model["provenance"],
+        **{
+            field: model[field]
+            for field in ("deprecated", "retired", "replacementId")
+            if field in model
+        },
         "revision": model["revision"],
         "bundleFileName": model["bundleFileName"],
         "downloadUrl": model["downloadUrl"],

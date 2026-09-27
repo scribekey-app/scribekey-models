@@ -2,6 +2,21 @@
   "production": {
     "modelId": "quill",
     "displayName": "Quill",
+    "description": "A small model that fixes punctuation, capitals and filler words in English dictation. Runs on your phone.",
+    "bestFor": "Light cleanup of English dictation",
+    "info": {
+      "paramsBadge": "0.8B",
+      "architecture": "Qwen3.5 fine-tune",
+      "languages": "English"
+    },
+    "provenance": {
+      "sourceModel": "Quobi/Quill",
+      "exportRepository": "Quobi/Quill",
+      "exportRevision": "4cc2cc3c8e7ea9ee69126becd55be23a3a949899",
+      "exportVariant": "Q4_K_M GGUF",
+      "licenseId": "Apache-2.0",
+      "licenseUrl": "https://huggingface.co/Quobi/Quill"
+    },
     "revision": "4cc2cc3c8e7ea9ee69126becd55be23a3a949899",
     "bundleFileName": "quill-0.8b-Q4_K_M.gguf",
     "downloadUrl": "https://huggingface.co/Quobi/Quill/resolve/4cc2cc3c8e7ea9ee69126becd55be23a3a949899/quill-0.8b-Q4_K_M.gguf",
