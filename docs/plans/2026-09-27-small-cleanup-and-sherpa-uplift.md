@@ -48,18 +48,24 @@ because the synthetic voice mispronounces them; that needs real recordings (Phas
 
 1. **Cleanup metadata (done).** `catalog/cleanup.yaml` entries carry `description`, `bestFor`,
    `info` and `provenance`, validated like speech entries.
-2. **Publish the hotword vocabularies.** Add `bpe.vocab` to the `files` of `parakeet-0.6b-v3` and
-   `parakeet-unified-0.6b` (sizes and SHA-256 are in `assets/bpe-vocab/*/SOURCE`), hosted at an
-   immutable URL: a commit-pinned raw URL in this repo, or a mirror repo. Older apps download
-   12–117 KB they do not use.
-3. **Ship the punctuation model with the models that need it.** Attach `punct-model.int8.onnx`
-   (7.5 MB) and `punct-bpe.vocab` to the English speech entries with `supportsPunctuation: false`
-   (Moonshine and Distil-Whisper). The alternative, bundling it in the APK like `silero_vad.onnx`,
-   adds 7.6 MB for everyone.
-4. `scribekey-models generate`, `validate`, `pytest`; freeze a release; promote to QA only after
+2. **Never add a file to an existing speech entry.** `LocalModelReadiness` compares an install's
+   metadata with the catalogue's `files`, so one extra file marks every existing install of that
+   model invalid, on every app version that reads the remote catalogue. Optional companions go
+   in the APK or need their own optional-download field first.
+3. **Hotword vocabularies ship in the app (done).** `assets/bpe-vocab/*/bpe.vocab` (12 and 117 KB)
+   are copied into the app as `assets/hotwords/<model-id>.bpe.vocab`. The app uses one only when
+   its pieces equal the installed `tokens.txt`, so a re-pinned export falls back to greedy
+   decoding instead of mis-tokenising hotwords. Rebuild with `scribekey-models bpe-vocab` and
+   copy again whenever a Parakeet export is re-pinned.
+4. **Punctuation model hosting (open decision).** Upstream publishes `model.int8.onnx` (7.5 MB)
+   and `bpe.vocab` only inside a GitHub release archive, and this repo forbids model binaries.
+   Choose one: bundle both in the APK like `silero_vad.onnx` (+7.6 MB for everyone), or mirror them
+   to a Hugging Face repo under the ScribeKey account and add an optional-download field that
+   `LocalModelReadiness` ignores (see step 2).
+5. `scribekey-models generate`, `validate`, `pytest`; freeze a release; promote to QA only after
    the app release in Phase 1 is on the QA channel.
 
-## Phase 1: cleanup catalogue in the app (about half a day)
+## Phase 1: cleanup catalogue in the app (done, pending device check)
 
 1. Delete the OpenWispr entry from `SmartCleanupCandidateCatalog`. It cannot work under
    `QwenChatMl`, and with thinking off it still ranks below Quill.
@@ -69,27 +75,28 @@ because the synthetic voice mispronounces them; that needs real recordings (Phas
    `description`) under the name.
 3. Update the screenshot baselines for the card. Run the full local gate from `CLAUDE.md`.
 
-## Phase 2: sherpa punctuation (about 1 day)
+## Phase 2: sherpa punctuation (app code done; needs the Phase 0 hosting decision and a device)
 
 1. Change the provider's `punctuationModel` from `OfflinePunctuation` (the Chinese–English
    CT-Transformer, 65 MB) to `OnlinePunctuation` with `addPunctuationWithCase`, the 7.5 MB English
    model screened here. Wrap it in a small interface so tests can fake it.
 2. In `RuntimeSherpaOnnxProviderFactory`, create it only when the model has
-   `supportsPunctuation: false`, is English, and its `punct/` files are installed. Release it with
-   the recogniser.
+   `supportsPunctuation: false`, is offline, and `punct-model.int8.onnx` and `punct-bpe.vocab` are
+   installed. Release it with the recogniser.
 3. Never run it on text that already has punctuation: it title-cases words ("The Front Gate is
    locked.").
 4. Journey: dictate with Moonshine and check the inserted text is punctuated and capitalised.
    Measure added latency on device; about 10 ms per sentence on the host.
 
-## Phase 3: hotwords from the Dictionary (1 to 2 days)
+## Phase 3: hotwords from the Dictionary (app code done; needs a device)
 
 1. In `nemoTransducerConfig`, when `bpe.vocab` is installed: `decodingMethod =
    "modified_beam_search"`, `modelingUnit = "bpe"`, `bpeVocab = "$modelDir/bpe.vocab"`. Without it,
    stay on greedy. Only Parakeet v3 and Parakeet Unified: sherpa-onnx 1.13.6 decodes the streaming
    NeMo transducers greedily.
-2. For each recording, build the hotwords from the Dictionary's replacement words (manual and
-   learned rules), de-duplicated and capped at 100, joined with `/`, and pass them to
+2. For each recording, build the hotwords from the Dictionary: vocabulary words and manual
+   replacements first, then learned ones, de-duplicated and capped at 100, joined with `/`, and
+   pass them to
    `recognizer.createStream(hotwords)`. No file to keep in sync, and an edit applies on the next
    recording.
 3. Measure beam search against greedy on device (p95 per utterance). If beam search costs too
