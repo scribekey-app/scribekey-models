@@ -1,10 +1,10 @@
 # Small cleanup models and sherpa-onnx uplift: app plan
 
 Date: 2026-09-27
-Scope: replace or back up Quill with a smaller cleanup-only model, give cleanup models speech-level
-metadata in the app, and use two sherpa-onnx features the app does not use yet (punctuation and
-hotwords). Evidence lives in this repo; the work below lands in `stanvx/scribekey` unless a step
-says otherwise.
+Scope: check whether a smaller cleanup-only model can replace Quill, give cleanup models
+speech-level metadata in the app, and use two sherpa-onnx features the app does not use yet
+(punctuation and hotwords). Evidence lives in this repo; the work below lands in
+`stanvx/scribekey` unless a step says otherwise.
 
 ## Where things stand
 
@@ -12,8 +12,6 @@ Host screen, frozen 240-case CleanBench corpus, raw model output (`bench/results
 
 | Model | Size | Similarity | Exact | Protected spans | Clean text left alone | Questions and commands |
 | --- | --- | --- | --- | --- | --- | --- |
-| BitVoice Qwen3 0.6B | 397 MB | 0.927 | 56% | 69% | 100% | 1.00 |
-| BitVoice SmolLM2 360M | 271 MB | 0.925 | 57% | 65% | 100% | 1.00 |
 | Mumble 2stage | 398 MB | 0.904 | 50% | 61% | 77% | 0.98 |
 | OpenWispr 0.6B (thinking off) | 397 MB | 0.890 | 52% | 74% | 87% | 0.77 |
 | sherpa punctuation (baseline) | 7 MB | 0.889 | 5% | 56% | 33% | 0.98 |
@@ -21,18 +19,13 @@ Host screen, frozen 240-case CleanBench corpus, raw model output (`bench/results
 
 What that means:
 
-- **Take BitVoice SmolLM2 360M and BitVoice Qwen3 0.6B forward.** Both leave clean text alone
-  and never answered a question or obeyed a command. Quill answers some ("I can't answer that
-  question.") and is the largest.
+- **Quill stays.** No smaller cleanup-only model is clearly better. Mumble rewrites 23% of
+  already-clean inputs; OpenWispr has no documented prompt, adds content on 18 cases, and under
+  the app's current template does not work at all (below). Re-screen with
+  `scribekey-models cleanbench` when a new small cleanup model appears.
 - **No model passes the 95% protected-span bar on raw output, and that is expected.** Most misses
-  are spoken numbers left as words ("twenty five", "seven thirty pm"). In the app,
-  `SmartCleanupCleaner.acceptSmartResult` runs `TextNormaliser` on the model output and
-  `FidelityGuard` before anything is inserted, so the raw score understates the product. Phase 1
-  measures the product path.
-- **BitVoice does not resolve self-corrections** ("the blue folder is please put the blue folder…"
-  comes back unchanged). Standard cleanup's correction handling and the guard must cover it.
-- **Drop Mumble and OpenWispr.** Mumble rewrites 23% of already-clean inputs. OpenWispr has no
-  documented prompt, and under the app's current template it does not work at all (below).
+  are spoken numbers left as words ("twenty five", "seven thirty pm"), which `TextNormaliser`
+  fixes in the app before `FidelityGuard` runs.
 - **Similarity is lenient.** It is character similarity to one expected answer, which is why a
   punctuation-only model scores close to Quill. Use it to rank, never to accept.
 
@@ -49,78 +42,34 @@ Hotwords, end to end (`bench/hotwords/results.txt`): Parakeet v3 with per-stream
 7 of 12 target words in five synthesised jargon sentences, against 4 of 12 greedy and 4 of 12 with
 beam search alone. "Email Siobhan Nguyen about the ScribeKey rollout" went from "Shival New Yan…
 scribe key" to exact. Words already right stayed right. Irish names did not improve, probably
-because the synthetic voice mispronounces them; that needs real recordings (Phase 6).
+because the synthetic voice mispronounces them; that needs real recordings (Phase 3).
 
-## Phase 0: this repo (about 2 hours, plus the licence wait)
+## Phase 0: this repo (about 2 hours)
 
-1. **Clear the BitVoice licence.** The repository metadata says `license: other` and there is no
-   LICENSE file; only the card table says Apache 2.0 per file. Ask the author to add a LICENSE,
-   or get it in writing. Nothing is mirrored or promoted before that.
-2. **Add both BitVoice models to `catalog/cleanup.yaml` `candidates`** with the new metadata
-   (`description`, `bestFor`, `info`, `provenance`), exact `sizeBytes` and `sha256`, and the card's
-   system prompt. SmolLM2 uses the existing `QwenChatMl` template. Qwen3 needs a new
-   `Qwen3NoThinkChatMl` value, and **must wait for an app release that knows it**: the app decodes
-   `promptTemplate` as an enum, so an unknown value fails the whole remote catalogue and the app
-   silently falls back to its bundled copy.
-3. **Publish the hotword vocabularies.** Add `bpe.vocab` to the `files` of `parakeet-0.6b-v3` and
+1. **Cleanup metadata (done).** `catalog/cleanup.yaml` entries carry `description`, `bestFor`,
+   `info` and `provenance`, validated like speech entries.
+2. **Publish the hotword vocabularies.** Add `bpe.vocab` to the `files` of `parakeet-0.6b-v3` and
    `parakeet-unified-0.6b` (sizes and SHA-256 are in `assets/bpe-vocab/*/SOURCE`), hosted at an
-   immutable URL: a commit-pinned raw URL in this repo, or a mirror repo. Add an optional
-   `sherpaConfig.hotwords: {modelingUnit: bpe, bpeVocab: bpe.vocab}`. Older apps ignore the key
-   and download 12–117 KB they do not use.
-4. **Decide how the punctuation model ships.** Recommended: attach `punct/model.int8.onnx` (7.5 MB)
-   and `punct/bpe.vocab` to the English speech entries with `supportsPunctuation: false` (Moonshine
-   and Distil-Whisper) plus an optional `sherpaConfig.punctuation` key, so it downloads with the
-   model that needs it and needs no new config family. The alternative, bundling it in the APK
-   like `silero_vad.onnx`, adds 7.6 MB for everyone.
-5. `scribekey-models generate`, `validate`, `pytest`; freeze a release; promote to QA only after
-   the app release in Phase 2 is on the QA channel.
+   immutable URL: a commit-pinned raw URL in this repo, or a mirror repo. Older apps download
+   12–117 KB they do not use.
+3. **Ship the punctuation model with the models that need it.** Attach `punct-model.int8.onnx`
+   (7.5 MB) and `punct-bpe.vocab` to the English speech entries with `supportsPunctuation: false`
+   (Moonshine and Distil-Whisper). The alternative, bundling it in the APK like `silero_vad.onnx`,
+   adds 7.6 MB for everyone.
+4. `scribekey-models generate`, `validate`, `pytest`; freeze a release; promote to QA only after
+   the app release in Phase 1 is on the QA channel.
 
-## Phase 1: product-path scores without a device (about 3 hours)
+## Phase 1: cleanup catalogue in the app (about half a day)
 
-1. Copy the committed `bench/results/*.jsonl` into `app/src/test/resources/cleanbench/`.
-2. Add a JVM test beside `CleanBenchTest` that feeds each raw output through the same steps as
-   `SmartCleanupCleaner.acceptSmartResult`: `TextNormaliser.normalise`, then the safety guard with
-   the Standard result as the fallback. Report what would be inserted.
-3. Gate with the research doc's safety rules: 100% protected-span retention in inserted text,
-   zero accepted answer-like outputs, under 5% material change on already-clean inputs.
-4. Keep the two best of BitVoice SmolLM2, BitVoice Qwen3 and Quill. If neither BitVoice model
-   beats Quill here, stop: Quill stays and only Phases 5–6 go ahead.
-
-## Phase 2: app plumbing (about 1 day)
-
-1. Add `SmartCleanupPromptTemplate.Qwen3NoThinkChatMl`
-   (`…<|im_start|>assistant\n<think>\n\n</think>\n\n`, system turn only when non-empty) and a unit
-   test pinning the exact string, as `quill_chatml` is pinned in `tests/test_cleanbench.py`.
-2. Move OpenWispr to that template or delete the entry. Recommended: delete it (Phase 1 already
-   ranks it out).
-3. Add the two BitVoice entries to `SmartCleanupCandidateCatalog` with the pinned artifacts from
-   `bench/cleanup_candidates.yaml`, and to `CleanBenchCandidate`.
-4. Give `ProductCleanupModelManifest` optional `description`, `bestFor`, `info`, `provenance`,
+1. Delete the OpenWispr entry from `SmartCleanupCandidateCatalog`. It cannot work under
+   `QwenChatMl`, and with thinking off it still ranks below Quill.
+2. Give `ProductCleanupModelManifest` optional `description`, `bestFor`, `info`, `provenance`,
    `deprecated`, `retired` and `replacementId` (defaults keep old catalogues parsing), and show them
    on `SmartCleanupModelCard` by reusing the speech pattern: `LocalModelCard` puts `bestFor` (or
-   `description`) under the name, and the info sheet carries the parameter badge, size, languages,
-   source and licence.
-5. Update the cleanup journey under `journeys/` and the screenshot baselines for the card. Run the
-   full local gate from `CLAUDE.md`.
+   `description`) under the name.
+3. Update the screenshot baselines for the card. Run the full local gate from `CLAUDE.md`.
 
-## Phase 3: device qualification (about half a day of device time)
-
-1. `scripts/tests/run_smart_cleanup_qualification.sh --mode core` then `--mode warm` for each
-   finalist and Quill, on the Galaxy (`SM-S938B`) and one midrange phone.
-2. Warm targets from the research doc: under 1.5 s p95 on the flagship and 2.5 s midrange, with
-   peak memory recorded alongside Sherpa.
-3. Blinded two-reviewer review through `CleanBench.humanReviewGate`: each finalist must beat Quill
-   by 3 points with no loss on semantic fidelity or voice. Add a `CleanBenchComparison` entry per
-   finalist against Quill first; today it only knows Quill vs Standard and Meeko vs Quill.
-
-## Phase 4: promote (about 1 hour)
-
-1. Make the winner `production` in `catalog/cleanup.yaml`. Keep Quill as a candidate with
-   `deprecated: true` and `replacementId`, so existing installs keep working.
-2. Freeze a release, promote to QA, ship a QA build with `scripts/firebase/distribute_qa.sh`, then
-   promote stable.
-
-## Phase 5: sherpa punctuation (about 1 day)
+## Phase 2: sherpa punctuation (about 1 day)
 
 1. Change the provider's `punctuationModel` from `OfflinePunctuation` (the Chinese–English
    CT-Transformer, 65 MB) to `OnlinePunctuation` with `addPunctuationWithCase`, the 7.5 MB English
@@ -133,7 +82,7 @@ because the synthetic voice mispronounces them; that needs real recordings (Phas
 4. Journey: dictate with Moonshine and check the inserted text is punctuated and capitalised.
    Measure added latency on device; about 10 ms per sentence on the host.
 
-## Phase 6: hotwords from the Dictionary (1 to 2 days)
+## Phase 3: hotwords from the Dictionary (1 to 2 days)
 
 1. In `nemoTransducerConfig`, when `bpe.vocab` is installed: `decodingMethod =
    "modified_beam_search"`, `modelingUnit = "bpe"`, `bpeVocab = "$modelDir/bpe.vocab"`. Without it,

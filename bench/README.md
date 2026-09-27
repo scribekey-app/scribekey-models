@@ -7,7 +7,7 @@ app's device qualification (`scripts/tests/run_smart_cleanup_qualification.sh` i
 ```bash
 python -m pip install -e '.[bench]'                  # llama-cpp-python builds from source, 3–10 min
 scribekey-models cleanbench                          # every candidate, all 240 cases
-scribekey-models cleanbench --models quill,bitvoice-qwen3-0.6b --limit 40   # quick look
+scribekey-models cleanbench --models quill,mumble-cleanup-2stage --limit 40   # quick look
 scribekey-models cleanbench --report-only            # rebuild summary.md from saved results
 ```
 
