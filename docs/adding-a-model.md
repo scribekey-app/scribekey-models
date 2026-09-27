@@ -57,3 +57,15 @@ cmake --build build --target recorder
 python tools/record_cleanup_examples/record.py --recorder build/recorder --model quill.gguf \
     --runtime <llama.cpp commit> "um i think we should ship it today"
 ```
+
+## How the app presents a cleanup model
+
+Cleanup entries in `catalog/cleanup.yaml` carry the same presentation fields as speech, under the
+same rules: `displayName`, `bestFor` (48 characters or fewer, no full stop), `description` (one or
+two sentences, never a copy of `bestFor`), `info` (`paramsBadge`, `architecture`, `languages`) and
+`provenance` (source model, the exact Hugging Face repository and revision the GGUF comes from, the
+quantisation as `exportVariant`, and the SPDX licence). A replaced model stays in the catalogue with
+`deprecated: true` and a `replacementId`, so existing installs keep working.
+
+Before a cleanup model is added, screen it with `scribekey-models cleanbench` (see
+`bench/README.md`). Only small, cleanup-only models qualify.

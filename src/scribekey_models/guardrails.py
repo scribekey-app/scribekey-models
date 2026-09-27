@@ -401,6 +401,39 @@ def _validate_speech_presentation(models: list[dict[str, Any]]) -> list[Guardrai
     return issues
 
 
+def _validate_cleanup_presentation(models: list[dict[str, Any]]) -> list[GuardrailIssue]:
+    """The same presentation rules as speech: unique names, distinct guidance, real replacements."""
+    issues: list[GuardrailIssue] = []
+    ids = {m.get("modelId") for m in models}
+    seen_names: dict[str, str] = {}
+    for model in models:
+        mid = model.get("modelId", "unknown")
+        name = str(model.get("displayName", "")).strip().casefold()
+        if name and name in seen_names:
+            issues.append(
+                GuardrailIssue(
+                    "catalog/cleanup.yaml",
+                    f"Cleanup model '{mid}' reuses display name of '{seen_names[name]}'",
+                )
+            )
+        elif name:
+            seen_names[name] = mid
+        best_for = str(model.get("bestFor", "")).strip().casefold()
+        if best_for and best_for == str(model.get("description", "")).strip().casefold():
+            issues.append(
+                GuardrailIssue("catalog/cleanup.yaml", f"Cleanup model '{mid}' repeats description as bestFor")
+            )
+        replacement = model.get("replacementId")
+        if replacement and replacement not in ids:
+            issues.append(
+                GuardrailIssue(
+                    "catalog/cleanup.yaml",
+                    f"Cleanup model '{mid}' replacementId '{replacement}' not found in catalogue",
+                )
+            )
+    return issues
+
+
 def validate_no_executable_payloads(
     speech_data: dict[str, Any],
     cleanup_data: dict[str, Any],
@@ -837,6 +870,8 @@ def validate_model_configuration(
         if isinstance(cand, dict):
             cleanup_models.append(cand)
 
+    issues.extend(_validate_cleanup_presentation(cleanup_models))
+
     seen_cleanup_ids = set()
     for cm in cleanup_models:
         cm_id = cm.get("modelId", "unknown")
@@ -868,6 +903,19 @@ def validate_model_configuration(
                     GuardrailIssue(
                         "catalog/cleanup.yaml",
                         f"Cleanup model '{cm_id}' download URL does not match Hugging Face revision ({url_rev} vs {rev})",
+                    )
+                )
+
+        provenance = cm.get("provenance")
+        if hf_match and isinstance(provenance, dict):
+            url_repo, url_rev = hf_match.group(1), hf_match.group(2)
+            export_repo = provenance.get("exportRepository")
+            export_rev = provenance.get("exportRevision")
+            if url_repo != export_repo or url_rev != export_rev:
+                issues.append(
+                    GuardrailIssue(
+                        "catalog/cleanup.yaml",
+                        f"Cleanup model '{cm_id}' download URL does not match Hugging Face provenance ({url_repo}@{url_rev} vs {export_repo}@{export_rev})",
                     )
                 )
 

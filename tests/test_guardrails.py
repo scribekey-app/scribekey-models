@@ -124,6 +124,28 @@ def test_cleanup_rejects_duplicate_ids_revision_mismatch_and_full_context_output
     assert any("contextTokens must exceed maxOutputTokens" in issue.message for issue in issues)
 
 
+def test_cleanup_presentation_matches_speech_rules() -> None:
+    production = _cleanup_model(
+        displayName="Quill",
+        bestFor="Light cleanup",
+        description="Light cleanup",
+        provenance={"exportRepository": "org/other", "exportRevision": "a" * 40},
+    )
+    candidate = _cleanup_model(modelId="next", displayName="quill", replacementId="missing")
+
+    messages = [
+        issue.message
+        for issue in validate_model_configuration(
+            {}, {"production": production, "candidates": [candidate]}, _diarization_data()
+        )
+    ]
+
+    assert "Cleanup model 'next' reuses display name of 'cleanup'" in messages
+    assert "Cleanup model 'cleanup' repeats description as bestFor" in messages
+    assert "Cleanup model 'next' replacementId 'missing' not found in catalogue" in messages
+    assert any("does not match Hugging Face provenance" in message for message in messages)
+
+
 @pytest.mark.parametrize("overrides", [{"topK": 2}, {"topP": 0.9}, {"temperature": 0.1}, {"repetitionPenalty": 1.0}])
 def test_deterministic_cleanup_requires_greedy_sampling(overrides) -> None:
     model = _cleanup_model(**overrides)

@@ -12,6 +12,10 @@
       "required": [
         "modelId",
         "displayName",
+        "description",
+        "bestFor",
+        "info",
+        "provenance",
         "revision",
         "bundleFileName",
         "downloadUrl",
@@ -154,6 +158,76 @@
         },
         "privacyDisclosure": {
           "type": "string"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "bestFor": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 48
+        },
+        "info": {
+          "type": "object",
+          "required": [
+            "paramsBadge",
+            "architecture",
+            "languages"
+          ],
+          "properties": {
+            "paramsBadge": {
+              "type": "string"
+            },
+            "architecture": {
+              "type": "string"
+            },
+            "languages": {
+              "type": "string"
+            }
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "required": [
+            "sourceModel",
+            "exportRepository",
+            "exportRevision",
+            "exportVariant",
+            "licenseId",
+            "licenseUrl"
+          ],
+          "properties": {
+            "sourceModel": {
+              "type": "string"
+            },
+            "exportRepository": {
+              "type": "string"
+            },
+            "exportRevision": {
+              "type": "string"
+            },
+            "exportVariant": {
+              "type": "string"
+            },
+            "licenseId": {
+              "type": "string"
+            },
+            "licenseUrl": {
+              "type": "string"
+            }
+          }
+        },
+        "deprecated": {
+          "type": "boolean"
+        },
+        "retired": {
+          "type": "boolean"
+        },
+        "replacementId": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
         },
         "examples": {
           "type": "array",

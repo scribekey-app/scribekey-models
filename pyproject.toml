@@ -20,6 +20,12 @@ dev = [
   "pytest>=8.3,<9",
   "ruff>=0.12,<1",
 ]
+bench = [
+  "huggingface_hub>=0.34",
+  "llama-cpp-python>=0.3.16",
+  "sentencepiece>=0.2",
+  "sherpa-onnx==1.13.6",
+]
 
 [project.scripts]
 scribekey-models = "scribekey_models.cli:main"

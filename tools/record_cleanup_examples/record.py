@@ -74,7 +74,7 @@ def main() -> None:
                 "recordedWith": {
                     "modelRevision": profile["revision"],
                     "runtime": f"llama.cpp@{args.runtime}",
-                    "recordedAt": datetime.date.today().isoformat(),
+                    "recordedAt": datetime.datetime.now(datetime.UTC).date().isoformat(),
                 },
             }
         )

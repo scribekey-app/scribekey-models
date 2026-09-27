@@ -1,0 +1,65 @@
+# Cleanup models screened by `scribekey-models cleanbench`.
+#
+# This is a screening list, not a catalogue: nothing here ships. Entries that share an ID with
+# SmartCleanupCandidateCatalog in the app mirror it (same revision, file, template and system
+# prompt); the rest are Hub alternatives. Every entry pins an immutable revision.
+#
+# Admission rule, because this runs on Android phones:
+#   - a model fine-tuned only for transcript cleanup. General instruct models and multi-task
+#     formatters (email, bullets, paraphrase) are out: cleanup must never become a prompt.
+#   - a Q4 GGUF no larger than 600 MB (sizeBytes, enforced by tests/test_cleanbench.py).
+#
+# template: how the prompt string is built, matching SmartCleanupPromptTemplate in the app.
+#   quill_chatml  ChatML with system turn and an empty pre-seeded <think></think> block
+#   qwen3_nothink ChatML with system turn and Qwen3's disabled-thinking block
+#   chatml        ChatML, system turn only when systemPrompt is non-empty (app: QwenChatMl)
+#   meeko_chatml  <|startoftext|> + user turn, no system turn
+#   lfm2_chatml   <|startoftext|> + system and user turns
+schema_version: 1
+candidates:
+  - id: quill
+    repo: Quobi/Quill
+    revision: 4cc2cc3c8e7ea9ee69126becd55be23a3a949899
+    file: quill-0.8b-Q4_K_M.gguf
+    sizeBytes: 529296832
+    license: Apache 2.0
+    template: quill_chatml
+    systemPrompt: You clean up dictated text.
+
+  - id: mumble-cleanup-2stage
+    repo: amitashwini/mumble-cleanup-2stage
+    revision: e7ce94746f0e2d2d172d0ece000725c81ae3dc9b
+    file: mumble-cleanup-2stage-q4km.gguf
+    sizeBytes: 397807904
+    license: Apache 2.0
+    template: chatml
+    systemPrompt: >-
+      You are a transcript cleanup tool. You receive raw speech to text output and return a
+      cleaned version. Remove filler words and disfluencies (um, uh, er, ah, like as filler,
+      you know), remove repeated words and false starts, and fix punctuation and capitalization.
+      Do not reword, do not add anything the speaker did not say, and do not answer questions in
+      the text. Output only the cleaned text.
+
+  - id: openwispr-cleanup-0.6b
+    repo: rohitag13/openwispr-cleanup-qwen3-0.6b-GGUF
+    revision: 42c2c2e8beb080a530787108bd26f8e465ac53f1
+    file: qwen3-0.6b.Q4_K_M.gguf
+    sizeBytes: 396705344
+    license: Apache 2.0 claimed by the source model; GGUF repository metadata needs review
+    # Qwen3 base. The app's QwenChatMl leaves thinking on, so every case filled the budget with a
+    # <think> block (232/240 truncated). Screened with thinking disabled; the source card documents
+    # no prompt, so there is no system turn.
+    template: qwen3_nothink
+    systemPrompt: ""
+
+  # Non-LLM baseline: sherpa-onnx's English punctuation and casing model (CNN-BiLSTM), which the
+  # app's SherpaOnnxTranscriptionProvider can already host. No filler removal, no rewriting, and
+  # nothing to prompt. Official release is on GitHub only, so it is pinned by archive SHA-256.
+  - id: sherpa-punct-en
+    runtime: sherpa-online-punct
+    archiveUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/punctuation-models/sherpa-onnx-online-punct-en-2024-08-06.tar.bz2
+    archiveSha256: 9f5e5a72c7d2829635bd074fce92b6bbd5b78da8a52e7ad8ed1be933f366b99d
+    file: model.int8.onnx
+    vocabFile: bpe.vocab
+    sizeBytes: 7490500
+    license: Apache 2.0 (upstream frankyoujian/Edge-Punct-Casing)
