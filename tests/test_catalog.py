@@ -133,6 +133,34 @@ def test_speech_metadata_projects_user_facing_guidance_without_changing_ids() ->
     }
 
 
+def test_legacy_entries_are_named_apart_from_their_replacements() -> None:
+    models = {model["id"]: model for model in generate_speech_catalog()["models"]}
+
+    for model in models.values():
+        replacement_id = model.get("replacementId")
+        if replacement_id:
+            assert model["displayName"] != models[replacement_id]["displayName"]
+    assert models["moonshine-base"]["displayName"] == "Moonshine Base v1"
+    assert models["moonshine-v2-base-en"]["displayName"] == "Moonshine Base"
+
+
+def test_every_selectable_model_carries_provenance_and_distinct_guidance() -> None:
+    for model in generate_speech_catalog()["models"]:
+        assert model.get("provenance"), model["id"]
+        assert model["bestFor"] != model["description"], model["id"]
+
+
+def test_live_and_final_counterparts_and_language_codes_are_projected() -> None:
+    models = {model["id"]: model for model in generate_speech_catalog()["models"]}
+
+    assert models["parakeet-unified-0.6b"]["counterpartId"] == "nemotron-en-0.6b"
+    assert models["nemotron-en-0.6b"]["counterpartId"] == "parakeet-unified-0.6b"
+    assert models["parakeet-0.6b-v3"]["counterpartId"] == "nemotron-3.5-0.6b-560ms"
+    assert models["canary-180m"]["languageCodes"] == ["en", "es", "de", "fr"]
+    assert len(models["parakeet-0.6b-v3"]["languageCodes"]) == 25
+    assert "languageCodes" not in models["qwen3-asr-0.6b"]
+
+
 def test_speech_guidance_is_optional_for_imported_or_custom_models(monkeypatch) -> None:
     speech = catalog_module.load_speech_catalog_data()
     speech["models"][0].pop("description", None)

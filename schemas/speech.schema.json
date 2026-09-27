@@ -57,18 +57,10 @@
           "bestFor": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 200
+            "maxLength": 48
           },
           "badge": {
             "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "minLength": 1
-          },
-          "bestFor": {
-            "type": "string",
-            "minLength": 1
           },
           "outcome": {
             "enum": [
@@ -247,6 +239,19 @@
           },
           "streamLanguage": {
             "type": "string"
+          },
+          "languageCodes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z]{2,3}$"
+            }
+          },
+          "counterpartId": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
           }
         }
       }

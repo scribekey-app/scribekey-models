@@ -440,3 +440,67 @@ def test_guardrail_rejects_invalid_sequence_and_unknown_runtime_family(tmp_path:
     assert any("invalid anti-rollback sequence '0'" in issue.message for issue in issues)
     assert any("unknown runtime families" in issue.message for issue in issues)
     assert any("minAndroidApiLevel must be integer >= 21" in issue.message for issue in issues)
+
+
+def _presented(model_id: str, **overrides: object) -> dict:
+    return {
+        "id": model_id,
+        "displayName": model_id.title(),
+        "files": [{"name": "a", "downloadUrl": "url", "sha256": "a" * 64, "sizeBytes": 10}],
+        **overrides,
+    }
+
+
+def test_guardrail_rejects_legacy_entry_sharing_its_replacements_name() -> None:
+    speech_data = {
+        "models": [
+            _presented("moonshine-base", displayName="Moonshine Base", replacementId="moonshine-v2-base-en"),
+            _presented("moonshine-v2-base-en", displayName="moonshine base"),
+        ]
+    }
+    issues = validate_identities_and_integrity(speech_data, {}, {})
+    assert any("reuses display name of 'moonshine-base'" in issue.message for issue in issues)
+
+
+def test_guardrail_rejects_best_for_that_repeats_the_description() -> None:
+    speech_data = {"models": [_presented("model", description="Same words.", bestFor="same words.")]}
+    issues = validate_identities_and_integrity(speech_data, {}, {})
+    assert any("repeats description as bestFor" in issue.message for issue in issues)
+
+
+@pytest.mark.parametrize(
+    ("final", "live", "message"),
+    [
+        ({"counterpartId": "missing"}, {}, "counterpartId 'missing' not found"),
+        ({"counterpartId": "live"}, {"transcriptionMode": "CACHE_AWARE_ONLINE"}, "does not point back"),
+        (
+            {"counterpartId": "live"},
+            {"counterpartId": "final", "transcriptionMode": "SEGMENTED"},
+            "uses the same transcription mode",
+        ),
+        (
+            {"counterpartId": "live"},
+            {"counterpartId": "final", "transcriptionMode": "CACHE_AWARE_ONLINE", "retired": True},
+            "is retired or deprecated",
+        ),
+    ],
+)
+def test_guardrail_requires_mutual_cross_mode_counterparts(final, live, message) -> None:
+    speech_data = {
+        "models": [
+            _presented("final", transcriptionMode="SEGMENTED", **final),
+            _presented("live", **live),
+        ]
+    }
+    issues = validate_identities_and_integrity(speech_data, {}, {})
+    assert any(message in issue.message for issue in issues)
+
+
+def test_guardrail_accepts_mutual_live_and_final_counterparts() -> None:
+    speech_data = {
+        "models": [
+            _presented("final", transcriptionMode="SEGMENTED", counterpartId="live"),
+            _presented("live", transcriptionMode="CACHE_AWARE_ONLINE", counterpartId="final"),
+        ]
+    }
+    assert validate_identities_and_integrity(speech_data, {}, {}) == []
