@@ -161,6 +161,32 @@ def test_live_and_final_counterparts_and_language_codes_are_projected() -> None:
     assert "languageCodes" not in models["qwen3-asr-0.6b"]
 
 
+def test_experimental_flag_is_projected_for_every_model() -> None:
+    models = {model["id"]: model for model in generate_speech_catalog()["models"]}
+
+    experimental = {mid for mid, model in models.items() if model["experimental"]}
+    assert experimental == {
+        "nemotron-en-0.6b",
+        "nemotron-3.5-0.6b-560ms",
+        "omnilingual-asr-300m",
+        "qwen3-asr-0.6b",
+    }
+    assert all(isinstance(model["experimental"], bool) for model in models.values())
+
+
+def test_cleanup_examples_are_projected_with_their_recording() -> None:
+    examples = generate_cleanup_catalog()["production"]["examples"]
+
+    assert [example["input"] for example in examples] == [
+        "so we need to we need to finish the report by friday",
+        "um we need milk eggs bread and uh coffee",
+        "the the client wants the the new logo by monday",
+        "um i think we should ship it today",
+    ]
+    assert examples[0]["output"] == "We need to finish the report by Friday."
+    assert all(example["recordedWith"]["runtime"].startswith("llama.cpp@") for example in examples)
+
+
 def test_speech_guidance_is_optional_for_imported_or_custom_models(monkeypatch) -> None:
     speech = catalog_module.load_speech_catalog_data()
     speech["models"][0].pop("description", None)

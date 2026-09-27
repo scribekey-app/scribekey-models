@@ -108,6 +108,9 @@ def generate_speech_catalog() -> dict[str, Any]:
         for field in ("description", "bestFor"):
             if model.get(field) is not None:
                 entry[field] = model[field]
+        # Always present, so Android can tell "not experimental" from a catalogue that predates
+        # the field and fall back to the model ids it gated before.
+        entry["experimental"] = bool(model.get("experimental", False))
         if model.get("retired"):
             entry["retired"] = True
         if model.get("deprecated"):
@@ -222,6 +225,24 @@ def _cleanup_entry(model: dict[str, Any]) -> dict[str, Any]:
         "privacyDisclosure": model.get(
             "privacyDisclosure", "Transcript text stays on this device."
         ),
+        **(
+            {"examples": [_cleanup_example(example) for example in model["examples"]]}
+            if model.get("examples")
+            else {}
+        ),
+    }
+
+
+def _cleanup_example(example: dict[str, Any]) -> dict[str, Any]:
+    recorded = example["recordedWith"]
+    return {
+        "input": example["input"],
+        "output": example["output"],
+        "recordedWith": {
+            "modelRevision": recorded["modelRevision"],
+            "runtime": recorded["runtime"],
+            "recordedAt": str(recorded["recordedAt"]),
+        },
     }
 
 
