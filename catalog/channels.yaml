@@ -1,10 +1,11 @@
 schema_version: 1
 channels:
   qa:
-    targetRelease: 2026.09.2
-    sequence: 3
-    issuedAt: '2026-09-15T21:22:59Z'
-    notes: Publish model selection guidance to QA for end-to-end distribution acceptance
+    targetRelease: 2026.09.9
+    sequence: 4
+    issuedAt: '2026-09-27T23:27:41Z'
+    notes: Cleanup model choice (Quill, Mumble), recorded cleanup samples, and corrected
+      punctuation flags for six speech models.
     compatibility:
       minAndroidApiLevel: 28
       minAppVersionCode: 10
