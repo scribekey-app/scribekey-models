@@ -18,11 +18,10 @@ channels:
       - cleanup-model-catalog
       - speaker-diarization-manifest
   stable:
-    targetRelease: 2026.09.9
-    sequence: 4
-    issuedAt: '2026-09-27T23:38:25Z'
-    notes: Cleanup model choice (Quill, Mumble), recorded cleanup samples, and corrected
-      punctuation flags for six speech models.
+    targetRelease: 2026.09.11
+    sequence: 5
+    issuedAt: '2026-09-29T14:24:30Z'
+    notes: Parakeet Ultra offered beside Parakeet Multilingual v3.
     compatibility:
       minAndroidApiLevel: 28
       minAppVersionCode: 10
