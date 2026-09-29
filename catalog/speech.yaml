@@ -469,12 +469,13 @@ models:
       licenseUrl: https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2
 
   - id: parakeet-0.6b-v3
-    outcome: MULTILINGUAL
     family: PARAKEET
-    displayName: Parakeet Multilingual
-    description: Transcribes 25 European languages with punctuation and timestamps, and detects which one you speak.
-    bestFor: Accurate final text in European languages
-    badge: ""
+    displayName: Parakeet Multilingual v3
+    badge: Legacy
+    description: The original Parakeet Multilingual, kept so existing installs keep working.
+    bestFor: Existing installs only
+    deprecated: true
+    replacementId: parakeet-ultra-0.6b
     diskMb: 640
     minRamMb: 6144
     minApiLevel: 31
@@ -482,7 +483,6 @@ models:
     supportsTimestamps: true
     supportsPunctuation: true
     supportsLanguageDetection: true
-    counterpartId: nemotron-3.5-0.6b-560ms
     languageCodes:
       - en
       - es
@@ -540,6 +540,79 @@ models:
       exportVariant: INT8
       licenseId: CC-BY-4.0
       licenseUrl: https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3
+
+  - id: parakeet-ultra-0.6b
+    outcome: MULTILINGUAL
+    family: PARAKEET
+    displayName: Parakeet Multilingual
+    description: The most accurate Parakeet for 25 European languages, with punctuation, timestamps and language detection.
+    bestFor: Accurate final text in European languages
+    badge: ""
+    diskMb: 601
+    minRamMb: 6144
+    minApiLevel: 31
+    transcriptionMode: SEGMENTED
+    supportsTimestamps: true
+    supportsPunctuation: true
+    supportsLanguageDetection: true
+    counterpartId: nemotron-3.5-0.6b-560ms
+    languageCodes:
+      - en
+      - es
+      - fr
+      - de
+      - bg
+      - hr
+      - cs
+      - da
+      - nl
+      - et
+      - fi
+      - el
+      - hu
+      - it
+      - lv
+      - lt
+      - mt
+      - pl
+      - pt
+      - ro
+      - sk
+      - sl
+      - sv
+      - ru
+      - uk
+    files:
+      - name: encoder.int8.onnx
+        downloadUrl: https://huggingface.co/mldecode/parakeet-ultra-onnx-int8/resolve/3282a6e32885b431c1543d58c7710e6e3412eac0/encoder.int8.onnx
+        sizeBytes: 611879344
+        sha256: 181382735a719c75076d13658dc4418de4b566aef39935ca0f8f55da16928f4e
+      - name: decoder.int8.onnx
+        downloadUrl: https://huggingface.co/mldecode/parakeet-ultra-onnx-int8/resolve/3282a6e32885b431c1543d58c7710e6e3412eac0/decoder.int8.onnx
+        sizeBytes: 12257685
+        sha256: 0ba8ace2de04bb2d9a6b20ed2d67138c23df4a385f268438df0ff200502de77a
+      - name: joiner.int8.onnx
+        downloadUrl: https://huggingface.co/mldecode/parakeet-ultra-onnx-int8/resolve/3282a6e32885b431c1543d58c7710e6e3412eac0/joiner.int8.onnx
+        sizeBytes: 5281747
+        sha256: 20ae4350c2484ba607d94f08ef25ae3ead762d8aaf70753758ffcc504e255ebb
+      - name: tokens.txt
+        downloadUrl: https://huggingface.co/mldecode/parakeet-ultra-onnx-int8/resolve/3282a6e32885b431c1543d58c7710e6e3412eac0/tokens.txt
+        sizeBytes: 93939
+        sha256: d58544679ea4bc6ac563d1f545eb7d474bd6cfa467f0a6e2c1dc1c7d37e3c35d
+    sherpaConfig:
+      type: nemo_transducer
+      modelDir: ""
+    info:
+      paramsBadge: 600M
+      architecture: TDT
+      languages: 25 European languages
+    provenance:
+      sourceModel: moondream/parakeet-ultra
+      exportRepository: mldecode/parakeet-ultra-onnx-int8
+      exportRevision: 3282a6e32885b431c1543d58c7710e6e3412eac0
+      exportVariant: INT8
+      licenseId: CC-BY-4.0
+      licenseUrl: https://huggingface.co/moondream/parakeet-ultra
 
   - id: parakeet-unified-0.6b
     outcome: BEST_ENGLISH_ACCURACY
@@ -704,7 +777,7 @@ models:
     supportsTimestamps: false
     supportsPunctuation: true
     supportsLanguageDetection: false
-    counterpartId: parakeet-0.6b-v3
+    counterpartId: parakeet-ultra-0.6b
     streamLanguage: auto
     files:
       - name: encoder.int8.onnx

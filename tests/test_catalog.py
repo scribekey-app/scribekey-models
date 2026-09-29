@@ -155,9 +155,12 @@ def test_live_and_final_counterparts_and_language_codes_are_projected() -> None:
 
     assert models["parakeet-unified-0.6b"]["counterpartId"] == "nemotron-en-0.6b"
     assert models["nemotron-en-0.6b"]["counterpartId"] == "parakeet-unified-0.6b"
-    assert models["parakeet-0.6b-v3"]["counterpartId"] == "nemotron-3.5-0.6b-560ms"
+    assert models["parakeet-ultra-0.6b"]["counterpartId"] == "nemotron-3.5-0.6b-560ms"
+    assert models["nemotron-3.5-0.6b-560ms"]["counterpartId"] == "parakeet-ultra-0.6b"
+    assert "counterpartId" not in models["parakeet-0.6b-v3"]
     assert models["canary-180m"]["languageCodes"] == ["en", "es", "de", "fr"]
-    assert len(models["parakeet-0.6b-v3"]["languageCodes"]) == 25
+    assert len(models["parakeet-ultra-0.6b"]["languageCodes"]) == 25
+    assert models["parakeet-0.6b-v3"]["replacementId"] == "parakeet-ultra-0.6b"
     assert "languageCodes" not in models["qwen3-asr-0.6b"]
 
 

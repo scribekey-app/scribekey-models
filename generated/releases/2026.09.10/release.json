@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "releaseId": "2026.09.10",
+  "createdAt": "2026-09-29T12:03:08Z",
+  "description": "Parakeet Ultra replaces Parakeet v3 as the multilingual Parakeet",
+  "catalogs": {
+    "speech": {
+      "filename": "model_catalog.json",
+      "sha256": "6ce5833b6d3a8a964b60fb77712942fb748c3ba9d27eb014bf31e9f9043a6c19",
+      "sizeBytes": 43944
+    },
+    "diarization": {
+      "filename": "speaker_diarization_manifest.json",
+      "sha256": "7f6d32bb6a20b9ad26a03130645b7dbfaecc97d785dca6538a92f05b5f8cde45",
+      "sizeBytes": 1521
+    },
+    "cleanup": {
+      "filename": "cleanup_model_catalog.json",
+      "sha256": "2e23730d2d97a5ee23d405ebe3acae3891cf9a34d31cffb8f2d2caa88cb5133b",
+      "sizeBytes": 7549
+    }
+  },
+  "gitCommit": "958de03f6c29ff4a6c1b3a550427d366cbd3f311"
+}
