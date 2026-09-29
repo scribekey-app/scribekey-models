@@ -469,13 +469,12 @@ models:
       licenseUrl: https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2
 
   - id: parakeet-0.6b-v3
+    outcome: MULTILINGUAL
     family: PARAKEET
-    displayName: Parakeet Multilingual v3
-    badge: Legacy
-    description: The original Parakeet Multilingual, kept so existing installs keep working.
-    bestFor: Existing installs only
-    deprecated: true
-    replacementId: parakeet-ultra-0.6b
+    displayName: Parakeet Multilingual
+    description: Transcribes 25 European languages with punctuation and timestamps, and detects which one you speak.
+    bestFor: Accurate final text in European languages
+    badge: ""
     diskMb: 640
     minRamMb: 6144
     minApiLevel: 31
@@ -483,6 +482,7 @@ models:
     supportsTimestamps: true
     supportsPunctuation: true
     supportsLanguageDetection: true
+    counterpartId: nemotron-3.5-0.6b-560ms
     languageCodes:
       - en
       - es
@@ -544,9 +544,9 @@ models:
   - id: parakeet-ultra-0.6b
     outcome: MULTILINGUAL
     family: PARAKEET
-    displayName: Parakeet Multilingual
-    description: The most accurate Parakeet for 25 European languages, with punctuation, timestamps and language detection.
-    bestFor: Accurate final text in European languages
+    displayName: Parakeet Ultra
+    description: A further-trained Parakeet for 25 European languages, with punctuation, timestamps and language detection.
+    bestFor: Lowest error rate in European languages
     badge: ""
     diskMb: 601
     minRamMb: 6144
@@ -555,7 +555,6 @@ models:
     supportsTimestamps: true
     supportsPunctuation: true
     supportsLanguageDetection: true
-    counterpartId: nemotron-3.5-0.6b-560ms
     languageCodes:
       - en
       - es
@@ -777,7 +776,7 @@ models:
     supportsTimestamps: false
     supportsPunctuation: true
     supportsLanguageDetection: false
-    counterpartId: parakeet-ultra-0.6b
+    counterpartId: parakeet-0.6b-v3
     streamLanguage: auto
     files:
       - name: encoder.int8.onnx
