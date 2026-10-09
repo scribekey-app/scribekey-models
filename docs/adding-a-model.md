@@ -34,6 +34,21 @@ Retired and deprecated entries stay in the catalogue so existing installs keep w
 `bestFor: Existing installs only` and a `replacementId`; the app groups them under older models.
 `scribekey-models validate` enforces the unique-name, distinct-guidance, counterpart, and experimental-badge rules.
 
+## NPU builds
+
+`npuBuilds` lists a model compiled for one Snapdragon NPU each, so the app can run it there instead
+of on the CPU. Only segmented Parakeet TDT (`nemo_transducer`) qualifies, because that is the only
+NPU path the app's sherpa-onnx bindings reach. Each build is a context-binary archive from a
+sherpa-onnx `asr-models-qnn-binary-N` release, pinned by `sizeBytes` and `sha256`, with:
+
+- `soc`: the chip's `Build.SOC_MODEL`, such as `SM8750`. One build per chip.
+- `runtime`: `qnn`.
+- `windowSeconds`: the fixed audio length the graph was compiled for; the app splits longer audio.
+- `archiveRoot`: the archive's top folder, which the download URL's file name must match.
+
+The archives hold model data only. Qualcomm's runtime libraries are code, so they ship inside the
+app and never appear in the catalogue. `scribekey-models validate` enforces the source, chip and hash rules.
+
 ## Recorded cleanup examples
 
 A cleanup model may carry `examples`: a few inputs and the output this exact revision produced.

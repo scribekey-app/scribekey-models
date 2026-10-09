@@ -624,3 +624,49 @@ def test_punctuation_files_are_pinned_by_digest_not_by_host() -> None:
     model["files"][-1]["sha256"] = "0" * 64
     issues = validate_model_configuration({"models": [model]}, {}, _diarization_data())
     assert any("not k2-fsa's English punctuation model" in issue.message for issue in issues)
+
+
+def _npu_build(soc: str = "SM8750", **overrides: object) -> dict:
+    root = f"sherpa-onnx-qnn-{soc}-binary-parakeet-tdt-0.6b-v3-30s-transducer"
+    return {
+        "soc": soc,
+        "runtime": "qnn",
+        "windowSeconds": 30,
+        "downloadUrl": f"https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-2/{root}.tar.bz2",
+        "sizeBytes": 1,
+        "sha256": "a" * 64,
+        "archiveRoot": root,
+        **overrides,
+    }
+
+
+def _npu_messages(model: dict) -> list[str]:
+    return [issue.message for issue in validate_model_configuration({"models": [model]}, {}, {"models": []})]
+
+
+def test_npu_builds_accept_a_pinned_sherpa_onnx_release() -> None:
+    model = _speech_model(sherpaConfig={"type": "nemo_transducer"}, npuBuilds=[_npu_build(), _npu_build("SM8650")])
+    assert not [m for m in _npu_messages(model) if "NPU" in m]
+
+
+@pytest.mark.parametrize(("build", "expected"), [
+    (_npu_build(downloadUrl="https://example.com/sherpa-onnx-qnn-SM8750-binary-parakeet-tdt-0.6b-v3-30s-transducer.tar.bz2"), "asr-models-qnn-binary release"),
+    (_npu_build(archiveRoot="other"), "does not match its archiveRoot"),
+    (_npu_build("SM8650", archiveRoot="sherpa-onnx-qnn-SM8750-binary-parakeet-tdt-0.6b-v3-30s-transducer",
+                downloadUrl=_npu_build()["downloadUrl"]), "another chip"),
+    (_npu_build(sha256="abc"), "needs a sha256"),
+])
+def test_npu_builds_reject_unpinned_or_mismatched_archives(build: dict, expected: str) -> None:
+    model = _speech_model(sherpaConfig={"type": "nemo_transducer"}, npuBuilds=[build])
+    assert any(expected in message for message in _npu_messages(model))
+
+
+def test_npu_builds_reject_duplicate_chips_and_live_models() -> None:
+    duplicate = _speech_model(sherpaConfig={"type": "nemo_transducer"}, npuBuilds=[_npu_build(), _npu_build()])
+    assert any("twice" in message for message in _npu_messages(duplicate))
+    live = _speech_model(
+        sherpaConfig={"type": "nemo_transducer"},
+        transcriptionMode="CACHE_AWARE_ONLINE",
+        npuBuilds=[_npu_build()],
+    )
+    assert any("only segmented" in message for message in _npu_messages(live))

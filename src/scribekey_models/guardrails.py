@@ -195,6 +195,8 @@ def validate_immutable_source_refs(
             urls = [f.get("downloadUrl", ""), *f.get("downloadUrls", [])]
             for url in urls:
                 issues.extend(validate_download_url("catalog/speech.yaml", url, model_id))
+        for build in model.get("npuBuilds", []):
+            issues.extend(validate_download_url("catalog/speech.yaml", build.get("downloadUrl", ""), model_id))
 
     # Check cleanup models
     prod = cleanup_data.get("production")
@@ -788,12 +790,72 @@ def _is_safe_filename(name: str) -> bool:
     return name not in (".", "..")
 
 
+# NPU builds are context binaries compiled for one Snapdragon chip by sherpa-onnx's own release job.
+# Only an offline Parakeet TDT runs on the NPU through the app's sherpa-onnx bindings.
+NPU_RELEASE_URL_RE = re.compile(
+    r"^https://github\.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-[0-9]+/([^/]+)$"
+)
+NPU_RUNTIMES = frozenset({"nemo_transducer"})
+
+
+def _validate_npu_builds(model: dict[str, Any]) -> list[GuardrailIssue]:
+    builds = model.get("npuBuilds") or []
+    if not builds:
+        return []
+    mid = model.get("id", "unknown")
+    issues: list[GuardrailIssue] = []
+    runtime = model.get("sherpaConfig", {}).get("type")
+    if runtime not in NPU_RUNTIMES or model.get("transcriptionMode", "SEGMENTED") != "SEGMENTED":
+        issues.append(
+            GuardrailIssue(
+                "catalog/speech.yaml",
+                f"Speech model '{mid}' lists NPU builds but only segmented {sorted(NPU_RUNTIMES)} models run on the NPU",
+            )
+        )
+    seen_socs: set[str] = set()
+    for build in builds:
+        soc = build.get("soc", "")
+        if soc in seen_socs:
+            issues.append(GuardrailIssue("catalog/speech.yaml", f"Speech model '{mid}' lists NPU build {soc} twice"))
+        seen_socs.add(soc)
+        match = NPU_RELEASE_URL_RE.match(build.get("downloadUrl", ""))
+        if not match:
+            issues.append(
+                GuardrailIssue(
+                    "catalog/speech.yaml",
+                    f"Speech model '{mid}' NPU build {soc} must come from a sherpa-onnx asr-models-qnn-binary release",
+                )
+            )
+        elif match.group(1) != f"{build.get('archiveRoot')}.tar.bz2":
+            issues.append(
+                GuardrailIssue(
+                    "catalog/speech.yaml",
+                    f"Speech model '{mid}' NPU build {soc} archive name does not match its archiveRoot",
+                )
+            )
+        elif f"-{soc}-" not in match.group(1):
+            issues.append(
+                GuardrailIssue(
+                    "catalog/speech.yaml",
+                    f"Speech model '{mid}' NPU build {soc} points at an archive for another chip",
+                )
+            )
+        if not HEX64_RE.match(build.get("sha256", "")):
+            issues.append(
+                GuardrailIssue("catalog/speech.yaml", f"Speech model '{mid}' NPU build {soc} needs a sha256")
+            )
+    return issues
+
+
 def validate_model_configuration(
     speech_data: dict[str, Any],
     cleanup_data: dict[str, Any],
     diarization_data: dict[str, Any],
 ) -> list[GuardrailIssue]:
     issues: list[GuardrailIssue] = []
+
+    for model in speech_data.get("models", []):
+        issues.extend(_validate_npu_builds(model))
 
     # 1. Speech model configuration
     for model in speech_data.get("models", []):

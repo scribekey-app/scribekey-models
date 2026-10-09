@@ -230,3 +230,12 @@ def test_runtime_catalogues_preserve_ordered_fallback_sources(monkeypatch) -> No
         "https://mirror.example/diarization.onnx"
     ]
 
+
+
+def test_parakeet_tdt_ships_npu_builds_for_every_supported_snapdragon() -> None:
+    models = {model["id"]: model for model in generate_speech_catalog()["models"]}
+    for model_id in ("parakeet-0.6b-v3", "parakeet-0.6b-v2"):
+        builds = models[model_id]["npuBuilds"]
+        assert [build["soc"] for build in builds] == ["SM8450", "SM8475", "SM8550", "SM8650", "SM8750", "SM8850"]
+        assert all(build["runtime"] == "qnn" and build["windowSeconds"] == 30 for build in builds)
+    assert all("npuBuilds" not in model for mid, model in models.items() if not mid.startswith("parakeet-0.6b-v"))
