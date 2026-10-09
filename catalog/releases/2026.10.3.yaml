@@ -1,0 +1,23 @@
+schema_version: 1
+releaseId: 2026.10.3
+createdAt: '2026-10-09T18:33:08Z'
+description: Smart Cleanup moves to Sotto 350M tuned by ScribeKey, which applies spoken
+  corrections.
+catalogs:
+  speech:
+    filename: model_catalog.json
+    sha256: 6b93dcb5559dbfd792b235db3cc66e5ddd88f454fe85961f63be8de7cc3c7802
+    sizeBytes: 53927
+  diarization:
+    filename: speaker_diarization_manifest.json
+    sha256: 229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a
+    sizeBytes: 1438
+  cleanup:
+    filename: cleanup_model_catalog.json
+    sha256: 2ce85e27f63c348f6ee3736c6dd82fff5f9a56c3863cc1f8976443933ca083e7
+    sizeBytes: 11680
+  cloudTiers:
+    filename: cloud_model_tiers.json
+    sha256: 24b9241acdfdba085aeb3d57d67d6e54c6e47aa65bc38a0f5850dae559e409d0
+    sizeBytes: 11668
+gitCommit: bd2b9e719f75bd02d941d59a8adba5c1362e1192
