@@ -164,10 +164,17 @@ candidates:
           modelRevision: 4cc2cc3c8e7ea9ee69126becd55be23a3a949899
           runtime: llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c
           recordedAt: '2026-09-27'
+  # Retired for Sotto on 9 Oct 2026. On CleanBench v1, Mumble's inserted text was exactly right on
+  # 18.7% of rows, against 17.6% for Standard and 28.0% for Sotto tuned by ScribeKey; it applied
+  # 0.3% of spoken corrections, the app's guard rejected 33% of its outputs, and 5.0% of what it
+  # inserted had a value the reference lacks, the most of any model scored. It took 1.9 s at p95.
+  # Kept only so existing installs keep working. Evidence: scribekey-model-research PR #29.
   - modelId: mumble-cleanup-2stage
     displayName: Mumble
     description: A smaller model that removes fillers, repeats and false starts from English dictation and fixes punctuation. Runs on your phone.
-    bestFor: Smaller download, better with questions
+    bestFor: Existing installs only
+    retired: true
+    replacementId: sotto
     info:
       paramsBadge: 0.5B
       architecture: Qwen2.5 fine-tune

@@ -198,7 +198,7 @@
       "modelId": "mumble-cleanup-2stage",
       "displayName": "Mumble",
       "description": "A smaller model that removes fillers, repeats and false starts from English dictation and fixes punctuation. Runs on your phone.",
-      "bestFor": "Smaller download, better with questions",
+      "bestFor": "Existing installs only",
       "info": {
         "paramsBadge": "0.5B",
         "architecture": "Qwen2.5 fine-tune",
@@ -212,6 +212,8 @@
         "licenseId": "Apache-2.0",
         "licenseUrl": "https://huggingface.co/amitashwini/mumble-cleanup-2stage"
       },
+      "retired": true,
+      "replacementId": "sotto",
       "revision": "e7ce94746f0e2d2d172d0ece000725c81ae3dc9b",
       "bundleFileName": "mumble-cleanup-2stage-q4km.gguf",
       "downloadUrl": "https://huggingface.co/amitashwini/mumble-cleanup-2stage/resolve/e7ce94746f0e2d2d172d0ece000725c81ae3dc9b/mumble-cleanup-2stage-q4km.gguf",
