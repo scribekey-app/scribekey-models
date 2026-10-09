@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 
 from scribekey_models.guardrails import (
+    PUNCTUATION_FILE_SHA256,
     validate_channel_and_release_pointers,
     validate_identities_and_integrity,
     validate_immutable_source_refs,
@@ -62,13 +63,16 @@ def _diarization_data() -> dict:
     ("whisper", "DISTIL_WHISPER", "encoder.int8.onnx decoder.int8.onnx tokens.txt"),
     ("canary", "CANARY", "encoder.int8.onnx decoder.int8.onnx tokens.txt"),
     ("omnilingual_ctc", "OMNILINGUAL", "model.int8.onnx tokens.txt"),
+    ("zipformer_transducer", "ZIPFORMER", "encoder.int8.onnx decoder.int8.onnx joiner.int8.onnx tokens.txt punct-bpe.vocab punct-model.int8.onnx"),
     ("qwen3_asr", "QWEN3_ASR", "conv_frontend.onnx encoder.int8.onnx decoder.int8.onnx tokenizer/merges.txt tokenizer/tokenizer_config.json tokenizer/vocab.json"),
 ])
 def test_runtime_layout_requires_android_consumer_files(runtime, family, names) -> None:
     model = _speech_model(
         family=family,
         sherpaConfig={"type": runtime},
-        files=[{"name": name, "sizeBytes": 1, "downloadUrl": "https://example.com/model"}
+        transcriptionMode="CACHE_AWARE_ONLINE" if runtime == "zipformer_transducer" else "SEGMENTED",
+        files=[{"name": name, "sizeBytes": 1, "downloadUrl": "https://example.com/model",
+                "sha256": PUNCTUATION_FILE_SHA256.get(name)}
                for name in names.split()],
     )
     assert validate_model_configuration({"models": [model]}, {}, _diarization_data()) == []
@@ -591,3 +595,32 @@ def test_guardrail_accepts_examples_recorded_with_the_current_revision() -> None
 def test_guardrail_rejects_examples_that_would_not_reproduce(overrides, message) -> None:
     issues = validate_identities_and_integrity({}, _cleanup_with_examples(**overrides), {})
     assert any(message in issue.message for issue in issues)
+
+
+def test_zipformer_is_streaming_only() -> None:
+    model = _speech_model(family="ZIPFORMER", sherpaConfig={"type": "zipformer_transducer"})
+    issues = validate_model_configuration({"models": [model]}, {}, _diarization_data())
+    assert any("must use transcriptionMode CACHE_AWARE_ONLINE" in issue.message for issue in issues)
+
+
+def test_punctuation_files_are_pinned_by_digest_not_by_host() -> None:
+    revision = "a" * 40
+    model = _speech_model(
+        family="ZIPFORMER",
+        sherpaConfig={"type": "zipformer_transducer"},
+        transcriptionMode="CACHE_AWARE_ONLINE",
+        provenance={"exportRepository": "org/zipformer", "exportRevision": revision},
+        files=[
+            {"name": name, "sizeBytes": 1,
+             "downloadUrl": f"https://huggingface.co/org/zipformer/resolve/{revision}/{name}"}
+            for name in ("encoder.int8.onnx", "decoder.int8.onnx", "joiner.int8.onnx", "tokens.txt")
+        ] + [
+            {"name": name, "sizeBytes": 1, "sha256": digest,
+             "downloadUrl": f"https://huggingface.co/someone/punct/resolve/{'b' * 40}/{name}"}
+            for name, digest in PUNCTUATION_FILE_SHA256.items()
+        ],
+    )
+    assert validate_model_configuration({"models": [model]}, {}, _diarization_data()) == []
+    model["files"][-1]["sha256"] = "0" * 64
+    issues = validate_model_configuration({"models": [model]}, {}, _diarization_data())
+    assert any("not k2-fsa's English punctuation model" in issue.message for issue in issues)

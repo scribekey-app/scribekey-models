@@ -1,0 +1,98 @@
+{
+ "fl_en_us/clean": {
+  "n": 100,
+  "audio_s": 994.1,
+  "wer_pct": {
+   "nemotron": 12.46,
+   "zip0626": 72.39,
+   "zip0621": 62.23
+  },
+  "rtfx": {
+   "nemotron": 2.5,
+   "zip0626": 8.1,
+   "zip0621": 6.0
+  },
+  "paired_per_clip": {
+   "zip0626_vs_nemotron": {
+    "better": 1,
+    "worse": 93
+   },
+   "zip0621_vs_nemotron": {
+    "better": 8,
+    "worse": 75
+   }
+  }
+ },
+ "fl_en_us/babble5dB": {
+  "n": 100,
+  "audio_s": 994.1,
+  "wer_pct": {
+   "nemotron": 34.36,
+   "zip0626": 83.7,
+   "zip0621": 58.39
+  },
+  "rtfx": {
+   "nemotron": 2.3,
+   "zip0626": 8.6,
+   "zip0621": 6.9
+  },
+  "paired_per_clip": {
+   "zip0626_vs_nemotron": {
+    "better": 13,
+    "worse": 82
+   },
+   "zip0621_vs_nemotron": {
+    "better": 19,
+    "worse": 76
+   }
+  }
+ },
+ "libri_other/clean": {
+  "n": 150,
+  "audio_s": 1018.0,
+  "wer_pct": {
+   "nemotron": 5.71,
+   "zip0626": 8.13,
+   "zip0621": 6.14
+  },
+  "rtfx": {
+   "nemotron": 2.4,
+   "zip0626": 8.4,
+   "zip0621": 7.3
+  },
+  "paired_per_clip": {
+   "zip0626_vs_nemotron": {
+    "better": 26,
+    "worse": 48
+   },
+   "zip0621_vs_nemotron": {
+    "better": 29,
+    "worse": 31
+   }
+  }
+ },
+ "libri_other/babble5dB": {
+  "n": 150,
+  "audio_s": 1018.0,
+  "wer_pct": {
+   "nemotron": 27.92,
+   "zip0626": 32.65,
+   "zip0621": 31.85
+  },
+  "rtfx": {
+   "nemotron": 2.3,
+   "zip0626": 9.8,
+   "zip0621": 5.8
+  },
+  "paired_per_clip": {
+   "zip0626_vs_nemotron": {
+    "better": 52,
+    "worse": 71
+   },
+   "zip0621_vs_nemotron": {
+    "better": 50,
+    "worse": 66
+   }
+  }
+ }
+}
