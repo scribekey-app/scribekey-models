@@ -1,0 +1,18 @@
+schema_version: 1
+releaseId: 2026.10.1
+createdAt: '2026-10-09T07:20:06Z'
+description: Zipformer English Live, a small live model for 4 GB phones (experimental).
+catalogs:
+  speech:
+    filename: model_catalog.json
+    sha256: a386d28b8d31bc5f18c3d134ff515952e1d4255d3c7a44fdf42baa52d2630458
+    sizeBytes: 47821
+  diarization:
+    filename: speaker_diarization_manifest.json
+    sha256: 7f6d32bb6a20b9ad26a03130645b7dbfaecc97d785dca6538a92f05b5f8cde45
+    sizeBytes: 1521
+  cleanup:
+    filename: cleanup_model_catalog.json
+    sha256: 2e23730d2d97a5ee23d405ebe3acae3891cf9a34d31cffb8f2d2caa88cb5133b
+    sizeBytes: 7549
+gitCommit: c6738cea859a0ec24aaa1d166806350194252799
