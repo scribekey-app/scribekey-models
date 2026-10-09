@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "releaseId": "2026.10.5",
+  "createdAt": "2026-10-09T22:34:05Z",
+  "description": "Smart Cleanup offers the list-aware Sotto tune alone; Mumble is retired.",
+  "catalogs": {
+    "speech": {
+      "filename": "model_catalog.json",
+      "sha256": "6b93dcb5559dbfd792b235db3cc66e5ddd88f454fe85961f63be8de7cc3c7802",
+      "sizeBytes": 53927
+    },
+    "diarization": {
+      "filename": "speaker_diarization_manifest.json",
+      "sha256": "229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a",
+      "sizeBytes": 1438
+    },
+    "cleanup": {
+      "filename": "cleanup_model_catalog.json",
+      "sha256": "dd5691ffd50d254e7e8e4ccb6572e8dfb438999e9d84ac71b161bf73e3035306",
+      "sizeBytes": 12074
+    },
+    "cloudTiers": {
+      "filename": "cloud_model_tiers.json",
+      "sha256": "24b9241acdfdba085aeb3d57d67d6e54c6e47aa65bc38a0f5850dae559e409d0",
+      "sizeBytes": 11668
+    }
+  },
+  "gitCommit": "b37298ecda6e087ffeb81b9c6188951adb3b4042"
+}
