@@ -86,7 +86,8 @@
       "properties": {
         "speech": { "$ref": "#/$defs/distributionCatalogRef" },
         "diarization": { "$ref": "#/$defs/distributionCatalogRef" },
-        "cleanup": { "$ref": "#/$defs/distributionCatalogRef" }
+        "cleanup": { "$ref": "#/$defs/distributionCatalogRef" },
+        "cloudTiers": { "$ref": "#/$defs/distributionCatalogRef" }
       }
     },
     "recoveryAssets": {

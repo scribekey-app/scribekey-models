@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scribekey.app/schemas/cloud_tiers.schema.json",
+  "title": "ScribeKey cloud model tiers",
+  "description": "Recommended cloud models per task and provider, produced by the evals in scribekey-app/scribekey-model-research (tiers/cloud-tiers.json). The app only reads model ids from it; nothing here is downloaded or executed.",
+  "type": "object",
+  "required": ["schemaVersion", "version", "generatedAt", "tasks"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "version": { "type": "string", "pattern": "^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}$" },
+    "generatedAt": { "type": "string", "format": "date" },
+    "source": { "type": "string", "maxLength": 200 },
+    "evidence": { "type": "object" },
+    "tasks": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enhance": { "$ref": "#/$defs/task" },
+        "cleanup": { "$ref": "#/$defs/task" },
+        "transcription": { "$ref": "#/$defs/task" }
+      }
+    }
+  },
+  "$defs": {
+    "task": {
+      "type": "object",
+      "required": ["providers"],
+      "additionalProperties": false,
+      "properties": {
+        "providers": {
+          "type": "object",
+          "propertyNames": { "enum": ["openai", "openrouter", "groq", "cerebras", "gemini", "mistral"] },
+          "additionalProperties": { "$ref": "#/$defs/provider" }
+        }
+      }
+    },
+    "provider": {
+      "type": "object",
+      "required": ["recommended", "tiers"],
+      "additionalProperties": false,
+      "properties": {
+        "recommended": { "enum": ["best", "balanced", "fast", "budget"] },
+        "tiers": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": { "enum": ["best", "balanced", "fast", "budget"] },
+          "additionalProperties": { "$ref": "#/$defs/tier" }
+        }
+      }
+    },
+    "tier": {
+      "type": "object",
+      "required": ["model", "score"],
+      "additionalProperties": false,
+      "properties": {
+        "model": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$" },
+        "score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "wer": { "type": "number", "minimum": 0 },
+        "p50Seconds": { "type": ["number", "null"], "minimum": 0 },
+        "usdPer1k": { "type": ["number", "null"], "minimum": 0 },
+        "evaluated": { "type": "string", "format": "date" }
+      }
+    }
+  }
+}
