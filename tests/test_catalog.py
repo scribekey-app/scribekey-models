@@ -184,6 +184,7 @@ def test_cleanup_examples_are_projected_with_their_recording() -> None:
 
     assert [example["input"] for example in examples] == [
         "so we need to we need to finish the report by friday",
+        "um we need milk eggs bread and uh coffee",
         "send the draft to alex i mean jordan before lunch",
         "the the client wants the the new logo by monday",
         "um i think we should ship it today",
