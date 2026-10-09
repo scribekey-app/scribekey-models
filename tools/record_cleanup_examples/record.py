@@ -35,6 +35,9 @@ def prompt_for(template: str, system_prompt: str, text: str) -> str:
     if template == "QwenChatMl":
         system = f"<|im_start|>system\n{system_prompt.strip()}<|im_end|>\n" if system_prompt.strip() else ""
         return f"{system}<|im_start|>user\n{text}<|im_end|>\n<|im_start|>assistant\n"
+    if template == "SottoInputOutput":
+        # The app writes the BOS itself: the native tokenizer adds no special tokens.
+        return f"<|startoftext|>### Input:\n{text}\n\n### Output:\n"
     raise SystemExit(f"Prompt template {template} is not supported by the recorder yet")
 
 
@@ -43,14 +46,20 @@ def token_cap(profile: dict, text: str) -> int:
     return min(int(profile["maxOutputTokens"]), 256, max(64, len(text.split()) * 2 + 32))
 
 
-def run(recorder: str, model: str, prompt: str, context: int, cap: int) -> str:
+def clean_output(template: str, raw: str) -> str:
+    # Mirrors SmartCleanupRuntime.cleanOutput.
+    if template == "SottoInputOutput":
+        return raw.split("###")[0].strip()
+    return raw.split("<|im_end|>")[0].split("<|endoftext|>")[0].strip()
+
+
+def run(recorder: str, model: str, template: str, prompt: str, context: int, cap: int) -> str:
     with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False) as handle:
         handle.write(prompt)
     raw = subprocess.run(
-        [recorder, model, handle.name, str(context), str(cap)], check=True, capture_output=True, text=True
-    ).stdout
-    # Mirrors SmartCleanupRuntime.cleanOutput for ChatML templates.
-    return raw.split("<|im_end|>")[0].split("<|endoftext|>")[0].strip()
+        [recorder, model, handle.name, str(context), str(cap)], check=True, capture_output=True
+    ).stdout.decode("utf-8")  # stderr is llama.cpp's log, which can hold partial UTF-8 vocab pieces
+    return clean_output(template, raw)
 
 
 def main() -> None:
@@ -74,8 +83,9 @@ def main() -> None:
     for text in args.inputs:
         prompt = prompt_for(profile["promptTemplate"], profile["systemPrompt"], text)
         cap = token_cap(profile, text)
-        first = run(args.recorder, args.model, prompt, int(profile["contextTokens"]), cap)
-        second = run(args.recorder, args.model, prompt, int(profile["contextTokens"]), cap)
+        template = profile["promptTemplate"]
+        first = run(args.recorder, args.model, template, prompt, int(profile["contextTokens"]), cap)
+        second = run(args.recorder, args.model, template, prompt, int(profile["contextTokens"]), cap)
         if first != second:
             raise SystemExit(f"Output for {text!r} differs between runs")
         examples.append(
