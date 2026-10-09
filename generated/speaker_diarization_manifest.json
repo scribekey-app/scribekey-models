@@ -1,9 +1,9 @@
 {
-  "packageId": "pyannote3-eres2net-base",
+  "packageId": "pyannote3-titanet-small",
   "runtime": {
     "name": "sherpa-onnx",
-    "version": "1.13.6",
-    "revision": "1cb484af5e69d3c7803c1eb0b3b5ab8041e0e911"
+    "version": "1.13.8",
+    "revision": "11afbd009a7f8c08f4bcf2fc1b265d0df4670fbf"
   },
   "models": [
     {
@@ -19,14 +19,14 @@
     },
     {
       "role": "EMBEDDING",
-      "fileName": "3dspeaker-eres2net-base-16k.onnx",
-      "downloadUrl": "https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx",
-      "sizeBytes": 39593761,
-      "sha256": "1a331345f04805badbb495c775a6ddffcdd1a732567d5ec8b3d5749e3c7a5e4b",
-      "sourceRepository": "iic/speech_eres2net_base_sv_zh-cn_3dspeaker_16k",
-      "sourceRevision": "v1.0.1",
+      "fileName": "nemo-titanet-small.onnx",
+      "downloadUrl": "https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/nemo_en_titanet_small.onnx",
+      "sizeBytes": 40257283,
+      "sha256": "ad4a1802485d8b34c722d2a9d04249662f2ece5d28a7a039063ca22f515a789e",
+      "sourceRepository": "nvidia/nemo/titanet_small",
+      "sourceRevision": "1.19.0",
       "licenseId": "Apache-2.0",
-      "licenseUrl": "https://github.com/modelscope/3D-Speaker/blob/065629c313eaf1a01c65c640c46d77e61e9607b4/LICENSE"
+      "licenseUrl": "https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/titanet_small"
     }
   ]
 }
