@@ -1,10 +1,11 @@
 schema_version: 1
 channels:
   qa:
-    targetRelease: 2026.10.1
-    sequence: 6
-    issuedAt: '2026-10-09T09:30:13Z'
-    notes: 'Adds zipformer-en-live (experimental) for 4 GB phones, #921.'
+    targetRelease: 2026.10.2
+    sequence: 7
+    issuedAt: '2026-10-09T17:29:56Z'
+    notes: Sotto 350M replaces Quill for Smart Cleanup. Builds without the Sotto start-token
+      fix fall back to Standard cleanup until they update.
     compatibility:
       minAndroidApiLevel: 28
       minAppVersionCode: 10
