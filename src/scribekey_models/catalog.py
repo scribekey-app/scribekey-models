@@ -68,6 +68,28 @@ def load_cleanup_catalog_data() -> dict[str, Any]:
     return _load_yaml(CATALOG_DIR / "cleanup.yaml")
 
 
+CLOUD_TIERS_FILE = CATALOG_DIR / "cloud_tiers.json"
+
+
+def load_cloud_tiers_data() -> dict[str, Any] | None:
+    """Optional: copied from scribekey-model-research tiers/cloud-tiers.json by its routine."""
+    return _load_json(CLOUD_TIERS_FILE) if CLOUD_TIERS_FILE.exists() else None
+
+
+def generate_cloud_tiers() -> dict[str, Any] | None:
+    return load_cloud_tiers_data()
+
+
+def validate_cloud_tiers(data: dict[str, Any]) -> list[str]:
+    """What the schema cannot say: each provider's recommended tier must exist."""
+    problems = []
+    for task, block in data.get("tasks", {}).items():
+        for provider, entry in block.get("providers", {}).items():
+            if entry["recommended"] not in entry["tiers"]:
+                problems.append(f"{task}.{provider}: recommended tier '{entry['recommended']}' is missing")
+    return problems
+
+
 def load_channels_data() -> dict[str, Any]:
     return _load_yaml(CHANNELS_FILE)
 
@@ -279,6 +301,9 @@ def generate_all_artifacts() -> list[GenerationArtifact]:
     artifacts.append(GenerationArtifact("model_catalog.json", speech_json))
     artifacts.append(GenerationArtifact("speaker_diarization_manifest.json", diarization_json))
     artifacts.append(GenerationArtifact("cleanup_model_catalog.json", cleanup_json))
+    cloud_tiers = generate_cloud_tiers()
+    if cloud_tiers is not None:
+        artifacts.append(GenerationArtifact("cloud_model_tiers.json", _render_json(cloud_tiers)))
 
     # Release manifests are derived metadata. The catalogue files below each release are
     # deliberately NOT generated here: `release create` freezes them once and validation checks
@@ -337,6 +362,8 @@ def validate() -> list[ValidationIssue]:
     ]
     if CHANNELS_FILE.exists():
         canonical_sources.append((CHANNELS_FILE, SCHEMA_DIR / "channels.schema.json"))
+    if CLOUD_TIERS_FILE.exists():
+        canonical_sources.append((CLOUD_TIERS_FILE, SCHEMA_DIR / "cloud_tiers.schema.json"))
 
     if RELEASES_DIR.exists():
         for rel_file in RELEASES_DIR.glob("*.yaml"):
@@ -355,6 +382,11 @@ def validate() -> list[ValidationIssue]:
     # Semantic checks and generation require schema-valid inputs.
     if issues:
         return issues
+
+    cloud_tiers = load_cloud_tiers_data()
+    if cloud_tiers is not None:
+        for problem in validate_cloud_tiers(cloud_tiers):
+            issues.append(ValidationIssue(str(CLOUD_TIERS_FILE.relative_to(ROOT)), problem))
 
     # 2. Guardrails: source refs, identities, safety, pointers, redistribution
     speech_data = load_speech_catalog_data()

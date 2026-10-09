@@ -36,6 +36,7 @@ DEFAULT_COMPATIBILITY: dict[str, Any] = {
         "speech-model-catalog",
         "cleanup-model-catalog",
         "speaker-diarization-manifest",
+        "cloud-model-tiers",
     ],
 }
 
@@ -76,6 +77,7 @@ def create_release_manifest(
     speech_content: str,
     diarization_content: str,
     cleanup_content: str,
+    cloud_tiers_content: str | None = None,
     git_commit: str | None = None,
     recovery_cleared_models: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
@@ -100,6 +102,8 @@ def create_release_manifest(
             "cleanup": _file_info("cleanup_model_catalog.json", cleanup_content),
         },
     }
+    if cloud_tiers_content is not None:
+        manifest["catalogs"]["cloudTiers"] = _file_info("cloud_model_tiers.json", cloud_tiers_content)
 
     if git_commit:
         manifest["gitCommit"] = git_commit
@@ -133,7 +137,7 @@ def build_channel_distribution_manifest(
     comp.setdefault("supportedRuntimeFamilies", ["sherpa-onnx", "gguf", "pyannote"])
     comp.setdefault(
         "supportedConfigFamilies",
-        ["speech-model-catalog", "cleanup-model-catalog", "speaker-diarization-manifest"],
+        list(DEFAULT_COMPATIBILITY["supportedConfigFamilies"]),
     )
 
     manifest: dict[str, Any] = {
@@ -164,6 +168,15 @@ def build_channel_distribution_manifest(
             },
         },
     }
+
+    if "cloudTiers" in catalogs:
+        # Optional: an app that predates cloud tiers ignores the key and keeps its built-in list.
+        manifest["catalogs"]["cloudTiers"] = {
+            "filename": catalogs["cloudTiers"]["filename"],
+            "path": f"../releases/{rel_id}/{catalogs['cloudTiers']['filename']}",
+            "sha256": catalogs["cloudTiers"]["sha256"],
+            "sizeBytes": catalogs["cloudTiers"]["sizeBytes"],
+        }
 
     if notes or release_data.get("description"):
         manifest["notes"] = notes or release_data.get("description")

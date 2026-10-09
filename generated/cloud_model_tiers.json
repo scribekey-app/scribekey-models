@@ -1,0 +1,404 @@
+{
+  "schemaVersion": 1,
+  "version": "2026.10.09",
+  "generatedAt": "2026-10-09",
+  "source": "scribekey-app/scribekey-model-research configs/cloud + tiers/results",
+  "evidence": {
+    "cleanup": {
+      "identity": "b22f50e779ff91da",
+      "cases": 240,
+      "updated": "2026-10-09"
+    },
+    "enhance": {
+      "identity": "dec82f5e3554861e",
+      "cases": 39,
+      "updated": "2026-10-09"
+    },
+    "transcription": {
+      "identity": "7e9d79ae0663426b",
+      "cases": 156,
+      "updated": "2026-10-09"
+    }
+  },
+  "tasks": {
+    "cleanup": {
+      "providers": {
+        "cerebras": {
+          "recommended": "balanced",
+          "tiers": {
+            "best": {
+              "model": "gemma-4-31b",
+              "score": 0.9087,
+              "p50Seconds": 0.618,
+              "usdPer1k": 0.079,
+              "evaluated": "2026-10-09"
+            },
+            "balanced": {
+              "model": "gemma-4-31b",
+              "score": 0.9087,
+              "p50Seconds": 0.618,
+              "usdPer1k": 0.079,
+              "evaluated": "2026-10-09"
+            },
+            "fast": {
+              "model": "gemma-4-31b",
+              "score": 0.9087,
+              "p50Seconds": 0.618,
+              "usdPer1k": 0.079,
+              "evaluated": "2026-10-09"
+            },
+            "budget": {
+              "model": "gemma-4-31b",
+              "score": 0.9087,
+              "p50Seconds": 0.618,
+              "usdPer1k": 0.079,
+              "evaluated": "2026-10-09"
+            }
+          }
+        },
+        "gemini": {
+          "recommended": "balanced",
+          "tiers": {
+            "best": {
+              "model": "gemini-3.8-flash",
+              "score": 0.9251,
+              "p50Seconds": 2.284,
+              "usdPer1k": 0.8378,
+              "evaluated": "2026-10-09"
+            },
+            "balanced": {
+              "model": "gemini-3.1-flash-lite",
+              "score": 0.9008,
+              "p50Seconds": 0.802,
+              "usdPer1k": 0.2006,
+              "evaluated": "2026-10-09"
+            },
+            "fast": {
+              "model": "gemini-3.5-flash-lite",
+              "score": 0.8833,
+              "p50Seconds": 0.739,
+              "usdPer1k": 0.256,
+              "evaluated": "2026-10-09"
+            },
+            "budget": {
+              "model": "gemini-3.1-flash-lite",
+              "score": 0.9008,
+              "p50Seconds": 0.802,
+              "usdPer1k": 0.2006,
+              "evaluated": "2026-10-09"
+            }
+          }
+        },
+        "groq": {
+          "recommended": "balanced",
+          "tiers": {
+            "best": {
+              "model": "llama-3.3-70b-versatile",
+              "score": 0.8664,
+              "p50Seconds": 0.385,
+              "usdPer1k": 0.4058,
+              "evaluated": "2026-10-09"
+            },
+            "balanced": {
+              "model": "openai/gpt-oss-120b",
+              "score": 0.8433,
+              "p50Seconds": 0.356,
+              "usdPer1k": 0.1026,
+              "evaluated": "2026-10-09"
+            },
+            "fast": {
+              "model": "openai/gpt-oss-120b",
+              "score": 0.8433,
+              "p50Seconds": 0.356,
+              "usdPer1k": 0.1026,
+              "evaluated": "2026-10-09"
+            },
+            "budget": {
+              "model": "openai/gpt-oss-20b",
+              "score": 0.8168,
+              "p50Seconds": 0.414,
+              "usdPer1k": 0.0524,
+              "evaluated": "2026-10-09"
+            }
+          }
+        },
+        "openai": {
+          "recommended": "balanced",
+          "tiers": {
+            "best": {
+              "model": "gpt-5-mini",
+              "score": 0.9024,
+              "p50Seconds": 0.718,
+              "usdPer1k": 0.221,
+              "evaluated": "2026-10-09"
+            },
+            "balanced": {
+              "model": "gpt-6-luna",
+              "score": 0.8796,
+              "p50Seconds": 0.976,
+              "usdPer1k": 0.076,
+              "evaluated": "2026-10-09"
+            },
+            "fast": {
+              "model": "gpt-4.1-nano",
+              "score": 0.8642,
+              "p50Seconds": 0.524,
+              "usdPer1k": 0.0723,
+              "evaluated": "2026-10-09"
+            },
+            "budget": {
+              "model": "gpt-5-nano",
+              "score": 0.8456,
+              "p50Seconds": 0.743,
+              "usdPer1k": 0.0442,
+              "evaluated": "2026-10-09"
+            }
+          }
+        },
+        "openrouter": {
+          "recommended": "balanced",
+          "tiers": {
+            "best": {
+              "model": "google/gemini-3.8-flash",
+              "score": 0.9251,
+              "p50Seconds": 2.284,
+              "usdPer1k": 0.8378,
+              "evaluated": "2026-10-09"
+            },
+            "balanced": {
+              "model": "google/gemma-4-31b-it",
+              "score": 0.9087,
+              "p50Seconds": 0.618,
+              "usdPer1k": 0.079,
+              "evaluated": "2026-10-09"
+            },
+            "fast": {
+              "model": "openai/gpt-5.4-mini",
+              "score": 0.8873,
+              "p50Seconds": 0.614,
+              "usdPer1k": 0.5864,
+              "evaluated": "2026-10-09"
+            },
+            "budget": {
+              "model": "xiaomi/mimo-v2.6-flash",
+              "score": 0.9133,
+              "p50Seconds": 3.627,
+              "usdPer1k": 0.0431,
+              "evaluated": "2026-10-09"
+            }
+          }
+        }
+      }
+    },
+    "enhance": {
+      "providers": {
+        "cerebras": {
+          "recommended": "balanced",
+          "tiers": {
+            "best": {
+              "model": "gemma-4-31b",
+              "score": 0.9915,
+              "p50Seconds": 0.873,
+              "usdPer1k": 0.0908,
+              "evaluated": "2026-10-09"
+            },
+            "balanced": {
+              "model": "gemma-4-31b",
+              "score": 0.9915,
+              "p50Seconds": 0.873,
+              "usdPer1k": 0.0908,
+              "evaluated": "2026-10-09"
+            },
+            "fast": {
+              "model": "gemma-4-31b",
+              "score": 0.9915,
+              "p50Seconds": 0.873,
+              "usdPer1k": 0.0908,
+              "evaluated": "2026-10-09"
+            },
+            "budget": {
+              "model": "gemma-4-31b",
+              "score": 0.9915,
+              "p50Seconds": 0.873,
+              "usdPer1k": 0.0908,
+              "evaluated": "2026-10-09"
+            }
+          }
+        },
+        "gemini": {
+          "recommended": "balanced",
+          "tiers": {
+            "best": {
+              "model": "gemini-3.8-flash",
+              "score": 1.0,
+              "p50Seconds": 2.961,
+              "usdPer1k": 1.5617,
+              "evaluated": "2026-10-09"
+            },
+            "balanced": {
+              "model": "gemini-3.5-flash-lite",
+              "score": 0.9402,
+              "p50Seconds": 0.831,
+              "usdPer1k": 0.339,
+              "evaluated": "2026-10-09"
+            },
+            "fast": {
+              "model": "gemini-3.7-flash",
+              "score": 1.0,
+              "p50Seconds": 2.561,
+              "usdPer1k": 1.5662,
+              "evaluated": "2026-10-09"
+            },
+            "budget": {
+              "model": "gemini-3.1-flash-lite",
+              "score": 0.9402,
+              "p50Seconds": 0.865,
+              "usdPer1k": 0.2593,
+              "evaluated": "2026-10-09"
+            }
+          }
+        },
+        "groq": {
+          "recommended": "balanced",
+          "tiers": {
+            "best": {
+              "model": "openai/gpt-oss-120b",
+              "score": 0.8974,
+              "p50Seconds": 0.641,
+              "usdPer1k": 0.1744,
+              "evaluated": "2026-10-09"
+            },
+            "balanced": {
+              "model": "openai/gpt-oss-120b",
+              "score": 0.8974,
+              "p50Seconds": 0.641,
+              "usdPer1k": 0.1744,
+              "evaluated": "2026-10-09"
+            },
+            "fast": {
+              "model": "llama-3.3-70b-versatile",
+              "score": 0.8632,
+              "p50Seconds": 0.507,
+              "usdPer1k": 0.5132,
+              "evaluated": "2026-10-09"
+            },
+            "budget": {
+              "model": "openai/gpt-oss-120b",
+              "score": 0.8974,
+              "p50Seconds": 0.641,
+              "usdPer1k": 0.1744,
+              "evaluated": "2026-10-09"
+            }
+          }
+        },
+        "openai": {
+          "recommended": "balanced",
+          "tiers": {
+            "best": {
+              "model": "gpt-5.6-luna",
+              "score": 0.9915,
+              "p50Seconds": 1.11,
+              "usdPer1k": 0.2043,
+              "evaluated": "2026-10-09"
+            },
+            "balanced": {
+              "model": "gpt-5.6-luna",
+              "score": 0.9915,
+              "p50Seconds": 1.11,
+              "usdPer1k": 0.2043,
+              "evaluated": "2026-10-09"
+            },
+            "fast": {
+              "model": "gpt-5.4-mini",
+              "score": 0.9744,
+              "p50Seconds": 0.752,
+              "usdPer1k": 0.7626,
+              "evaluated": "2026-10-09"
+            },
+            "budget": {
+              "model": "gpt-6-luna",
+              "score": 0.9744,
+              "p50Seconds": 1.099,
+              "usdPer1k": 0.098,
+              "evaluated": "2026-10-09"
+            }
+          }
+        },
+        "openrouter": {
+          "recommended": "balanced",
+          "tiers": {
+            "best": {
+              "model": "google/gemini-3.8-flash",
+              "score": 1.0,
+              "p50Seconds": 2.961,
+              "usdPer1k": 1.5617,
+              "evaluated": "2026-10-09"
+            },
+            "balanced": {
+              "model": "google/gemma-4-31b-it",
+              "score": 0.9915,
+              "p50Seconds": 0.873,
+              "usdPer1k": 0.0908,
+              "evaluated": "2026-10-09"
+            },
+            "fast": {
+              "model": "openai/gpt-5.4-mini",
+              "score": 0.9744,
+              "p50Seconds": 0.752,
+              "usdPer1k": 0.7626,
+              "evaluated": "2026-10-09"
+            },
+            "budget": {
+              "model": "google/gemma-4-26b-a4b-it",
+              "score": 0.9231,
+              "p50Seconds": 1.356,
+              "usdPer1k": 0.0661,
+              "evaluated": "2026-10-09"
+            }
+          }
+        }
+      }
+    },
+    "transcription": {
+      "providers": {
+        "openai": {
+          "recommended": "balanced",
+          "tiers": {
+            "best": {
+              "model": "gpt-transcribe",
+              "score": 0.838,
+              "p50Seconds": 0.672,
+              "usdPer1k": 0.4401,
+              "evaluated": "2026-10-09",
+              "wer": 0.162
+            },
+            "balanced": {
+              "model": "gpt-transcribe",
+              "score": 0.838,
+              "p50Seconds": 0.672,
+              "usdPer1k": 0.4401,
+              "evaluated": "2026-10-09",
+              "wer": 0.162
+            },
+            "fast": {
+              "model": "gpt-transcribe",
+              "score": 0.838,
+              "p50Seconds": 0.672,
+              "usdPer1k": 0.4401,
+              "evaluated": "2026-10-09",
+              "wer": 0.162
+            },
+            "budget": {
+              "model": "gpt-4o-mini-transcribe",
+              "score": 0.778,
+              "p50Seconds": 0.691,
+              "usdPer1k": 0.2934,
+              "evaluated": "2026-10-09",
+              "wer": 0.222
+            }
+          }
+        }
+      }
+    }
+  }
+}
