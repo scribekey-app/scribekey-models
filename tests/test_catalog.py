@@ -174,6 +174,7 @@ def test_experimental_flag_is_projected_for_every_model() -> None:
         "nemotron-3.5-0.6b-560ms",
         "omnilingual-asr-300m",
         "qwen3-asr-0.6b",
+        "zipformer-en-live",
     }
     assert all(isinstance(model["experimental"], bool) for model in models.values())
 

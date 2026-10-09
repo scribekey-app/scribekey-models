@@ -1082,6 +1082,87 @@
         "licenseId": "OpenMDW-1.1",
         "licenseUrl": "https://openmdw.ai/license/1-1/"
       }
+    },
+    {
+      "id": "zipformer-en-live",
+      "outcome": "LIVE_ENGLISH",
+      "family": "ZIPFORMER",
+      "displayName": "Zipformer English Live",
+      "badge": "Experimental",
+      "diskMb": 188,
+      "minRamMb": 3072,
+      "minApiLevel": 28,
+      "transcriptionMode": "CACHE_AWARE_ONLINE",
+      "supportsTimestamps": false,
+      "supportsPunctuation": false,
+      "supportsLanguageDetection": false,
+      "description": "Shows English words while you speak on phones with 4 GB of memory. Punctuation is added when you stop.",
+      "bestFor": "Live English on 4 GB phones",
+      "experimental": true,
+      "languageCodes": [
+        "en"
+      ],
+      "files": [
+        {
+          "name": "encoder.int8.onnx",
+          "downloadUrl": "https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/9a65b6ea94c311ca770c2bf895b30f456a22d703/encoder-epoch-99-avg-1.int8.onnx",
+          "sizeBytes": 187823992,
+          "sha256": "32c98281c7bd8b63e3e142d007251b37f120572e8fdea9a4f5a79ce22b10ec4f"
+        },
+        {
+          "name": "decoder.int8.onnx",
+          "downloadUrl": "https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/9a65b6ea94c311ca770c2bf895b30f456a22d703/decoder-epoch-99-avg-1.int8.onnx",
+          "sizeBytes": 539246,
+          "sha256": "093e23c90869898f761f60aa3363f96d43b9c6e5c06a57860c3a5b3407ab8320"
+        },
+        {
+          "name": "joiner.int8.onnx",
+          "downloadUrl": "https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/9a65b6ea94c311ca770c2bf895b30f456a22d703/joiner-epoch-99-avg-1.int8.onnx",
+          "sizeBytes": 259335,
+          "sha256": "831477d390e59a61f1b6a6f763b9903e6c6366ff6034f1ddba613be82637122f"
+        },
+        {
+          "name": "tokens.txt",
+          "downloadUrl": "https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/9a65b6ea94c311ca770c2bf895b30f456a22d703/tokens.txt",
+          "sizeBytes": 5048,
+          "sha256": "49e3c2646595fd907228b3c6787069658f67b17377c60aeb8619c4551b2316fb"
+        },
+        {
+          "name": "punct-model.int8.onnx",
+          "downloadUrl": "https://huggingface.co/brady-pplx/sherpa-onnx-online-punct-en-2024-08-06/resolve/29a49a07620ef067e6fa40580da620c11db07b83/model.int8.onnx",
+          "sizeBytes": 7490500,
+          "sha256": "9d611f445fe4a46186080fe161be6059d87d72eb88d3a8cb00c1a06e83a6067e",
+          "downloadUrls": [
+            "https://huggingface.co/lorneluo/sherpa-onnx-online-punct-en-2024-08-06/resolve/aad05f2d2818122135b0667806628019cb923e84/model.int8.onnx"
+          ]
+        },
+        {
+          "name": "punct-bpe.vocab",
+          "downloadUrl": "https://huggingface.co/brady-pplx/sherpa-onnx-online-punct-en-2024-08-06/resolve/29a49a07620ef067e6fa40580da620c11db07b83/bpe.vocab",
+          "sizeBytes": 149430,
+          "sha256": "e118b7ad88c54db562517df49e1cffd4836d166c34fb190fd311d7f34eb238f5",
+          "downloadUrls": [
+            "https://huggingface.co/lorneluo/sherpa-onnx-online-punct-en-2024-08-06/resolve/aad05f2d2818122135b0667806628019cb923e84/bpe.vocab"
+          ]
+        }
+      ],
+      "sherpaConfig": {
+        "type": "zipformer_transducer",
+        "modelDir": ""
+      },
+      "info": {
+        "paramsBadge": "70M",
+        "architecture": "Streaming Zipformer transducer · INT8",
+        "languages": "English"
+      },
+      "provenance": {
+        "sourceModel": "k2-fsa/icefall streaming Zipformer (GigaSpeech and LibriSpeech)",
+        "exportRepository": "csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21",
+        "exportRevision": "9a65b6ea94c311ca770c2bf895b30f456a22d703",
+        "exportVariant": "INT8",
+        "licenseId": "Apache-2.0",
+        "licenseUrl": "https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21"
+      }
     }
   ]
 }

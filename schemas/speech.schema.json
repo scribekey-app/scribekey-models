@@ -42,7 +42,8 @@
               "CANARY",
               "DISTIL_WHISPER",
               "QWEN3_ASR",
-              "OMNILINGUAL"
+              "OMNILINGUAL",
+              "ZIPFORMER"
             ]
           },
           "displayName": {

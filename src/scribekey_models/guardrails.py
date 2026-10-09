@@ -100,6 +100,16 @@ REQUIRED_RUNTIME_FILES: dict[str, tuple[str, ...]] = {
         "model.int8.onnx",
         "tokens.txt",
     ),
+    # The app punctuates this model's text with sherpa-onnx's English punctuation model, so its
+    # two files are part of the install (SherpaPunctuation.kt in the app).
+    "zipformer_transducer": (
+        "encoder.int8.onnx",
+        "decoder.int8.onnx",
+        "joiner.int8.onnx",
+        "tokens.txt",
+        "punct-model.int8.onnx",
+        "punct-bpe.vocab",
+    ),
     "qwen3_asr": (
         "conv_frontend.onnx",
         "encoder.int8.onnx",
@@ -118,7 +128,18 @@ RUNTIME_TO_FAMILY: dict[str, str] = {
     "canary": "CANARY",
     "omnilingual_ctc": "OMNILINGUAL",
     "qwen3_asr": "QWEN3_ASR",
+    "zipformer_transducer": "ZIPFORMER",
 }
+# sherpa-onnx's English punctuation model, as published in k2-fsa's `punctuation-models` release
+# (sherpa-onnx-online-punct-en-2024-08-06, Apache-2.0). Upstream ships it only as an archive, so a
+# model may fetch these files from any host: the digest, not the URL, says they are those bytes.
+PUNCTUATION_FILE_SHA256: dict[str, str] = {
+    "punct-model.int8.onnx": "9d611f445fe4a46186080fe161be6059d87d72eb88d3a8cb00c1a06e83a6067e",
+    "punct-bpe.vocab": "e118b7ad88c54db562517df49e1cffd4836d166c34fb190fd311d7f34eb238f5",
+}
+# Runtimes the app drives through sherpa-onnx's online recogniser.
+STREAMING_RUNTIMES = frozenset({"nemo_transducer", "zipformer_transducer"})
+STREAMING_ONLY_RUNTIMES = frozenset({"zipformer_transducer"})
 
 
 @dataclass(frozen=True)
@@ -803,7 +824,14 @@ def validate_model_configuration(
             )
 
         # CACHE_AWARE_ONLINE support
-        if model.get("transcriptionMode") == "CACHE_AWARE_ONLINE" and runtime != "nemo_transducer":
+        if model.get("transcriptionMode") != "CACHE_AWARE_ONLINE" and runtime in STREAMING_ONLY_RUNTIMES:
+            issues.append(
+                GuardrailIssue(
+                    "catalog/speech.yaml",
+                    f"Speech model '{mid}' with runtime '{runtime}' must use transcriptionMode CACHE_AWARE_ONLINE",
+                )
+            )
+        if model.get("transcriptionMode") == "CACHE_AWARE_ONLINE" and runtime not in STREAMING_RUNTIMES:
             issues.append(
                 GuardrailIssue(
                     "catalog/speech.yaml",
@@ -843,6 +871,16 @@ def validate_model_configuration(
                 )
             seen_names.add(name)
 
+        for f in files:
+            expected = PUNCTUATION_FILE_SHA256.get(f.get("name", ""))
+            if expected and f.get("sha256") != expected:
+                issues.append(
+                    GuardrailIssue(
+                        "catalog/speech.yaml",
+                        f"Speech model '{mid}' file '{f.get('name')}' is not k2-fsa's English punctuation model",
+                    )
+                )
+
         # Provenance matching Hugging Face artifacts
         provenance = model.get("provenance")
         if isinstance(provenance, dict):
@@ -850,6 +888,8 @@ def validate_model_configuration(
             export_rev = provenance.get("exportRevision")
             for f in files:
                 url = f.get("downloadUrl", "")
+                if f.get("name") in PUNCTUATION_FILE_SHA256:
+                    continue
                 hf_match = re.match(r"^https://huggingface\.co/([^/]+/[^/]+)/resolve/([^/]+)/", url)
                 if hf_match:
                     url_repo, url_rev = hf_match.group(1), hf_match.group(2)
