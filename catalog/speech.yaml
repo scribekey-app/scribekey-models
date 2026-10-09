@@ -453,6 +453,49 @@ models:
         downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/resolve/1ab9323565ddb038682214b292f588070a538ce2/tokens.txt
         sizeBytes: 9384
         sha256: ec182b70dd42113aff6c5372c75cac58c952443eb22322f57bbd7f53977d497d
+    npuBuilds:
+      - soc: SM8450
+        runtime: qnn
+        windowSeconds: 30
+        downloadUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-2/sherpa-onnx-qnn-SM8450-binary-parakeet-tdt-0.6b-v2-30s-transducer.tar.bz2
+        sizeBytes: 444262289
+        sha256: 964c234ff5bcfe886ec2900ebba18df5cef1a8f2c4f2a594cae2ad77350ba09d
+        archiveRoot: sherpa-onnx-qnn-SM8450-binary-parakeet-tdt-0.6b-v2-30s-transducer
+      - soc: SM8475
+        runtime: qnn
+        windowSeconds: 30
+        downloadUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-2/sherpa-onnx-qnn-SM8475-binary-parakeet-tdt-0.6b-v2-30s-transducer.tar.bz2
+        sizeBytes: 444304171
+        sha256: 63f499ba328f8228e57f4aae78177232f8d5183fdd05492fcdaf0970ba1caab3
+        archiveRoot: sherpa-onnx-qnn-SM8475-binary-parakeet-tdt-0.6b-v2-30s-transducer
+      - soc: SM8550
+        runtime: qnn
+        windowSeconds: 30
+        downloadUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-2/sherpa-onnx-qnn-SM8550-binary-parakeet-tdt-0.6b-v2-30s-transducer.tar.bz2
+        sizeBytes: 444187280
+        sha256: 68b0810d051377bb1f29ff4a5521c012f4b1d4e3988ec79636d003eaada35679
+        archiveRoot: sherpa-onnx-qnn-SM8550-binary-parakeet-tdt-0.6b-v2-30s-transducer
+      - soc: SM8650
+        runtime: qnn
+        windowSeconds: 30
+        downloadUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-2/sherpa-onnx-qnn-SM8650-binary-parakeet-tdt-0.6b-v2-30s-transducer.tar.bz2
+        sizeBytes: 442257541
+        sha256: 1ef5d147a00410ca8fbafae0daf24e2f4c0d61e551ea4a24bf6845f12a150bbb
+        archiveRoot: sherpa-onnx-qnn-SM8650-binary-parakeet-tdt-0.6b-v2-30s-transducer
+      - soc: SM8750
+        runtime: qnn
+        windowSeconds: 30
+        downloadUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-2/sherpa-onnx-qnn-SM8750-binary-parakeet-tdt-0.6b-v2-30s-transducer.tar.bz2
+        sizeBytes: 444483302
+        sha256: 5c25c28f6aa8c63a3da1b3b87bf752ccdae52095bcadd4d81fe4f4096ec2b9b4
+        archiveRoot: sherpa-onnx-qnn-SM8750-binary-parakeet-tdt-0.6b-v2-30s-transducer
+      - soc: SM8850
+        runtime: qnn
+        windowSeconds: 30
+        downloadUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-2/sherpa-onnx-qnn-SM8850-binary-parakeet-tdt-0.6b-v2-30s-transducer.tar.bz2
+        sizeBytes: 442868556
+        sha256: b761763d824685c31eba0245f5e2d3c4b01258d37fae7f007a0ab06c4012146f
+        archiveRoot: sherpa-onnx-qnn-SM8850-binary-parakeet-tdt-0.6b-v2-30s-transducer
     sherpaConfig:
       type: nemo_transducer
       modelDir: ""
@@ -526,6 +569,49 @@ models:
         downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/resolve/2bda32ec70b097a55adaa07d9a7173915b43cc78/tokens.txt
         sizeBytes: 93939
         sha256: d58544679ea4bc6ac563d1f545eb7d474bd6cfa467f0a6e2c1dc1c7d37e3c35d
+    npuBuilds:
+      - soc: SM8450
+        runtime: qnn
+        windowSeconds: 30
+        downloadUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-2/sherpa-onnx-qnn-SM8450-binary-parakeet-tdt-0.6b-v3-30s-transducer.tar.bz2
+        sizeBytes: 451319554
+        sha256: 190bc863a2bb34be0b853d93ca8c3ca5eafe04159b798013759dae3b6356267e
+        archiveRoot: sherpa-onnx-qnn-SM8450-binary-parakeet-tdt-0.6b-v3-30s-transducer
+      - soc: SM8475
+        runtime: qnn
+        windowSeconds: 30
+        downloadUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-2/sherpa-onnx-qnn-SM8475-binary-parakeet-tdt-0.6b-v3-30s-transducer.tar.bz2
+        sizeBytes: 451326502
+        sha256: cdca20451e44b34cc8aed215760ff4163d7c1097edbcf4ec7d7010c99ddadebd
+        archiveRoot: sherpa-onnx-qnn-SM8475-binary-parakeet-tdt-0.6b-v3-30s-transducer
+      - soc: SM8550
+        runtime: qnn
+        windowSeconds: 30
+        downloadUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-2/sherpa-onnx-qnn-SM8550-binary-parakeet-tdt-0.6b-v3-30s-transducer.tar.bz2
+        sizeBytes: 451431213
+        sha256: 925a05f17d090e4f7ed2023531617dd2e322b2d0988d8235ba05b4d11b0c4d91
+        archiveRoot: sherpa-onnx-qnn-SM8550-binary-parakeet-tdt-0.6b-v3-30s-transducer
+      - soc: SM8650
+        runtime: qnn
+        windowSeconds: 30
+        downloadUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-2/sherpa-onnx-qnn-SM8650-binary-parakeet-tdt-0.6b-v3-30s-transducer.tar.bz2
+        sizeBytes: 449334315
+        sha256: 8ad2bb5902cbde3b922c53f4a119fcac47730b53e90ad1dff726b3ff0f7607df
+        archiveRoot: sherpa-onnx-qnn-SM8650-binary-parakeet-tdt-0.6b-v3-30s-transducer
+      - soc: SM8750
+        runtime: qnn
+        windowSeconds: 30
+        downloadUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-2/sherpa-onnx-qnn-SM8750-binary-parakeet-tdt-0.6b-v3-30s-transducer.tar.bz2
+        sizeBytes: 449456731
+        sha256: 2efa5ccd76b1b21d0b41310a21114eabbd8ed62d573333b74f7598bdc90c1fbb
+        archiveRoot: sherpa-onnx-qnn-SM8750-binary-parakeet-tdt-0.6b-v3-30s-transducer
+      - soc: SM8850
+        runtime: qnn
+        windowSeconds: 30
+        downloadUrl: https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-qnn-binary-2/sherpa-onnx-qnn-SM8850-binary-parakeet-tdt-0.6b-v3-30s-transducer.tar.bz2
+        sizeBytes: 449680863
+        sha256: 604c9a55d66e0355cd475ecccbc581d5432b19e3d419eadafdd89d3664b60c36
+        archiveRoot: sherpa-onnx-qnn-SM8850-binary-parakeet-tdt-0.6b-v3-30s-transducer
     sherpaConfig:
       type: nemo_transducer
       modelDir: ""

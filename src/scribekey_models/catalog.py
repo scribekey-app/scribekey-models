@@ -159,6 +159,19 @@ def generate_speech_catalog() -> dict[str, Any]:
             }
             for file in model["files"]
         ]
+        if model.get("npuBuilds"):
+            entry["npuBuilds"] = [
+                {
+                    "soc": build["soc"],
+                    "runtime": build["runtime"],
+                    "windowSeconds": build["windowSeconds"],
+                    "downloadUrl": build["downloadUrl"],
+                    "sizeBytes": build["sizeBytes"],
+                    "sha256": build["sha256"],
+                    "archiveRoot": build["archiveRoot"],
+                }
+                for build in model["npuBuilds"]
+            ]
         entry["sherpaConfig"] = {
             "type": model["sherpaConfig"]["type"],
             "modelDir": model["sherpaConfig"].get("modelDir", ""),
