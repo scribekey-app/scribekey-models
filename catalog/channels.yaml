@@ -1,10 +1,12 @@
 schema_version: 1
 channels:
   qa:
-    targetRelease: 2026.10.1
-    sequence: 6
-    issuedAt: '2026-10-09T09:30:13Z'
-    notes: 'Adds zipformer-en-live (experimental) for 4 GB phones, #921.'
+    targetRelease: 2026.10.5
+    sequence: 7
+    issuedAt: '2026-10-10T01:13:19Z'
+    notes: 'Smart Cleanup moves to the Sotto tune that applies spoken corrections
+      and punctuates spoken lists; Quill and Mumble are retired (models #37, #38,
+      #39). Replaces the cancelled 2026.10.3 and 2026.10.4 promotions.'
     compatibility:
       minAndroidApiLevel: 28
       minAppVersionCode: 10
