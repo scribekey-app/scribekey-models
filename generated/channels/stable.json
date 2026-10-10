@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "channel": "stable",
-  "sequence": 5,
-  "issuedAt": "2026-09-29T14:24:30Z",
-  "releaseId": "2026.09.11",
+  "sequence": 6,
+  "issuedAt": "2026-10-10T01:16:01Z",
+  "releaseId": "2026.10.5",
   "compatibility": {
     "minAndroidApiLevel": 28,
     "minAppVersionCode": 10,
@@ -22,23 +22,29 @@
   "catalogs": {
     "speech": {
       "filename": "model_catalog.json",
-      "path": "../releases/2026.09.11/model_catalog.json",
-      "sha256": "ca59194c73f267055f28cffe6fda363c522d6249131d5ea61b5315709ef0a6e3",
-      "sizeBytes": 43927
+      "path": "../releases/2026.10.5/model_catalog.json",
+      "sha256": "6b93dcb5559dbfd792b235db3cc66e5ddd88f454fe85961f63be8de7cc3c7802",
+      "sizeBytes": 53927
     },
     "diarization": {
       "filename": "speaker_diarization_manifest.json",
-      "path": "../releases/2026.09.11/speaker_diarization_manifest.json",
-      "sha256": "7f6d32bb6a20b9ad26a03130645b7dbfaecc97d785dca6538a92f05b5f8cde45",
-      "sizeBytes": 1521
+      "path": "../releases/2026.10.5/speaker_diarization_manifest.json",
+      "sha256": "229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a",
+      "sizeBytes": 1438
     },
     "cleanup": {
       "filename": "cleanup_model_catalog.json",
-      "path": "../releases/2026.09.11/cleanup_model_catalog.json",
-      "sha256": "2e23730d2d97a5ee23d405ebe3acae3891cf9a34d31cffb8f2d2caa88cb5133b",
-      "sizeBytes": 7549
+      "path": "../releases/2026.10.5/cleanup_model_catalog.json",
+      "sha256": "dd5691ffd50d254e7e8e4ccb6572e8dfb438999e9d84ac71b161bf73e3035306",
+      "sizeBytes": 12074
+    },
+    "cloudTiers": {
+      "filename": "cloud_model_tiers.json",
+      "path": "../releases/2026.10.5/cloud_model_tiers.json",
+      "sha256": "24b9241acdfdba085aeb3d57d67d6e54c6e47aa65bc38a0f5850dae559e409d0",
+      "sizeBytes": 11668
     }
   },
-  "notes": "Parakeet Ultra offered beside Parakeet Multilingual v3.",
-  "gitCommit": "672ce7f2c512b3cb3c3a9e8732d28cec822c31b6"
+  "notes": "Sotto v6 (tuned by ScribeKey, 017ef3d) becomes the production cleanup model; Quill and Mumble retired.",
+  "gitCommit": "b37298ecda6e087ffeb81b9c6188951adb3b4042"
 }

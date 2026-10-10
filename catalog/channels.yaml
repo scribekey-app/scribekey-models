@@ -18,10 +18,11 @@ channels:
       - cleanup-model-catalog
       - speaker-diarization-manifest
   stable:
-    targetRelease: 2026.09.11
-    sequence: 5
-    issuedAt: '2026-09-29T14:24:30Z'
-    notes: Parakeet Ultra offered beside Parakeet Multilingual v3.
+    targetRelease: 2026.10.5
+    sequence: 6
+    issuedAt: '2026-10-10T01:16:01Z'
+    notes: Sotto v6 (tuned by ScribeKey, 017ef3d) becomes the production cleanup model;
+      Quill and Mumble retired.
     compatibility:
       minAndroidApiLevel: 28
       minAppVersionCode: 10
