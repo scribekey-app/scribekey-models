@@ -29,7 +29,7 @@
       "properties": {
         "providers": {
           "type": "object",
-          "propertyNames": { "enum": ["openai", "openrouter", "groq", "cerebras", "gemini", "mistral", "foundry"] },
+          "propertyNames": { "enum": ["openai", "openrouter", "groq", "cerebras", "gemini", "mistral", "anthropic", "alibabacloud", "nvidia", "foundry"] },
           "additionalProperties": { "$ref": "#/$defs/provider" }
         }
       }

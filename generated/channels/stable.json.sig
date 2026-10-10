@@ -3,6 +3,6 @@
   "algorithm": "SHA256withECDSA",
   "keyId": "scribekey-release-2026",
   "targetFile": "stable.json",
-  "targetSha256": "4f48674f80dafc6432c92c7233dc292e029fae6e234b6706a01efbc71116e2ac",
-  "signature": "MEYCIQD9nGHePVRV6Rei8CANaa93FL2hNsh9Bo4nX5HwFCRf9QIhALBUMc9cJAxrQZHbpbZsgvDnyQWZPt0Zmg8+Wq6Nwoqm"
+  "targetSha256": "65b152d9c9aa5018143881784fffb1eb245860e56a37e986bce576c70261d4f3",
+  "signature": "MEUCIEOU+Ylp03apXxOS6i1W9jsPK7VeB5PJMTRbsBXRlLgBAiEA+p5eLR90p7IRMz+yrpsy9pid7IrR247ukCcKJ4prvPs="
 }
