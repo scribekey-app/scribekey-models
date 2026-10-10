@@ -56,7 +56,40 @@
       }
      }
     },
-    "gemini": {
+    "foundry": {
+      "recommended": "balanced",
+      "tiers": {
+       "best": {
+        "model": "phi-4",
+        "score": 0.932,
+        "p50Seconds": 1.15,
+        "usdPer1k": 0.08,
+        "evaluated": "2026-10-10"
+       },
+       "balanced": {
+        "model": "phi-4",
+        "score": 0.932,
+        "p50Seconds": 1.15,
+        "usdPer1k": 0.08,
+        "evaluated": "2026-10-10"
+       },
+       "fast": {
+        "model": "phi-4-mini",
+        "score": 0.912,
+        "p50Seconds": 0.52,
+        "usdPer1k": 0.04,
+        "evaluated": "2026-10-10"
+       },
+       "budget": {
+        "model": "phi-4-mini",
+        "score": 0.912,
+        "p50Seconds": 0.52,
+        "usdPer1k": 0.04,
+        "evaluated": "2026-10-10"
+       }
+      }
+     },
+     "gemini": {
      "recommended": "balanced",
      "tiers": {
       "best": {
@@ -225,7 +258,40 @@
       }
      }
     },
-    "gemini": {
+    "foundry": {
+      "recommended": "balanced",
+      "tiers": {
+       "best": {
+        "model": "phi-4",
+        "score": 0.941,
+        "p50Seconds": 1.25,
+        "usdPer1k": 0.08,
+        "evaluated": "2026-10-10"
+       },
+       "balanced": {
+        "model": "phi-4",
+        "score": 0.941,
+        "p50Seconds": 1.25,
+        "usdPer1k": 0.08,
+        "evaluated": "2026-10-10"
+       },
+       "fast": {
+        "model": "phi-4-mini",
+        "score": 0.918,
+        "p50Seconds": 0.58,
+        "usdPer1k": 0.04,
+        "evaluated": "2026-10-10"
+       },
+       "budget": {
+        "model": "phi-4-mini",
+        "score": 0.918,
+        "p50Seconds": 0.58,
+        "usdPer1k": 0.04,
+        "evaluated": "2026-10-10"
+       }
+      }
+     },
+     "gemini": {
      "recommended": "balanced",
      "tiers": {
       "best": {
@@ -361,6 +427,43 @@
   },
   "transcription": {
    "providers": {
+    "foundry": {
+     "recommended": "balanced",
+     "tiers": {
+      "best": {
+       "model": "MAI-Transcribe-2",
+       "score": 0.912,
+       "p50Seconds": 0.72,
+       "usdPer1k": 0.36,
+       "evaluated": "2026-10-10",
+       "wer": 0.088
+      },
+      "balanced": {
+       "model": "MAI-Transcribe-2",
+       "score": 0.912,
+       "p50Seconds": 0.72,
+       "usdPer1k": 0.36,
+       "evaluated": "2026-10-10",
+       "wer": 0.088
+      },
+      "fast": {
+       "model": "MAI-Transcribe-2-Streaming",
+       "score": 0.895,
+       "p50Seconds": 0.25,
+       "usdPer1k": 0.36,
+       "evaluated": "2026-10-10",
+       "wer": 0.105
+      },
+      "budget": {
+       "model": "MAI-Transcribe-1.5",
+       "score": 0.862,
+       "p50Seconds": 0.65,
+       "usdPer1k": 0.22,
+       "evaluated": "2026-10-10",
+       "wer": 0.138
+      }
+     }
+    },
     "openai": {
      "recommended": "balanced",
      "tiers": {
