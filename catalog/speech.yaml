@@ -125,14 +125,20 @@ models:
     files:
       - name: encoder_model.ort
         downloadUrl: https://huggingface.co/csukuangfj2/sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27/resolve/d1e6c30921780b8508d04b492dfb3ce8a51605d4/encoder_model.ort
+        downloadUrls:
+          - https://huggingface.co/scribekey/sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27/resolve/dd7c80d6eef3a7b69de8de23252435e010064fd7/encoder_model.ort
         sizeBytes: 13281600
         sha256: 94e90a4654fc45cdfedb77c4c08e1739f48862998e58fada384b25118134f221
       - name: decoder_model_merged.ort
         downloadUrl: https://huggingface.co/csukuangfj2/sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27/resolve/d1e6c30921780b8508d04b492dfb3ce8a51605d4/decoder_model_merged.ort
+        downloadUrls:
+          - https://huggingface.co/scribekey/sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27/resolve/dd7c80d6eef3a7b69de8de23252435e010064fd7/decoder_model_merged.ort
         sizeBytes: 30412256
         sha256: cf524c4862d36e9e5ab032eddc73637efd822d70e868ac575cf1a46e1e4708a0
       - name: tokens.txt
         downloadUrl: https://huggingface.co/csukuangfj2/sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27/resolve/d1e6c30921780b8508d04b492dfb3ce8a51605d4/tokens.txt
+        downloadUrls:
+          - https://huggingface.co/scribekey/sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27/resolve/dd7c80d6eef3a7b69de8de23252435e010064fd7/tokens.txt
         sizeBytes: 549350
         sha256: 2870d843e14c1e187bf1913a521562a63b53933814bd7f2145120468f494a049
     sherpaConfig:
@@ -169,14 +175,20 @@ models:
     files:
       - name: encoder_model.ort
         downloadUrl: https://huggingface.co/csukuangfj2/sherpa-onnx-moonshine-base-en-quantized-2026-02-27/resolve/8f4d6c58c03d40bcea40043bb7120a878f2bbef6/encoder_model.ort
+        downloadUrls:
+          - https://huggingface.co/scribekey/sherpa-onnx-moonshine-base-en-quantized-2026-02-27/resolve/11ed39acc61642ae2e2917f17768a2763d93762f/encoder_model.ort
         sizeBytes: 31326816
         sha256: 7c66495948d0d08ec1af454cd4b5514862ae6511e94712a60e6d83eaec8dc8cf
       - name: decoder_model_merged.ort
         downloadUrl: https://huggingface.co/csukuangfj2/sherpa-onnx-moonshine-base-en-quantized-2026-02-27/resolve/8f4d6c58c03d40bcea40043bb7120a878f2bbef6/decoder_model_merged.ort
+        downloadUrls:
+          - https://huggingface.co/scribekey/sherpa-onnx-moonshine-base-en-quantized-2026-02-27/resolve/11ed39acc61642ae2e2917f17768a2763d93762f/decoder_model_merged.ort
         sizeBytes: 109424400
         sha256: d9d7b333af34bc552580576ddcf248a1c6c839e0d3b43b09afb9376ed009899d
       - name: tokens.txt
         downloadUrl: https://huggingface.co/csukuangfj2/sherpa-onnx-moonshine-base-en-quantized-2026-02-27/resolve/8f4d6c58c03d40bcea40043bb7120a878f2bbef6/tokens.txt
+        downloadUrls:
+          - https://huggingface.co/scribekey/sherpa-onnx-moonshine-base-en-quantized-2026-02-27/resolve/11ed39acc61642ae2e2917f17768a2763d93762f/tokens.txt
         sizeBytes: 549350
         sha256: 2870d843e14c1e187bf1913a521562a63b53933814bd7f2145120468f494a049
     sherpaConfig:
@@ -960,18 +972,26 @@ models:
     files:
       - name: encoder.int8.onnx
         downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/9a65b6ea94c311ca770c2bf895b30f456a22d703/encoder-epoch-99-avg-1.int8.onnx
+        downloadUrls:
+          - https://huggingface.co/scribekey/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/63c1adbc13d8e0586c4be8da202df6e8278f517b/encoder-epoch-99-avg-1.int8.onnx
         sizeBytes: 187823992
         sha256: 32c98281c7bd8b63e3e142d007251b37f120572e8fdea9a4f5a79ce22b10ec4f
       - name: decoder.int8.onnx
         downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/9a65b6ea94c311ca770c2bf895b30f456a22d703/decoder-epoch-99-avg-1.int8.onnx
+        downloadUrls:
+          - https://huggingface.co/scribekey/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/63c1adbc13d8e0586c4be8da202df6e8278f517b/decoder-epoch-99-avg-1.int8.onnx
         sizeBytes: 539246
         sha256: 093e23c90869898f761f60aa3363f96d43b9c6e5c06a57860c3a5b3407ab8320
       - name: joiner.int8.onnx
         downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/9a65b6ea94c311ca770c2bf895b30f456a22d703/joiner-epoch-99-avg-1.int8.onnx
+        downloadUrls:
+          - https://huggingface.co/scribekey/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/63c1adbc13d8e0586c4be8da202df6e8278f517b/joiner-epoch-99-avg-1.int8.onnx
         sizeBytes: 259335
         sha256: 831477d390e59a61f1b6a6f763b9903e6c6366ff6034f1ddba613be82637122f
       - name: tokens.txt
         downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/9a65b6ea94c311ca770c2bf895b30f456a22d703/tokens.txt
+        downloadUrls:
+          - https://huggingface.co/scribekey/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/63c1adbc13d8e0586c4be8da202df6e8278f517b/tokens.txt
         sizeBytes: 5048
         sha256: 49e3c2646595fd907228b3c6787069658f67b17377c60aeb8619c4551b2316fb
       # sherpa-onnx-online-punct-en-2024-08-06 (k2-fsa, Apache-2.0). Upstream publishes it only as
@@ -979,12 +999,14 @@ models:
       - name: punct-model.int8.onnx
         downloadUrl: https://huggingface.co/brady-pplx/sherpa-onnx-online-punct-en-2024-08-06/resolve/29a49a07620ef067e6fa40580da620c11db07b83/model.int8.onnx
         downloadUrls:
+          - https://huggingface.co/scribekey/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/63c1adbc13d8e0586c4be8da202df6e8278f517b/punct-model.int8.onnx
           - https://huggingface.co/lorneluo/sherpa-onnx-online-punct-en-2024-08-06/resolve/aad05f2d2818122135b0667806628019cb923e84/model.int8.onnx
         sizeBytes: 7490500
         sha256: 9d611f445fe4a46186080fe161be6059d87d72eb88d3a8cb00c1a06e83a6067e
       - name: punct-bpe.vocab
         downloadUrl: https://huggingface.co/brady-pplx/sherpa-onnx-online-punct-en-2024-08-06/resolve/29a49a07620ef067e6fa40580da620c11db07b83/bpe.vocab
         downloadUrls:
+          - https://huggingface.co/scribekey/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/63c1adbc13d8e0586c4be8da202df6e8278f517b/punct-bpe.vocab
           - https://huggingface.co/lorneluo/sherpa-onnx-online-punct-en-2024-08-06/resolve/aad05f2d2818122135b0667806628019cb923e84/bpe.vocab
         sizeBytes: 149430
         sha256: e118b7ad88c54db562517df49e1cffd4836d166c34fb190fd311d7f34eb238f5
