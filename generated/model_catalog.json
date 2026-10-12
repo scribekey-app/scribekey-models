@@ -393,7 +393,7 @@
       "supportsTimestamps": false,
       "supportsPunctuation": true,
       "supportsLanguageDetection": true,
-      "description": "Transcribes English, Spanish, German and French with punctuation, and detects which one you speak.",
+      "description": "Transcribes English, Spanish, German or French with punctuation.",
       "bestFor": "Four European languages in a small download",
       "experimental": false,
       "languageCodes": [
