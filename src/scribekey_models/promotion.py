@@ -197,6 +197,7 @@ def promote(
     notes: str = "",
     sequence: int | None = None,
     compatibility: dict[str, Any] | None = None,
+    min_app_version_code: int | None = None,
     private_key: ec.EllipticCurvePrivateKey | None = None,
     key_id: str = DEFAULT_KEY_ID,
     root: Path = ROOT,
@@ -233,6 +234,15 @@ def promote(
     sig_path = channel_dist_dir / f"{channel}.json.sig"
 
     channel_comp = compatibility or channel_info.get("compatibility") or dict(DEFAULT_COMPATIBILITY)
+    if min_app_version_code is not None:
+        # Override starts from the channel's existing compatibility; lowering the floor would hand old apps a catalogue they reject.
+        current_min = int(channel_comp.get("minAppVersionCode", DEFAULT_COMPATIBILITY["minAppVersionCode"]))
+        if min_app_version_code < current_min:
+            raise ValueError(
+                f"Cannot lower minAppVersionCode from {current_min} to {min_app_version_code}: "
+                "older apps would receive a catalogue they cannot decode."
+            )
+        channel_comp = {**channel_comp, "minAppVersionCode": min_app_version_code}
     target_notes = notes or channel_info.get("notes") or release_data.get("description", "")
 
     # Check sequence monotonicity and anti-rollback requirements

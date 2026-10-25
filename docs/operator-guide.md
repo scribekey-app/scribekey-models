@@ -57,6 +57,8 @@ This freezes the catalog snapshots under `generated/releases/2026.09.1/` and rec
    - Opens a Pull Request from branch `promote/<channel>-<release>`.
 4. **Atomic Publication Boundary**: A human must review the PR diff. Merging the PR into protected `main` atomically publishes the verified distribution metadata to clients. Auto-merge is strictly disabled.
 
+To require newer app code, pass `min_app_version_code` to the workflow (or `--min-app-version-code` to `promote`). It overrides only `compatibility.minAppVersionCode`, keeping the channel's other compatibility fields, and is omitted by default. Lowering the current value is refused, including during a rollback, because older apps would receive a catalogue they cannot decode. As with any compatibility change, it needs a new sequence.
+
 ### 3. Emergency Rollback
 
 To roll back a channel (e.g. `stable`) to an earlier known-good release `2026.08.1`:

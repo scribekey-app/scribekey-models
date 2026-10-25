@@ -330,3 +330,37 @@ def test_mirror_plan_generation_bounded() -> None:
     status = check_mirror_configuration()
     assert status["mode"] == "dry_run"
     assert "No large model weights uploaded" in status["message"]
+
+
+def _stable_manifest(root: Path) -> dict:
+    return json.loads((root / "generated" / "channels" / "stable.json").read_text(encoding="utf-8"))
+
+
+def test_promotion_min_app_version_code_override_reaches_manifest(repo_worktree: Path) -> None:
+    priv, _ = generate_keypair()
+    before = _stable_manifest(repo_worktree)["compatibility"]
+    res = promote("stable", "2026.09.2", min_app_version_code=22, private_key=priv, root=repo_worktree)
+    assert res.sequence == 2
+    comp = _stable_manifest(repo_worktree)["compatibility"]
+    assert comp == {**before, "minAppVersionCode": 22}
+    channels = yaml.safe_load((repo_worktree / "catalog" / "channels.yaml").read_text(encoding="utf-8"))
+    assert channels["channels"]["stable"]["compatibility"]["minAppVersionCode"] == 22
+
+
+def test_promotion_without_override_keeps_min_app_version_code(repo_worktree: Path) -> None:
+    priv, _ = generate_keypair()
+    promote("stable", "2026.09.2", private_key=priv, root=repo_worktree)
+    assert _stable_manifest(repo_worktree)["compatibility"]["minAppVersionCode"] == 10
+
+
+def test_promotion_refuses_lowering_min_app_version_code(repo_worktree: Path) -> None:
+    priv, _ = generate_keypair()
+    promote("stable", "2026.09.2", min_app_version_code=22, private_key=priv, root=repo_worktree)
+    with pytest.raises(ValueError, match="Cannot lower minAppVersionCode from 22 to 10"):
+        promote("stable", "2026.09.1", min_app_version_code=10, private_key=priv, root=repo_worktree)
+
+
+def test_promotion_override_at_same_sequence_is_rejected(repo_worktree: Path) -> None:
+    priv, _ = generate_keypair()
+    with pytest.raises(ValueError, match="Cannot modify compatibility"):
+        promote("stable", "2026.09.1", sequence=1, min_app_version_code=22, private_key=priv, root=repo_worktree)

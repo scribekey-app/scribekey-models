@@ -22,6 +22,10 @@ on:
         description: "Promotion notes / rationale"
         required: false
         type: string
+      min_app_version_code:
+        description: "Optional compatibility.minAppVersionCode (cannot lower the current value; unchanged if omitted)"
+        required: false
+        type: string
 
 permissions: {}
 
@@ -61,6 +65,7 @@ jobs:
           PROMOTION_RELEASE: ${{ inputs.release }}
           PROMOTION_SEQUENCE: ${{ inputs.sequence }}
           PROMOTION_NOTES: ${{ inputs.notes }}
+          PROMOTION_MIN_APP_VERSION_CODE: ${{ inputs.min_app_version_code }}
         run: |
           set -euo pipefail
           if [[ -z "${MODEL_RELEASE_SIGNING_KEY:-}" ]]; then
@@ -77,6 +82,9 @@ jobs:
           fi
           if [[ -n "$PROMOTION_NOTES" ]]; then
             args+=(--notes "$PROMOTION_NOTES")
+          fi
+          if [[ -n "$PROMOTION_MIN_APP_VERSION_CODE" ]]; then
+            args+=(--min-app-version-code "$PROMOTION_MIN_APP_VERSION_CODE")
           fi
           scribekey-models "${args[@]}"
 
