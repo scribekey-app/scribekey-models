@@ -291,6 +291,55 @@
           }
         }
       ]
+    },
+    {
+      "modelId": "scribekey-cleanup-fast",
+      "displayName": "ScribeKey Fast",
+      "description": "Cleans English dictation, follows writing styles and applies spoken corrections. Runs on your phone.",
+      "bestFor": "Fast cleanup with writing styles",
+      "info": {
+        "paramsBadge": "350M",
+        "architecture": "LFM2.5 fine-tune",
+        "languages": "English"
+      },
+      "provenance": {
+        "sourceModel": "scribekey/scribekey-cleanup-fast",
+        "exportRepository": "scribekey/scribekey-cleanup-fast-GGUF",
+        "exportRevision": "8188159d2151fd1e8dff21ab2e00b2e860bfef62",
+        "exportVariant": "Q8_0 GGUF",
+        "licenseId": "LFM Open License v1.0",
+        "licenseUrl": "https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/8188159d2151fd1e8dff21ab2e00b2e860bfef62/LICENSE"
+      },
+      "revision": "8188159d2151fd1e8dff21ab2e00b2e860bfef62",
+      "bundleFileName": "scribekey-cleanup-fast-350m-v1-Q8_0.gguf",
+      "downloadUrl": "https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/resolve/8188159d2151fd1e8dff21ab2e00b2e860bfef62/scribekey-cleanup-fast-350m-v1-Q8_0.gguf",
+      "sizeBytes": 379219904,
+      "sha256": "bbce6fe5dc52080366ea65768f96e8d6265c45c1925d9a2e3d03de32856295cc",
+      "minDeviceMemoryGb": 6,
+      "minimumApiLevel": 28,
+      "supportedAbis": [
+        "arm64-v8a",
+        "x86_64"
+      ],
+      "supportedLanguages": [
+        "en"
+      ],
+      "systemPrompt": "",
+      "promptTemplate": "InputOutputControlLine",
+      "maxInputCharacters": 4000,
+      "maxOutputCharacters": 8000,
+      "maxOutputTokens": 256,
+      "contextTokens": 4096,
+      "topK": 1,
+      "topP": 1.0,
+      "temperature": 0.0,
+      "repetitionPenalty": null,
+      "deterministicDecoding": true,
+      "samplerSeed": 42,
+      "license": "LFM Open License v1.0",
+      "attribution": "ScribeKey Fast by ScribeKey, derived from Sotto by juanquivilla (MIT) and LFM2.5-350M-Base by Liquid AI (LFM Open License v1.0).",
+      "licenseUrl": "https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/8188159d2151fd1e8dff21ab2e00b2e860bfef62/LICENSE",
+      "privacyDisclosure": "Transcript text stays on this device."
     }
   ]
 }
