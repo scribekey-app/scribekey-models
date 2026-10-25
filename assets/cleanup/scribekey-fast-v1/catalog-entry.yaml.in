@@ -1,0 +1,52 @@
+# Reviewed handoff template, not an active catalogue entry.
+# Replace HF_GGUF_COMMIT with the verified private upload's immutable 40-character commit.
+# Append under catalog/cleanup.yaml candidates only after approval of public publication.
+# Do not switch production or promote a signed channel before the device/app gates in the plan.
+modelId: scribekey-cleanup-fast
+displayName: ScribeKey Fast
+description: Cleans English dictation, follows writing styles and applies spoken corrections. Runs on your phone.
+bestFor: Fast cleanup with writing styles
+info:
+  paramsBadge: 350M
+  architecture: LFM2.5 fine-tune
+  languages: English
+provenance:
+  sourceModel: scribekey/scribekey-cleanup-fast
+  exportRepository: scribekey/scribekey-cleanup-fast-GGUF
+  exportRevision: HF_GGUF_COMMIT
+  exportVariant: Q8_0 GGUF
+  licenseId: LFM Open License v1.0
+  licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/HF_GGUF_COMMIT/LICENSE
+revision: HF_GGUF_COMMIT
+bundleFileName: scribekey-cleanup-fast-350m-v1-Q8_0.gguf
+downloadUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/resolve/HF_GGUF_COMMIT/scribekey-cleanup-fast-350m-v1-Q8_0.gguf
+sizeBytes: 379219904
+sha256: bbce6fe5dc52080366ea65768f96e8d6265c45c1925d9a2e3d03de32856295cc
+# Conservative floor inherited from Sotto; final-artifact and midrange checks remain open.
+minDeviceMemoryGb: 6
+minimumApiLevel: 28
+supportedAbis: [arm64-v8a, x86_64]
+supportedLanguages: [en]
+systemPrompt: ''
+promptTemplate: InputOutputControlLine
+maxInputCharacters: 4000
+maxOutputCharacters: 8000
+maxOutputTokens: 256
+contextTokens: 4096
+topK: 1
+topP: 1.0
+temperature: 0.0
+repetitionPenalty: null
+deterministicDecoding: true
+samplerSeed: 42
+license: LFM Open License v1.0
+attribution: ScribeKey Fast by ScribeKey, derived from Sotto by juanquivilla (MIT) and LFM2.5-350M-Base by Liquid AI (LFM Open License v1.0).
+licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/HF_GGUF_COMMIT/LICENSE
+privacyDisclosure: Transcript text stays on this device.
+examples:
+  - input: um can you send the updated agenda before lunch
+    output: Can you send the updated agenda before lunch?
+    recordedWith:
+      modelRevision: HF_GGUF_COMMIT
+      runtime: llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c
+      recordedAt: '2026-10-25'
