@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "display_name": "ScribeKey Fast",
+  "publisher": "ScribeKey",
+  "model_id": "scribekey-cleanup-fast",
+  "release_candidate": "v1-rc1",
+  "experiment": "v7-replay-tgt",
+  "publication_status": "private-staging",
+  "production_promoted": false,
+  "artifacts": {
+    "bf16": {
+      "repo": "scribekey/scribekey-cleanup-fast",
+      "filename": "model.safetensors",
+      "bytes": 708984464,
+      "sha256": "4ece194d955bc3abc2a96a02bb81c3e37e79cc672d99d07e172537b52c636fbf"
+    },
+    "q8_0": {
+      "repo": "scribekey/scribekey-cleanup-fast-GGUF",
+      "filename": "scribekey-cleanup-fast-350m-v1-Q8_0.gguf",
+      "original_filename": "fast-tier-v7-replay-tgt-Q8_0.gguf",
+      "bytes": 379219904,
+      "sha256": "bbce6fe5dc52080366ea65768f96e8d6265c45c1925d9a2e3d03de32856295cc"
+    }
+  },
+  "lineage": {
+    "declared_architecture_ancestor": "LiquidAI/LFM2.5-350M-Base",
+    "original_ancestor_revision": "not recorded independently in inherited Sotto lineage",
+    "sotto": {
+      "repo": "juanquivilla/sotto-cleanup-lfm25-350m",
+      "revision": "6df6f019170b8b55333c047b901886a51750a965"
+    },
+    "sotto_v6": {
+      "repo": "scribekey/sotto-scribekey-350m-gguf",
+      "revision": "017ef3dadb38dd866832c9303b6427982e528426",
+      "q8_sha256": "cd1929420e0c013c070a2f2cd12f95bfb42c955697589b4a056d498cbc8235c9",
+      "reconstructed_safetensors_sha256": "e868b9f3b453199d93057ea17ed923f05d46f9caf32e3203f0965f7779e33bb7",
+      "reconstruction_check": "148 tensors bit-identical when re-exported to production Q8_0"
+    },
+    "tokenizer": {
+      "repo": "LiquidAI/LFM2.5-350M",
+      "revision": "9e6c6ccf47cd318696e137d381a7ded8fe4df09f",
+      "task_template_replaced": true
+    }
+  },
+  "training": {
+    "rows": 4350,
+    "pilot_rows": 2000,
+    "replay_rows": 2000,
+    "targeted_rows": 350,
+    "final_mix_sha256": "9a978c3f3a8cc140852fd19acea8280beeb75ac206abeae2a14f69822d60df73",
+    "source_counts": {
+      "cleanup-v1-generated": 1434,
+      "dictation-speech": 422,
+      "handy-dictation-editing-train": 187,
+      "peoples-speech-clean-dirty": 134,
+      "common-voice-spontaneous-speech-5-0-en": 173,
+      "juanquivilla/sotto-transcript-cleanup": 2000
+    },
+    "pilot_train_sha256": "89a8a1a77787c802acd272376699697d045412e88a36e39eda78539ccc1f3e06",
+    "pilot_validation_sha256": "4a61396645b2d7cfafc6c9bac389161973c907f37ca9be5c63a89f1fe35819ac",
+    "targeted_validation_sha256": "f6c233ccdd39cce1ef57abd8fe49102a75ceab993067305c867d9d8c817e6179",
+    "replay": {
+      "repo": "juanquivilla/sotto-transcript-cleanup",
+      "revision": "183cc8fd58532f13fa192980185214de1bcd5acc",
+      "declared_license": "MIT"
+    },
+    "lora_rank": 16,
+    "lora_alpha": 32,
+    "epochs": 3,
+    "learning_rate": 0.0004,
+    "effective_batch_size": 8,
+    "packing": false,
+    "max_sequence_length": 1024,
+    "training_rows_distributed": false
+  },
+  "export": {
+    "llama_cpp_revision": "4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+    "original_merged_directory_sha256": "566a10696a0ad60d44711a2ec7f8c96c70f3d744418e5469b55b8eedb5360aad",
+    "created_at": "2026-10-25T04:10:05.992089+00:00",
+    "original_manifest_qualification_status": "unqualified",
+    "original_manifest_required_notices": [],
+    "packaging_note": "Original automatic export manifest did not carry notices or qualification. This reviewed package adds provenance/notices; offline experiment evidence is separate from device/default qualification. BF16 file bytes and Q8_0 bytes are unchanged."
+  },
+  "licensing": {
+    "weights": "LFM Open License v1.0",
+    "inherited_finetune": "Sotto MIT notice in NOTICE",
+    "lfm_license_snapshot": {
+      "repo": "LiquidAI/LFM2.5-350M-Base",
+      "revision": "9960764e30892e01f29a6dc23df2533fcd8bd5ae",
+      "sha256": "4d28ca14dedc0b3d0fcc2b3339f0e79931faa33874f3d24f522183a8fc70068c",
+      "note": "Current pinned licence inspection, not a claim that this was the original Sotto base revision."
+    },
+    "data_sharealike_scope": "unresolved; source attribution preserved; source text/audio not redistributed",
+    "upstream_training_provenance": "inherited declarations, not independently reconstructed"
+  },
+  "evidence": {
+    "research_report_commit": "bc19b3b",
+    "research_report": "docs/research/2026-10-25-cleanup-fast-tier.md",
+    "issues": [
+      "scribekey-model-research#45",
+      "scribekey-model-research#52",
+      "scribekey-model-research#79",
+      "scribekey-model-research#80",
+      "scribekey-model-research#81",
+      "scribekey-model-research#83"
+    ],
+    "app_commits": [
+      "a31bcc7d4",
+      "6f7d66fe1",
+      "073cb3912"
+    ]
+  },
+  "remaining_gates": [
+    "owner approval for public publication",
+    "final-artifact phone recheck",
+    "midrange phone",
+    "release-bar/default decisions",
+    "compatible app release and model-aware subtitle before activation"
+  ]
+}
