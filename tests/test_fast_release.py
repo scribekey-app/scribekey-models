@@ -53,4 +53,7 @@ def test_fast_is_production_and_pins_the_verified_upload() -> None:
     assert app_examples["artifact_sha256"] == model["sha256"]
     assert app_examples["examples"] == model["examples"]
     assert len(model["examples"]) == 4
-    assert model["examples"][0]["output"].count("\n- ") == 3
+    # The owner dropped the list demos; the cards show corrections, fillers, numbers, questions.
+    assert all("\n" not in example["output"] for example in model["examples"])
+    assert "$45" in model["examples"][2]["output"]
+    assert model["examples"][3]["output"].endswith("?")

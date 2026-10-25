@@ -22,6 +22,8 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
+# The app's default controls for the fast tier outside chat and email apps; structure is always prose.
+DEFAULT_CONTROL_LINE = "[Styling: semi-casual] [Structure: prose] [Context: general]"
 
 
 def prompt_for(template: str, system_prompt: str, text: str) -> str:
@@ -38,6 +40,11 @@ def prompt_for(template: str, system_prompt: str, text: str) -> str:
     if template == "SottoInputOutput":
         # The app writes the BOS itself: the native tokenizer adds no special tokens.
         return f"<|startoftext|>### Input:\n{text}\n\n### Output:\n"
+    if template == "InputOutputControlLine":
+        # The app rejects a transcript holding these (SmartCleanupRuntime.controlTokens).
+        if any(token in text for token in ("### Input:", "### Output:", "<|startoftext|>", "[Styling:")):
+            raise SystemExit(f"Transcript contains prompt control text: {text!r}")
+        return f"<|startoftext|>### Input:\n{DEFAULT_CONTROL_LINE}\n{text}\n\n### Output:\n"
     raise SystemExit(f"Prompt template {template} is not supported by the recorder yet")
 
 
@@ -48,7 +55,7 @@ def token_cap(profile: dict, text: str) -> int:
 
 def clean_output(template: str, raw: str) -> str:
     # Mirrors SmartCleanupRuntime.cleanOutput.
-    if template == "SottoInputOutput":
+    if template in ("SottoInputOutput", "InputOutputControlLine"):
         return raw.split("###")[0].strip()
     return raw.split("<|im_end|>")[0].split("<|endoftext|>")[0].strip()
 
