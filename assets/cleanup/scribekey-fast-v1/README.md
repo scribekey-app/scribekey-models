@@ -25,7 +25,7 @@ datasets:
 
 A 350M-class English text model for cleaning speech-to-text transcripts on a device. It removes fillers and repetitions, applies spoken corrections, and adjusts punctuation, casing and layout using a control line. It takes **text**, not audio. It is a dedicated cleanup model, not a general assistant.
 
-**Private release candidate: `v1-rc1-attribution`.** This package stages experiment `v7-replay-tgt`. The Q8_0 has offline evaluation; a direct-helper S25 recheck has completed (short p50/p95 155/178 ms; long 1,702/2,718 ms with Parakeet resident), while midrange and product end-to-end qualification remain open. Private staging does not make it ScribeKey's production default. Two public-input BF16 CPU smoke cases also ran twice with identical outputs (`bf16-smoke.json`); this is an inference check, not a BF16 quality benchmark.
+**Release `v1`** (experiment `v7-replay-tgt`). ScribeKey Fast is ScribeKey's on-device cleanup model, replacing Sotto. The Q8_0 has offline evaluation and a direct-helper S25 Ultra check of this exact artifact (short p50/p95 155/178 ms; long 1,702/2,718 ms with Parakeet resident); midrange and product end-to-end performance have not been measured. Two public-input BF16 CPU smoke cases also ran twice with identical outputs (`bf16-smoke.json`); this is an inference check, not a BF16 quality benchmark.
 
 ## Model overview
 
@@ -51,7 +51,7 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 MODEL = "scribekey/scribekey-cleanup-fast"
-REVISION = "v1-rc1-attribution"  # Pin the reviewed commit SHA for a deployment.
+REVISION = "v1"  # Pin the commit SHA for a deployment.
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL, revision=REVISION)
 model = AutoModelForCausalLM.from_pretrained(
@@ -145,7 +145,7 @@ The following are **Q8_0 results at the ScribeKey app boundary**, not a BF16 ben
 
 The intervals do not establish superiority over Sotto or equivalence to S1-mini. The candidate met the experiment's provisional non-regression criteria; the broader release bar remains unresolved. These values are specific benchmark metrics, not universal accuracy rates. The new-value rate is a real limitation: check names, dates, amounts, negations and important details before using the output. Keep a recoverable raw transcript.
 
-Phone results often quoted for this family are for **the preceding `v7-replay` artifact**, not this package: S25 Ultra long-input warm p50/p95 1,696/2,101 ms, short-input 156/178 ms, peak combined PSS 1,567 MiB on the measured app/ASR build. They are context, not final-artifact performance claims. Midrange performance and a minimum-device guarantee are unverified. The draft catalogue retains a conservative 6 GB device-memory floor.
+Phone results often quoted for this family are for **the preceding `v7-replay` artifact**, not this package: S25 Ultra long-input warm p50/p95 1,696/2,101 ms, short-input 156/178 ms, peak combined PSS 1,567 MiB on the measured app/ASR build. They are context, not final-artifact performance claims. Midrange performance and a minimum-device guarantee are unverified. ScribeKey's catalogue keeps a conservative 6 GB device-memory floor.
 
 ## Training and provenance
 
@@ -180,4 +180,4 @@ Some training sources carry CC BY or CC BY-SA licences. They are credited separa
 }
 ```
 
-The `v1-rc1-attribution` update changes documentation and terms only; weight bytes and prompt/runtime controls are unchanged from `v1-rc1`. The original tag is preserved.
+The `v1` release is the public `v1-rc1-attribution` package with updated card wording; weight bytes, terms and prompt/runtime controls are unchanged from `v1-rc1`. The original RC tags are preserved.

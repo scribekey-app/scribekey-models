@@ -19,7 +19,7 @@ tags:
 
 The evaluated Q8_0 build of [ScribeKey Fast](https://huggingface.co/scribekey/scribekey-cleanup-fast), a 350M-class English speech-to-text **cleanup** model. It receives a transcript, not audio, and returns cleaned text. It is not a general chat assistant.
 
-**Private release candidate `v1-rc1-attribution`**, experiment `v7-replay-tgt`. Direct-helper S25 timing is complete; midrange and product end-to-end qualification remain open. This upload does not change ScribeKey's production default. Two public-input BF16 CPU smoke cases also ran twice with identical outputs (`bf16-smoke.json`); this is an inference check, not a BF16 quality benchmark.
+**Release `v1`**, experiment `v7-replay-tgt`. This Q8_0 is ScribeKey's on-device cleanup model, replacing Sotto. Direct-helper S25 Ultra timing of this exact file is complete; midrange and product end-to-end performance have not been measured. Two public-input BF16 CPU smoke cases also ran twice with identical outputs (`bf16-smoke.json`); this is an inference check, not a BF16 quality benchmark.
 
 | File | Bytes | SHA-256 |
 |---|---:|---|
@@ -70,4 +70,4 @@ The weights inherit **LFM Open License v1.0**, including its commercial revenue 
 
 ScribeKey Fast continues Sotto by juanquivilla, based on LFM2.5-350M-Base by Liquid AI. `NOTICE` preserves Sotto's MIT notice and credits the training sources, including CC BY/CC BY-SA data. Those source terms remain distinct; this card does not resolve whether share-alike reaches model weights. Source text/audio and hidden benchmark rows are not distributed. The inherited Sotto data history has not been independently reconstructed. No upstream endorsement is implied. The [ScribeKey Fast Model Terms v1.0](ADDITIONAL_TERMS.md) require the ScribeKey Fast name and ScribeKey publisher credit in model selectors/information and documentation; modified derivatives must credit Derived from ScribeKey Fast by ScribeKey.
 
-The `v1-rc1-attribution` update changes documentation and terms only; weight bytes and prompt/runtime controls are unchanged from `v1-rc1`. The original tag is preserved.
+The `v1` release is the public `v1-rc1-attribution` package with updated card wording; weight bytes, terms and prompt/runtime controls are unchanged from `v1-rc1`. The original RC tags are preserved.
