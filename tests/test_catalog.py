@@ -159,6 +159,7 @@ def test_live_and_final_counterparts_and_language_codes_are_projected() -> None:
     assert models["nemotron-3.5-0.6b-560ms"]["counterpartId"] == "parakeet-0.6b-v3"
     assert "counterpartId" not in models["parakeet-ultra-0.6b"]
     assert models["canary-180m"]["languageCodes"] == ["en", "es", "de", "fr"]
+    assert models["canary-180m"]["supportsLanguageDetection"] is False
     assert len(models["parakeet-ultra-0.6b"]["languageCodes"]) == 25
     assert not models["parakeet-0.6b-v3"].get("deprecated")
     assert models["parakeet-ultra-0.6b"]["outcome"] == "MULTILINGUAL"

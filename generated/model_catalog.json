@@ -398,7 +398,7 @@
       "transcriptionMode": "SEGMENTED",
       "supportsTimestamps": false,
       "supportsPunctuation": true,
-      "supportsLanguageDetection": true,
+      "supportsLanguageDetection": false,
       "description": "Transcribes English, Spanish, German or French with punctuation.",
       "bestFor": "Four European languages in a small download",
       "experimental": false,
