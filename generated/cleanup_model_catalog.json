@@ -12,14 +12,14 @@
     "provenance": {
       "sourceModel": "scribekey/scribekey-cleanup-fast",
       "exportRepository": "scribekey/scribekey-cleanup-fast-GGUF",
-      "exportRevision": "0b83e5d6c53633004d940563445fb53e488c4fd4",
+      "exportRevision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
       "exportVariant": "Q8_0 GGUF",
       "licenseId": "ScribeKey Fast + LFM v1.0",
-      "licenseUrl": "https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/0b83e5d6c53633004d940563445fb53e488c4fd4/ADDITIONAL_TERMS.md"
+      "licenseUrl": "https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/3e4bd187506b6fcf786e96536654614f4fa077f5/ADDITIONAL_TERMS.md"
     },
-    "revision": "0b83e5d6c53633004d940563445fb53e488c4fd4",
+    "revision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
     "bundleFileName": "scribekey-cleanup-fast-350m-v1-Q8_0.gguf",
-    "downloadUrl": "https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/resolve/0b83e5d6c53633004d940563445fb53e488c4fd4/scribekey-cleanup-fast-350m-v1-Q8_0.gguf",
+    "downloadUrl": "https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/resolve/3e4bd187506b6fcf786e96536654614f4fa077f5/scribekey-cleanup-fast-350m-v1-Q8_0.gguf",
     "sizeBytes": 379219904,
     "sha256": "bbce6fe5dc52080366ea65768f96e8d6265c45c1925d9a2e3d03de32856295cc",
     "minDeviceMemoryGb": 6,
@@ -45,14 +45,14 @@
     "samplerSeed": 42,
     "license": "ScribeKey Fast + LFM v1.0",
     "attribution": "ScribeKey Fast by ScribeKey. Keep this model name and publisher credit in model selectors and documentation. Derived from Sotto by juanquivilla (MIT) and LFM2.5-350M-Base by Liquid AI (LFM Open License v1.0).",
-    "licenseUrl": "https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/0b83e5d6c53633004d940563445fb53e488c4fd4/ADDITIONAL_TERMS.md",
+    "licenseUrl": "https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/3e4bd187506b6fcf786e96536654614f4fa077f5/ADDITIONAL_TERMS.md",
     "privacyDisclosure": "Transcript text stays on this device.",
     "examples": [
       {
         "input": "here are three things eggs milk and bread",
         "output": "Here are three things:\n- Eggs\n- Milk\n- Bread",
         "recordedWith": {
-          "modelRevision": "0b83e5d6c53633004d940563445fb53e488c4fd4",
+          "modelRevision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
           "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
           "recordedAt": "2026-10-25"
         }
@@ -61,7 +61,7 @@
         "input": "first send the invoice second check the draft third book the room",
         "output": "1. Send the invoice\n2. Check the draft\n3. Book the room",
         "recordedWith": {
-          "modelRevision": "0b83e5d6c53633004d940563445fb53e488c4fd4",
+          "modelRevision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
           "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
           "recordedAt": "2026-10-25"
         }
@@ -70,7 +70,7 @@
         "input": "send it on monday no sorry tuesday",
         "output": "Send it on tuesday.",
         "recordedWith": {
-          "modelRevision": "0b83e5d6c53633004d940563445fb53e488c4fd4",
+          "modelRevision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
           "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
           "recordedAt": "2026-10-25"
         }
@@ -79,7 +79,7 @@
         "input": "so we need to we need to finish the report by friday",
         "output": "We need to finish the report by Friday.",
         "recordedWith": {
-          "modelRevision": "0b83e5d6c53633004d940563445fb53e488c4fd4",
+          "modelRevision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
           "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
           "recordedAt": "2026-10-25"
         }
