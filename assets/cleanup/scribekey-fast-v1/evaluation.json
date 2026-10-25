@@ -1,0 +1,56 @@
+{
+  "artifact_sha256": "bbce6fe5dc52080366ea65768f96e8d6265c45c1925d9a2e3d03de32856295cc",
+  "quantization": "Q8_0",
+  "scope": "ScribeKey app-boundary; comparison of deployed prompt/control profiles, not identical controls",
+  "controls": {
+    "styling": "semi-casual",
+    "structure": "prose",
+    "context": "general"
+  },
+  "benchmark": {
+    "name": "CleanBench v1",
+    "total_cases": 3366,
+    "scored_cases": 3358,
+    "hidden_rows_distributed": false
+  },
+  "metrics": {
+    "inserted_exact_delta_sotto_pp": 1.9,
+    "inserted_exact_delta_sotto_95ci_pp": [
+      -0.1,
+      3.9
+    ],
+    "inserted_ter_delta_sotto": -0.001,
+    "inserted_ter_delta_sotto_95ci": [
+      -0.01,
+      0.009
+    ],
+    "inserted_exact_delta_s1mini_pp": -1.2,
+    "inserted_exact_delta_s1mini_95ci_pp": [
+      -3.3,
+      1.1
+    ],
+    "inserted_ter_delta_s1mini": -0.008,
+    "self_correction_percent": 20.5,
+    "question_kept_percent": 24.2,
+    "new_values_percent": 4.6
+  },
+  "criteria_status": "passes provisional experiment non-regression criteria; broader release bar unresolved",
+  "bf16_quality_benchmark": "not measured",
+  "final_artifact_phone": "not measured",
+  "midrange_phone": "not measured",
+  "predecessor_phone_only": {
+    "artifact": "v7-replay; not this final candidate",
+    "device": "Samsung Galaxy S25 Ultra SM-S938B",
+    "long_warm_p50_ms": 1696,
+    "long_warm_p95_ms": 2101,
+    "short_warm_p50_ms": 156,
+    "short_warm_p95_ms": 178,
+    "peak_combined_pss_mib": 1567
+  },
+  "limitations": [
+    "confidence intervals do not establish superiority or equivalence",
+    "model can change or omit meaning",
+    "list recall low",
+    "source/data provenance inherited in part"
+  ]
+}

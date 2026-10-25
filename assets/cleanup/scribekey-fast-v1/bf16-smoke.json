@@ -1,0 +1,23 @@
+{
+  "scope": "BF16 weights loaded into float32 on CPU; smoke only, not a quality benchmark",
+  "transformers_version": "5.2.0",
+  "weights_sha256": "4ece194d955bc3abc2a96a02bb81c3e37e79cc672d99d07e172537b52c636fbf",
+  "examples": [
+    {
+      "input": "um can you send the updated agenda before lunch",
+      "styling": "semi-casual",
+      "structure": "prose",
+      "context": "general",
+      "output": "Can you send the updated agenda before lunch?",
+      "repeated_twice": true
+    },
+    {
+      "input": "i cant make the call because im on the train",
+      "styling": "formal",
+      "structure": "prose",
+      "context": "general",
+      "output": "I cannot make the call because I am on the train.",
+      "repeated_twice": true
+    }
+  ]
+}

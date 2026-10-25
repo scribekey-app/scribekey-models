@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-10-25T08:11:40.412390+00:00",
+  "public_approval_received": false,
+  "repositories": [
+    {
+      "repo_id": "scribekey/scribekey-cleanup-fast",
+      "commit": "7edf5618653fbb11108318f3a5d002828be0aad9",
+      "tag": "v1-rc1",
+      "private": true,
+      "anonymous_access_denied": true,
+      "weight_file": "model.safetensors",
+      "weight_bytes": 708984464,
+      "weight_sha256": "4ece194d955bc3abc2a96a02bb81c3e37e79cc672d99d07e172537b52c636fbf",
+      "weight_lfs_identity_verified": true
+    },
+    {
+      "repo_id": "scribekey/scribekey-cleanup-fast-GGUF",
+      "commit": "8188159d2151fd1e8dff21ab2e00b2e860bfef62",
+      "tag": "v1-rc1",
+      "private": true,
+      "anonymous_access_denied": true,
+      "weight_file": "scribekey-cleanup-fast-350m-v1-Q8_0.gguf",
+      "weight_bytes": 379219904,
+      "weight_sha256": "bbce6fe5dc52080366ea65768f96e8d6265c45c1925d9a2e3d03de32856295cc",
+      "weight_lfs_identity_verified": true
+    }
+  ]
+}
