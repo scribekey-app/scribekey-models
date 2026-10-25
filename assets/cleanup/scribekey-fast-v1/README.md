@@ -98,7 +98,7 @@ Decode greedily (`do_sample=False` / temperature 0). The app uses top-k 1, top-p
 | Structure | `prose`, `lists` | Prose or model-generated list layout; **prose is recommended** |
 | Context | `general`, `email` | General text or layout of a greeting/body/sign-off already dictated |
 
-The model was trained across these controls; adherence is imperfect. Its semi-casual convention generally keeps sentence casing and contractions. This differs from S1-mini's semi-casual convention. Never interchange prompts or assume identical outputs because the control-line spelling matches.
+The model was trained across these controls; adherence is imperfect. Its semi-casual convention generally keeps sentence casing and contractions.
 
 ScribeKey's integration chooses semi-casual in chat and other apps, semi-formal plus email layout in email apps, and honours a fixed style chosen by the user. It always sends **prose** to this model. If “Make lists” is enabled, the app's deterministic list formatter runs afterwards. Spelling locale is also an app pass, not another model control. These app behaviours are not part of the standalone weights.
 

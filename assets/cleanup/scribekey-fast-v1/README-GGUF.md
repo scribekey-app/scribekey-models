@@ -56,7 +56,7 @@ with urllib.request.urlopen(request, timeout=60) as response:
     print(json.load(response)["content"].strip())
 ```
 
-Use one BOS, no system message, no thinking mode and greedy decoding. Controls are styling (`casual`, `semi-casual`, `semi-formal`, `formal`), structure (`prose`, `lists`) and context (`general`, `email`). ScribeKey uses semi-casual/prose by default, semi-formal/email in email apps, and performs list formatting in the app after generation. This model's casing conventions differ from S1-mini's despite the shared control-line shape.
+Use one BOS, no system message, no thinking mode and greedy decoding. Controls are styling (`casual`, `semi-casual`, `semi-formal`, `formal`), structure (`prose`, `lists`) and context (`general`, `email`). ScribeKey uses semi-casual/prose by default, semi-formal/email in email apps, and performs list formatting in the app after generation.
 
 ## Evidence and limitations
 
