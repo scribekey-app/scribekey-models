@@ -1,3 +1,5 @@
+> Current owner decision (25 October): add ScribeKey naming/attribution terms while retaining LFM obligations. The terms-only private tag `v1-rc1-attribution` preserves weight bytes and the original RC1 tag. This supersedes the original plan's exclusion of a new naming restriction. Public publication still requires owner approval.
+
 # ScribeKey Fast v1: private staging and publication plan
 
 25 October 2026. Owner request: prepare the release, upload privately, and obtain confirmation before public publication.

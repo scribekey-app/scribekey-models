@@ -1,7 +1,7 @@
 ---
 license: other
-license_name: lfm-open-license-v1.0
-license_link: LICENSE
+license_name: scribekey-fast-model-terms-v1.0-with-lfm-open-license-v1.0
+license_link: https://huggingface.co/scribekey/scribekey-cleanup-fast/blob/main/ADDITIONAL_TERMS.md
 language:
 - en
 base_model:
@@ -25,7 +25,7 @@ datasets:
 
 A 350M-class English text model for cleaning speech-to-text transcripts on a device. It removes fillers and repetitions, applies spoken corrections, and adjusts punctuation, casing and layout using a control line. It takes **text**, not audio. It is a dedicated cleanup model, not a general assistant.
 
-**Private release candidate: `v1-rc1`.** This package stages experiment `v7-replay-tgt`. The Q8_0 has offline evaluation; a phone recheck of this final artifact and a midrange phone test remain open. Private staging does not make it ScribeKey's production default. Two public-input BF16 CPU smoke cases also ran twice with identical outputs (`bf16-smoke.json`); this is an inference check, not a BF16 quality benchmark.
+**Private release candidate: `v1-rc1-attribution`.** This package stages experiment `v7-replay-tgt`. The Q8_0 has offline evaluation; a direct-helper S25 recheck has completed (short p50/p95 155/178 ms; long 1,702/2,718 ms with Parakeet resident), while midrange and product end-to-end qualification remain open. Private staging does not make it ScribeKey's production default. Two public-input BF16 CPU smoke cases also ran twice with identical outputs (`bf16-smoke.json`); this is an inference check, not a BF16 quality benchmark.
 
 ## Model overview
 
@@ -38,7 +38,7 @@ A 350M-class English text model for cleaning speech-to-text transcripts on a dev
 | Input | One control line and one English ASR transcript, inside the exact wrapper below |
 | Output | Cleaned text only; layout can contain newlines |
 | Evaluated app profile | 4,000 input characters, 4,096-token runtime context, at most 256 output tokens |
-| Licence | LFM Open License v1.0, with inherited Sotto MIT notices; see `LICENSE` and `NOTICE` |
+| Licence | ScribeKey Fast Model Terms v1.0 + LFM Open License v1.0; inherited Sotto MIT notices retained |
 
 The architecture's larger context limit is not a tested cleanup length. Keep dictations short, budget for output and chunk longer text at sentence boundaries. The app's 256-token ceiling can truncate longer generations.
 
@@ -51,7 +51,7 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 MODEL = "scribekey/scribekey-cleanup-fast"
-REVISION = "v1-rc1"  # Pin the reviewed commit SHA for a deployment.
+REVISION = "v1-rc1-attribution"  # Pin the reviewed commit SHA for a deployment.
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL, revision=REVISION)
 model = AutoModelForCausalLM.from_pretrained(
@@ -159,11 +159,11 @@ Continued training used 4,350 rows: 2,000 pilot training rows, 2,000 Sotto publi
 
 Place it after ASR: **audio → your recogniser → raw transcript → ScribeKey Fast → reviewed text**. On-device inference can keep transcripts on the device; a hosted deployment has the privacy properties of its host. Choose the controls explicitly, retain the raw text, test important cases and provide a fallback. Do not treat dictated questions or commands as instructions for a tool to execute.
 
-Ship `LICENSE`, `NOTICE` and `MODIFICATIONS.md` with redistributions, retain upstream attribution and identify your own changes. Name this release **ScribeKey Fast** by **ScribeKey** in documentation; this describes the product and adds no separate mandatory naming clause. Attribution to Liquid AI and juanquivilla does not imply endorsement.
+Ship `ADDITIONAL_TERMS.md`, `LICENSE`, `NOTICE` and `MODIFICATIONS.md` with redistributions. The [ScribeKey Fast Model Terms v1.0](ADDITIONAL_TERMS.md) require the name **ScribeKey Fast** and publisher credit **ScribeKey** in model selectors/information and documentation; modified derivatives must credit **Derived from ScribeKey Fast by ScribeKey**. Retain upstream attribution and identify your changes. Attribution does not imply endorsement.
 
 ## Licence and commercial use
 
-The weights inherit **LFM Open License v1.0**. This is not an Apache-2.0-only or MIT-only model. Read the full [LICENSE](LICENSE), especially sections 4 (redistribution), 5 (commercial use) and 7 (trademarks), and retain the Sotto MIT text in [NOTICE](NOTICE).
+The [ScribeKey Fast Model Terms v1.0](ADDITIONAL_TERMS.md) add model naming and attribution requirements. The weights also inherit **LFM Open License v1.0**. This is not an Apache-2.0-only or MIT-only model. Read the full [LICENSE](LICENSE), especially sections 4 (redistribution), 5 (commercial use) and 7 (trademarks), and retain the Sotto MIT text in [NOTICE](NOTICE).
 
 The licence defines a US$10 million annual-revenue threshold and conditions commercial use on section 5. Organisations at or above that threshold should obtain separate terms from Liquid AI before commercial deployment. This summary is guidance, not a replacement for the licence or a legal opinion. The metadata/tooling repository's Apache-2.0 licence does not override the weights' terms.
 
@@ -179,3 +179,5 @@ Some training sources carry CC BY or CC BY-SA licences. They are credited separa
   url = {https://huggingface.co/scribekey/scribekey-cleanup-fast}
 }
 ```
+
+The `v1-rc1-attribution` update changes documentation and terms only; weight bytes and prompt/runtime controls are unchanged from `v1-rc1`. The original tag is preserved.

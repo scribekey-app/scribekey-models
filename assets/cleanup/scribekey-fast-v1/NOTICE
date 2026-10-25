@@ -2,7 +2,8 @@ ScribeKey Fast by ScribeKey — v1 release candidate, 25 October 2026
 
 Copyright 2026 ScribeKey contributors (ScribeKey modifications).
 Based on LFM2.5-350M-Base by Liquid AI, Inc., and Sotto by juanquivilla.
-The weights inherit LFM Open License v1.0 (LICENSE). Sotto's MIT notice is
+ScribeKey Fast Model Terms v1.0 (ADDITIONAL_TERMS.md) add naming and
+attribution conditions. The weights also inherit LFM Open License v1.0 (LICENSE). Sotto's MIT notice is
 retained verbatim below. No upstream endorsement is implied.
 
 Changes made by ScribeKey: continued LoRA training of reconstructed Sotto v6

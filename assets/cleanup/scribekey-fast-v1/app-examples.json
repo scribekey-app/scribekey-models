@@ -1,0 +1,55 @@
+{
+  "model_id": "scribekey-cleanup-fast",
+  "model_revision": "4e596969446259a0184855511e59241d6ca77753",
+  "artifact_sha256": "bbce6fe5dc52080366ea65768f96e8d6265c45c1925d9a2e3d03de32856295cc",
+  "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+  "scope": "Android SmartCleanupCleaner, including guards and deterministic app list layout; not raw model completions",
+  "controls": {
+    "styling": "semi-casual",
+    "model_structure": "prose",
+    "context": "general",
+    "app_make_lists": true
+  },
+  "repetitions_per_input": 2,
+  "all_outputs_repeatable": true,
+  "device": "Samsung SM-S938B / Galaxy S25 Ultra",
+  "recorded_at": "2026-10-25",
+  "examples": [
+    {
+      "input": "here are three things eggs milk and bread",
+      "output": "Here are three things:\n- Eggs\n- Milk\n- Bread",
+      "recordedWith": {
+        "modelRevision": "4e596969446259a0184855511e59241d6ca77753",
+        "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+        "recordedAt": "2026-10-25"
+      }
+    },
+    {
+      "input": "first send the invoice second check the draft third book the room",
+      "output": "1. Send the invoice\n2. Check the draft\n3. Book the room",
+      "recordedWith": {
+        "modelRevision": "4e596969446259a0184855511e59241d6ca77753",
+        "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+        "recordedAt": "2026-10-25"
+      }
+    },
+    {
+      "input": "send it on monday no sorry tuesday",
+      "output": "Send it on tuesday.",
+      "recordedWith": {
+        "modelRevision": "4e596969446259a0184855511e59241d6ca77753",
+        "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+        "recordedAt": "2026-10-25"
+      }
+    },
+    {
+      "input": "so we need to we need to finish the report by friday",
+      "output": "We need to finish the report by Friday.",
+      "recordedWith": {
+        "modelRevision": "4e596969446259a0184855511e59241d6ca77753",
+        "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+        "recordedAt": "2026-10-25"
+      }
+    }
+  ]
+}

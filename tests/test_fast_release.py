@@ -29,7 +29,7 @@ def test_fast_release_evidence_keeps_identity_terms_and_qualification_together()
 
 
 def test_fast_catalogue_pins_the_verified_private_upload() -> None:
-    receipt = json.loads((ASSETS / "private-upload-receipt.json").read_text())
+    receipt = json.loads((ASSETS / "attribution-upload-receipt.json").read_text())
     uploaded = next(r for r in receipt["repositories"] if r["repo_id"].endswith("-GGUF"))
     catalogue = load_cleanup_catalog_data()
     model = next(m for m in catalogue["candidates"] if m["modelId"] == "scribekey-cleanup-fast")
@@ -39,3 +39,11 @@ def test_fast_catalogue_pins_the_verified_private_upload() -> None:
     assert f"/resolve/{uploaded['commit']}/" in model["downloadUrl"]
     assert model["promptTemplate"] == "InputOutputControlLine"
     assert catalogue["production"]["modelId"] == "sotto"
+    assert model["license"] == "ScribeKey Fast + LFM v1.0"
+    assert model["licenseUrl"].endswith(f"/{model['revision']}/ADDITIONAL_TERMS.md")
+    assert "Derived from ScribeKey Fast by ScribeKey" in (ASSETS / "ADDITIONAL_TERMS.md").read_text()
+    app_examples = json.loads((ASSETS / "app-examples.json").read_text())
+    assert app_examples["artifact_sha256"] == model["sha256"]
+    assert app_examples["examples"] == model["examples"]
+    assert len(model["examples"]) == 4
+    assert model["examples"][0]["output"].count("\n- ") == 3

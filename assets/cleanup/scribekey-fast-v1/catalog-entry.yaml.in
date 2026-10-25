@@ -12,13 +12,13 @@ info:
 provenance:
   sourceModel: scribekey/scribekey-cleanup-fast
   exportRepository: scribekey/scribekey-cleanup-fast-GGUF
-  exportRevision: 8188159d2151fd1e8dff21ab2e00b2e860bfef62
+  exportRevision: 4e596969446259a0184855511e59241d6ca77753
   exportVariant: Q8_0 GGUF
-  licenseId: LFM Open License v1.0
-  licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/8188159d2151fd1e8dff21ab2e00b2e860bfef62/LICENSE
-revision: 8188159d2151fd1e8dff21ab2e00b2e860bfef62
+  licenseId: ScribeKey Fast + LFM v1.0
+  licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/4e596969446259a0184855511e59241d6ca77753/ADDITIONAL_TERMS.md
+revision: 4e596969446259a0184855511e59241d6ca77753
 bundleFileName: scribekey-cleanup-fast-350m-v1-Q8_0.gguf
-downloadUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/resolve/8188159d2151fd1e8dff21ab2e00b2e860bfef62/scribekey-cleanup-fast-350m-v1-Q8_0.gguf
+downloadUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/resolve/4e596969446259a0184855511e59241d6ca77753/scribekey-cleanup-fast-350m-v1-Q8_0.gguf
 sizeBytes: 379219904
 sha256: bbce6fe5dc52080366ea65768f96e8d6265c45c1925d9a2e3d03de32856295cc
 # Conservative floor inherited from Sotto; final-artifact and midrange checks remain open.
@@ -38,9 +38,9 @@ temperature: 0.0
 repetitionPenalty: null
 deterministicDecoding: true
 samplerSeed: 42
-license: LFM Open License v1.0
-attribution: ScribeKey Fast by ScribeKey, derived from Sotto by juanquivilla (MIT) and LFM2.5-350M-Base by Liquid AI (LFM Open License v1.0).
-licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/8188159d2151fd1e8dff21ab2e00b2e860bfef62/LICENSE
+license: ScribeKey Fast + LFM v1.0
+attribution: ScribeKey Fast by ScribeKey. Keep this model name and publisher credit in model selectors and documentation. Derived from Sotto by juanquivilla (MIT) and LFM2.5-350M-Base by Liquid AI (LFM Open License v1.0).
+licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/4e596969446259a0184855511e59241d6ca77753/ADDITIONAL_TERMS.md
 privacyDisclosure: Transcript text stays on this device.
 # Card examples are observed raw Q8_0 completions. Add app picker examples only after
 # recording with tools/record_cleanup_examples and checking the app's insertion path.

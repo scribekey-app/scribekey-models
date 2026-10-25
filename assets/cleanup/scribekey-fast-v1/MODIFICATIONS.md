@@ -9,3 +9,5 @@
 - **Documentation and manifests:** added ScribeKey Fast naming, observed examples, evaluation limits, immutable provenance, required upstream notices and licence guidance. The original LFM licence and prior Sotto notice are retained verbatim.
 
 The `model.safetensors` and GGUF files carry their modification notices through this accompanying document, `NOTICE` and `provenance.json`; their binary contents have not been rewritten merely to change branding. Distribute these notices with them.
+
+- **Terms-only package update (`v1-rc1-attribution`):** added ADDITIONAL_TERMS.md with ScribeKey model naming/attribution requirements, and updated the cards and notice. Weight bytes, tokenizer, prompts and generation settings are unchanged; the original v1-rc1 tag and upstream LICENSE are preserved.

@@ -1,7 +1,7 @@
 ---
 license: other
-license_name: lfm-open-license-v1.0
-license_link: LICENSE
+license_name: scribekey-fast-model-terms-v1.0-with-lfm-open-license-v1.0
+license_link: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/main/ADDITIONAL_TERMS.md
 language:
 - en
 base_model: scribekey/scribekey-cleanup-fast
@@ -19,7 +19,7 @@ tags:
 
 The evaluated Q8_0 build of [ScribeKey Fast](https://huggingface.co/scribekey/scribekey-cleanup-fast), a 350M-class English speech-to-text **cleanup** model. It receives a transcript, not audio, and returns cleaned text. It is not a general chat assistant.
 
-**Private release candidate `v1-rc1`**, experiment `v7-replay-tgt`. Final-artifact and midrange phone checks remain open. This upload does not change ScribeKey's production default. Two public-input BF16 CPU smoke cases also ran twice with identical outputs (`bf16-smoke.json`); this is an inference check, not a BF16 quality benchmark.
+**Private release candidate `v1-rc1-attribution`**, experiment `v7-replay-tgt`. Direct-helper S25 timing is complete; midrange and product end-to-end qualification remain open. This upload does not change ScribeKey's production default. Two public-input BF16 CPU smoke cases also ran twice with identical outputs (`bf16-smoke.json`); this is an inference check, not a BF16 quality benchmark.
 
 | File | Bytes | SHA-256 |
 |---|---:|---|
@@ -62,10 +62,12 @@ Use one BOS, no system message, no thinking mode and greedy decoding. Controls a
 
 On hidden CleanBench v1 (3,366 cases, 3,358 scored), under semi-casual/prose/general at the app boundary, this Q8_0 differs from Sotto v6 by +1.9 percentage points inserted exact (95% −0.1 to +3.9) and −0.001 token edit rate (−0.010 to +0.009). It differs from S1-mini by −1.2 points exact (−3.3 to +1.1). These intervals do not establish superiority or equivalence. The benchmark new-value metric is 4.6%; names, numbers, negations and omissions need checking.
 
-The frequently quoted S25 Ultra long-input p95 of 2,101 ms belongs to **v7-replay**, not this final candidate. A final-artifact phone recheck and midrange qualification are pending. See `evaluation.json`, `examples.json` and the full model card for scope and known limits. Keep raw transcripts and a fallback; output is not guaranteed faithful. Lists and email layout can also be wrong.
+The frequently quoted S25 Ultra long-input p95 of 2,101 ms belongs to **v7-replay**, not this final candidate. The final-artifact S25 direct-helper recheck measured short p50/p95 155/178 ms and long 1,702/2,718 ms with Parakeet resident; midrange and product end-to-end qualification remain pending. See `evaluation.json`, `examples.json` and the full model card for scope and known limits. Keep raw transcripts and a fallback; output is not guaranteed faithful. Lists and email layout can also be wrong.
 
 ## Terms and attribution
 
-The weights inherit **LFM Open License v1.0**, including its commercial revenue condition, not a blanket Apache or MIT licence. Retain [LICENSE](LICENSE), [NOTICE](NOTICE) and [MODIFICATIONS.md](MODIFICATIONS.md) when redistributing and mark your changes. Organisations at or above the licence's US$10M annual-revenue threshold should obtain separate terms from Liquid AI before commercial use. Read section 5; this summary is not a legal opinion.
+The weights inherit **LFM Open License v1.0**, including its commercial revenue condition, not a blanket Apache or MIT licence. Retain [ADDITIONAL_TERMS.md](ADDITIONAL_TERMS.md), [LICENSE](LICENSE), [NOTICE](NOTICE) and [MODIFICATIONS.md](MODIFICATIONS.md) when redistributing and mark your changes. Organisations at or above the licence's US$10M annual-revenue threshold should obtain separate terms from Liquid AI before commercial use. Read section 5; this summary is not a legal opinion.
 
-ScribeKey Fast continues Sotto by juanquivilla, based on LFM2.5-350M-Base by Liquid AI. `NOTICE` preserves Sotto's MIT notice and credits the training sources, including CC BY/CC BY-SA data. Those source terms remain distinct; this card does not resolve whether share-alike reaches model weights. Source text/audio and hidden benchmark rows are not distributed. The inherited Sotto data history has not been independently reconstructed. No upstream endorsement or additional mandatory naming clause is claimed.
+ScribeKey Fast continues Sotto by juanquivilla, based on LFM2.5-350M-Base by Liquid AI. `NOTICE` preserves Sotto's MIT notice and credits the training sources, including CC BY/CC BY-SA data. Those source terms remain distinct; this card does not resolve whether share-alike reaches model weights. Source text/audio and hidden benchmark rows are not distributed. The inherited Sotto data history has not been independently reconstructed. No upstream endorsement is implied. The [ScribeKey Fast Model Terms v1.0](ADDITIONAL_TERMS.md) require the ScribeKey Fast name and ScribeKey publisher credit in model selectors/information and documentation; modified derivatives must credit Derived from ScribeKey Fast by ScribeKey.
+
+The `v1-rc1-attribution` update changes documentation and terms only; weight bytes and prompt/runtime controls are unchanged from `v1-rc1`. The original tag is preserved.
