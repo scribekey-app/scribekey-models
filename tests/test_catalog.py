@@ -183,12 +183,12 @@ def test_cleanup_examples_are_projected_with_their_recording() -> None:
     examples = generate_cleanup_catalog()["production"]["examples"]
 
     assert [example["input"] for example in examples] == [
-        "here are three things eggs milk and bread",
-        "first send the invoice second check the draft third book the room",
-        "send it on monday no sorry tuesday",
-        "so we need to we need to finish the report by friday",
+        "um so i was thinking we could uh meet at the cafe at three no actually four",
+        "so basically like what i'm trying to say is the client loved it and they want to sign by friday",
+        "hey sam the invoice is forty five dollars and it's due on the twenty third of november",
+        "can you can you send me the slides from the meeting before lunch tomorrow",
     ]
-    assert examples[3]["output"] == "We need to finish the report by Friday."
+    assert examples[0]["output"] == "So I was thinking we could meet at the cafe at four."
     assert all(example["recordedWith"]["runtime"].startswith("llama.cpp@") for example in examples)
 
 

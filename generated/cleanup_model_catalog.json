@@ -49,8 +49,8 @@
     "privacyDisclosure": "Transcript text stays on this device.",
     "examples": [
       {
-        "input": "here are three things eggs milk and bread",
-        "output": "Here are three things:\n- Eggs\n- Milk\n- Bread",
+        "input": "um so i was thinking we could uh meet at the cafe at three no actually four",
+        "output": "So I was thinking we could meet at the cafe at four.",
         "recordedWith": {
           "modelRevision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
           "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
@@ -58,8 +58,8 @@
         }
       },
       {
-        "input": "first send the invoice second check the draft third book the room",
-        "output": "1. Send the invoice\n2. Check the draft\n3. Book the room",
+        "input": "so basically like what i'm trying to say is the client loved it and they want to sign by friday",
+        "output": "The client loved it and they want to sign by Friday.",
         "recordedWith": {
           "modelRevision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
           "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
@@ -67,8 +67,8 @@
         }
       },
       {
-        "input": "send it on monday no sorry tuesday",
-        "output": "Send it on tuesday.",
+        "input": "hey sam the invoice is forty five dollars and it's due on the twenty third of november",
+        "output": "Hey, Sam, the invoice is $45 and it's due on the 23rd of November.",
         "recordedWith": {
           "modelRevision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
           "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
@@ -76,8 +76,8 @@
         }
       },
       {
-        "input": "so we need to we need to finish the report by friday",
-        "output": "We need to finish the report by Friday.",
+        "input": "can you can you send me the slides from the meeting before lunch tomorrow",
+        "output": "Can you send me the slides from the meeting before lunch tomorrow?",
         "recordedWith": {
           "modelRevision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
           "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",

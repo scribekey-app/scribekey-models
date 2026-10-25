@@ -3,21 +3,20 @@
   "model_revision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
   "artifact_sha256": "bbce6fe5dc52080366ea65768f96e8d6265c45c1925d9a2e3d03de32856295cc",
   "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
-  "scope": "Android SmartCleanupCleaner, including guards and deterministic app list layout; not raw model completions",
+  "scope": "Model completions with the app's prompt and output cleanup; no app guards or list layout",
   "controls": {
     "styling": "semi-casual",
     "model_structure": "prose",
-    "context": "general",
-    "app_make_lists": true
+    "context": "general"
   },
   "repetitions_per_input": 2,
   "all_outputs_repeatable": true,
-  "device": "Samsung SM-S938B / Galaxy S25 Ultra",
+  "device": "Linux x86_64 CPU",
   "recorded_at": "2026-10-25",
   "examples": [
     {
-      "input": "here are three things eggs milk and bread",
-      "output": "Here are three things:\n- Eggs\n- Milk\n- Bread",
+      "input": "um so i was thinking we could uh meet at the cafe at three no actually four",
+      "output": "So I was thinking we could meet at the cafe at four.",
       "recordedWith": {
         "modelRevision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
         "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
@@ -25,8 +24,8 @@
       }
     },
     {
-      "input": "first send the invoice second check the draft third book the room",
-      "output": "1. Send the invoice\n2. Check the draft\n3. Book the room",
+      "input": "so basically like what i'm trying to say is the client loved it and they want to sign by friday",
+      "output": "The client loved it and they want to sign by Friday.",
       "recordedWith": {
         "modelRevision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
         "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
@@ -34,8 +33,8 @@
       }
     },
     {
-      "input": "send it on monday no sorry tuesday",
-      "output": "Send it on tuesday.",
+      "input": "hey sam the invoice is forty five dollars and it's due on the twenty third of november",
+      "output": "Hey, Sam, the invoice is $45 and it's due on the 23rd of November.",
       "recordedWith": {
         "modelRevision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
         "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
@@ -43,8 +42,8 @@
       }
     },
     {
-      "input": "so we need to we need to finish the report by friday",
-      "output": "We need to finish the report by Friday.",
+      "input": "can you can you send me the slides from the meeting before lunch tomorrow",
+      "output": "Can you send me the slides from the meeting before lunch tomorrow?",
       "recordedWith": {
         "modelRevision": "3e4bd187506b6fcf786e96536654614f4fa077f5",
         "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
