@@ -1,6 +1,5 @@
-# Handoff entry pinned to the verified private upload; public publication still needs approval.
-# The local catalogue branch includes this candidate but has not been pushed publicly.
-# Do not switch production or promote a signed channel before the device/app gates in the plan.
+# Handoff entry for the public v1 Q8_0 commit; owner approved it as production on 25 Oct 2026.
+# catalog/cleanup.yaml is canonical. Signed QA/stable promotion is a separate, signed step.
 modelId: scribekey-cleanup-fast
 displayName: ScribeKey Fast
 description: Cleans English dictation, follows writing styles and applies spoken corrections. Runs on your phone.
@@ -12,13 +11,13 @@ info:
 provenance:
   sourceModel: scribekey/scribekey-cleanup-fast
   exportRepository: scribekey/scribekey-cleanup-fast-GGUF
-  exportRevision: 4e596969446259a0184855511e59241d6ca77753
+  exportRevision: 0b83e5d6c53633004d940563445fb53e488c4fd4
   exportVariant: Q8_0 GGUF
   licenseId: ScribeKey Fast + LFM v1.0
-  licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/4e596969446259a0184855511e59241d6ca77753/ADDITIONAL_TERMS.md
-revision: 4e596969446259a0184855511e59241d6ca77753
+  licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/0b83e5d6c53633004d940563445fb53e488c4fd4/ADDITIONAL_TERMS.md
+revision: 0b83e5d6c53633004d940563445fb53e488c4fd4
 bundleFileName: scribekey-cleanup-fast-350m-v1-Q8_0.gguf
-downloadUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/resolve/4e596969446259a0184855511e59241d6ca77753/scribekey-cleanup-fast-350m-v1-Q8_0.gguf
+downloadUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/resolve/0b83e5d6c53633004d940563445fb53e488c4fd4/scribekey-cleanup-fast-350m-v1-Q8_0.gguf
 sizeBytes: 379219904
 sha256: bbce6fe5dc52080366ea65768f96e8d6265c45c1925d9a2e3d03de32856295cc
 # Conservative floor inherited from Sotto; final-artifact and midrange checks remain open.
@@ -40,7 +39,7 @@ deterministicDecoding: true
 samplerSeed: 42
 license: ScribeKey Fast + LFM v1.0
 attribution: ScribeKey Fast by ScribeKey. Keep this model name and publisher credit in model selectors and documentation. Derived from Sotto by juanquivilla (MIT) and LFM2.5-350M-Base by Liquid AI (LFM Open License v1.0).
-licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/4e596969446259a0184855511e59241d6ca77753/ADDITIONAL_TERMS.md
+licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/0b83e5d6c53633004d940563445fb53e488c4fd4/ADDITIONAL_TERMS.md
 privacyDisclosure: Transcript text stays on this device.
 # Card examples are observed raw Q8_0 completions. Add app picker examples only after
 # recording with tools/record_cleanup_examples and checking the app's insertion path.

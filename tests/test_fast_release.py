@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import re
 from pathlib import Path
 
 from scribekey_models.catalog import load_cleanup_catalog_data
@@ -28,17 +29,23 @@ def test_fast_release_evidence_keeps_identity_terms_and_qualification_together()
     assert "LFM Open License v1.0" in notice
 
 
-def test_fast_catalogue_pins_the_verified_private_upload() -> None:
+def test_fast_is_production_and_pins_the_verified_upload() -> None:
     receipt = json.loads((ASSETS / "attribution-upload-receipt.json").read_text())
     uploaded = next(r for r in receipt["repositories"] if r["repo_id"].endswith("-GGUF"))
     catalogue = load_cleanup_catalog_data()
-    model = next(m for m in catalogue["candidates"] if m["modelId"] == "scribekey-cleanup-fast")
-    assert model["revision"] == uploaded["commit"] == model["provenance"]["exportRevision"]
+    model = catalogue["production"]
+    assert model["modelId"] == "scribekey-cleanup-fast"
+    assert "experimental" not in model
+    assert re.fullmatch(r"[0-9a-f]{40}", model["revision"])
+    assert model["revision"] == model["provenance"]["exportRevision"]
     assert model["sha256"] == uploaded["weight_sha256"]
     assert model["sizeBytes"] == uploaded["weight_bytes"]
-    assert f"/resolve/{uploaded['commit']}/" in model["downloadUrl"]
+    assert f"/{uploaded['repo_id']}/resolve/{model['revision']}/" in model["downloadUrl"]
+    sotto = next(m for m in catalogue["candidates"] if m["modelId"] == "sotto")
+    assert sotto["retired"] is True and sotto["replacementId"] == model["modelId"]
+    for gate in ("minDeviceMemoryGb", "minimumApiLevel", "supportedAbis", "supportedLanguages"):
+        assert model[gate] == sotto[gate], gate
     assert model["promptTemplate"] == "InputOutputControlLine"
-    assert catalogue["production"]["modelId"] == "sotto"
     assert model["license"] == "ScribeKey Fast + LFM v1.0"
     assert model["licenseUrl"].endswith(f"/{model['revision']}/ADDITIONAL_TERMS.md")
     assert "Derived from ScribeKey Fast by ScribeKey" in (ASSETS / "ADDITIONAL_TERMS.md").read_text()
