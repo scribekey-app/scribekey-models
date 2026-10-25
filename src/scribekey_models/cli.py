@@ -94,6 +94,12 @@ def _parser() -> argparse.ArgumentParser:
         help="Explicit monotonic sequence number (auto-increments if omitted)",
     )
     promote_cmd.add_argument("--notes", default="", help="Optional promotion notes")
+    promote_cmd.add_argument(
+        "--min-app-version-code",
+        type=int,
+        default=None,
+        help="Set compatibility.minAppVersionCode (cannot lower the channel's current value)",
+    )
     promote_cmd.add_argument("--key", default=None, help="Private signing key (string)")
     promote_cmd.add_argument(
         "--key-env",
@@ -318,6 +324,7 @@ def main() -> None:
             args.release,
             sequence=args.sequence,
             notes=args.notes,
+            min_app_version_code=args.min_app_version_code,
             private_key=priv_key,
             key_id=args.key_id,
         )

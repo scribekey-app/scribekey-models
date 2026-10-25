@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "releaseId": "2026.10.6",
+  "createdAt": "2026-10-25T11:25:13Z",
+  "description": "ScribeKey Fast v1 becomes the production cleanup model; Sotto, Quill and Mumble retired to it. Needs app build 22+.",
+  "catalogs": {
+    "speech": {
+      "filename": "model_catalog.json",
+      "sha256": "467d2864e5ea0a95ef026c66b795b99c33e526ef5aba457e28eaec15fd796cbd",
+      "sizeBytes": 58156
+    },
+    "diarization": {
+      "filename": "speaker_diarization_manifest.json",
+      "sha256": "229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a",
+      "sizeBytes": 1438
+    },
+    "cleanup": {
+      "filename": "cleanup_model_catalog.json",
+      "sha256": "6c3a77a0b60d2847e1e53b0668d60f2520f3f8be5d80243422d2b1418f7f4ffb",
+      "sizeBytes": 16106
+    },
+    "cloudTiers": {
+      "filename": "cloud_model_tiers.json",
+      "sha256": "8277f19fc41308b5aafb8de6f02e8cef1af25100971d4661f87d21aa16a4ae05",
+      "sizeBytes": 19524
+    }
+  },
+  "gitCommit": "d38dc21f0a28ea1196e1cf0975ede53cbf9558ce"
+}
