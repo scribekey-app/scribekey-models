@@ -123,6 +123,7 @@ def test_speech_metadata_projects_user_facing_guidance_without_changing_ids() ->
         "moonshine-v2-tiny-en",
         "moonshine-v2-base-en",
         "omnilingual-asr-300m",
+        "parakeet-redux-0.6b",
         "qwen3-asr-0.6b",
         "parakeet-110m",
         "canary-180m",
@@ -161,6 +162,7 @@ def test_live_and_final_counterparts_and_language_codes_are_projected() -> None:
     assert models["canary-180m"]["languageCodes"] == ["en", "es", "de", "fr"]
     assert models["canary-180m"]["supportsLanguageDetection"] is False
     assert len(models["parakeet-ultra-0.6b"]["languageCodes"]) == 25
+    assert models["parakeet-redux-0.6b"]["languageCodes"] == models["parakeet-ultra-0.6b"]["languageCodes"]
     assert not models["parakeet-0.6b-v3"].get("deprecated")
     assert models["parakeet-ultra-0.6b"]["outcome"] == "MULTILINGUAL"
     assert "languageCodes" not in models["qwen3-asr-0.6b"]
@@ -174,6 +176,7 @@ def test_experimental_flag_is_projected_for_every_model() -> None:
         "nemotron-en-0.6b",
         "nemotron-3.5-0.6b-560ms",
         "omnilingual-asr-300m",
+        "parakeet-redux-0.6b",
         "qwen3-asr-0.6b",
         "zipformer-en-live",
     }
