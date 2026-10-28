@@ -81,12 +81,17 @@ def generate_cloud_tiers() -> dict[str, Any] | None:
 
 
 def validate_cloud_tiers(data: dict[str, Any]) -> list[str]:
-    """What the schema cannot say: each provider's recommended tier must exist."""
+    """What the schema cannot say: each provider's recommended tier must exist, and no tier may
+    name a model that provider has retired."""
     problems = []
+    retired = data.get("retired", {})
     for task, block in data.get("tasks", {}).items():
         for provider, entry in block.get("providers", {}).items():
             if entry["recommended"] not in entry["tiers"]:
                 problems.append(f"{task}.{provider}: recommended tier '{entry['recommended']}' is missing")
+            for name, tier in entry["tiers"].items():
+                if tier["model"] in retired.get(provider, []):
+                    problems.append(f"{task}.{provider}.{name}: '{tier['model']}' is retired")
     return problems
 
 

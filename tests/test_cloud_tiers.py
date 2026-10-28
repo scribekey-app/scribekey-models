@@ -61,6 +61,17 @@ def test_recommended_tier_must_exist() -> None:
     assert validate_cloud_tiers(doc) == ["enhance.openai: recommended tier 'best' is missing"]
 
 
+def test_retired_lists_ids_per_known_provider() -> None:
+    assert errors(tiers(retired={"openai": ["gpt-5-nano", "whisper-1"]})) == []
+    assert errors(tiers(retired={"evil": ["gpt-5-nano"]}))
+    assert errors(tiers(retired={"openai": ["gpt 5; rm -rf"]}))
+
+
+def test_a_tier_may_not_name_a_retired_model() -> None:
+    doc = tiers(retired={"openai": ["gpt-6-luna"]})
+    assert validate_cloud_tiers(doc) == ["enhance.openai.budget: 'gpt-6-luna' is retired"]
+
+
 def test_release_and_channel_carry_cloud_tiers_only_when_present() -> None:
     common = {"speech_content": "{}\n", "diarization_content": "{}\n", "cleanup_content": "{}\n"}
     without = create_release_manifest("2026.10.1", "x", **common)
