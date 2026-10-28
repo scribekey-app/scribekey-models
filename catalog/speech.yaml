@@ -307,7 +307,7 @@ models:
     transcriptionMode: SEGMENTED
     supportsTimestamps: false
     supportsPunctuation: true
-    supportsLanguageDetection: true
+    supportsLanguageDetection: false
     languageCodes:
       - en
       - es
