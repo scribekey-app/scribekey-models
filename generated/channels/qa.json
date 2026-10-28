@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "channel": "qa",
-  "sequence": 8,
-  "issuedAt": "2026-10-28T05:44:51Z",
-  "releaseId": "2026.10.8",
+  "sequence": 9,
+  "issuedAt": "2026-10-28T07:52:56Z",
+  "releaseId": "2026.10.9",
   "compatibility": {
     "minAndroidApiLevel": 28,
     "minAppVersionCode": 22,
@@ -22,29 +22,29 @@
   "catalogs": {
     "speech": {
       "filename": "model_catalog.json",
-      "path": "../releases/2026.10.8/model_catalog.json",
-      "sha256": "467d2864e5ea0a95ef026c66b795b99c33e526ef5aba457e28eaec15fd796cbd",
-      "sizeBytes": 58156
+      "path": "../releases/2026.10.9/model_catalog.json",
+      "sha256": "6127e12ee44196f40b93b510478e99daf29931d5cfd29408bbec438c1825e7c6",
+      "sizeBytes": 58157
     },
     "diarization": {
       "filename": "speaker_diarization_manifest.json",
-      "path": "../releases/2026.10.8/speaker_diarization_manifest.json",
+      "path": "../releases/2026.10.9/speaker_diarization_manifest.json",
       "sha256": "229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a",
       "sizeBytes": 1438
     },
     "cleanup": {
       "filename": "cleanup_model_catalog.json",
-      "path": "../releases/2026.10.8/cleanup_model_catalog.json",
-      "sha256": "09f3aac159d2526fa81a53146eec12980387f241d39acffbddf14bc3b17b1700",
-      "sizeBytes": 16320
+      "path": "../releases/2026.10.9/cleanup_model_catalog.json",
+      "sha256": "f26755dff0682c6d34730d8f2654c8bf348248462997beb007a747b8d862d56b",
+      "sizeBytes": 16342
     },
     "cloudTiers": {
       "filename": "cloud_model_tiers.json",
-      "path": "../releases/2026.10.8/cloud_model_tiers.json",
+      "path": "../releases/2026.10.9/cloud_model_tiers.json",
       "sha256": "8277f19fc41308b5aafb8de6f02e8cef1af25100971d4661f87d21aa16a4ae05",
       "sizeBytes": 19524
     }
   },
-  "notes": "ScribeKey Fast v1.1: better spoken self-corrections. Needs app build 22+.",
-  "gitCommit": "b5e48c7d031fcd20bd7b7c7124ca79c38a55ebe5"
+  "notes": "ScribeKey Fast gains release version 1.1 (same files as 2026.10.8); Canary language detection flag corrected.",
+  "gitCommit": "e8f40392750095d662ac098d76cdc38c4ce45e25"
 }

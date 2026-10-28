@@ -1,10 +1,11 @@
 schema_version: 1
 channels:
   qa:
-    targetRelease: 2026.10.8
-    sequence: 8
-    issuedAt: '2026-10-28T05:44:51Z'
-    notes: 'ScribeKey Fast v1.1: better spoken self-corrections. Needs app build 22+.'
+    targetRelease: 2026.10.9
+    sequence: 9
+    issuedAt: '2026-10-28T07:52:56Z'
+    notes: ScribeKey Fast gains release version 1.1 (same files as 2026.10.8); Canary
+      language detection flag corrected.
     compatibility:
       minAndroidApiLevel: 28
       minAppVersionCode: 22
