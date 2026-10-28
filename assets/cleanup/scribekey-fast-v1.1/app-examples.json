@@ -1,0 +1,54 @@
+{
+  "model_id": "scribekey-cleanup-fast",
+  "model_revision": "4b3dce49913c15f6341393728b592a220c370efb",
+  "artifact_sha256": "2dfd7463ae0a8ca7dd2e4abebeed9cc77a584569b9c99dc9e68ad85f1399b55a",
+  "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+  "scope": "Model completions with the app's prompt and output cleanup; no app guards or list layout",
+  "controls": {
+    "styling": "semi-casual",
+    "model_structure": "prose",
+    "context": "general"
+  },
+  "repetitions_per_input": 2,
+  "all_outputs_repeatable": true,
+  "device": "Linux x86_64 CPU",
+  "recorded_at": "2026-10-28",
+  "examples": [
+    {
+      "input": "um so i was thinking we could uh meet at the cafe at three no actually four",
+      "output": "So I was thinking we could meet at the cafe at four.",
+      "recordedWith": {
+        "modelRevision": "4b3dce49913c15f6341393728b592a220c370efb",
+        "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+        "recordedAt": "2026-10-28"
+      }
+    },
+    {
+      "input": "so basically like what i'm trying to say is the client loved it and they want to sign by friday",
+      "output": "The client loved it and they want to sign by Friday.",
+      "recordedWith": {
+        "modelRevision": "4b3dce49913c15f6341393728b592a220c370efb",
+        "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+        "recordedAt": "2026-10-28"
+      }
+    },
+    {
+      "input": "hey sam the invoice is forty five dollars and it's due on the twenty third of november",
+      "output": "Hey Sam, the invoice is $45 and it's due on the 23rd of November.",
+      "recordedWith": {
+        "modelRevision": "4b3dce49913c15f6341393728b592a220c370efb",
+        "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+        "recordedAt": "2026-10-28"
+      }
+    },
+    {
+      "input": "can you can you send me the slides from the meeting before lunch tomorrow",
+      "output": "Can you send me the slides from the meeting before lunch tomorrow?",
+      "recordedWith": {
+        "modelRevision": "4b3dce49913c15f6341393728b592a220c370efb",
+        "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+        "recordedAt": "2026-10-28"
+      }
+    }
+  ]
+}

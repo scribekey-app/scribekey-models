@@ -1,0 +1,60 @@
+{
+  "artifact_sha256": "2dfd7463ae0a8ca7dd2e4abebeed9cc77a584569b9c99dc9e68ad85f1399b55a",
+  "quantization": "Q8_0",
+  "scope": "ScribeKey app-boundary, paired against ScribeKey Fast v1 with identical controls",
+  "controls": {
+    "styling": "semi-casual",
+    "structure": "prose",
+    "context": "general"
+  },
+  "benchmark": {
+    "name": "ScribeKey holdout-v1",
+    "scored_rows": 7516,
+    "total_rows": 7524,
+    "groups_resampled": true,
+    "hidden_rows_distributed": false
+  },
+  "metrics_vs_v1": {
+    "self_correction_ter": [
+      -0.036,
+      -0.046,
+      -0.026
+    ],
+    "self_correction_ter_questions": [
+      -0.048,
+      -0.065,
+      -0.03
+    ],
+    "self_correction_ter_written": [
+      -0.023,
+      -0.032,
+      -0.014
+    ],
+    "exact_pp": [
+      3.3,
+      2.4,
+      4.3
+    ],
+    "clean_input_damage_pp": [
+      -0.9,
+      -2.1,
+      0.0
+    ],
+    "new_values_pp": [
+      -0.3,
+      -0.7,
+      0.1
+    ]
+  },
+  "metric_format": "[difference, 95% lower, 95% upper], v1.1 minus v1",
+  "gates": "pre-registered: correction TER upper < 0, exact lower > -1 pt, new values upper <= +0.5 pt; all pass",
+  "bf16_quality_benchmark": "not measured",
+  "final_artifact_phone": "not measured",
+  "midrange_phone": "not measured",
+  "limitations": [
+    "model can change or omit meaning",
+    "list recall low",
+    "source/data provenance inherited in part",
+    "phone latency assumed from v1's identical architecture and size, not measured"
+  ]
+}

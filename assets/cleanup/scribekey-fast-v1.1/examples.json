@@ -1,0 +1,46 @@
+{
+  "runtime": "llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+  "q8_sha256": "2dfd7463ae0a8ca7dd2e4abebeed9cc77a584569b9c99dc9e68ad85f1399b55a",
+  "examples": [
+    {
+      "input": "um can you send the updated agenda before lunch",
+      "styling": "semi-casual",
+      "structure": "prose",
+      "context": "general",
+      "output": "Can you send the updated agenda before lunch?",
+      "repeated_twice": true
+    },
+    {
+      "input": "send it on monday no sorry tuesday",
+      "styling": "semi-casual",
+      "structure": "prose",
+      "context": "general",
+      "output": "Send it on Tuesday.",
+      "repeated_twice": true
+    },
+    {
+      "input": "i cant make the call because im on the train",
+      "styling": "casual",
+      "structure": "prose",
+      "context": "general",
+      "output": "i cant make the call because i'm on the train.",
+      "repeated_twice": true
+    },
+    {
+      "input": "i cant make the call because im on the train",
+      "styling": "formal",
+      "structure": "prose",
+      "context": "general",
+      "output": "I cannot make the call because I am on the train.",
+      "repeated_twice": true
+    },
+    {
+      "input": "hi priya could you check the draft before friday thanks sam",
+      "styling": "semi-formal",
+      "structure": "prose",
+      "context": "email",
+      "output": "Hi Priya, could you check the draft before Friday? Thanks, Sam.",
+      "repeated_twice": true
+    }
+  ]
+}

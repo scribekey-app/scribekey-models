@@ -11,15 +11,15 @@ production:
   provenance:
     sourceModel: scribekey/scribekey-cleanup-fast
     exportRepository: scribekey/scribekey-cleanup-fast-GGUF
-    exportRevision: 3e4bd187506b6fcf786e96536654614f4fa077f5
+    exportRevision: 4b3dce49913c15f6341393728b592a220c370efb
     exportVariant: Q8_0 GGUF
     licenseId: ScribeKey Fast + LFM v1.0
-    licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/3e4bd187506b6fcf786e96536654614f4fa077f5/ADDITIONAL_TERMS.md
-  revision: 3e4bd187506b6fcf786e96536654614f4fa077f5
-  bundleFileName: scribekey-cleanup-fast-350m-v1-Q8_0.gguf
-  downloadUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/resolve/3e4bd187506b6fcf786e96536654614f4fa077f5/scribekey-cleanup-fast-350m-v1-Q8_0.gguf
+    licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/4b3dce49913c15f6341393728b592a220c370efb/ADDITIONAL_TERMS.md
+  revision: 4b3dce49913c15f6341393728b592a220c370efb
+  bundleFileName: scribekey-cleanup-fast-350m-v1.1-Q8_0.gguf
+  downloadUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/resolve/4b3dce49913c15f6341393728b592a220c370efb/scribekey-cleanup-fast-350m-v1.1-Q8_0.gguf
   sizeBytes: 379219904
-  sha256: bbce6fe5dc52080366ea65768f96e8d6265c45c1925d9a2e3d03de32856295cc
+  sha256: 2dfd7463ae0a8ca7dd2e4abebeed9cc77a584569b9c99dc9e68ad85f1399b55a
   # Same floor as Sotto until a midrange run shows Fast fits in less.
   minDeviceMemoryGb: 6
   minimumApiLevel: 28
@@ -39,34 +39,34 @@ production:
   samplerSeed: 42
   license: ScribeKey Fast + LFM v1.0
   attribution: ScribeKey Fast by ScribeKey. Keep this model name and publisher credit in model selectors and documentation. Derived from Sotto by juanquivilla (MIT) and LFM2.5-350M-Base by Liquid AI (LFM Open License v1.0).
-  licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/3e4bd187506b6fcf786e96536654614f4fa077f5/ADDITIONAL_TERMS.md
+  licenseUrl: https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/4b3dce49913c15f6341393728b592a220c370efb/ADDITIONAL_TERMS.md
   privacyDisclosure: Transcript text stays on this device.
   # Recorded twice at the pinned runtime; identical runs.
   examples:
   - input: um so i was thinking we could uh meet at the cafe at three no actually four
     output: So I was thinking we could meet at the cafe at four.
     recordedWith:
-      modelRevision: 3e4bd187506b6fcf786e96536654614f4fa077f5
+      modelRevision: 4b3dce49913c15f6341393728b592a220c370efb
       runtime: llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c
-      recordedAt: '2026-10-25'
+      recordedAt: '2026-10-28'
   - input: "so basically like what i'm trying to say is the client loved it and they want to sign by friday"
     output: The client loved it and they want to sign by Friday.
     recordedWith:
-      modelRevision: 3e4bd187506b6fcf786e96536654614f4fa077f5
+      modelRevision: 4b3dce49913c15f6341393728b592a220c370efb
       runtime: llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c
-      recordedAt: '2026-10-25'
+      recordedAt: '2026-10-28'
   - input: "hey sam the invoice is forty five dollars and it's due on the twenty third of november"
-    output: "Hey, Sam, the invoice is $45 and it's due on the 23rd of November."
+    output: "Hey Sam, the invoice is $45 and it's due on the 23rd of November."
     recordedWith:
-      modelRevision: 3e4bd187506b6fcf786e96536654614f4fa077f5
+      modelRevision: 4b3dce49913c15f6341393728b592a220c370efb
       runtime: llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c
-      recordedAt: '2026-10-25'
+      recordedAt: '2026-10-28'
   - input: can you can you send me the slides from the meeting before lunch tomorrow
     output: Can you send me the slides from the meeting before lunch tomorrow?
     recordedWith:
-      modelRevision: 3e4bd187506b6fcf786e96536654614f4fa077f5
+      modelRevision: 4b3dce49913c15f6341393728b592a220c370efb
       runtime: llama.cpp@4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c
-      recordedAt: '2026-10-25'
+      recordedAt: '2026-10-28'
 candidates:
   # Retired for Sotto on 9 Oct 2026. On CleanBench v1 (3,366 hidden dictations through three speech
   # models), Quill's inserted text was exactly right on 19.3% of rows, against 17.6% for Standard,

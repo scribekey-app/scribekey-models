@@ -1,0 +1,4 @@
+{%- if messages | length != 1 or messages[0]['role'] != 'user' -%}
+{{- raise_exception('ScribeKey Fast accepts one user message containing a control line and transcript; no system message or history.') -}}
+{%- endif -%}
+{{- '<|startoftext|>### Input:\n' + messages[0]['content'] + '\n\n### Output:\n' -}}

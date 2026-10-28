@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "display_name": "ScribeKey Fast",
+  "publisher": "ScribeKey",
+  "model_id": "scribekey-cleanup-fast",
+  "experiment": "fast13 soupab (4-run weight average)",
+  "publication_status": "public",
+  "production_promoted": false,
+  "artifacts": {
+    "bf16": {
+      "repo": "scribekey/scribekey-cleanup-fast",
+      "filename": "model.safetensors",
+      "bytes": 708984464,
+      "sha256": "1a9ab3fcd2384f9c4053f4b55d5e0f40de195487853fdd006b1fa810cd69e16a"
+    },
+    "q8_0": {
+      "repo": "scribekey/scribekey-cleanup-fast-GGUF",
+      "filename": "scribekey-cleanup-fast-350m-v1.1-Q8_0.gguf",
+      "original_filename": "runs/fast13-soup/S3/soupab-s0/gguf/e3-Q8_0.gguf",
+      "bytes": 379219904,
+      "sha256": "2dfd7463ae0a8ca7dd2e4abebeed9cc77a584569b9c99dc9e68ad85f1399b55a"
+    }
+  },
+  "lineage": {
+    "declared_architecture_ancestor": "LiquidAI/LFM2.5-350M-Base",
+    "original_ancestor_revision": "not recorded independently in inherited Sotto lineage",
+    "sotto": {
+      "repo": "juanquivilla/sotto-cleanup-lfm25-350m",
+      "revision": "6df6f019170b8b55333c047b901886a51750a965"
+    },
+    "sotto_v6": {
+      "repo": "scribekey/sotto-scribekey-350m-gguf",
+      "revision": "017ef3dadb38dd866832c9303b6427982e528426",
+      "q8_sha256": "cd1929420e0c013c070a2f2cd12f95bfb42c955697589b4a056d498cbc8235c9",
+      "reconstructed_safetensors_sha256": "e868b9f3b453199d93057ea17ed923f05d46f9caf32e3203f0965f7779e33bb7",
+      "reconstruction_check": "148 tensors bit-identical when re-exported to production Q8_0"
+    },
+    "tokenizer": {
+      "repo": "LiquidAI/LFM2.5-350M",
+      "revision": "9e6c6ccf47cd318696e137d381a7ded8fe4df09f",
+      "task_template_replaced": true
+    }
+  },
+  "training": {
+    "method": "weight average (float32 mean, saved BF16) of four merged epoch-3 LoRA runs from Sotto v6",
+    "members": [
+      {
+        "run": "a-s42",
+        "seed": 42,
+        "corpus": "targeted round 2",
+        "rows": 6832,
+        "train_sha256": "fd6f3d7459414513ac4acdf97e8e6f16a3c93de278d4616f3d9097e1ee00ad5c"
+      },
+      {
+        "run": "a-s3407",
+        "seed": 3407,
+        "corpus": "targeted round 2",
+        "rows": 6832,
+        "train_sha256": "fd6f3d7459414513ac4acdf97e8e6f16a3c93de278d4616f3d9097e1ee00ad5c"
+      },
+      {
+        "run": "b-s3407",
+        "seed": 3407,
+        "corpus": "targeted round 3",
+        "rows": 8050,
+        "train_sha256": "a4b288dffd9050f4a588763aafa35c02d24ac8f123378fad8f173452bd93b4db"
+      },
+      {
+        "run": "b-s42",
+        "seed": 42,
+        "corpus": "targeted round 3",
+        "rows": 8050,
+        "train_sha256": "a4b288dffd9050f4a588763aafa35c02d24ac8f123378fad8f173452bd93b4db"
+      }
+    ],
+    "replay_mix_rows": 4350,
+    "replay_mix_sha256": "9a978c3f3a8cc140852fd19acea8280beeb75ac206abeae2a14f69822d60df73",
+    "targeted_round2_rows": 2482,
+    "targeted_round2_sha256": "5a6ea8b99282c42569bf520fd4b2b25841515e17507cf597efa864e8850c856f",
+    "targeted_round3_rows": 3700,
+    "targeted_round3_sha256": "feb0d5498ec46bf92dfa63f065b23de2e820814559b03a968fd1a19877db1c55",
+    "v1_replay_source_counts": {
+      "cleanup-v1-generated": 1434,
+      "dictation-speech": 422,
+      "handy-dictation-editing-train": 187,
+      "peoples-speech-clean-dirty": 134,
+      "common-voice-spontaneous-speech-5-0-en": 173,
+      "juanquivilla/sotto-transcript-cleanup": 2000
+    },
+    "replay": {
+      "repo": "juanquivilla/sotto-transcript-cleanup",
+      "revision": "183cc8fd58532f13fa192980185214de1bcd5acc",
+      "declared_license": "MIT"
+    },
+    "training_code_commit": "55abaa99069a1abf59641df4c874ae9485d26a20",
+    "lora_rank": 16,
+    "lora_alpha": 32,
+    "epochs": 3,
+    "learning_rate": 0.0004,
+    "effective_batch_size": 8,
+    "packing": false,
+    "max_sequence_length": 1024,
+    "training_rows_distributed": false
+  },
+  "export": {
+    "llama_cpp_revision": "4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c",
+    "created_at": "2026-10-28",
+    "reproduction": "BF16 rebuilt by docs/research/2026-10-28-fast-v13/release-weights.sh; its Q8_0 re-export is byte-identical to the evaluated file",
+    "packaging_note": "config.json, tokenizer, chat template and generation config are v1's reviewed files (merged config/tokenizer identical); only weights and cards changed."
+  },
+  "licensing": {
+    "weights": "LFM Open License v1.0",
+    "inherited_finetune": "Sotto MIT notice in NOTICE",
+    "lfm_license_snapshot": {
+      "repo": "LiquidAI/LFM2.5-350M-Base",
+      "revision": "9960764e30892e01f29a6dc23df2533fcd8bd5ae",
+      "sha256": "4d28ca14dedc0b3d0fcc2b3339f0e79931faa33874f3d24f522183a8fc70068c",
+      "note": "Current pinned licence inspection, not a claim that this was the original Sotto base revision."
+    },
+    "data_sharealike_scope": "unresolved; source attribution preserved; source text/audio not redistributed",
+    "upstream_training_provenance": "inherited declarations, not independently reconstructed"
+  },
+  "evidence": {
+    "research_branch": "scribekey-model-research plan/fast-v11-overnight",
+    "research_commit": "b0b6894",
+    "research_report": "docs/research/2026-10-28-fast-v13/",
+    "issues": [
+      "scribekey-model-research#80"
+    ]
+  },
+  "remaining_gates": [
+    "final-artifact phone latency/memory (QA channel)",
+    "midrange phone",
+    "owner QA approval",
+    "stable promotion"
+  ],
+  "release": "v1.1"
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "releaseId": "2026.10.8",
+  "createdAt": "2026-10-28T05:14:10Z",
+  "description": "ScribeKey Fast v1.1 production: better spoken self-corrections, same size and controls as v1; supersedes the unpromoted 2026.10.7. Needs app build 22+.",
+  "catalogs": {
+    "speech": {
+      "filename": "model_catalog.json",
+      "sha256": "467d2864e5ea0a95ef026c66b795b99c33e526ef5aba457e28eaec15fd796cbd",
+      "sizeBytes": 58156
+    },
+    "diarization": {
+      "filename": "speaker_diarization_manifest.json",
+      "sha256": "229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a",
+      "sizeBytes": 1438
+    },
+    "cleanup": {
+      "filename": "cleanup_model_catalog.json",
+      "sha256": "09f3aac159d2526fa81a53146eec12980387f241d39acffbddf14bc3b17b1700",
+      "sizeBytes": 16320
+    },
+    "cloudTiers": {
+      "filename": "cloud_model_tiers.json",
+      "sha256": "8277f19fc41308b5aafb8de6f02e8cef1af25100971d4661f87d21aa16a4ae05",
+      "sizeBytes": 19524
+    }
+  },
+  "gitCommit": "b5e48c7d031fcd20bd7b7c7124ca79c38a55ebe5"
+}
