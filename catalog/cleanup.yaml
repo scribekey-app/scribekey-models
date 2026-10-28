@@ -2,6 +2,7 @@ schema_version: 1
 production:
   modelId: scribekey-cleanup-fast
   displayName: ScribeKey Fast
+  version: '1.1'
   description: Cleans English dictation, follows writing styles and applies spoken corrections. Runs on your phone.
   bestFor: Fast cleanup with writing styles
   info:

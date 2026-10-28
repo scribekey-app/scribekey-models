@@ -180,6 +180,15 @@ def test_experimental_flag_is_projected_for_every_model() -> None:
     assert all(isinstance(model["experimental"], bool) for model in models.values())
 
 
+def test_cleanup_version_is_projected_beside_its_revision_and_only_when_set() -> None:
+    catalog = generate_cleanup_catalog()
+    production = catalog["production"]
+
+    assert production["version"] == "1.1"
+    assert production["revision"] == "4b3dce49913c15f6341393728b592a220c370efb"
+    assert all("version" not in candidate for candidate in catalog["candidates"])
+
+
 def test_cleanup_examples_are_projected_with_their_recording() -> None:
     examples = generate_cleanup_catalog()["production"]["examples"]
 
