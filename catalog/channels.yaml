@@ -1,15 +1,13 @@
 schema_version: 1
 channels:
   qa:
-    targetRelease: 2026.10.5
-    sequence: 7
-    issuedAt: '2026-10-10T01:13:19Z'
-    notes: 'Smart Cleanup moves to the Sotto tune that applies spoken corrections
-      and punctuates spoken lists; Quill and Mumble are retired (models #37, #38,
-      #39). Replaces the cancelled 2026.10.3 and 2026.10.4 promotions.'
+    targetRelease: 2026.10.8
+    sequence: 8
+    issuedAt: '2026-10-28T05:44:51Z'
+    notes: 'ScribeKey Fast v1.1: better spoken self-corrections. Needs app build 22+.'
     compatibility:
       minAndroidApiLevel: 28
-      minAppVersionCode: 10
+      minAppVersionCode: 22
       catalogsSchemaVersion: 1
       supportedRuntimeFamilies:
       - sherpa-onnx
