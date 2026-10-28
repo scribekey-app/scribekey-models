@@ -10,6 +10,7 @@ from scribekey_models.guardrails import (
     validate_identities_and_integrity,
     validate_immutable_source_refs,
     validate_model_configuration,
+    validate_model_versions,
     validate_no_executable_payloads,
     validate_redistribution_clearance,
     validate_release_safety,
@@ -670,3 +671,30 @@ def test_npu_builds_reject_duplicate_chips_and_live_models() -> None:
         npuBuilds=[_npu_build()],
     )
     assert any("only segmented" in message for message in _npu_messages(live))
+
+
+def _versioned(version: str | None, file_name: str, source: str = "scribekey/scribekey-cleanup-fast", **extra) -> dict:
+    model = {"modelId": "fast", "provenance": {"sourceModel": source}, "bundleFileName": file_name, **extra}
+    if version is not None:
+        model["version"] = version
+    return model
+
+
+@pytest.mark.parametrize(
+    ("model", "problem"),
+    [
+        (_versioned("1.1", "fast-350m-v1.1-Q8_0.gguf"), None),
+        # v1 shipped as -v1- before versions were recorded.
+        (_versioned("1.0", "fast-350m-v1-Q8_0.gguf"), None),
+        (_versioned(None, "fast-350m-v1.1-Q8_0.gguf"), "needs a version"),
+        (_versioned(None, "fast-350m-v1-Q8_0.gguf", retired=True), None),
+        (_versioned("1.1", "fast-350m-v1-Q8_0.gguf"), "must carry -v1.1-"),
+        (_versioned("v1.1", "fast-350m-v1.1-Q8_0.gguf"), "not like 1.1"),
+        (_versioned(None, "sotto-v6.gguf", source="juanquivilla/sotto"), None),
+        (_versioned("6", "sotto.gguf", source="juanquivilla/sotto"), None),
+    ],
+)
+def test_scribekey_models_need_a_version_that_matches_their_file(model: dict, problem: str | None) -> None:
+    issues = validate_model_versions({"production": model, "candidates": []})
+
+    assert (len(issues) == 1 and problem in issues[0].message) if problem else issues == []

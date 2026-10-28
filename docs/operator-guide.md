@@ -46,6 +46,20 @@ scribekey-models release create --id 2026.09.1 --description "Release descriptio
 
 This freezes the catalog snapshots under `generated/releases/2026.09.1/` and records their cryptographic digests in `catalog/releases/2026.09.1.yaml`.
 
+#### Model versions
+
+Three identifiers, each with one job:
+
+- `version` (`1.1`): what people call a model. The app's Version row and the website show it.
+- `revision`: the immutable Hugging Face commit Android downloads from. It is the pin, never the label.
+- the release ID (`2026.10.9`): this catalogue snapshot, which can carry many models.
+
+ScribeKey's own models (`scribekey/` on Hugging Face) need a `version` while they are offered. A new one also needs
+its GGUF named `-v<version>-` and the Hugging Face tag `v<version>` on the pinned revision, in both the weights and
+GGUF repos. Validation enforces the name; source health downloads through the tag to check it serves the pinned
+bytes. v1 shipped as `-v1-` with tag `v1`, so `1.0` also matches those. Third-party models may add a `version`
+and are otherwise shown by revision.
+
 ### 2. Reviewable Promotion via GitHub Actions
 
 1. In GitHub Actions, navigate to **Prepare Release Promotion** (`workflow_dispatch`).
@@ -93,6 +107,7 @@ catalogue or channel state. Each source is checked against the same immutable fi
 - the endpoint must be reachable
 - the observed artifact size must match `sizeBytes` when the server exposes it
 - provider SHA-256 metadata is compared with the catalogue checksum when the host exposes a trustworthy SHA-256 header
+- a ScribeKey model with a `version` is also fetched through its `v<version>` tag, which must serve the same bytes
 
 Hugging Face LFS exposes immutable object metadata before redirecting to its CDN, so the check can verify those
 checksums without downloading multi-hundred-megabyte model weights. Hosts that do not expose a checksum are still

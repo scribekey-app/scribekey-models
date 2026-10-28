@@ -8,8 +8,10 @@ import re
 import urllib.error
 import urllib.request
 from collections.abc import Callable, Mapping
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
+
+from scribekey_models.guardrails import is_scribekey_owned, release_version_tag
 
 REDIRECT_CODES = {301, 302, 303, 307, 308}
 HEAD_UNSUPPORTED_CODES = {405, 501}
@@ -268,12 +270,28 @@ def _speech_targets(entries: list[object]) -> list[SourceTarget]:
 def _cleanup_targets(production: dict[str, object] | None) -> list[SourceTarget]:
     if production is None:
         return []
-    return _file_targets(
+    targets = _file_targets(
         "cleanup",
         str(production.get("modelId", "unknown")),
         production,
         "bundleFileName",
     )
+    return targets + _version_tag_targets(production, targets)
+
+
+def _version_tag_targets(model: dict[str, object], targets: list[SourceTarget]) -> list[SourceTarget]:
+    """A ScribeKey model's version tag must serve the pinned bytes, so `v1.1` and the revision agree."""
+    version = model.get("version")
+    provenance = model.get("provenance")
+    if not targets or not isinstance(version, str) or not isinstance(provenance, dict) or not is_scribekey_owned(model):
+        return []
+    file_name = targets[0].file_name
+    tag = release_version_tag(version, file_name)
+    repository = str(provenance.get("exportRepository", ""))
+    if tag is None or not repository:
+        return []
+    url = f"https://huggingface.co/{repository}/resolve/{tag}/{file_name}"
+    return [replace(targets[0], source_index=len(targets), url=url)]
 
 
 def _diarization_targets(entries: list[object]) -> list[SourceTarget]:

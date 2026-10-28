@@ -213,3 +213,33 @@ def _write_distribution(root: Path) -> None:
 
 def _write_json(path: Path, payload: dict[str, object]) -> None:
     path.write_text(json.dumps(payload), encoding="utf-8")
+
+
+def _fast(version: str | None, repository: str = "scribekey/scribekey-cleanup-fast-GGUF") -> dict:
+    model = {
+        "modelId": "scribekey-cleanup-fast",
+        "provenance": {"exportRepository": repository},
+        "bundleFileName": "scribekey-cleanup-fast-350m-v1.1-Q8_0.gguf",
+        "downloadUrl": f"https://huggingface.co/{repository}/resolve/{'a' * 40}/scribekey-cleanup-fast-350m-v1.1-Q8_0.gguf",
+        "sizeBytes": 4,
+        "sha256": SHA_A,
+    }
+    if version is not None:
+        model["version"] = version
+    return model
+
+
+def test_a_scribekey_model_version_tag_must_serve_the_pinned_bytes() -> None:
+    targets = health_module._cleanup_targets(_fast("1.1"))
+
+    assert [target.url for target in targets] == [
+        f"https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/resolve/{'a' * 40}/scribekey-cleanup-fast-350m-v1.1-Q8_0.gguf",
+        "https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/resolve/v1.1/scribekey-cleanup-fast-350m-v1.1-Q8_0.gguf",
+    ]
+    assert [target.source_index for target in targets] == [0, 1]
+    assert targets[1].expected_sha256 == SHA_A
+
+
+def test_no_version_tag_target_without_a_version_or_for_third_party_models() -> None:
+    assert len(health_module._cleanup_targets(_fast(None))) == 1
+    assert len(health_module._cleanup_targets(_fast("1.1", repository="someone/model-GGUF"))) == 1

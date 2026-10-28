@@ -50,6 +50,11 @@
           "type": "string",
           "minLength": 1
         },
+        "version": {
+          "description": "Release version people use for the model (1.1). Not the immutable revision or the catalogue release ID.",
+          "type": "string",
+          "pattern": "^[0-9]+(?:\\.[0-9]+){0,2}$"
+        },
         "revision": {
           "type": "string",
           "minLength": 1

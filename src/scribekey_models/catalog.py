@@ -233,6 +233,7 @@ def _cleanup_entry(model: dict[str, Any]) -> dict[str, Any]:
             for field in ("deprecated", "retired", "replacementId")
             if field in model
         },
+        **({"version": model["version"]} if "version" in model else {}),
         "revision": model["revision"],
         "bundleFileName": model["bundleFileName"],
         "downloadUrl": model["downloadUrl"],

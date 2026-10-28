@@ -18,6 +18,10 @@ GENERATED_DIR = ROOT / "generated"
 HEX40_RE = re.compile(r"^[0-9a-f]{40}$")
 HEX64_RE = re.compile(r"^[0-9a-f]{64}$")
 MUTABLE_REFS = {"main", "master", "head", "latest", "trunk", "dev", "develop"}
+# A release version ("1.1"): what people call the model. Distinct from the immutable revision
+# and from the catalogue release ID.
+VERSION_RE = re.compile(r"^[0-9]+(?:\.[0-9]+){0,2}$")
+SCRIBEKEY_HF_OWNER = "scribekey/"
 BINARY_EXTENSIONS = {
     ".onnx",
     ".bin",
@@ -1088,5 +1092,47 @@ def validate_model_configuration(
                     )
                 )
 
+    issues.extend(validate_model_versions(cleanup_data))
+    return issues
+
+
+def is_scribekey_owned(model: dict[str, Any]) -> bool:
+    """ScribeKey publishes the model itself, on the scribekey Hugging Face namespace."""
+    provenance = model.get("provenance") or {}
+    return any(
+        str(provenance.get(key, "")).startswith(SCRIBEKEY_HF_OWNER) for key in ("sourceModel", "exportRepository")
+    )
+
+
+def release_version_tag(version: str, file_name: str) -> str | None:
+    """The `v<version>` tag a file name carries, or None. v1 shipped as `-v1-`, so `1.0` also matches `v1`."""
+    forms = [version, version.removesuffix(".0")] if version.endswith(".0") else [version]
+    return next((f"v{form}" for form in forms if f"-v{form}-" in file_name), None)
+
+
+def validate_model_versions(cleanup_data: dict[str, Any]) -> list[GuardrailIssue]:
+    """ScribeKey's own released models need a version that matches their file name; others may have one."""
+    issues: list[GuardrailIssue] = []
+    models = [cleanup_data["production"]] if cleanup_data.get("production") else []
+    models.extend(cleanup_data.get("candidates", []))
+    for model in models:
+        mid = model.get("modelId", "unknown")
+        owned = is_scribekey_owned(model)
+        version = model.get("version")
+        if version is None:
+            if owned and not model.get("retired"):
+                issues.append(GuardrailIssue("catalog/cleanup.yaml", f"ScribeKey model '{mid}' needs a version"))
+            continue
+        if not isinstance(version, str) or not VERSION_RE.match(version):
+            issues.append(
+                GuardrailIssue("catalog/cleanup.yaml", f"Cleanup model '{mid}' version '{version}' is not like 1.1")
+            )
+        elif owned and release_version_tag(version, str(model.get("bundleFileName", ""))) is None:
+            issues.append(
+                GuardrailIssue(
+                    "catalog/cleanup.yaml",
+                    f"ScribeKey model '{mid}' file name must carry -v{version}- to match its version",
+                )
+            )
     return issues
 

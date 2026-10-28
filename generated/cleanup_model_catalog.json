@@ -17,6 +17,7 @@
       "licenseId": "ScribeKey Fast + LFM v1.0",
       "licenseUrl": "https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/blob/4b3dce49913c15f6341393728b592a220c370efb/ADDITIONAL_TERMS.md"
     },
+    "version": "1.1",
     "revision": "4b3dce49913c15f6341393728b592a220c370efb",
     "bundleFileName": "scribekey-cleanup-fast-350m-v1.1-Q8_0.gguf",
     "downloadUrl": "https://huggingface.co/scribekey/scribekey-cleanup-fast-GGUF/resolve/4b3dce49913c15f6341393728b592a220c370efb/scribekey-cleanup-fast-350m-v1.1-Q8_0.gguf",
