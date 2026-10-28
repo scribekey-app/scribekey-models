@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "channel": "qa",
-  "sequence": 7,
-  "issuedAt": "2026-10-10T01:13:19Z",
-  "releaseId": "2026.10.5",
+  "sequence": 8,
+  "issuedAt": "2026-10-28T05:44:51Z",
+  "releaseId": "2026.10.8",
   "compatibility": {
     "minAndroidApiLevel": 28,
-    "minAppVersionCode": 10,
+    "minAppVersionCode": 22,
     "catalogsSchemaVersion": 1,
     "supportedRuntimeFamilies": [
       "sherpa-onnx",
@@ -22,29 +22,29 @@
   "catalogs": {
     "speech": {
       "filename": "model_catalog.json",
-      "path": "../releases/2026.10.5/model_catalog.json",
-      "sha256": "6b93dcb5559dbfd792b235db3cc66e5ddd88f454fe85961f63be8de7cc3c7802",
-      "sizeBytes": 53927
+      "path": "../releases/2026.10.8/model_catalog.json",
+      "sha256": "467d2864e5ea0a95ef026c66b795b99c33e526ef5aba457e28eaec15fd796cbd",
+      "sizeBytes": 58156
     },
     "diarization": {
       "filename": "speaker_diarization_manifest.json",
-      "path": "../releases/2026.10.5/speaker_diarization_manifest.json",
+      "path": "../releases/2026.10.8/speaker_diarization_manifest.json",
       "sha256": "229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a",
       "sizeBytes": 1438
     },
     "cleanup": {
       "filename": "cleanup_model_catalog.json",
-      "path": "../releases/2026.10.5/cleanup_model_catalog.json",
-      "sha256": "dd5691ffd50d254e7e8e4ccb6572e8dfb438999e9d84ac71b161bf73e3035306",
-      "sizeBytes": 12074
+      "path": "../releases/2026.10.8/cleanup_model_catalog.json",
+      "sha256": "09f3aac159d2526fa81a53146eec12980387f241d39acffbddf14bc3b17b1700",
+      "sizeBytes": 16320
     },
     "cloudTiers": {
       "filename": "cloud_model_tiers.json",
-      "path": "../releases/2026.10.5/cloud_model_tiers.json",
-      "sha256": "24b9241acdfdba085aeb3d57d67d6e54c6e47aa65bc38a0f5850dae559e409d0",
-      "sizeBytes": 11668
+      "path": "../releases/2026.10.8/cloud_model_tiers.json",
+      "sha256": "8277f19fc41308b5aafb8de6f02e8cef1af25100971d4661f87d21aa16a4ae05",
+      "sizeBytes": 19524
     }
   },
-  "notes": "Smart Cleanup moves to the Sotto tune that applies spoken corrections and punctuates spoken lists; Quill and Mumble are retired (models #37, #38, #39). Replaces the cancelled 2026.10.3 and 2026.10.4 promotions.",
-  "gitCommit": "b37298ecda6e087ffeb81b9c6188951adb3b4042"
+  "notes": "ScribeKey Fast v1.1: better spoken self-corrections. Needs app build 22+.",
+  "gitCommit": "b5e48c7d031fcd20bd7b7c7124ca79c38a55ebe5"
 }
