@@ -1,0 +1,24 @@
+schema_version: 1
+releaseId: 2026.10.9
+createdAt: '2026-10-28T07:50:50Z'
+description: ScribeKey Fast gains a release version (1.1) beside its pinned revision;
+  Canary no longer claims language detection (#50). Same model files as 2026.10.8.
+  Needs app build 22+.
+catalogs:
+  speech:
+    filename: model_catalog.json
+    sha256: 6127e12ee44196f40b93b510478e99daf29931d5cfd29408bbec438c1825e7c6
+    sizeBytes: 58157
+  diarization:
+    filename: speaker_diarization_manifest.json
+    sha256: 229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a
+    sizeBytes: 1438
+  cleanup:
+    filename: cleanup_model_catalog.json
+    sha256: f26755dff0682c6d34730d8f2654c8bf348248462997beb007a747b8d862d56b
+    sizeBytes: 16342
+  cloudTiers:
+    filename: cloud_model_tiers.json
+    sha256: 8277f19fc41308b5aafb8de6f02e8cef1af25100971d4661f87d21aa16a4ae05
+    sizeBytes: 19524
+gitCommit: e8f40392750095d662ac098d76cdc38c4ce45e25
