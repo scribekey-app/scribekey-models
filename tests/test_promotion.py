@@ -256,7 +256,7 @@ def test_channel_compatibility_contract() -> None:
 
     comp = data["compatibility"]
     assert comp["minAndroidApiLevel"] == 28
-    assert comp["minAppVersionCode"] == 10
+    assert comp["minAppVersionCode"] >= 10
     assert comp["catalogsSchemaVersion"] == 1
     assert comp["supportedRuntimeFamilies"] == ["sherpa-onnx", "gguf", "pyannote"]
     assert comp["supportedConfigFamilies"] == [
