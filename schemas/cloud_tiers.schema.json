@@ -11,6 +11,16 @@
     "generatedAt": { "type": "string", "format": "date" },
     "source": { "type": "string", "maxLength": 200 },
     "evidence": { "type": "object" },
+    "retired": {
+      "description": "Models a provider has shut down or announced a shutdown for. The app drops them from every suggestion, built-in lists included; a model someone already chose stays selected.",
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/providerId" },
+      "additionalProperties": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": { "$ref": "#/$defs/modelId" }
+      }
+    },
     "tasks": {
       "type": "object",
       "additionalProperties": false,
@@ -22,6 +32,8 @@
     }
   },
   "$defs": {
+    "providerId": { "enum": ["openai", "openrouter", "groq", "cerebras", "gemini", "mistral", "anthropic", "alibabacloud", "nvidia", "foundry"] },
+    "modelId": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$" },
     "task": {
       "type": "object",
       "required": ["providers"],
@@ -29,7 +41,7 @@
       "properties": {
         "providers": {
           "type": "object",
-          "propertyNames": { "enum": ["openai", "openrouter", "groq", "cerebras", "gemini", "mistral", "anthropic", "alibabacloud", "nvidia", "foundry"] },
+          "propertyNames": { "$ref": "#/$defs/providerId" },
           "additionalProperties": { "$ref": "#/$defs/provider" }
         }
       }
@@ -53,7 +65,7 @@
       "required": ["model", "score"],
       "additionalProperties": false,
       "properties": {
-        "model": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$" },
+        "model": { "$ref": "#/$defs/modelId" },
         "score": { "type": "number", "minimum": 0, "maximum": 1 },
         "wer": { "type": "number", "minimum": 0 },
         "p50Seconds": { "type": ["number", "null"], "minimum": 0 },

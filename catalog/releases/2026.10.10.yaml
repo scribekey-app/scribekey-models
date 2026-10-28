@@ -1,0 +1,24 @@
+schema_version: 1
+releaseId: 2026.10.10
+createdAt: '2026-10-28T11:50:42Z'
+description: Cloud tiers carry retired models and drop every retired recommendation
+  (Groq Llama 3.3, Cerebras Gemma 4, Alibaba qwen-turbo, OpenAI gpt-5-mini/nano and
+  gpt-4.1-nano, Gemini 3.7 Flash, two NVIDIA NIM models). Same model files as 2026.10.9.
+catalogs:
+  speech:
+    filename: model_catalog.json
+    sha256: 6127e12ee44196f40b93b510478e99daf29931d5cfd29408bbec438c1825e7c6
+    sizeBytes: 58157
+  diarization:
+    filename: speaker_diarization_manifest.json
+    sha256: 229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a
+    sizeBytes: 1438
+  cleanup:
+    filename: cleanup_model_catalog.json
+    sha256: f26755dff0682c6d34730d8f2654c8bf348248462997beb007a747b8d862d56b
+    sizeBytes: 16342
+  cloudTiers:
+    filename: cloud_model_tiers.json
+    sha256: bdf58dbe3ffbdc5c765a2b2f8be9cc97d7e7db9761ba82232702e14a69f16e25
+    sizeBytes: 14543
+gitCommit: 20b8b2c912674decd2fcb3ddddbdee5bde0da33a
