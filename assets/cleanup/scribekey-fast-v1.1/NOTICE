@@ -1,0 +1,93 @@
+ScribeKey Fast by ScribeKey — v1 release candidate, 25 October 2026
+
+Copyright 2026 ScribeKey contributors (ScribeKey modifications).
+Based on LFM2.5-350M-Base by Liquid AI, Inc., and Sotto by juanquivilla.
+ScribeKey Fast Model Terms v1.0 (ADDITIONAL_TERMS.md) add naming and
+attribution conditions. The weights also inherit LFM Open License v1.0 (LICENSE). Sotto's MIT notice is
+retained verbatim below. No upstream endorsement is implied.
+
+Changes made by ScribeKey: continued LoRA training of reconstructed Sotto v6
+on 4,350 rows, BF16 merge, F16 conversion and Q8_0 quantization. The tokenizer
+task template and greedy generation configuration in the BF16 package were
+updated. See MODIFICATIONS.md and provenance.json for files and hashes.
+
+Training-source and pipeline attributions, aggregated from the actual final
+training mix (no training text or source audio is distributed here):
+
+- DeepSeek V4.1 Flash (deepseek-ai/DeepSeek-V4.1-Flash@314113f8a7dadb388215396ba5fbee2c610a04d6), MIT
+- External: datasets/MagicNoThief/handy-dictation-editing@7ad0b0758559cf70d319a3cb1680b08f9ea204d8, CC BY 4.0 (dataset card at the pinned revision)
+- External: datasets/ductai199x/dictation-speech@692f01ad28a5d6f26bde093b6d717e89cfae0067, CC BY-SA 4.0 (dataset card at the pinned revision)
+- GLM-5.3 Flash (zai-org/GLM-5.3-Flash@46a050bec13002ad29ee795c16e61cf4fa3c4a9c), MIT
+- Kokoro v1.0 by hexgrad (sherpa-onnx export by csukuangfj), Apache-2.0
+- MLCommons: datasets/MLCommons/peoples_speech@f10597c5d3d3a63f8b6827701297c3afdf178272, CC BY 4.0 (the clean and dirty subsets; the _sa subsets are never used)
+- MiMo-V2.6-Flash (XiaomiMiMo/MiMo-V2.6-Flash-RL@dcd3fd83fb181622fbc606fbb1709901982a62c2), MIT
+- Moonshine Base v2 by Useful Sensors (sherpa-onnx export by csukuangfj), MIT
+- Mozilla Foundation / Common Voice: cmu5nqn1h00vwmi07b4dbk085@2026-09-17T15:01:25.158Z, CC0-1.0
+- NeMo text-processing 1.2.0 by NVIDIA, Apache-2.0
+- Parakeet TDT 0.6B v2 by NVIDIA (sherpa-onnx export by csukuangfj), CC-BY-4.0
+
+- SottoASR Transcript Cleanup Dataset by juanquivilla, declared MIT:
+  https://huggingface.co/datasets/juanquivilla/sotto-transcript-cleanup
+  revision 183cc8fd58532f13fa192980185214de1bcd5acc (2,000 replay rows).
+- llama.cpp by its contributors (MIT), conversion and quantization:
+  https://github.com/ggml-org/llama.cpp/tree/4c1a0af40d88c7fbb3b15c85bf2e8016d1d5b64c
+
+Source links and terms:
+- Handy, MagicNoThief:
+  https://huggingface.co/datasets/MagicNoThief/handy-dictation-editing/tree/7ad0b0758559cf70d319a3cb1680b08f9ea204d8
+- dictation-speech, ductai199x:
+  https://huggingface.co/datasets/ductai199x/dictation-speech/tree/692f01ad28a5d6f26bde093b6d717e89cfae0067
+- People's Speech, MLCommons (clean and dirty only):
+  https://huggingface.co/datasets/MLCommons/peoples_speech/tree/f10597c5d3d3a63f8b6827701297c3afdf178272
+- Common Voice Spontaneous Speech 5.0 English, Mozilla Foundation and contributors:
+  https://datacollective.mozillafoundation.org/datasets/cmu5nqn1h00vwmi07b4dbk085
+  archive SHA-256 390b5a54c9afe0cc01da039ad206248f85682f247dd2b27d4cc0ab9a68e860b6
+- CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+- CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
+- CC0 1.0: https://creativecommons.org/publicdomain/zero/1.0/
+
+Source recordings/text were transcribed, filtered, assigned controls and used
+for training. Source licences apply to their respective material; this NOTICE
+does not relicense that material or resolve whether share-alike obligations
+extend to trained weights. Source files are not redistributed in this package.
+Attributions to teacher, TTS and ASR models describe training tools, not weights
+bundled here. Hidden CleanBench was used for evaluation, never as training data.
+Inherited third-party training declarations have not been independently rebuilt.
+
+The following predecessor NOTICE is preserved verbatim:
+------------------------------------------------------
+Sotto 350M, ScribeKey tune, GGUF
+
+This repository contains a fine-tune, in GGUF (Q8_0), of:
+
+  Sotto transcript cleanup, LFM2.5-350M
+  https://huggingface.co/juanquivilla/sotto-cleanup-lfm25-350m
+  revision 6df6f019170b8b55333c047b901886a51750a965
+  by juanquivilla, released under the MIT License.
+
+which is a fine-tune of:
+
+  LFM2.5-350M-Base
+  https://huggingface.co/LiquidAI/LFM2.5-350M-Base
+  Copyright Liquid AI, Inc., licensed under the LFM Open License v1.0 (see LICENSE).
+
+Changes made by ScribeKey: a LoRA adapter was trained on ScribeKey's own synthetic dictation
+data and merged into the weights, which were then converted to GGUF with llama.cpp's
+convert_hf_to_gguf.py and quantised to Q8_0.
+
+MIT License (applies to the Sotto fine-tune)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute,
+sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or
+substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
+OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

@@ -1,0 +1,29 @@
+{
+  "created_at": "2026-10-28",
+  "public_approval_received": true,
+  "change": "v1.1 weights, cards and evidence; terms unchanged",
+  "repositories": [
+    {
+      "repo_id": "scribekey/scribekey-cleanup-fast",
+      "commit": "c484dad2d815bff83d376e46b25a11dbc820992a",
+      "tag": "v1.1",
+      "private": false,
+      "weight_file": "model.safetensors",
+      "weight_bytes": 708984464,
+      "weight_sha256": "1a9ab3fcd2384f9c4053f4b55d5e0f40de195487853fdd006b1fa810cd69e16a",
+      "weight_lfs_identity_verified": true,
+      "parent_commit": "692ef9af"
+    },
+    {
+      "repo_id": "scribekey/scribekey-cleanup-fast-GGUF",
+      "commit": "4b3dce49913c15f6341393728b592a220c370efb",
+      "tag": "v1.1",
+      "private": false,
+      "weight_file": "scribekey-cleanup-fast-350m-v1.1-Q8_0.gguf",
+      "weight_bytes": 379219904,
+      "weight_sha256": "2dfd7463ae0a8ca7dd2e4abebeed9cc77a584569b9c99dc9e68ad85f1399b55a",
+      "weight_lfs_identity_verified": true,
+      "parent_commit": "d1c34c88"
+    }
+  ]
+}

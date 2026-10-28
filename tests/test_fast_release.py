@@ -7,7 +7,7 @@ from pathlib import Path
 
 from scribekey_models.catalog import load_cleanup_catalog_data
 
-ASSETS = Path(__file__).resolve().parents[1] / "assets" / "cleanup" / "scribekey-fast-v1"
+ASSETS = Path(__file__).resolve().parents[1] / "assets" / "cleanup" / "scribekey-fast-v1.1"
 
 
 def test_fast_release_evidence_keeps_identity_terms_and_qualification_together() -> None:
@@ -17,7 +17,7 @@ def test_fast_release_evidence_keeps_identity_terms_and_qualification_together()
     q8 = provenance["artifacts"]["q8_0"]
     assert q8["sha256"] == evaluation["artifact_sha256"] == examples["q8_sha256"]
     assert provenance["model_id"] == "scribekey-cleanup-fast"
-    assert provenance["training"]["rows"] == sum(provenance["training"]["source_counts"].values())
+    assert all(m["rows"] > provenance["training"]["replay_mix_rows"] for m in provenance["training"]["members"])
     assert provenance["production_promoted"] is False
     assert evaluation["final_artifact_phone"] == evaluation["midrange_phone"] == "not measured"
     assert hashlib.sha256((ASSETS / "LICENSE").read_bytes()).hexdigest() == (
@@ -30,7 +30,7 @@ def test_fast_release_evidence_keeps_identity_terms_and_qualification_together()
 
 
 def test_fast_is_production_and_pins_the_verified_upload() -> None:
-    receipt = json.loads((ASSETS / "attribution-upload-receipt.json").read_text())
+    receipt = json.loads((ASSETS / "upload-receipt.json").read_text())
     uploaded = next(r for r in receipt["repositories"] if r["repo_id"].endswith("-GGUF"))
     catalogue = load_cleanup_catalog_data()
     model = catalogue["production"]
