@@ -484,6 +484,10 @@
       "llama-3.1-8b-instant",
       "llama-3.3-70b-versatile"
     ],
+    "nvidia": [
+      "mistralai/mistral-large-2-instruct",
+      "nvidia/llama-3.1-nemotron-70b-instruct"
+    ],
     "openai": [
       "gpt-4.1-mini",
       "gpt-4.1-nano",
