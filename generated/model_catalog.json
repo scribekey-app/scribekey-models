@@ -927,6 +927,93 @@
       }
     },
     {
+      "id": "parakeet-redux-0.6b",
+      "outcome": "MULTILINGUAL",
+      "family": "PARAKEET",
+      "displayName": "Parakeet Redux",
+      "badge": "Experimental",
+      "diskMb": 398,
+      "minRamMb": 6144,
+      "minApiLevel": 31,
+      "transcriptionMode": "SEGMENTED",
+      "supportsTimestamps": true,
+      "supportsPunctuation": true,
+      "supportsLanguageDetection": true,
+      "description": "A 1.58-bit Parakeet in a smaller download, for 25 European languages with punctuation, timestamps and language detection.",
+      "bestFor": "Compact Parakeet for European languages",
+      "experimental": true,
+      "languageCodes": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "bg",
+        "hr",
+        "cs",
+        "da",
+        "nl",
+        "et",
+        "fi",
+        "el",
+        "hu",
+        "it",
+        "lv",
+        "lt",
+        "mt",
+        "pl",
+        "pt",
+        "ro",
+        "sk",
+        "sl",
+        "sv",
+        "ru",
+        "uk"
+      ],
+      "files": [
+        {
+          "name": "encoder.int8.onnx",
+          "downloadUrl": "https://huggingface.co/cohearo/sherpa-onnx-nemo-parakeet-redux/resolve/5168f843ba8f01bf24594f58e5d21f28f63fbb44/encoder.onnx",
+          "sizeBytes": 343842409,
+          "sha256": "e0bad06465fac0b7023231d9cab78bcebb4c295fb3f3c4e45fae6f1162b90cb1"
+        },
+        {
+          "name": "decoder.int8.onnx",
+          "downloadUrl": "https://huggingface.co/cohearo/sherpa-onnx-nemo-parakeet-redux/resolve/5168f843ba8f01bf24594f58e5d21f28f63fbb44/decoder.onnx",
+          "sizeBytes": 47249584,
+          "sha256": "326f1b9070b4b530ec39fe897fb28b505aa9cea135b7e17ede50926872730677"
+        },
+        {
+          "name": "joiner.int8.onnx",
+          "downloadUrl": "https://huggingface.co/cohearo/sherpa-onnx-nemo-parakeet-redux/resolve/5168f843ba8f01bf24594f58e5d21f28f63fbb44/joiner.onnx",
+          "sizeBytes": 25285351,
+          "sha256": "0d98c1c102143ea272af9730ac376e7f4591c7ad9839bfff6fa52587ce83d721"
+        },
+        {
+          "name": "tokens.txt",
+          "downloadUrl": "https://huggingface.co/cohearo/sherpa-onnx-nemo-parakeet-redux/resolve/5168f843ba8f01bf24594f58e5d21f28f63fbb44/tokens.txt",
+          "sizeBytes": 93939,
+          "sha256": "d58544679ea4bc6ac563d1f545eb7d474bd6cfa467f0a6e2c1dc1c7d37e3c35d"
+        }
+      ],
+      "sherpaConfig": {
+        "type": "nemo_transducer",
+        "modelDir": ""
+      },
+      "info": {
+        "paramsBadge": "600M",
+        "architecture": "TDT",
+        "languages": "25 European languages"
+      },
+      "provenance": {
+        "sourceModel": "moondream/parakeet-redux",
+        "exportRepository": "cohearo/sherpa-onnx-nemo-parakeet-redux",
+        "exportRevision": "5168f843ba8f01bf24594f58e5d21f28f63fbb44",
+        "exportVariant": "Ternary, 4-bit blocks",
+        "licenseId": "CC-BY-4.0",
+        "licenseUrl": "https://huggingface.co/moondream/parakeet-redux"
+      }
+    },
+    {
       "id": "parakeet-unified-0.6b",
       "outcome": "BEST_ENGLISH_ACCURACY",
       "family": "PARAKEET",
