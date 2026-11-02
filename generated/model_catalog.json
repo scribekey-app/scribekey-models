@@ -1158,7 +1158,7 @@
       "outcome": "LIVE_ENGLISH",
       "family": "PARAKEET",
       "displayName": "Nemotron English Live",
-      "badge": "Experimental",
+      "badge": "",
       "diskMb": 632,
       "minRamMb": 6144,
       "minApiLevel": 31,
@@ -1168,7 +1168,7 @@
       "supportsLanguageDetection": false,
       "description": "Shows English words while you speak, with punctuation.",
       "bestFor": "Live English dictation and captions",
-      "experimental": true,
+      "experimental": false,
       "counterpartId": "parakeet-unified-0.6b",
       "languageCodes": [
         "en"
@@ -1222,7 +1222,7 @@
       "outcome": "MULTILINGUAL",
       "family": "PARAKEET",
       "displayName": "Nemotron 3.5 Multilingual Live",
-      "badge": "Experimental",
+      "badge": "",
       "diskMb": 651,
       "minRamMb": 6144,
       "minApiLevel": 31,
@@ -1232,7 +1232,7 @@
       "supportsLanguageDetection": false,
       "description": "Shows words while you speak in 40 locales and picks the language for you.",
       "bestFor": "Live dictation in many languages",
-      "experimental": true,
+      "experimental": false,
       "streamLanguage": "auto",
       "counterpartId": "parakeet-0.6b-v3",
       "files": [
@@ -1332,7 +1332,7 @@
       "outcome": "LIVE_ENGLISH",
       "family": "ZIPFORMER",
       "displayName": "Zipformer English Live",
-      "badge": "Experimental",
+      "badge": "",
       "diskMb": 188,
       "minRamMb": 3072,
       "minApiLevel": 28,
@@ -1342,7 +1342,7 @@
       "supportsLanguageDetection": false,
       "description": "Shows English words while you speak on phones with 4 GB of memory. Punctuation is added when you stop.",
       "bestFor": "Live English on 4 GB phones",
-      "experimental": true,
+      "experimental": false,
       "languageCodes": [
         "en"
       ],
