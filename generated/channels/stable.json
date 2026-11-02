@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "channel": "stable",
-  "sequence": 8,
-  "issuedAt": "2026-10-28T08:33:19Z",
-  "releaseId": "2026.10.9",
+  "sequence": 9,
+  "issuedAt": "2026-11-02T14:37:53Z",
+  "releaseId": "2026.11.1",
   "compatibility": {
     "minAndroidApiLevel": 28,
     "minAppVersionCode": 22,
@@ -22,29 +22,29 @@
   "catalogs": {
     "speech": {
       "filename": "model_catalog.json",
-      "path": "../releases/2026.10.9/model_catalog.json",
-      "sha256": "6127e12ee44196f40b93b510478e99daf29931d5cfd29408bbec438c1825e7c6",
-      "sizeBytes": 58157
+      "path": "../releases/2026.11.1/model_catalog.json",
+      "sha256": "2c9158a4f13124942092294c65c63ed61d5b16e42df2cca79f641b018748d724",
+      "sizeBytes": 61085
     },
     "diarization": {
       "filename": "speaker_diarization_manifest.json",
-      "path": "../releases/2026.10.9/speaker_diarization_manifest.json",
+      "path": "../releases/2026.11.1/speaker_diarization_manifest.json",
       "sha256": "229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a",
       "sizeBytes": 1438
     },
     "cleanup": {
       "filename": "cleanup_model_catalog.json",
-      "path": "../releases/2026.10.9/cleanup_model_catalog.json",
+      "path": "../releases/2026.11.1/cleanup_model_catalog.json",
       "sha256": "f26755dff0682c6d34730d8f2654c8bf348248462997beb007a747b8d862d56b",
       "sizeBytes": 16342
     },
     "cloudTiers": {
       "filename": "cloud_model_tiers.json",
-      "path": "../releases/2026.10.9/cloud_model_tiers.json",
-      "sha256": "8277f19fc41308b5aafb8de6f02e8cef1af25100971d4661f87d21aa16a4ae05",
-      "sizeBytes": 19524
+      "path": "../releases/2026.11.1/cloud_model_tiers.json",
+      "sha256": "bdf58dbe3ffbdc5c765a2b2f8be9cc97d7e7db9761ba82232702e14a69f16e25",
+      "sizeBytes": 14543
     }
   },
-  "notes": "ScribeKey Fast gains release version 1.1 (same files as 2026.10.8); Canary language detection flag corrected.",
-  "gitCommit": "e8f40392750095d662ac098d76cdc38c4ce45e25"
+  "notes": "Nemotron English Live, Nemotron 3.5 Multilingual Live and Zipformer English Live graduate from experimental; adds Parakeet Redux (experimental).",
+  "gitCommit": "4311eb541f160d5543a5506e130cbf0273d10254"
 }
