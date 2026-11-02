@@ -906,8 +906,7 @@ models:
     displayName: Nemotron English Live
     description: Shows English words while you speak, with punctuation.
     bestFor: Live English dictation and captions
-    badge: Experimental
-    experimental: true
+    badge: ""
     diskMb: 632
     minRamMb: 6144
     minApiLevel: 31
@@ -956,8 +955,7 @@ models:
     displayName: Nemotron 3.5 Multilingual Live
     description: Shows words while you speak in 40 locales and picks the language for you.
     bestFor: Live dictation in many languages
-    badge: Experimental
-    experimental: true
+    badge: ""
     diskMb: 651
     minRamMb: 6144
     minApiLevel: 31
@@ -1049,8 +1047,7 @@ models:
     displayName: Zipformer English Live
     description: Shows English words while you speak on phones with 4 GB of memory. Punctuation is added when you stop.
     bestFor: Live English on 4 GB phones
-    badge: Experimental
-    experimental: true
+    badge: ""
     diskMb: 188
     minRamMb: 3072
     minApiLevel: 28
