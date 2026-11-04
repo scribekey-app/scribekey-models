@@ -98,7 +98,25 @@ scribekey-models promote --channel qa --release 2026.09.1 --key-env MODEL_RELEAS
 scribekey-models health --channel stable --report health-report.json
 ```
 
-### 5. Automated Source Health
+### 5. Refreshing Cloud Model Profiles
+
+`scribekey-models cloud refresh` fetches models.dev, validates the pinned snapshot and generated profiles, updates
+`catalog/models_dev_snapshot.json` and `generated/cloud_models.json`, and prints a per-provider diff. It does not run
+GitHub commands by default. Set `SCRIBEKEY_APP_DIR` to the Android project root to also flag default models that are
+missing from the refreshed profiles.
+
+Add `--open-pr` to write the diff summary to a file and print the draft-PR commands without running them. Add `--yes`
+to run those commands. A fortnightly scheduled job with access to the repository and GitHub CLI can run:
+
+```bash
+SCRIBEKEY_APP_DIR=/path/to/scribekey \
+  python -m scribekey_models cloud refresh --open-pr --yes
+```
+
+An unchanged upstream snapshot exits successfully without opening a PR. Cloud profile refreshes do not create immutable
+releases or promote a channel; release signing and promotion remain human-reviewed.
+
+### 6. Automated Source Health
 
 `.github/workflows/source-health.yml` checks the published `stable` release every day and can also be run manually.
 It validates the repository first, then probes every configured official, mirror, and recovery URL without modifying

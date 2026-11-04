@@ -4,11 +4,13 @@ import argparse
 import datetime
 import json
 import os
+import shlex
 import subprocess
 from pathlib import Path
 
 import yaml
 
+from scribekey_models import cloud_refresh
 from scribekey_models.bpe_vocab import build as build_bpe_vocab
 from scribekey_models.catalog import (
     GENERATED_DIR,
@@ -168,6 +170,21 @@ def _parser() -> argparse.ArgumentParser:
     m_plan.add_argument("--release", required=True, help="Release ID (e.g. 2026.09.1)")
     mirror_subs.add_parser("check", help="Check mirror configuration status")
 
+    # cloud
+    cloud_cmd = subparsers.add_parser("cloud", help="Manage cloud model profiles")
+    cloud_subs = cloud_cmd.add_subparsers(dest="cloud_command", required=True)
+    cloud_refresh_cmd = cloud_subs.add_parser("refresh", help="Refresh profiles from models.dev")
+    cloud_refresh_cmd.add_argument(
+        "--open-pr",
+        action="store_true",
+        help="Write a PR summary and print draft PR commands",
+    )
+    cloud_refresh_cmd.add_argument(
+        "--yes",
+        action="store_true",
+        help="Run the printed git and gh commands (requires --open-pr)",
+    )
+
     # health
     health_cmd = subparsers.add_parser(
         "health",
@@ -258,6 +275,62 @@ def _git_source_identity(root: Path) -> tuple[str, str]:
 
 def main() -> None:
     args = _parser().parse_args()
+
+    if args.command == "cloud" and args.cloud_command == "refresh":
+        if args.yes and not args.open_pr:
+            print("Error: --yes requires --open-pr")
+            raise SystemExit(2)
+        try:
+            result = cloud_refresh.refresh_cloud_models()
+        except (KeyError, OSError, TypeError, ValueError) as exc:
+            print(f"Error: {exc}")
+            raise SystemExit(1) from exc
+        if result is None:
+            print("no change")
+            return
+
+        summary, sha256 = result
+        print(summary, end="")
+        if args.open_pr:
+            summary_file = f"cloud-refresh-summary-{sha256[:8]}.md"
+            (ROOT / summary_file).write_text(summary, encoding="utf-8")
+            commands = [
+                ["git", "switch", "-c", f"cloud-profiles-refresh-{sha256[:8]}"],
+                [
+                    "git",
+                    "commit",
+                    "--only",
+                    "-m",
+                    "Refresh cloud model profiles",
+                    "--",
+                    "catalog/models_dev_snapshot.json",
+                    "generated/cloud_models.json",
+                ],
+                [
+                    "gh",
+                    "pr",
+                    "create",
+                    "--draft",
+                    "--title",
+                    "Refresh cloud model profiles",
+                    "--body-file",
+                    summary_file,
+                ],
+            ]
+            print(f"Summary written to {summary_file}")
+            for command in commands:
+                print(shlex.join(command))
+            if args.yes:
+                try:
+                    for command in commands:
+                        subprocess.run(command, cwd=ROOT, check=True)
+                except subprocess.CalledProcessError as exc:
+                    print(f"Error: command failed with exit status {exc.returncode}: {shlex.join(exc.cmd)}")
+                    raise SystemExit(exc.returncode) from exc
+                except OSError as exc:
+                    print(f"Error: could not run {command[0]}: {exc}")
+                    raise SystemExit(1) from exc
+        return
 
     if args.command == "generate":
         drift = export_generated(args.output_dir, check=args.check)
