@@ -353,6 +353,8 @@ def _validate_speech_presentation(models: list[dict[str, Any]]) -> list[Guardrai
     A legacy entry that shares its replacement's display name makes Settings say "Moonshine Base"
     for two different downloads, so names are unique. The card shows ``bestFor`` under the name
     and the info sheet shows ``description`` beneath it; the same sentence twice is noise.
+    ``bestFor`` is a label, not a sentence, so it has no trailing full stop, while ``description``
+    is one or two sentences. The info sheet links each entry's provenance, so it must be present.
     A counterpart is the same job in the other mode (live versus final), so the pairing must be
     mutual and must cross modes, or the app would offer a "live version" that is not live.
     """
@@ -390,12 +392,29 @@ def _validate_speech_presentation(models: list[dict[str, Any]]) -> list[Guardrai
                 )
             )
 
-        best_for = str(model.get("bestFor", "")).strip().casefold()
-        description = str(model.get("description", "")).strip().casefold()
+        best_for_text = str(model.get("bestFor", "")).strip()
+        best_for = best_for_text.casefold()
+        description_text = str(model.get("description", "")).strip()
+        description = description_text.casefold()
         if best_for and best_for == description:
             issues.append(
                 GuardrailIssue("catalog/speech.yaml", f"Speech model '{mid}' repeats description as bestFor")
             )
+        if best_for_text.endswith("."):
+            issues.append(
+                GuardrailIssue("catalog/speech.yaml", f"Speech model '{mid}' bestFor ends with a full stop")
+            )
+        if description_text:
+            sentences = [part for part in re.split(r"(?<=[.!?])\s+", description_text) if part]
+            if len(sentences) > 2:
+                issues.append(
+                    GuardrailIssue(
+                        "catalog/speech.yaml",
+                        f"Speech model '{mid}' description must be one or two sentences",
+                    )
+                )
+        if not model.get("provenance"):
+            issues.append(GuardrailIssue("catalog/speech.yaml", f"Speech model '{mid}' is missing provenance"))
 
         counterpart_id = model.get("counterpartId")
         if not counterpart_id:

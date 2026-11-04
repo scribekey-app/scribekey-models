@@ -474,6 +474,7 @@ def _presented(model_id: str, **overrides: object) -> dict:
     return {
         "id": model_id,
         "displayName": model_id.title(),
+        "provenance": {"sourceModel": f"org/{model_id}"},
         "files": [{"name": "a", "downloadUrl": "url", "sha256": "a" * 64, "sizeBytes": 10}],
         **overrides,
     }
@@ -494,6 +495,25 @@ def test_guardrail_rejects_best_for_that_repeats_the_description() -> None:
     speech_data = {"models": [_presented("model", description="Same words.", bestFor="same words.")]}
     issues = validate_identities_and_integrity(speech_data, {}, {})
     assert any("repeats description as bestFor" in issue.message for issue in issues)
+
+
+def test_guardrail_rejects_best_for_with_a_trailing_full_stop() -> None:
+    speech_data = {"models": [_presented("model", description="A model.", bestFor="Best model.")]}
+    issues = validate_identities_and_integrity(speech_data, {}, {})
+    assert any("bestFor ends with a full stop" in issue.message for issue in issues)
+
+
+def test_guardrail_rejects_description_longer_than_two_sentences() -> None:
+    speech_data = {"models": [_presented("model", description="One. Two. Three.")]}
+    issues = validate_identities_and_integrity(speech_data, {}, {})
+    assert any("description must be one or two sentences" in issue.message for issue in issues)
+
+
+def test_guardrail_requires_speech_provenance() -> None:
+    model = _presented("model")
+    model.pop("provenance")
+    issues = validate_identities_and_integrity({"models": [model]}, {}, {})
+    assert any("is missing provenance" in issue.message for issue in issues)
 
 
 @pytest.mark.parametrize(

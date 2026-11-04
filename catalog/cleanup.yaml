@@ -30,7 +30,7 @@ production:
   promptTemplate: InputOutputControlLine
   maxInputCharacters: 4000
   maxOutputCharacters: 8000
-  maxOutputTokens: 256
+  maxOutputTokens: 1024
   contextTokens: 4096
   topK: 1
   topP: 1.0
@@ -107,7 +107,7 @@ candidates:
     promptTemplate: QuillChatMl
     maxInputCharacters: 4000
     maxOutputCharacters: 8000
-    maxOutputTokens: 256
+    maxOutputTokens: 1024
     contextTokens: 4096
     topK: 1
     topP: 1.0
@@ -191,7 +191,7 @@ candidates:
     promptTemplate: QwenChatMl
     maxInputCharacters: 4000
     maxOutputCharacters: 8000
-    maxOutputTokens: 256
+    maxOutputTokens: 1024
     contextTokens: 4096
     topK: 1
     topP: 1.0
@@ -241,7 +241,7 @@ candidates:
   # styles and spoken corrections; on CleanBench v1 at the app boundary its inserted text was
   # exactly right 1.9 points more often (95% -0.1 to +3.9). Kept only so existing installs keep
   # working; anyone who chose Sotto moves to Fast. Evidence: scribekey-model-research
-  # docs/releases/scribekey-fast-v1.
+  # docs/research/2026-10-25-cleanup-fast-tier.md.
   - modelId: sotto
     displayName: Sotto
     description: A small, fast model that removes fillers, repeats and false starts from English dictation, applies your spoken corrections, and fixes punctuation and numbers. Runs on your phone.
@@ -277,7 +277,7 @@ candidates:
     promptTemplate: SottoInputOutput
     maxInputCharacters: 4000
     maxOutputCharacters: 8000
-    maxOutputTokens: 256
+    maxOutputTokens: 1024
     contextTokens: 4096
     topK: 1
     topP: 1.0
