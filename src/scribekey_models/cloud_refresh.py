@@ -15,6 +15,8 @@ from scribekey_models import catalog
 
 MODELS_DEV_URL = "https://models.dev/api.json"
 APP_REGISTRY = Path("app/src/main/java/app/scribekey/enhancement/provider/EnhancementProviderRegistry.kt")
+# Upstream fields the generator reads; a refresh that dropped one would silently change protocols.
+PROVIDER_FIELDS = ("id", "name", "npm", "api", "env")
 PROFILE_FIELDS = ("reasoningOff", "temperature", "price", "outputLimit")
 
 
@@ -37,7 +39,8 @@ def build_snapshot(raw: bytes, previous_snapshot: dict[str, Any] | None = None) 
         previous = (previous_snapshot or {}).get("providers", {}).get(provider_id, {}).get("models", {})
         ordered = {model_id: projected[model_id] for model_id in previous if model_id in projected}
         ordered.update({model_id: model for model_id, model in projected.items() if model_id not in previous})
-        providers[provider_id] = {"models": ordered}
+        provider = {key: upstream[provider_id][key] for key in PROVIDER_FIELDS if key in upstream[provider_id]}
+        providers[provider_id] = {**provider, "models": ordered}
     return {
         "schemaVersion": 1,
         "source": {
@@ -55,12 +58,17 @@ def build_snapshot(raw: bytes, previous_snapshot: dict[str, Any] | None = None) 
 
 def _snapshot_model(model: dict[str, Any]) -> dict[str, Any]:
     projected = {}
-    for field in ("modalities", "cost", "limit", "temperature", "reasoning", "reasoning_options"):
+    for field in ("type", "provider", "modalities", "cost", "limit", "temperature", "reasoning", "reasoning_options"):
         if field not in model:
             continue
         value = model[field]
-        if field in {"modalities", "cost", "limit"}:
-            keys = {"modalities": ("output",), "cost": ("input", "output"), "limit": ("output",)}[field]
+        if field in {"provider", "modalities", "cost", "limit"}:
+            keys = {
+                "provider": ("npm", "api", "shape"),
+                "modalities": ("output",),
+                "cost": ("input", "output"),
+                "limit": ("output",),
+            }[field]
             projected[field] = (
                 {key: value[key] for key in keys if key in value}
                 if isinstance(value, dict)

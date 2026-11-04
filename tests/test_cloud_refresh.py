@@ -157,3 +157,11 @@ def test_open_pr_yes_runs_only_the_printed_git_and_gh_commands(tmp_path, monkeyp
     assert commands[1][1:3] == ["commit", "--only"]
     assert commands[2][1:4] == ["pr", "create", "--draft"]
     assert all(call.kwargs == {"cwd": tmp_path, "check": True} for call in subprocess_run.call_args_list)
+
+
+def test_rebuilding_the_pinned_snapshot_keeps_every_field_the_generator_reads() -> None:
+    pinned = json.loads(catalog.CLOUD_MODELS_SNAPSHOT_FILE.read_text(encoding="utf-8"))
+
+    rebuilt = cloud_refresh.build_snapshot(api_response(pinned), pinned)
+
+    assert rebuilt["providers"] == pinned["providers"]
