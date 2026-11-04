@@ -30,7 +30,7 @@ production:
   promptTemplate: InputOutputControlLine
   maxInputCharacters: 4000
   maxOutputCharacters: 8000
-  maxOutputTokens: 256
+  maxOutputTokens: 1024
   contextTokens: 4096
   topK: 1
   topP: 1.0
@@ -107,7 +107,7 @@ candidates:
     promptTemplate: QuillChatMl
     maxInputCharacters: 4000
     maxOutputCharacters: 8000
-    maxOutputTokens: 256
+    maxOutputTokens: 1024
     contextTokens: 4096
     topK: 1
     topP: 1.0
@@ -191,7 +191,7 @@ candidates:
     promptTemplate: QwenChatMl
     maxInputCharacters: 4000
     maxOutputCharacters: 8000
-    maxOutputTokens: 256
+    maxOutputTokens: 1024
     contextTokens: 4096
     topK: 1
     topP: 1.0
@@ -277,7 +277,7 @@ candidates:
     promptTemplate: SottoInputOutput
     maxInputCharacters: 4000
     maxOutputCharacters: 8000
-    maxOutputTokens: 256
+    maxOutputTokens: 1024
     contextTokens: 4096
     topK: 1
     topP: 1.0
