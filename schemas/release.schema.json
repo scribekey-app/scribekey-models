@@ -33,7 +33,8 @@
         "speech": { "$ref": "#/$defs/catalogRef" },
         "diarization": { "$ref": "#/$defs/catalogRef" },
         "cleanup": { "$ref": "#/$defs/catalogRef" },
-        "cloudTiers": { "$ref": "#/$defs/catalogRef" }
+        "cloudTiers": { "$ref": "#/$defs/catalogRef" },
+        "cloudModels": { "$ref": "#/$defs/catalogRef" }
       }
     },
     "recoveryAssets": {

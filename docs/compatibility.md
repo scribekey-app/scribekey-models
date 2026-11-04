@@ -15,7 +15,7 @@ The Android client parses published channel manifests (`qa.json`, `stable.json`)
      minAppVersionCode: 10
      catalogsSchemaVersion: 1
      supportedRuntimeFamilies: ["sherpa-onnx", "gguf", "pyannote"]
-     supportedConfigFamilies: ["speech-model-catalog", "cleanup-model-catalog", "speaker-diarization-manifest"]
+     supportedConfigFamilies: ["speech-model-catalog", "cleanup-model-catalog", "speaker-diarization-manifest", "cloud-model-tiers", "cloud-model-profiles"]
    ```
    - Android will reject catalogues with unsupported runtime or config families.
    - Devices below `minAndroidApiLevel` or app versions below `minAppVersionCode` will decline the update.

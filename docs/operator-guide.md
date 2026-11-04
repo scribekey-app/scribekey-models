@@ -5,11 +5,11 @@ This document describes the publication authority, promotion workflow, and trust
 ## Architecture Overview
 
 1. **Canonical Metadata (`catalog/`)**:
-   Human-edited specifications describing supported speech, cleanup, and diarization models. All model asset URLs must pin immutable revisions (e.g. 40-character commit hashes on Hugging Face; no moving references like `main` or `latest`).
+   Human-edited specifications describing supported speech, cleanup, and diarization models, plus pinned provider metadata snapshots such as models.dev. All model asset URLs must pin immutable revisions (e.g. 40-character commit hashes on Hugging Face; no moving references like `main` or `latest`).
 2. **Deterministic Outputs (`generated/`)**:
    Derived JSON catalogues and channel manifests. Generated outputs are strictly deterministic and reproducible.
 3. **Immutable Releases (`catalog/releases/`, `generated/releases/`)**:
-   Releases freeze qualified catalogue snapshots (`model_catalog.json`, `speaker_diarization_manifest.json`, `cleanup_model_catalog.json`) under an immutable version tag (e.g. `2026.09.1`).
+   Releases freeze qualified catalogue snapshots (`model_catalog.json`, `speaker_diarization_manifest.json`, `cleanup_model_catalog.json`, and configured cloud model catalogues) under an immutable version tag (e.g. `2026.09.1`).
 4. **Channel Pointers (`catalog/channels.yaml`, `generated/channels/`)**:
    The `qa` and `stable` channels are pointers referencing immutable releases by release ID and content digests. They do NOT duplicate mutable artifact definitions.
    Channel manifests reference catalogs via relative URI paths (`../releases/<release-id>/<filename>`).

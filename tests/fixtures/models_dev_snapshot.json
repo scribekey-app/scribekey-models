@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "url": "https://models.dev/api.json",
+    "fetchedAt": "2026-11-04",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "upstreamRepo": "anomalyco/models.dev",
+    "license": "MIT",
+    "attribution": "MIT licensed data from anomalyco/models.dev",
+    "upstreamCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "providers": {
+    "openai": {
+      "models": {
+        "reason-effort": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 1,
+            "output": 2
+          },
+          "limit": {
+            "output": 100
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": [
+            {
+              "type": "effort",
+              "values": [
+                "high",
+                "none",
+                "low"
+              ]
+            }
+          ]
+        },
+        "free-text": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 0,
+            "output": 0
+          },
+          "temperature": true,
+          "reasoning": false
+        },
+        "image-output": {
+          "modalities": {
+            "output": [
+              "image"
+            ]
+          },
+          "cost": {
+            "input": 1,
+            "output": 1
+          },
+          "temperature": true,
+          "reasoning": false
+        },
+        "embedding": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 0.1,
+            "output": 0
+          },
+          "temperature": false,
+          "reasoning": false
+        }
+      }
+    },
+    "anthropic": {
+      "models": {
+        "reason-toggle": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 1,
+            "output": 2
+          },
+          "limit": {
+            "output": 200
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "high"
+              ]
+            },
+            {
+              "type": "toggle"
+            }
+          ]
+        }
+      }
+    },
+    "google": {
+      "models": {
+        "reason-minimal": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 1,
+            "output": 2
+          },
+          "limit": {
+            "output": 300
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": [
+            {
+              "type": "effort",
+              "values": [
+                "high",
+                "minimal"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "groq": {
+      "models": {
+        "plain": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 1,
+            "output": 2
+          },
+          "temperature": false,
+          "reasoning": false
+        }
+      }
+    },
+    "cerebras": {
+      "models": {
+        "reason-low": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 1,
+            "output": 2
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": [
+            {
+              "type": "effort",
+              "values": [
+                "medium",
+                "low"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "openrouter": {
+      "models": {
+        "reason-low": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 1,
+            "output": 2
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": [
+            {
+              "type": "effort",
+              "values": [
+                "high",
+                "low"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "mistral": {
+      "models": {
+        "plain": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 1,
+            "output": 2
+          },
+          "temperature": true,
+          "reasoning": false
+        }
+      }
+    },
+    "alibaba": {
+      "models": {
+        "reason-toggle": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 1,
+            "output": 2
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": [
+            {
+              "type": "toggle"
+            },
+            {
+              "type": "budget_tokens",
+              "min": 512
+            }
+          ]
+        }
+      }
+    },
+    "nvidia": {
+      "models": {
+        "reason-toggle": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 1,
+            "output": 2
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": [
+            {
+              "type": "toggle"
+            }
+          ]
+        }
+      }
+    },
+    "azure": {
+      "models": {
+        "plain": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 1,
+            "output": 2
+          },
+          "temperature": false,
+          "reasoning": false
+        }
+      }
+    }
+  }
+}

@@ -15,6 +15,7 @@ from scribekey_models.catalog import (
     ROOT,
     export_generated,
     generate_cleanup_catalog,
+    generate_cloud_models,
     generate_cloud_tiers,
     generate_diarization_manifest,
     generate_speech_catalog,
@@ -285,6 +286,7 @@ def main() -> None:
         cloud_tiers_str = (
             json.dumps(cloud_tiers, indent=2, ensure_ascii=False) + "\n" if cloud_tiers is not None else None
         )
+        cloud_models_str = json.dumps(generate_cloud_models(), indent=2, ensure_ascii=False) + "\n"
         git_commit, _ = _git_source_identity(root)
 
         manifest = create_release_manifest(
@@ -294,6 +296,7 @@ def main() -> None:
             diarization_content=diarization_str,
             cleanup_content=cleanup_str,
             cloud_tiers_content=cloud_tiers_str,
+            cloud_models_content=cloud_models_str,
             git_commit=git_commit,
         )
         rel_file.parent.mkdir(parents=True, exist_ok=True)
@@ -307,6 +310,7 @@ def main() -> None:
         (release_dir / "cleanup_model_catalog.json").write_text(cleanup_str, encoding="utf-8")
         if cloud_tiers_str is not None:
             (release_dir / "cloud_model_tiers.json").write_text(cloud_tiers_str, encoding="utf-8")
+        (release_dir / "cloud_models.json").write_text(cloud_models_str, encoding="utf-8")
         export_generated()
         print(f"Created release '{args.id}' at {rel_file}")
         return

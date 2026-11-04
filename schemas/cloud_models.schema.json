@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scribekey.app/schemas/cloud_models.schema.json",
+  "title": "ScribeKey cloud model profiles",
+  "description": "Generated provider model capabilities and safe request parameters, sourced from the pinned models.dev snapshot.",
+  "type": "object",
+  "required": ["schemaVersion", "snapshot", "providers"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "snapshot": { "$ref": "#/$defs/source" },
+    "providers": {
+      "type": "object",
+      "required": ["openai", "anthropic", "gemini", "groq", "cerebras", "openrouter", "mistral", "alibabacloud", "nvidia", "foundry"],
+      "additionalProperties": false,
+      "properties": {
+        "openai": { "$ref": "#/$defs/provider" },
+        "anthropic": { "$ref": "#/$defs/provider" },
+        "gemini": { "$ref": "#/$defs/provider" },
+        "groq": { "$ref": "#/$defs/provider" },
+        "cerebras": { "$ref": "#/$defs/provider" },
+        "openrouter": { "$ref": "#/$defs/provider" },
+        "mistral": { "$ref": "#/$defs/provider" },
+        "alibabacloud": { "$ref": "#/$defs/provider" },
+        "nvidia": { "$ref": "#/$defs/provider" },
+        "foundry": { "$ref": "#/$defs/provider" }
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": ["url", "fetchedAt", "sha256", "upstreamRepo", "license", "attribution", "upstreamCommit"],
+      "additionalProperties": false,
+      "properties": {
+        "url": { "const": "https://models.dev/api.json" },
+        "fetchedAt": { "type": "string", "format": "date" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "upstreamRepo": { "const": "anomalyco/models.dev" },
+        "license": { "const": "MIT" },
+        "attribution": { "type": "string", "minLength": 1 },
+        "upstreamCommit": { "type": ["string", "null"], "pattern": "^[0-9a-f]{40}$" }
+      }
+    },
+    "provider": {
+      "type": "object",
+      "required": ["protocol", "models"],
+      "additionalProperties": false,
+      "properties": {
+        "protocol": {
+          "type": "object",
+          "required": ["name"],
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "temperatureField": { "type": "string" },
+            "reasoningToggleOff": { "type": "object" },
+            "reasoningEffortPath": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+            "reasoningEffortCase": { "enum": ["upper"] },
+            "reasoningTokenField": { "type": "string" },
+            "verifiedParams": {
+              "type": "object",
+              "propertyNames": { "type": "string" },
+              "additionalProperties": { "enum": ["accepted", "rejected"] }
+            }
+          }
+        },
+        "models": {
+          "type": "object",
+          "propertyNames": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "additionalProperties": { "$ref": "#/$defs/profile" }
+        }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "required": ["text", "temperature", "price"],
+      "additionalProperties": false,
+      "properties": {
+        "text": { "const": true },
+        "reasoningOff": { "oneOf": [{ "type": "null" }, { "type": "object" }] },
+        "temperature": { "type": "boolean" },
+        "outputLimit": { "type": "integer", "minimum": 1 },
+        "price": {
+          "type": "object",
+          "required": ["input", "output"],
+          "additionalProperties": false,
+          "properties": {
+            "input": { "type": ["number", "null"], "minimum": 0 },
+            "output": { "type": "number", "minimum": 0 }
+          }
+        }
+      }
+    }
+  }
+}
