@@ -74,10 +74,15 @@
     },
     "profile": {
       "type": "object",
-      "required": ["text", "temperature", "price"],
+      "required": ["text", "protocol", "tokenField", "outputLimit", "temperature", "price"],
       "additionalProperties": false,
       "properties": {
-        "text": { "const": true },
+        "text": { "type": "boolean" },
+        "protocol": {
+          "enum": ["openai-chat-completions", "anthropic-messages", "openai-responses", "google-generative-ai", "unknown"]
+        },
+        "baseUrl": { "type": "string", "pattern": "^(https://|.*\\$\\{).+" },
+        "tokenField": { "enum": ["max_tokens", "max_completion_tokens"] },
         "reasoningOff": { "oneOf": [{ "type": "null" }, { "type": "object" }] },
         "temperature": { "type": "boolean" },
         "outputLimit": { "type": "integer", "minimum": 1 },

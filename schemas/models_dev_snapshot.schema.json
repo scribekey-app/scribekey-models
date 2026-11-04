@@ -47,6 +47,11 @@
       "required": ["models"],
       "additionalProperties": false,
       "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "npm": { "type": ["string", "null"] },
+        "api": { "type": ["string", "null"] },
+        "env": { "type": "array", "items": { "type": "string" } },
         "models": {
           "type": "object",
           "propertyNames": { "type": "string", "minLength": 1, "maxLength": 128 },
@@ -58,6 +63,16 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "type": { "type": "string" },
+        "provider": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "npm": { "type": ["string", "null"] },
+            "api": { "type": ["string", "null"] },
+            "shape": { "type": ["string", "null"] }
+          }
+        },
         "modalities": {
           "type": "object",
           "required": ["output"],

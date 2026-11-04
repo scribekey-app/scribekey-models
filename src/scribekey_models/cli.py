@@ -286,7 +286,9 @@ def main() -> None:
         cloud_tiers_str = (
             json.dumps(cloud_tiers, indent=2, ensure_ascii=False) + "\n" if cloud_tiers is not None else None
         )
-        cloud_models_str = json.dumps(generate_cloud_models(), indent=2, ensure_ascii=False) + "\n"
+        cloud_models_str = json.dumps(
+            generate_cloud_models(), separators=(",", ":"), ensure_ascii=False
+        ) + "\n"
         git_commit, _ = _git_source_identity(root)
 
         manifest = create_release_manifest(

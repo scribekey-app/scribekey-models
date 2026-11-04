@@ -98,7 +98,7 @@ CLOUD_PROVIDER_PROTOCOLS: dict[str, dict[str, Any]] = {
         "modelsDevId": "google",
         # The app calls Gemini through its OpenAI-compatible endpoint, not generateContent.
         "protocol": {
-            "name": "gemini-openai-compatible",
+            "name": "openai-chat-completions",
             "temperatureField": "temperature",
             "reasoningToggleOff": {"reasoning_effort": "none"},
             "reasoningEffortPath": ["reasoning_effort"],
@@ -108,7 +108,7 @@ CLOUD_PROVIDER_PROTOCOLS: dict[str, dict[str, Any]] = {
     "groq": {
         "modelsDevId": "groq",
         "protocol": {
-            "name": "openai-compatible",
+            "name": "openai-chat-completions",
             "temperatureField": "temperature",
             "reasoningToggleOff": {"reasoning_effort": "none"},
             "reasoningEffortPath": ["reasoning_effort"],
@@ -118,7 +118,7 @@ CLOUD_PROVIDER_PROTOCOLS: dict[str, dict[str, Any]] = {
     "cerebras": {
         "modelsDevId": "cerebras",
         "protocol": {
-            "name": "openai-compatible",
+            "name": "openai-chat-completions",
             "temperatureField": "temperature",
             "reasoningToggleOff": {"reasoning_effort": "none"},
             "reasoningEffortPath": ["reasoning_effort"],
@@ -128,7 +128,7 @@ CLOUD_PROVIDER_PROTOCOLS: dict[str, dict[str, Any]] = {
     "openrouter": {
         "modelsDevId": "openrouter",
         "protocol": {
-            "name": "openrouter-chat-completions",
+            "name": "openai-chat-completions",
             "temperatureField": "temperature",
             "reasoningToggleOff": {"reasoning": {"enabled": False}},
             "reasoningEffortPath": ["reasoning", "effort"],
@@ -138,7 +138,7 @@ CLOUD_PROVIDER_PROTOCOLS: dict[str, dict[str, Any]] = {
     "mistral": {
         "modelsDevId": "mistral",
         "protocol": {
-            "name": "mistral-chat-completions",
+            "name": "openai-chat-completions",
             "temperatureField": "temperature",
             "reasoningToggleOff": {"reasoning_effort": "none"},
             "reasoningEffortPath": ["reasoning_effort"],
@@ -148,7 +148,7 @@ CLOUD_PROVIDER_PROTOCOLS: dict[str, dict[str, Any]] = {
     "alibabacloud": {
         "modelsDevId": "alibaba",
         "protocol": {
-            "name": "dashscope-compatible",
+            "name": "openai-chat-completions",
             "temperatureField": "temperature",
             "reasoningToggleOff": {"enable_thinking": False},
             "reasoningTokenField": "max_tokens",
@@ -157,7 +157,7 @@ CLOUD_PROVIDER_PROTOCOLS: dict[str, dict[str, Any]] = {
     "nvidia": {
         "modelsDevId": "nvidia",
         "protocol": {
-            "name": "nvidia-nim",
+            "name": "openai-chat-completions",
             "temperatureField": "temperature",
             "reasoningToggleOff": {"chat_template_kwargs": {"enable_thinking": False}},
             "reasoningTokenField": "max_tokens",
@@ -166,7 +166,7 @@ CLOUD_PROVIDER_PROTOCOLS: dict[str, dict[str, Any]] = {
     "foundry": {
         "modelsDevId": "azure",
         "protocol": {
-            "name": "azure-openai-compatible",
+            "name": "openai-chat-completions",
             "temperatureField": "temperature",
             "reasoningToggleOff": {"reasoning_effort": "none"},
             "reasoningEffortPath": ["reasoning_effort"],
@@ -248,6 +248,56 @@ def _reasoning_floor(model: dict[str, Any], protocol: dict[str, Any]) -> dict[st
     return _put_path(path, selected)
 
 
+def _protocol_config(name: str, provider_config: dict[str, Any]) -> dict[str, Any]:
+    """Return the request-parameter rules for one canonical protocol."""
+    if name == "anthropic-messages":
+        return CLOUD_PROVIDER_PROTOCOLS["anthropic"]["protocol"]
+    if name == "openai-chat-completions":
+        return {**provider_config["protocol"], "name": name}
+    return {"name": name}
+
+
+def _model_protocol(
+    provider_config: dict[str, Any], source_provider: dict[str, Any], model: dict[str, Any]
+) -> tuple[str, str | None]:
+    """Resolve an upstream per-model adapter and account-scoped URL, if supplied."""
+    model_provider = model.get("provider")
+    if not isinstance(model_provider, dict):
+        return provider_config["protocol"]["name"], None
+    upstream = {
+        key: source_provider.get(key)
+        for key in ("npm", "api", "shape")
+        if source_provider.get(key) is not None
+    }
+    upstream.update(model_provider)
+    npm = upstream.get("npm")
+    shape = upstream.get("shape")
+    api = upstream.get("api")
+    if shape == "responses":
+        protocol = "openai-responses"
+    elif shape == "completions":
+        protocol = "openai-chat-completions"
+    elif npm in {"@ai-sdk/anthropic", "@ai-sdk/google-vertex/anthropic"}:
+        protocol = "anthropic-messages"
+    elif npm in {"@ai-sdk/google", "@ai-sdk/google-vertex"}:
+        protocol = "google-generative-ai"
+    elif npm in {
+        "@ai-sdk/openai",
+        "@ai-sdk/openai-compatible",
+        "@openrouter/ai-sdk-provider",
+        "@ai-sdk/azure",
+        "@ai-sdk/mistral",
+        "@ai-sdk/alibaba",
+    }:
+        protocol = "openai-chat-completions"
+    elif api is not None:
+        protocol = "unknown"
+    else:
+        protocol = provider_config["protocol"]["name"]
+    base_url = api if isinstance(api, str) and (api.startswith("https://") or "${" in api) else None
+    return protocol, base_url
+
+
 def generate_cloud_models(
     snapshot: dict[str, Any] | None = None,
     qualifications_dir: Path | None = None,
@@ -256,7 +306,8 @@ def generate_cloud_models(
     qualifications_dir = qualifications_dir or ROOT / "qualifications" / "cloud"
     providers: dict[str, Any] = {}
     for app_id, provider_config in CLOUD_PROVIDER_PROTOCOLS.items():
-        source = snapshot["providers"][provider_config["modelsDevId"]]["models"]
+        source_provider = snapshot["providers"][provider_config["modelsDevId"]]
+        source = source_provider["models"]
         probe_params = _cloud_probe_params(app_id, qualifications_dir)
         rejected = {field for field, status in probe_params.items() if status == "rejected"}
         protocol = dict(provider_config["protocol"])
@@ -286,7 +337,15 @@ def generate_cloud_models(
         for model_id, model in source.items():
             output_modalities = model.get("modalities", {}).get("output", [])
             cost = model.get("cost")
-            if "text" not in output_modalities or not isinstance(cost, dict):
+            output_limit = model.get("limit", {}).get("output")
+            if (
+                "text" not in output_modalities
+                or not isinstance(cost, dict)
+                or not isinstance(output_limit, int)
+                or isinstance(output_limit, bool)
+                or output_limit <= 0
+                or model.get("type") in {"embedding", "reranking", "reranker"}
+            ):
                 continue
             output_price = cost.get("output")
             if not isinstance(output_price, (int, float)) or isinstance(output_price, bool):
@@ -297,16 +356,32 @@ def generate_cloud_models(
             if output_price == 0 and isinstance(input_price, (int, float)) and input_price > 0:
                 continue
 
+            protocol_name, base_url = _model_protocol(provider_config, source_provider, model)
+            supported = protocol_name in {"openai-chat-completions", "anthropic-messages"}
+            model_protocol = _protocol_config(protocol_name, provider_config)
+            token_field = (
+                model_protocol.get("reasoningTokenField")
+                if model.get("reasoning") is True
+                else None
+            )
+            token_field = token_field or "max_tokens"
+            if token_field in rejected:
+                if token_field == "max_completion_tokens":
+                    token_field = "max_tokens"
+                if token_field in rejected:
+                    supported = False
             profile: dict[str, Any] = {
-                "text": True,
+                "text": supported,
+                "protocol": protocol_name,
+                "tokenField": token_field,
+                "outputLimit": output_limit,
                 "temperature": model.get("temperature") is True and "temperature" not in rejected,
                 "price": {"input": cost.get("input"), "output": output_price},
             }
-            output_limit = model.get("limit", {}).get("output")
-            if isinstance(output_limit, int) and not isinstance(output_limit, bool) and output_limit > 0:
-                profile["outputLimit"] = output_limit
+            if base_url is not None:
+                profile["baseUrl"] = base_url
             if model.get("reasoning") is True:
-                floor = _reasoning_floor(model, provider_config["protocol"])
+                floor = _reasoning_floor(model, model_protocol)
                 if floor is not None and any(
                     _path_is_rejected(path, rejected)
                     for path in _payload_paths(floor)
@@ -329,13 +404,18 @@ def _payload_paths(payload: dict[str, Any], prefix: list[str] | None = None) -> 
 
 def validate_cloud_models(data: dict[str, Any]) -> list[str]:
     problems: list[str] = []
-    size = len(_render_json(data).encode("utf-8"))
+    size = len(_render_cloud_models(data).encode("utf-8"))
     if size >= MAX_CLOUD_MODELS_BYTES:
         problems.append(f"generated/cloud_models.json is {size} bytes; limit is {MAX_CLOUD_MODELS_BYTES - 1}")
     for provider, entry in data.get("providers", {}).items():
         for model, profile in entry.get("models", {}).items():
             price = profile.get("price", {})
-            if profile.get("text") is not True or (price.get("output", 0) == 0 and price.get("input", 0) > 0):
+            if profile.get("text") is True and (
+                profile.get("protocol") not in {"openai-chat-completions", "anthropic-messages"}
+                or not isinstance(profile.get("outputLimit"), int)
+                or profile["outputLimit"] <= 0
+                or (price.get("output", 0) == 0 and price.get("input", 0) > 0)
+            ):
                 problems.append(f"{provider}.{model}: profile must be a text generator, not input-priced only")
     return problems
 
@@ -569,6 +649,11 @@ def _render_json(data: dict[str, Any]) -> str:
     return json.dumps(data, indent=2, ensure_ascii=False) + "\n"
 
 
+def _render_cloud_models(data: dict[str, Any]) -> str:
+    # The model map is large; compact JSON keeps the signed catalogue below its 250 KB budget.
+    return json.dumps(data, separators=(",", ":"), ensure_ascii=False) + "\n"
+
+
 def generate_all_artifacts() -> list[GenerationArtifact]:
     artifacts: list[GenerationArtifact] = []
 
@@ -583,7 +668,7 @@ def generate_all_artifacts() -> list[GenerationArtifact]:
     cloud_tiers = generate_cloud_tiers()
     if cloud_tiers is not None:
         artifacts.append(GenerationArtifact("cloud_model_tiers.json", _render_json(cloud_tiers)))
-    artifacts.append(GenerationArtifact("cloud_models.json", _render_json(generate_cloud_models())))
+    artifacts.append(GenerationArtifact("cloud_models.json", _render_cloud_models(generate_cloud_models())))
 
     # Release manifests are derived metadata. The catalogue files below each release are
     # deliberately NOT generated here: `release create` freezes them once and validation checks
