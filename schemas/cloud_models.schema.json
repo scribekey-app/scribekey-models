@@ -61,7 +61,7 @@
             "verifiedParams": {
               "type": "object",
               "propertyNames": { "type": "string" },
-              "additionalProperties": { "enum": ["accepted", "rejected"] }
+              "additionalProperties": { "enum": ["accepted", "rejected", "ignored"] }
             }
           }
         },

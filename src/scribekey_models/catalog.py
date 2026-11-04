@@ -205,7 +205,7 @@ def _cloud_probe_params(provider: str, qualifications_dir: Path) -> dict[str, st
         if not isinstance(params, dict) or any(
             not isinstance(field, str)
             or not isinstance(status, str)
-            or status not in {"accepted", "rejected"}
+            or status not in {"accepted", "rejected", "ignored"}
             for field, status in params.items()
         ):
             raise ValueError(f"Invalid params in cloud probe record {path}")
