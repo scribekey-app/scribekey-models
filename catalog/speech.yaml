@@ -441,6 +441,50 @@ models:
       licenseId: Apache-2.0
       licenseUrl: https://huggingface.co/Qwen/Qwen3-ASR-0.6B
 
+  - id: sensevoice-small
+    outcome: MULTILINGUAL
+    family: SENSE_VOICE
+    displayName: SenseVoice Small
+    description: Fast multilingual speech recognition for Chinese, Cantonese, English, Japanese and Korean with punctuation.
+    bestFor: Fast speech recognition in East Asian languages
+    badge: ""
+    diskMb: 229
+    minRamMb: 3072
+    minApiLevel: 28
+    transcriptionMode: SEGMENTED
+    supportsTimestamps: false
+    supportsPunctuation: true
+    supportsLanguageDetection: true
+    languageCodes:
+      - zh
+      - yue
+      - en
+      - ja
+      - ko
+    files:
+      - name: model.int8.onnx
+        downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/resolve/2365baeacb507f821a0c8120fcee3d484dba7a07/model.int8.onnx
+        sizeBytes: 239233841
+        sha256: c71f0ce00bec95b07744e116345e33d8cbbe08cef896382cf907bf4b51a2cd51
+      - name: tokens.txt
+        downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/resolve/2365baeacb507f821a0c8120fcee3d484dba7a07/tokens.txt
+        sizeBytes: 315894
+        sha256: f449eb28dc567533d7fa59be34e2abca8784f771850c78a47fb731a31429a1dc
+    sherpaConfig:
+      type: sense_voice
+      modelDir: ""
+    info:
+      paramsBadge: 234M
+      architecture: Non-autoregressive
+      languages: Chinese, Cantonese, English, Japanese, Korean
+    provenance:
+      sourceModel: FunAudioLLM/SenseVoiceSmall
+      exportRepository: csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
+      exportRevision: 2365baeacb507f821a0c8120fcee3d484dba7a07
+      exportVariant: INT8
+      licenseId: Apache-2.0
+      licenseUrl: https://huggingface.co/FunAudioLLM/SenseVoiceSmall
+
   - id: parakeet-0.6b-v2
     family: PARAKEET
     displayName: Parakeet English v2

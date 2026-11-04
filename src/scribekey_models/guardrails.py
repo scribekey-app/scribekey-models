@@ -122,6 +122,10 @@ REQUIRED_RUNTIME_FILES: dict[str, tuple[str, ...]] = {
         "tokenizer/tokenizer_config.json",
         "tokenizer/vocab.json",
     ),
+    "sense_voice": (
+        "model.int8.onnx",
+        "tokens.txt",
+    ),
 }
 RUNTIME_TO_FAMILY: dict[str, str] = {
     "moonshine": "MOONSHINE",
@@ -133,6 +137,7 @@ RUNTIME_TO_FAMILY: dict[str, str] = {
     "omnilingual_ctc": "OMNILINGUAL",
     "qwen3_asr": "QWEN3_ASR",
     "zipformer_transducer": "ZIPFORMER",
+    "sense_voice": "SENSE_VOICE",
 }
 # sherpa-onnx's English punctuation model, as published in k2-fsa's `punctuation-models` release
 # (sherpa-onnx-online-punct-en-2024-08-06, Apache-2.0). Upstream ships it only as an archive, so a
