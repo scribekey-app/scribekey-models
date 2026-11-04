@@ -66,6 +66,7 @@ def _diarization_data() -> dict:
     ("omnilingual_ctc", "OMNILINGUAL", "model.int8.onnx tokens.txt"),
     ("zipformer_transducer", "ZIPFORMER", "encoder.int8.onnx decoder.int8.onnx joiner.int8.onnx tokens.txt punct-bpe.vocab punct-model.int8.onnx"),
     ("qwen3_asr", "QWEN3_ASR", "conv_frontend.onnx encoder.int8.onnx decoder.int8.onnx tokenizer/merges.txt tokenizer/tokenizer_config.json tokenizer/vocab.json"),
+    ("sense_voice", "SENSE_VOICE", "model.int8.onnx tokens.txt"),
 ])
 def test_runtime_layout_requires_android_consumer_files(runtime, family, names) -> None:
     model = _speech_model(

@@ -43,7 +43,8 @@
               "DISTIL_WHISPER",
               "QWEN3_ASR",
               "OMNILINGUAL",
-              "ZIPFORMER"
+              "ZIPFORMER",
+              "SENSE_VOICE"
             ]
           },
           "displayName": {
