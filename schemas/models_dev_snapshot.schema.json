@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scribekey.app/schemas/models_dev_snapshot.schema.json",
+  "title": "Pinned models.dev provider snapshot",
+  "description": "The selected provider model fields used to build ScribeKey cloud model profiles.",
+  "type": "object",
+  "required": ["schemaVersion", "source", "providers"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "source": { "$ref": "#/$defs/source" },
+    "providers": {
+      "type": "object",
+      "required": ["openai", "anthropic", "google", "groq", "cerebras", "openrouter", "mistral", "alibaba", "nvidia", "azure"],
+      "additionalProperties": false,
+      "properties": {
+        "openai": { "$ref": "#/$defs/provider" },
+        "anthropic": { "$ref": "#/$defs/provider" },
+        "google": { "$ref": "#/$defs/provider" },
+        "groq": { "$ref": "#/$defs/provider" },
+        "cerebras": { "$ref": "#/$defs/provider" },
+        "openrouter": { "$ref": "#/$defs/provider" },
+        "mistral": { "$ref": "#/$defs/provider" },
+        "alibaba": { "$ref": "#/$defs/provider" },
+        "nvidia": { "$ref": "#/$defs/provider" },
+        "azure": { "$ref": "#/$defs/provider" }
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": ["url", "fetchedAt", "sha256", "upstreamRepo", "license", "attribution", "upstreamCommit"],
+      "additionalProperties": false,
+      "properties": {
+        "url": { "const": "https://models.dev/api.json" },
+        "fetchedAt": { "type": "string", "format": "date" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "upstreamRepo": { "const": "anomalyco/models.dev" },
+        "license": { "const": "MIT" },
+        "attribution": { "type": "string", "minLength": 1 },
+        "upstreamCommit": { "type": ["string", "null"], "pattern": "^[0-9a-f]{40}$" }
+      }
+    },
+    "provider": {
+      "type": "object",
+      "required": ["models"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "npm": { "type": ["string", "null"] },
+        "api": { "type": ["string", "null"] },
+        "env": { "type": "array", "items": { "type": "string" } },
+        "models": {
+          "type": "object",
+          "propertyNames": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "additionalProperties": { "$ref": "#/$defs/model" }
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string" },
+        "provider": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "npm": { "type": ["string", "null"] },
+            "api": { "type": ["string", "null"] },
+            "shape": { "type": ["string", "null"] }
+          }
+        },
+        "modalities": {
+          "type": "object",
+          "required": ["output"],
+          "additionalProperties": false,
+          "properties": { "output": { "type": "array", "items": { "type": "string" }, "uniqueItems": true } }
+        },
+        "cost": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "input": { "type": ["number", "null"], "minimum": 0 },
+                "output": { "type": ["number", "null"], "minimum": 0 }
+              }
+            }
+          ]
+        },
+        "limit": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": { "output": { "type": ["integer", "null"], "minimum": 0 } }
+        },
+        "temperature": { "type": "boolean" },
+        "reasoning": { "type": "boolean" },
+        "reasoning_options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type"],
+            "additionalProperties": false,
+            "properties": {
+              "type": { "enum": ["toggle", "effort", "budget_tokens"] },
+              "values": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+              "min": { "type": "number" },
+              "max": { "type": "number" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

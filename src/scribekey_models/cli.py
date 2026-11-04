@@ -4,17 +4,20 @@ import argparse
 import datetime
 import json
 import os
+import shlex
 import subprocess
 from pathlib import Path
 
 import yaml
 
+from scribekey_models import cloud_refresh
 from scribekey_models.bpe_vocab import build as build_bpe_vocab
 from scribekey_models.catalog import (
     GENERATED_DIR,
     ROOT,
     export_generated,
     generate_cleanup_catalog,
+    generate_cloud_models,
     generate_cloud_tiers,
     generate_diarization_manifest,
     generate_speech_catalog,
@@ -167,6 +170,21 @@ def _parser() -> argparse.ArgumentParser:
     m_plan.add_argument("--release", required=True, help="Release ID (e.g. 2026.09.1)")
     mirror_subs.add_parser("check", help="Check mirror configuration status")
 
+    # cloud
+    cloud_cmd = subparsers.add_parser("cloud", help="Manage cloud model profiles")
+    cloud_subs = cloud_cmd.add_subparsers(dest="cloud_command", required=True)
+    cloud_refresh_cmd = cloud_subs.add_parser("refresh", help="Refresh profiles from models.dev")
+    cloud_refresh_cmd.add_argument(
+        "--open-pr",
+        action="store_true",
+        help="Write a PR summary and print draft PR commands",
+    )
+    cloud_refresh_cmd.add_argument(
+        "--yes",
+        action="store_true",
+        help="Run the printed git and gh commands (requires --open-pr)",
+    )
+
     # health
     health_cmd = subparsers.add_parser(
         "health",
@@ -258,6 +276,64 @@ def _git_source_identity(root: Path) -> tuple[str, str]:
 def main() -> None:
     args = _parser().parse_args()
 
+    if args.command == "cloud" and args.cloud_command == "refresh":
+        if args.yes and not args.open_pr:
+            print("Error: --yes requires --open-pr")
+            raise SystemExit(2)
+        try:
+            result = cloud_refresh.refresh_cloud_models()
+        except (KeyError, OSError, TypeError, ValueError) as exc:
+            print(f"Error: {exc}")
+            raise SystemExit(1) from exc
+        if result is None:
+            print("no change")
+            return
+
+        summary, sha256 = result
+        print(summary, end="")
+        if args.open_pr:
+            summary_file = f"cloud-refresh-summary-{sha256[:8]}.md"
+            (ROOT / summary_file).write_text(summary, encoding="utf-8")
+            branch = f"cloud-profiles-refresh-{sha256[:8]}"
+            commands = [
+                ["git", "switch", "-c", branch],
+                [
+                    "git",
+                    "commit",
+                    "--only",
+                    "-m",
+                    "Refresh cloud model profiles",
+                    "--",
+                    "catalog/models_dev_snapshot.json",
+                    "generated/cloud_models.json",
+                ],
+                ["git", "push", "-u", "origin", branch],
+                [
+                    "gh",
+                    "pr",
+                    "create",
+                    "--draft",
+                    "--title",
+                    "Refresh cloud model profiles",
+                    "--body-file",
+                    summary_file,
+                ],
+            ]
+            print(f"Summary written to {summary_file}")
+            for command in commands:
+                print(shlex.join(command))
+            if args.yes:
+                try:
+                    for command in commands:
+                        subprocess.run(command, cwd=ROOT, check=True)
+                except subprocess.CalledProcessError as exc:
+                    print(f"Error: command failed with exit status {exc.returncode}: {shlex.join(exc.cmd)}")
+                    raise SystemExit(exc.returncode) from exc
+                except OSError as exc:
+                    print(f"Error: could not run {command[0]}: {exc}")
+                    raise SystemExit(1) from exc
+        return
+
     if args.command == "generate":
         drift = export_generated(args.output_dir, check=args.check)
         if drift:
@@ -285,6 +361,9 @@ def main() -> None:
         cloud_tiers_str = (
             json.dumps(cloud_tiers, indent=2, ensure_ascii=False) + "\n" if cloud_tiers is not None else None
         )
+        cloud_models_str = json.dumps(
+            generate_cloud_models(), separators=(",", ":"), ensure_ascii=False
+        ) + "\n"
         git_commit, _ = _git_source_identity(root)
 
         manifest = create_release_manifest(
@@ -294,6 +373,7 @@ def main() -> None:
             diarization_content=diarization_str,
             cleanup_content=cleanup_str,
             cloud_tiers_content=cloud_tiers_str,
+            cloud_models_content=cloud_models_str,
             git_commit=git_commit,
         )
         rel_file.parent.mkdir(parents=True, exist_ok=True)
@@ -307,6 +387,7 @@ def main() -> None:
         (release_dir / "cleanup_model_catalog.json").write_text(cleanup_str, encoding="utf-8")
         if cloud_tiers_str is not None:
             (release_dir / "cloud_model_tiers.json").write_text(cloud_tiers_str, encoding="utf-8")
+        (release_dir / "cloud_models.json").write_text(cloud_models_str, encoding="utf-8")
         export_generated()
         print(f"Created release '{args.id}' at {rel_file}")
         return

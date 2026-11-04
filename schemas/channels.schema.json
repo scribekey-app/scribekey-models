@@ -80,7 +80,9 @@
                 "enum": [
                   "speech-model-catalog",
                   "cleanup-model-catalog",
-                  "speaker-diarization-manifest"
+                  "speaker-diarization-manifest",
+                  "cloud-model-tiers",
+                  "cloud-model-profiles"
                 ]
               },
               "minItems": 1,

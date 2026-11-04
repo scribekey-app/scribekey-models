@@ -65,7 +65,9 @@
             "enum": [
               "speech-model-catalog",
               "cleanup-model-catalog",
-              "speaker-diarization-manifest"
+              "speaker-diarization-manifest",
+              "cloud-model-tiers",
+              "cloud-model-profiles"
             ]
           },
           "minItems": 1,
@@ -87,7 +89,8 @@
         "speech": { "$ref": "#/$defs/distributionCatalogRef" },
         "diarization": { "$ref": "#/$defs/distributionCatalogRef" },
         "cleanup": { "$ref": "#/$defs/distributionCatalogRef" },
-        "cloudTiers": { "$ref": "#/$defs/distributionCatalogRef" }
+        "cloudTiers": { "$ref": "#/$defs/distributionCatalogRef" },
+        "cloudModels": { "$ref": "#/$defs/distributionCatalogRef" }
       }
     },
     "recoveryAssets": {
