@@ -152,10 +152,11 @@ def test_open_pr_yes_runs_only_the_printed_git_and_gh_commands(tmp_path, monkeyp
     main()
 
     commands = [call.args[0] for call in subprocess_run.call_args_list]
-    assert [command[0] for command in commands] == ["git", "git", "gh"]
+    assert [command[0] for command in commands] == ["git", "git", "git", "gh"]
     assert commands[0][:3] == ["git", "switch", "-c"]
     assert commands[1][1:3] == ["commit", "--only"]
-    assert commands[2][1:4] == ["pr", "create", "--draft"]
+    assert commands[2][1:3] == ["push", "-u"]
+    assert commands[3][1:4] == ["pr", "create", "--draft"]
     assert all(call.kwargs == {"cwd": tmp_path, "check": True} for call in subprocess_run.call_args_list)
 
 

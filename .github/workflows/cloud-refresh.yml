@@ -1,0 +1,61 @@
+name: Refresh cloud model profiles
+
+on:
+  schedule:
+    - cron: "41 4 * * 1"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: cloud-profiles-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      APP_TOKEN: ${{ secrets.SCRIBEKEY_APP_READ_TOKEN }}
+    steps:
+      - name: Skip while a refresh PR is open
+        id: open
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          count="$(gh pr list --repo "$GITHUB_REPOSITORY" --state open --json headRefName \
+            -q '[.[] | select(.headRefName | startswith("cloud-profiles-refresh-"))] | length')"
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: steps.open.outputs.count == '0'
+
+      # The app repo is private; without this token the summary just skips the removed-default check.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: steps.open.outputs.count == '0' && env.APP_TOKEN != ''
+        with:
+          repository: scribekey-app/scribekey
+          token: ${{ secrets.SCRIBEKEY_APP_READ_TOKEN }}
+          path: app-checkout
+          sparse-checkout: app/src/main/java/app/scribekey/enhancement/provider
+          persist-credentials: false
+
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        if: steps.open.outputs.count == '0'
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Refresh and open a draft PR
+        if: steps.open.outputs.count == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m pip install -e '.[dev]'
+          if [ -d app-checkout ]; then export SCRIBEKEY_APP_DIR="$PWD/app-checkout"; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          scribekey-models cloud refresh --open-pr --yes

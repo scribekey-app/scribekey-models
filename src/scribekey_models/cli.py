@@ -294,8 +294,9 @@ def main() -> None:
         if args.open_pr:
             summary_file = f"cloud-refresh-summary-{sha256[:8]}.md"
             (ROOT / summary_file).write_text(summary, encoding="utf-8")
+            branch = f"cloud-profiles-refresh-{sha256[:8]}"
             commands = [
-                ["git", "switch", "-c", f"cloud-profiles-refresh-{sha256[:8]}"],
+                ["git", "switch", "-c", branch],
                 [
                     "git",
                     "commit",
@@ -306,6 +307,7 @@ def main() -> None:
                     "catalog/models_dev_snapshot.json",
                     "generated/cloud_models.json",
                 ],
+                ["git", "push", "-u", "origin", branch],
                 [
                     "gh",
                     "pr",
