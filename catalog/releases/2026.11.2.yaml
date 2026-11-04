@@ -1,6 +1,6 @@
 schema_version: 1
 releaseId: 2026.11.2
-createdAt: '2026-11-04T10:39:01Z'
+createdAt: '2026-11-04T10:53:31Z'
 description: Adds SenseVoice Small for Chinese, Cantonese, English, Japanese and Korean.
   Same model files otherwise.
 catalogs:
@@ -14,10 +14,10 @@ catalogs:
     sizeBytes: 1438
   cleanup:
     filename: cleanup_model_catalog.json
-    sha256: f26755dff0682c6d34730d8f2654c8bf348248462997beb007a747b8d862d56b
-    sizeBytes: 16342
+    sha256: fa943d33b7ad03993206f08a10002b20324dd7b4e495f17787bde5c2310e1f95
+    sizeBytes: 16346
   cloudTiers:
     filename: cloud_model_tiers.json
     sha256: bdf58dbe3ffbdc5c765a2b2f8be9cc97d7e7db9761ba82232702e14a69f16e25
     sizeBytes: 14543
-gitCommit: bdfc1477af37159c19ba30bad68a1013517397a3
+gitCommit: 10578cec501c397cb122153ac9a5b53037cc6e97
