@@ -1,0 +1,23 @@
+schema_version: 1
+releaseId: 2026.11.2
+createdAt: '2026-11-04T10:39:01Z'
+description: Adds SenseVoice Small for Chinese, Cantonese, English, Japanese and Korean.
+  Same model files otherwise.
+catalogs:
+  speech:
+    filename: model_catalog.json
+    sha256: 1d27df5081cec0ad29527c67decb94edfc99d401984299a88b02e6af5a49bdb4
+    sizeBytes: 63182
+  diarization:
+    filename: speaker_diarization_manifest.json
+    sha256: 229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a
+    sizeBytes: 1438
+  cleanup:
+    filename: cleanup_model_catalog.json
+    sha256: f26755dff0682c6d34730d8f2654c8bf348248462997beb007a747b8d862d56b
+    sizeBytes: 16342
+  cloudTiers:
+    filename: cloud_model_tiers.json
+    sha256: bdf58dbe3ffbdc5c765a2b2f8be9cc97d7e7db9761ba82232702e14a69f16e25
+    sizeBytes: 14543
+gitCommit: bdfc1477af37159c19ba30bad68a1013517397a3
