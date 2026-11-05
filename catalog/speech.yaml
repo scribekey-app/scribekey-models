@@ -110,8 +110,8 @@ models:
     outcome: LIGHTWEIGHT
     family: MOONSHINE
     displayName: Moonshine Tiny
-    description: The smallest English model. Quick on any phone, with punctuation and capitals.
-    bestFor: Smallest download and memory use
+    description: A compact English model. Text appears when you finish speaking, with punctuation and capitals.
+    bestFor: Smallest English download
     badge: ""
     diskMb: 43
     minRamMb: 2048
@@ -160,8 +160,8 @@ models:
     outcome: LIGHTWEIGHT
     family: MOONSHINE
     displayName: Moonshine Base
-    description: A larger Moonshine for English. More accurate than Moonshine Tiny, still light on memory.
-    bestFor: English on older or low-memory phones
+    description: A larger Moonshine for English that still needs little memory. Text appears when you finish speaking.
+    bestFor: English on phones with less memory
     badge: ""
     diskMb: 135
     minRamMb: 2048
@@ -210,8 +210,8 @@ models:
     outcome: LIGHTWEIGHT
     family: DISTIL_WHISPER
     displayName: Distil-Whisper Small
-    description: A distilled Whisper model for English, with punctuation and capitals.
-    bestFor: Whisper-style English at a mid-size download
+    description: A distilled Whisper model for English. Text appears when you finish speaking, with punctuation and capitals.
+    bestFor: English from a smaller Whisper model
     badge: ""
     diskMb: 286
     minRamMb: 3072
@@ -254,8 +254,8 @@ models:
     outcome: LIGHTWEIGHT
     family: PARAKEET
     displayName: Parakeet Compact
-    description: A small NVIDIA Parakeet model that writes English with punctuation and capitals.
-    bestFor: Punctuated English on mid-range phones
+    description: Transcribes English when you finish speaking, with punctuation and capitals.
+    bestFor: English on mid-range phones
     badge: ""
     diskMb: 437
     minRamMb: 3072
@@ -298,8 +298,8 @@ models:
     outcome: MULTILINGUAL
     family: CANARY
     displayName: Canary Multilingual
-    description: Transcribes English, Spanish, German or French with punctuation.
-    bestFor: Four European languages in a small download
+    description: Transcribes English, French, German or Spanish when you finish speaking, with punctuation.
+    bestFor: English, French, German and Spanish
     badge: ""
     diskMb: 198
     minRamMb: 4096
@@ -352,7 +352,7 @@ models:
     family: OMNILINGUAL
     displayName: Omnilingual 300M
     description: Meta's broad-coverage model for more than 1,600 languages. Transcripts come without punctuation.
-    bestFor: Languages other models do not cover
+    bestFor: Languages other models may not cover
     badge: Experimental
     experimental: true
     diskMb: 349
@@ -391,7 +391,7 @@ models:
     family: QWEN3_ASR
     displayName: Qwen3 ASR
     description: Transcribes 30 languages and 22 Chinese dialects.
-    bestFor: Chinese dialects and wide language coverage
+    bestFor: Chinese dialects and 30 languages
     badge: Experimental
     experimental: true
     diskMb: 942
@@ -445,8 +445,8 @@ models:
     outcome: MULTILINGUAL
     family: SENSE_VOICE
     displayName: SenseVoice Small
-    description: Fast multilingual speech recognition for Chinese, Cantonese, English, Japanese and Korean with punctuation.
-    bestFor: Fast speech recognition in East Asian languages
+    description: Transcribes Chinese, Cantonese, English, Japanese and Korean with punctuation, and detects which one you speak.
+    bestFor: Chinese, Cantonese, Japanese and Korean
     badge: ""
     diskMb: 229
     minRamMb: 3072
@@ -581,8 +581,8 @@ models:
     outcome: MULTILINGUAL
     family: PARAKEET
     displayName: Parakeet Multilingual
-    description: Transcribes 25 European languages with punctuation and timestamps, and detects which one you speak.
-    bestFor: Accurate final text in European languages
+    description: Transcribes 25 European languages when you finish speaking, with punctuation and timestamps, and detects which one you speak.
+    bestFor: 25 European languages after speaking
     badge: ""
     diskMb: 640
     minRamMb: 6144
@@ -697,8 +697,8 @@ models:
     outcome: MULTILINGUAL
     family: PARAKEET
     displayName: Parakeet Ultra
-    description: A further-trained Parakeet for 25 European languages, with punctuation, timestamps and language detection.
-    bestFor: Lowest error rate in European languages
+    description: "A further-trained Parakeet Multilingual for 25 European languages. In ScribeKey's tests it made fewer errors in English, German, Spanish and French."
+    bestFor: Fewer errors than Parakeet Multilingual in tests
     badge: ""
     diskMb: 601
     minRamMb: 6144
@@ -769,8 +769,8 @@ models:
     outcome: MULTILINGUAL
     family: PARAKEET
     displayName: Parakeet Redux
-    description: A 1.58-bit Parakeet in a smaller download, for 25 European languages with punctuation, timestamps and language detection.
-    bestFor: Compact Parakeet for European languages
+    description: A 1.58-bit Parakeet for 25 European languages in a smaller download, with punctuation, timestamps and language detection.
+    bestFor: Smaller download for 25 languages
     badge: Experimental
     experimental: true
     diskMb: 398
@@ -842,8 +842,8 @@ models:
     outcome: BEST_ENGLISH_ACCURACY
     family: PARAKEET
     displayName: Parakeet English
-    description: A large English model with punctuation and timestamps. Text arrives when you stop speaking.
-    bestFor: Most accurate final English
+    description: Transcribes English when you finish speaking, with punctuation and timestamps.
+    bestFor: English text after you finish speaking
     badge: ""
     diskMb: 633
     minRamMb: 6144
@@ -949,7 +949,7 @@ models:
     family: PARAKEET
     displayName: Nemotron English Live
     description: Shows English words while you speak, with punctuation.
-    bestFor: Live English dictation and captions
+    bestFor: English words appear as you speak
     badge: ""
     diskMb: 632
     minRamMb: 6144
@@ -997,8 +997,8 @@ models:
     outcome: MULTILINGUAL
     family: PARAKEET
     displayName: Nemotron 3.5 Multilingual Live
-    description: Shows words while you speak in 40 locales and picks the language for you.
-    bestFor: Live dictation in many languages
+    description: Shows words while you speak and picks the language for you. How well it works varies by language.
+    bestFor: Words as you speak in many languages
     badge: ""
     diskMb: 651
     minRamMb: 6144
@@ -1089,8 +1089,8 @@ models:
     outcome: LIVE_ENGLISH
     family: ZIPFORMER
     displayName: Zipformer English Live
-    description: Shows English words while you speak on phones with 4 GB of memory. Punctuation is added when you stop.
-    bestFor: Live English on 4 GB phones
+    description: Shows English words while you speak, in a small download. Punctuation is added when you finish.
+    bestFor: Live English on phones with 4 GB RAM
     badge: ""
     diskMb: 188
     minRamMb: 3072
