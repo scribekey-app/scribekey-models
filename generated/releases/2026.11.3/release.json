@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "releaseId": "2026.11.3",
+  "createdAt": "2026-11-05T23:59:49Z",
+  "description": "Speech model copy: plain bestFor and descriptions, no unmeasured rankings. Same model files.",
+  "catalogs": {
+    "speech": {
+      "filename": "model_catalog.json",
+      "sha256": "b41330015ac6d59fb547a3c2a604e41baed18e41dd6d0c56d7e465e8966cdbfb",
+      "sizeBytes": 63313
+    },
+    "diarization": {
+      "filename": "speaker_diarization_manifest.json",
+      "sha256": "229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a",
+      "sizeBytes": 1438
+    },
+    "cleanup": {
+      "filename": "cleanup_model_catalog.json",
+      "sha256": "fa943d33b7ad03993206f08a10002b20324dd7b4e495f17787bde5c2310e1f95",
+      "sizeBytes": 16346
+    },
+    "cloudTiers": {
+      "filename": "cloud_model_tiers.json",
+      "sha256": "bdf58dbe3ffbdc5c765a2b2f8be9cc97d7e7db9761ba82232702e14a69f16e25",
+      "sizeBytes": 14543
+    },
+    "cloudModels": {
+      "filename": "cloud_models.json",
+      "sha256": "d332cda68e19cc185957eddc36aa77d4f1e0138d55cd57a1a33bb6ca60fcd598",
+      "sizeBytes": 143420
+    }
+  },
+  "gitCommit": "220850c2738d56041a953946a4545fb852a38591"
+}
