@@ -347,6 +347,22 @@ def _validate_cleanup_examples(model: dict[str, Any]) -> list[GuardrailIssue]:
     return issues
 
 
+# Ranking words a speech card cannot back up: no matched benchmark ranks every catalogue model on a
+# phone, so "best", "fastest" or "most accurate" is a claim the copy cannot keep. A comparison that
+# was measured names what it was measured against ("Fewer errors than Parakeet Multilingual").
+# "Offline" is every downloaded model, so as copy for one model it reads as the opposite of Live;
+# the app says it once for the whole list. "Low-end" judges the reader's phone; give its RAM.
+_SPEECH_COPY_BANNED = re.compile(
+    r"\b(best|fastest|faster|quickest|most accurate|more accurate|highest|lowest|ultimate|"
+    r"flawless|perfect|offline|low-end|low end)\b",
+    re.IGNORECASE,
+)
+
+
+def _speech_copy_claims(text: str) -> list[str]:
+    return sorted({match.group(0).casefold() for match in _SPEECH_COPY_BANNED.finditer(text)})
+
+
 def _validate_speech_presentation(models: list[dict[str, Any]]) -> list[GuardrailIssue]:
     """Checks the facts Android shows side by side, where a clash reads as one model twice.
 
@@ -400,10 +416,19 @@ def _validate_speech_presentation(models: list[dict[str, Any]]) -> list[Guardrai
             issues.append(
                 GuardrailIssue("catalog/speech.yaml", f"Speech model '{mid}' repeats description as bestFor")
             )
-        if best_for_text.endswith("."):
+        if best_for_text.endswith((".", "!", "?")):
             issues.append(
                 GuardrailIssue("catalog/speech.yaml", f"Speech model '{mid}' bestFor ends with a full stop")
             )
+        for field, text in (("bestFor", best_for_text), ("description", description_text)):
+            claims = _speech_copy_claims(text)
+            if claims:
+                issues.append(
+                    GuardrailIssue(
+                        "catalog/speech.yaml",
+                        f"Speech model '{mid}' {field} uses unsupported wording: {', '.join(claims)}",
+                    )
+                )
         if description_text:
             sentences = [part for part in re.split(r"(?<=[.!?])\s+", description_text) if part]
             if len(sentences) > 2:

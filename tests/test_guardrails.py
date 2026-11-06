@@ -719,3 +719,40 @@ def test_scribekey_models_need_a_version_that_matches_their_file(model: dict, pr
     issues = validate_model_versions({"production": model, "candidates": []})
 
     assert (len(issues) == 1 and problem in issues[0].message) if problem else issues == []
+
+def test_guardrail_rejects_ranking_claims_in_speech_copy() -> None:
+    speech_data = {
+        "models": [
+            _presented("ranked", description="The most accurate English model.", bestFor="Best English"),
+            _presented("timed", description="Shows words as you speak.", bestFor="Offline transcription"),
+        ]
+    }
+    messages = [issue.message for issue in validate_identities_and_integrity(speech_data, {}, {})]
+    assert "Speech model 'ranked' bestFor uses unsupported wording: best" in messages
+    assert "Speech model 'ranked' description uses unsupported wording: most accurate" in messages
+    assert "Speech model 'timed' bestFor uses unsupported wording: offline" in messages
+
+
+def test_guardrail_accepts_a_measured_comparison_and_plain_copy() -> None:
+    speech_data = {
+        "models": [
+            _presented(
+                "ultra",
+                description="In ScribeKey's tests it made fewer errors in four languages.",
+                bestFor="Fewer errors than Parakeet Multilingual in tests",
+            ),
+        ]
+    }
+    issues = validate_identities_and_integrity(speech_data, {}, {})
+    assert not any("unsupported wording" in issue.message for issue in issues)
+
+
+def test_shipped_speech_copy_fits_the_card() -> None:
+    import yaml
+
+    models = yaml.safe_load((Path(__file__).parents[1] / "catalog" / "speech.yaml").read_text())["models"]
+    for model in models:
+        best_for = model["bestFor"]
+        assert len(best_for) <= 48, model["id"]
+        assert not best_for.endswith((".", "!", "?")), model["id"]
+        assert best_for.casefold() != model["description"].casefold(), model["id"]
