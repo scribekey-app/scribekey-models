@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "source": {
     "url": "https://models.dev/api.json",
-    "fetchedAt": "2026-11-04",
-    "sha256": "8849a8f8cd704b5ecdb0d5aad6a4964aa5084fcd658f351747aeac7f3958a661",
+    "fetchedAt": "2026-11-09",
+    "sha256": "6fe1aa1778d942e3621934ff05cf7ba41bd772b4289cb780534c01fb21e88cc1",
     "upstreamRepo": "anomalyco/models.dev",
     "license": "MIT",
     "attribution": "Data from models.dev, maintained by anomalyco/models.dev; MIT licensed.",
@@ -11,8 +11,15 @@
   },
   "providers": {
     "openai": {
+      "id": "openai",
+      "name": "OpenAI",
+      "npm": "@ai-sdk/openai",
+      "env": [
+        "OPENAI_API_KEY"
+      ],
       "models": {
         "text-embedding-3-large": {
+          "type": "embedding",
           "modalities": {
             "output": [
               "text"
@@ -26,8 +33,7 @@
             "output": 3072
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "embedding"
+          "reasoning": false
         },
         "gpt-4o-2024-08-06": {
           "modalities": {
@@ -62,6 +68,7 @@
           "reasoning": false
         },
         "text-embedding-3-small": {
+          "type": "embedding",
           "modalities": {
             "output": [
               "text"
@@ -75,8 +82,7 @@
             "output": 1536
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "embedding"
+          "reasoning": false
         },
         "gpt-daybreak-blue-latest": {
           "modalities": {
@@ -208,6 +214,7 @@
           "reasoning": false
         },
         "text-embedding-ada-002": {
+          "type": "embedding",
           "modalities": {
             "output": [
               "text"
@@ -221,8 +228,7 @@
             "output": 1536
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "embedding"
+          "reasoning": false
         },
         "o3-mini": {
           "modalities": {
@@ -267,19 +273,18 @@
           "reasoning": false
         },
         "gpt-image-1.5": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
               "image"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "image"
+          "reasoning": false
         },
         "gpt-5.4-mini": {
           "modalities": {
@@ -310,6 +315,7 @@
           ]
         },
         "gpt-image-2": {
+          "type": "image",
           "modalities": {
             "output": [
               "image"
@@ -323,8 +329,7 @@
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "image"
+          "reasoning": false
         },
         "gpt-4o-2024-11-20": {
           "modalities": {
@@ -789,19 +794,18 @@
           "reasoning": false
         },
         "chatgpt-image-latest": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
               "image"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "image"
+          "reasoning": false
         },
         "gpt-5.5": {
           "modalities": {
@@ -1087,6 +1091,7 @@
           ]
         },
         "gpt-realtime-2.1": {
+          "type": "realtime",
           "modalities": {
             "output": [
               "text",
@@ -1113,8 +1118,7 @@
                 "xhigh"
               ]
             }
-          ],
-          "type": "realtime"
+          ]
         },
         "gpt-5-pro": {
           "modalities": {
@@ -1196,29 +1200,28 @@
           ]
         },
         "gpt-image-1-mini": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
               "image"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "image"
+          "reasoning": false
         }
-      },
-      "id": "openai",
-      "name": "OpenAI",
-      "npm": "@ai-sdk/openai",
-      "env": [
-        "OPENAI_API_KEY"
-      ]
+      }
     },
     "anthropic": {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "npm": "@ai-sdk/anthropic",
+      "env": [
+        "ANTHROPIC_API_KEY"
+      ],
       "models": {
         "claude-haiku-5-5": {
           "modalities": {
@@ -1688,17 +1691,20 @@
             }
           ]
         }
-      },
-      "id": "anthropic",
-      "name": "Anthropic",
-      "npm": "@ai-sdk/anthropic",
-      "env": [
-        "ANTHROPIC_API_KEY"
-      ]
+      }
     },
     "google": {
+      "id": "google",
+      "name": "Google",
+      "npm": "@ai-sdk/google",
+      "env": [
+        "GOOGLE_API_KEY",
+        "GOOGLE_GENERATIVE_AI_API_KEY",
+        "GEMINI_API_KEY"
+      ],
       "models": {
         "gemini-omni-flash-preview": {
+          "type": "video",
           "modalities": {
             "output": [
               "video"
@@ -1713,8 +1719,7 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "type": "video"
+          "reasoning_options": []
         },
         "gemini-3.5-flash": {
           "modalities": {
@@ -1797,6 +1802,7 @@
           ]
         },
         "gemini-2.5-flash-image": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
@@ -1811,8 +1817,7 @@
             "output": 32768
           },
           "temperature": true,
-          "reasoning": false,
-          "type": "image"
+          "reasoning": false
         },
         "gemini-2.5-flash-lite": {
           "modalities": {
@@ -1859,6 +1864,7 @@
           "reasoning_options": []
         },
         "gemini-embedding-2": {
+          "type": "embedding",
           "modalities": {
             "output": [
               "text"
@@ -1872,8 +1878,7 @@
             "output": 1
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "embedding"
+          "reasoning": false
         },
         "gemini-flash-lite-latest": {
           "modalities": {
@@ -1930,6 +1935,7 @@
           ]
         },
         "gemini-embedding-001": {
+          "type": "embedding",
           "modalities": {
             "output": [
               "text"
@@ -1943,8 +1949,7 @@
             "output": 1
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "embedding"
+          "reasoning": false
         },
         "gemini-3.7-flash": {
           "modalities": {
@@ -2030,7 +2035,6 @@
               "text"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 32768
           },
@@ -2112,6 +2116,7 @@
           ]
         },
         "gemini-3.5-live-translate-preview": {
+          "type": "realtime",
           "modalities": {
             "output": [
               "audio",
@@ -2126,8 +2131,7 @@
             "output": 32768
           },
           "temperature": true,
-          "reasoning": false,
-          "type": "realtime"
+          "reasoning": false
         },
         "gemini-3.8-flash": {
           "modalities": {
@@ -2232,7 +2236,6 @@
               "text"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 32768
           },
@@ -2268,6 +2271,7 @@
           ]
         },
         "gemini-3.1-flash-image": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
@@ -2291,10 +2295,10 @@
                 "high"
               ]
             }
-          ],
-          "type": "image"
+          ]
         },
         "gemini-3.1-flash-lite-image": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
@@ -2318,8 +2322,7 @@
                 "high"
               ]
             }
-          ],
-          "type": "image"
+          ]
         },
         "lyria-3-clip-preview": {
           "modalities": {
@@ -2339,6 +2342,7 @@
           "reasoning": false
         },
         "gemini-2.5-pro-preview-tts": {
+          "type": "speech",
           "modalities": {
             "output": [
               "audio"
@@ -2352,10 +2356,10 @@
             "output": 16384
           },
           "temperature": true,
-          "reasoning": false,
-          "type": "speech"
+          "reasoning": false
         },
         "gemini-3.1-flash-tts-preview": {
+          "type": "speech",
           "modalities": {
             "output": [
               "audio"
@@ -2370,8 +2374,7 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "type": "speech"
+          "reasoning_options": []
         },
         "gemini-2.5-computer-use-preview-10-2025": {
           "modalities": {
@@ -2391,6 +2394,7 @@
           "reasoning_options": []
         },
         "gemini-2.5-flash-preview-tts": {
+          "type": "speech",
           "modalities": {
             "output": [
               "audio"
@@ -2404,8 +2408,7 @@
             "output": 16384
           },
           "temperature": true,
-          "reasoning": false,
-          "type": "speech"
+          "reasoning": false
         },
         "gemini-3.1-flash-lite": {
           "modalities": {
@@ -2435,6 +2438,7 @@
           ]
         },
         "gemini-3-pro-image": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
@@ -2458,10 +2462,10 @@
                 "high"
               ]
             }
-          ],
-          "type": "image"
+          ]
         },
         "gemini-3.1-flash-live-preview": {
+          "type": "realtime",
           "modalities": {
             "output": [
               "text",
@@ -2487,8 +2491,7 @@
                 "high"
               ]
             }
-          ],
-          "type": "realtime"
+          ]
         },
         "gemini-3.6-flash": {
           "modalities": {
@@ -2517,31 +2520,28 @@
             }
           ]
         }
-      },
-      "id": "google",
-      "name": "Google",
-      "npm": "@ai-sdk/google",
-      "env": [
-        "GOOGLE_API_KEY",
-        "GOOGLE_GENERATIVE_AI_API_KEY",
-        "GEMINI_API_KEY"
-      ]
+      }
     },
     "groq": {
+      "id": "groq",
+      "name": "Groq",
+      "npm": "@ai-sdk/groq",
+      "env": [
+        "GROQ_API_KEY"
+      ],
       "models": {
         "whisper-large-v3-turbo": {
+          "type": "transcription",
           "modalities": {
             "output": [
               "text"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 448
           },
           "temperature": true,
-          "reasoning": false,
-          "type": "transcription"
+          "reasoning": false
         },
         "llama-3.1-8b-instant": {
           "modalities": {
@@ -2576,18 +2576,17 @@
           "reasoning": false
         },
         "whisper-large-v3": {
+          "type": "transcription",
           "modalities": {
             "output": [
               "text"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 448
           },
           "temperature": true,
-          "reasoning": false,
-          "type": "transcription"
+          "reasoning": false
         },
         "allam-2-7b": {
           "modalities": {
@@ -2737,40 +2736,38 @@
           ]
         },
         "canopylabs/orpheus-v1-english": {
+          "type": "speech",
+          "provider": {
+            "npm": "@ai-sdk/openai",
+            "api": "https://api.groq.com/openai/v1"
+          },
           "modalities": {
             "output": [
               "audio"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 50000
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "speech",
-          "provider": {
-            "npm": "@ai-sdk/openai",
-            "api": "https://api.groq.com/openai/v1"
-          }
+          "reasoning": false
         },
         "canopylabs/orpheus-arabic-saudi": {
+          "type": "speech",
+          "provider": {
+            "npm": "@ai-sdk/openai",
+            "api": "https://api.groq.com/openai/v1"
+          },
           "modalities": {
             "output": [
               "audio"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 50000
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "speech",
-          "provider": {
-            "npm": "@ai-sdk/openai",
-            "api": "https://api.groq.com/openai/v1"
-          }
+          "reasoning": false
         },
         "meta-llama/llama-prompt-guard-2-86m": {
           "modalities": {
@@ -2804,15 +2801,15 @@
           "temperature": false,
           "reasoning": false
         }
-      },
-      "id": "groq",
-      "name": "Groq",
-      "npm": "@ai-sdk/groq",
-      "env": [
-        "GROQ_API_KEY"
-      ]
+      }
     },
     "cerebras": {
+      "id": "cerebras",
+      "name": "Cerebras",
+      "npm": "@ai-sdk/cerebras",
+      "env": [
+        "CEREBRAS_API_KEY"
+      ],
       "models": {
         "gpt-oss-120b": {
           "modalities": {
@@ -2867,15 +2864,16 @@
             }
           ]
         }
-      },
-      "id": "cerebras",
-      "name": "Cerebras",
-      "npm": "@ai-sdk/cerebras",
-      "env": [
-        "CEREBRAS_API_KEY"
-      ]
+      }
     },
     "openrouter": {
+      "id": "openrouter",
+      "name": "OpenRouter",
+      "npm": "@openrouter/ai-sdk-provider",
+      "api": "https://openrouter.ai/api/v1",
+      "env": [
+        "OPENROUTER_API_KEY"
+      ],
       "models": {
         "qwen/qwen3.8-omni-flash": {
           "modalities": {
@@ -3042,11 +3040,11 @@
             ]
           },
           "cost": {
-            "input": 0.5,
+            "input": 0.6,
             "output": 3.6
           },
           "limit": {
-            "output": 235929
+            "output": 64000
           },
           "temperature": true,
           "reasoning": true,
@@ -3383,11 +3381,11 @@
             ]
           },
           "cost": {
-            "input": 0.45,
-            "output": 2.7
+            "input": 0.32,
+            "output": 3.2
           },
           "limit": {
-            "output": 65536
+            "output": 81920
           },
           "temperature": true,
           "reasoning": true,
@@ -3457,11 +3455,11 @@
             ]
           },
           "cost": {
-            "input": 0.1,
+            "input": 0.09,
             "output": 1.1
           },
           "limit": {
-            "output": 235929
+            "output": 16384
           },
           "temperature": true,
           "reasoning": false
@@ -4182,7 +4180,7 @@
             "output": 4.25
           },
           "limit": {
-            "output": 943718
+            "output": 131072
           },
           "temperature": true,
           "reasoning": true,
@@ -4460,8 +4458,8 @@
             ]
           },
           "cost": {
-            "input": 0.0313,
-            "output": 0.0846
+            "input": 0.0335,
+            "output": 0.083
           },
           "limit": {
             "output": 131072
@@ -4596,8 +4594,8 @@
             ]
           },
           "cost": {
-            "input": 0.13,
-            "output": 0.85
+            "input": 0.2,
+            "output": 1.1
           },
           "limit": {
             "output": 98304
@@ -4664,8 +4662,8 @@
             ]
           },
           "cost": {
-            "input": 0.08,
-            "output": 3.6
+            "input": 0.0699,
+            "output": 1.4
           },
           "limit": {
             "output": 943718
@@ -5102,11 +5100,11 @@
             ]
           },
           "cost": {
-            "input": 0.25,
+            "input": 0.3,
             "output": 1
           },
           "limit": {
-            "output": 131072
+            "output": 943718
           },
           "temperature": true,
           "reasoning": true,
@@ -5129,7 +5127,6 @@
               "text"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 128000
           },
@@ -5160,7 +5157,6 @@
               "image"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 2000000
           },
@@ -5174,7 +5170,6 @@
               "text"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 200000
           },
@@ -5187,7 +5182,6 @@
               "text"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 128000
           },
@@ -5233,7 +5227,7 @@
             ]
           },
           "cost": {
-            "input": 0.059,
+            "input": 0.0434,
             "output": 0.3
           },
           "limit": {
@@ -5260,7 +5254,7 @@
             ]
           },
           "cost": {
-            "input": 0.1035,
+            "input": 0.0999,
             "output": 8
           },
           "limit": {
@@ -5287,8 +5281,8 @@
             ]
           },
           "cost": {
-            "input": 0.035,
-            "output": 0.315
+            "input": 0.006,
+            "output": 0.5
           },
           "limit": {
             "output": 943718
@@ -5679,11 +5673,11 @@
             ]
           },
           "cost": {
-            "input": 0.075,
-            "output": 0.2
+            "input": 0.1,
+            "output": 0.3
           },
           "limit": {
-            "output": 16384
+            "output": 26214
           },
           "temperature": true,
           "reasoning": false
@@ -5833,8 +5827,8 @@
             ]
           },
           "cost": {
-            "input": 0.2,
-            "output": 15
+            "input": 0.1624,
+            "output": 10.1522
           },
           "limit": {
             "output": 943718
@@ -5899,7 +5893,7 @@
           "limit": {
             "output": 943718
           },
-          "temperature": false,
+          "temperature": true,
           "reasoning": true,
           "reasoning_options": [
             {
@@ -5953,8 +5947,8 @@
             ]
           },
           "cost": {
-            "input": 0.2,
-            "output": 15
+            "input": 0.192,
+            "output": 16
           },
           "limit": {
             "output": 943718
@@ -6001,11 +5995,11 @@
             ]
           },
           "cost": {
-            "input": 0.5,
-            "output": 2.5
+            "input": 0.532,
+            "output": 3.325
           },
           "limit": {
-            "output": 235929
+            "output": 65536
           },
           "temperature": true,
           "reasoning": true,
@@ -6076,8 +6070,8 @@
             ]
           },
           "cost": {
-            "input": 0.075,
-            "output": 0.225
+            "input": 0.045,
+            "output": 0.135
           },
           "limit": {
             "output": 262144
@@ -6466,6 +6460,7 @@
           ]
         },
         "google/gemini-2.5-flash-image": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
@@ -6480,8 +6475,7 @@
             "output": 8192
           },
           "temperature": true,
-          "reasoning": false,
-          "type": "image"
+          "reasoning": false
         },
         "google/gemini-2.5-flash-lite": {
           "modalities": {
@@ -6826,11 +6820,11 @@
             ]
           },
           "cost": {
-            "input": 0.077,
-            "output": 0.23
+            "input": 0.09,
+            "output": 0.3
           },
           "limit": {
-            "output": 32768
+            "output": 235929
           },
           "temperature": true,
           "reasoning": true,
@@ -6864,6 +6858,7 @@
           ]
         },
         "google/gemini-3.1-flash-image": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
@@ -6888,10 +6883,10 @@
                 "high"
               ]
             }
-          ],
-          "type": "image"
+          ]
         },
         "google/gemini-3.1-flash-lite-image": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
@@ -6916,8 +6911,7 @@
                 "high"
               ]
             }
-          ],
-          "type": "image"
+          ]
         },
         "google/lyria-3-clip-preview": {
           "modalities": {
@@ -6944,7 +6938,7 @@
           },
           "cost": {
             "input": 0.08,
-            "output": 0.35
+            "output": 0.45
           },
           "limit": {
             "output": 117964
@@ -6969,6 +6963,7 @@
           "reasoning": false
         },
         "google/gemini-3-pro-image-preview": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
@@ -6984,10 +6979,10 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "type": "image"
+          "reasoning_options": []
         },
         "google/gemini-3.1-flash-image-preview": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
@@ -7012,8 +7007,7 @@
                 "high"
               ]
             }
-          ],
-          "type": "image"
+          ]
         },
         "google/gemini-3.1-flash-lite": {
           "modalities": {
@@ -7044,6 +7038,7 @@
           ]
         },
         "google/gemini-3-pro-image": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
@@ -7059,10 +7054,10 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "type": "image"
+          "reasoning_options": []
         },
         "google/gemini-nano-banana-2.1": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
@@ -7087,8 +7082,7 @@
                 "high"
               ]
             }
-          ],
-          "type": "image"
+          ]
         },
         "google/gemini-3.6-flash": {
           "modalities": {
@@ -7124,8 +7118,8 @@
             ]
           },
           "cost": {
-            "input": 0.7506,
-            "output": 2.2509
+            "input": 0.834,
+            "output": 2.501
           },
           "limit": {
             "output": 64000
@@ -7187,8 +7181,8 @@
             ]
           },
           "cost": {
-            "input": 0.0825,
-            "output": 0.33
+            "input": 0.132,
+            "output": 0.528
           },
           "limit": {
             "output": 128000
@@ -7355,6 +7349,7 @@
           ]
         },
         "openai/gpt-audio-mini": {
+          "type": "chat",
           "modalities": {
             "output": [
               "text",
@@ -7369,8 +7364,7 @@
             "output": 16384
           },
           "temperature": true,
-          "reasoning": false,
-          "type": "chat"
+          "reasoning": false
         },
         "openai/gpt-4.1": {
           "modalities": {
@@ -7418,6 +7412,7 @@
           ]
         },
         "openai/gpt-5-image-mini": {
+          "type": "image",
           "modalities": {
             "output": [
               "image",
@@ -7433,8 +7428,7 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "type": "image"
+          "reasoning_options": []
         },
         "openai/gpt-5.4-mini": {
           "modalities": {
@@ -7544,6 +7538,7 @@
           ]
         },
         "openai/gpt-audio": {
+          "type": "chat",
           "modalities": {
             "output": [
               "text",
@@ -7558,8 +7553,7 @@
             "output": 16384
           },
           "temperature": true,
-          "reasoning": false,
-          "type": "chat"
+          "reasoning": false
         },
         "openai/gpt-5.1-codex": {
           "modalities": {
@@ -8214,6 +8208,7 @@
           ]
         },
         "openai/gpt-5.4-image-2": {
+          "type": "image",
           "modalities": {
             "output": [
               "image",
@@ -8240,8 +8235,7 @@
                 "xhigh"
               ]
             }
-          ],
-          "type": "image"
+          ]
         },
         "openai/gpt-5.4-nano": {
           "modalities": {
@@ -8288,6 +8282,7 @@
           "reasoning": false
         },
         "openai/gpt-5-image": {
+          "type": "image",
           "modalities": {
             "output": [
               "image",
@@ -8303,8 +8298,7 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "type": "image"
+          "reasoning_options": []
         },
         "openai/gpt-5.6-terra": {
           "modalities": {
@@ -8592,11 +8586,11 @@
             ]
           },
           "cost": {
-            "input": 0.03,
-            "output": 0.13
+            "input": 0.018,
+            "output": 0.09
           },
           "limit": {
-            "output": 117964
+            "output": 32768
           },
           "temperature": true,
           "reasoning": true,
@@ -8942,7 +8936,7 @@
             ]
           },
           "cost": {
-            "input": 0.059,
+            "input": 0.0434,
             "output": 0.3
           },
           "limit": {
@@ -9053,11 +9047,11 @@
             ]
           },
           "cost": {
-            "input": 1.6,
-            "output": 3.2
+            "input": 0.95526,
+            "output": 1.91052
           },
           "limit": {
-            "output": 393216
+            "output": 384000
           },
           "temperature": true,
           "reasoning": true,
@@ -9100,11 +9094,11 @@
             ]
           },
           "cost": {
-            "input": 0.2156,
-            "output": 0.6468
+            "input": 0.44,
+            "output": 1.32
           },
           "limit": {
-            "output": 262144
+            "output": 943717
           },
           "temperature": true,
           "reasoning": true,
@@ -9127,11 +9121,11 @@
             ]
           },
           "cost": {
-            "input": 0.15,
-            "output": 0.6
+            "input": 0.006,
+            "output": 0.5
           },
           "limit": {
-            "output": 393216
+            "output": 943718
           },
           "temperature": true,
           "reasoning": true,
@@ -9154,8 +9148,8 @@
             ]
           },
           "cost": {
-            "input": 0.045,
-            "output": 0.5
+            "input": 0.051,
+            "output": 0.567
           },
           "limit": {
             "output": 943718
@@ -9198,11 +9192,11 @@
             ]
           },
           "cost": {
-            "input": 0.2574,
-            "output": 1.0287
+            "input": 0.32,
+            "output": 0.89
           },
           "limit": {
-            "output": 16000
+            "output": 16384
           },
           "temperature": true,
           "reasoning": false
@@ -9235,8 +9229,8 @@
             ]
           },
           "cost": {
-            "input": 0.115,
-            "output": 4
+            "input": 0.111,
+            "output": 4.44
           },
           "limit": {
             "output": 943718
@@ -9682,7 +9676,7 @@
             "output": 0.23
           },
           "limit": {
-            "output": 4096
+            "output": 8192
           },
           "temperature": true,
           "reasoning": false
@@ -9726,8 +9720,8 @@
             ]
           },
           "cost": {
-            "input": 0.0313,
-            "output": 0.0846
+            "input": 0.0335,
+            "output": 0.083
           },
           "limit": {
             "output": 131072
@@ -9936,11 +9930,11 @@
             ]
           },
           "cost": {
-            "input": 0.3,
-            "output": 2.4
+            "input": 0.075,
+            "output": 0.4
           },
           "limit": {
-            "output": 262144
+            "output": 16384
           },
           "temperature": true,
           "reasoning": true,
@@ -9998,7 +9992,7 @@
             "output": 0.5
           },
           "limit": {
-            "output": 235929
+            "output": 943718
           },
           "temperature": true,
           "reasoning": true,
@@ -10020,27 +10014,6 @@
           },
           "limit": {
             "output": 235929
-          },
-          "temperature": true,
-          "reasoning": true,
-          "reasoning_options": [
-            {
-              "type": "toggle"
-            }
-          ]
-        },
-        "nvidia/nemotron-3.5-content-safety:free": {
-          "modalities": {
-            "output": [
-              "text"
-            ]
-          },
-          "cost": {
-            "input": 0,
-            "output": 0
-          },
-          "limit": {
-            "output": 8192
           },
           "temperature": true,
           "reasoning": true,
@@ -10073,11 +10046,11 @@
             ]
           },
           "cost": {
-            "input": 0.1875,
-            "output": 0.6525
+            "input": 0.35,
+            "output": 1
           },
           "limit": {
-            "output": 16384
+            "output": 32768
           },
           "temperature": true,
           "reasoning": false
@@ -10089,11 +10062,11 @@
             ]
           },
           "cost": {
-            "input": 0.05,
-            "output": 0.08
+            "input": 0.02,
+            "output": 0.04
           },
           "limit": {
-            "output": 117964
+            "output": 16384
           },
           "temperature": true,
           "reasoning": false
@@ -10105,11 +10078,11 @@
             ]
           },
           "cost": {
-            "input": 0.0509,
-            "output": 0.335
+            "input": 0.05,
+            "output": 0.33
           },
           "limit": {
-            "output": 72000
+            "output": 117964
           },
           "temperature": true,
           "reasoning": false
@@ -10121,11 +10094,11 @@
             ]
           },
           "cost": {
-            "input": 0.2,
-            "output": 0.52
+            "input": 0.59,
+            "output": 0.79
           },
           "limit": {
-            "output": 128000
+            "output": 32768
           },
           "temperature": true,
           "reasoning": false
@@ -10186,7 +10159,7 @@
           },
           "cost": {
             "input": 0.06,
-            "output": 0.15
+            "output": 0.25
           },
           "limit": {
             "output": 117964
@@ -10346,35 +10319,6 @@
             }
           ]
         },
-        "thinkingmachines/inkling-small:free": {
-          "modalities": {
-            "output": [
-              "text"
-            ]
-          },
-          "cost": {
-            "input": 0,
-            "output": 0
-          },
-          "limit": {
-            "output": 262144
-          },
-          "temperature": true,
-          "reasoning": true,
-          "reasoning_options": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "minimal",
-                "low",
-                "medium",
-                "high",
-                "max"
-              ]
-            }
-          ]
-        },
         "thinkingmachines/inkling": {
           "modalities": {
             "output": [
@@ -10387,35 +10331,6 @@
           },
           "limit": {
             "output": 471859
-          },
-          "temperature": true,
-          "reasoning": true,
-          "reasoning_options": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "minimal",
-                "low",
-                "medium",
-                "high",
-                "max"
-              ]
-            }
-          ]
-        },
-        "thinkingmachines/inkling:free": {
-          "modalities": {
-            "output": [
-              "text"
-            ]
-          },
-          "cost": {
-            "input": 0,
-            "output": 0
-          },
-          "limit": {
-            "output": 262144
           },
           "temperature": true,
           "reasoning": true,
@@ -10700,87 +10615,6 @@
             }
           ]
         },
-        "inception/mercury-2.5": {
-          "modalities": {
-            "output": [
-              "text"
-            ]
-          },
-          "cost": {
-            "input": 0.04,
-            "output": 0.15
-          },
-          "limit": {
-            "output": 65536
-          },
-          "temperature": true,
-          "reasoning": true,
-          "reasoning_options": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ]
-        },
-        "inception/mercury-3": {
-          "modalities": {
-            "output": [
-              "text"
-            ]
-          },
-          "cost": {
-            "input": 0.1,
-            "output": 0.35
-          },
-          "limit": {
-            "output": 131072
-          },
-          "temperature": true,
-          "reasoning": true,
-          "reasoning_options": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ]
-        },
-        "inception/mercury-2": {
-          "modalities": {
-            "output": [
-              "text"
-            ]
-          },
-          "cost": {
-            "input": 0.25,
-            "output": 0.75
-          },
-          "limit": {
-            "output": 50000
-          },
-          "temperature": true,
-          "reasoning": true,
-          "reasoning_options": [
-            {
-              "type": "effort",
-              "values": [
-                "none",
-                "low",
-                "medium",
-                "high"
-              ]
-            }
-          ]
-        },
         "meituan/longcat-2.0": {
           "modalities": {
             "output": [
@@ -10884,23 +10718,6 @@
           "temperature": true,
           "reasoning": false
         },
-        "minimax/minimax-m2.1": {
-          "modalities": {
-            "output": [
-              "text"
-            ]
-          },
-          "cost": {
-            "input": 0.3,
-            "output": 1.2
-          },
-          "limit": {
-            "output": 131072
-          },
-          "temperature": true,
-          "reasoning": true,
-          "reasoning_options": []
-        },
         "minimax/minimax-m3.1-flash": {
           "modalities": {
             "output": [
@@ -10908,8 +10725,8 @@
             ]
           },
           "cost": {
-            "input": 0.075,
-            "output": 0.3
+            "input": 0.15,
+            "output": 0.6
           },
           "limit": {
             "output": 524288
@@ -10936,11 +10753,11 @@
             ]
           },
           "cost": {
-            "input": 0.3,
-            "output": 1.2
+            "input": 0.21,
+            "output": 0.84
           },
           "limit": {
-            "output": 131072
+            "output": 176947
           },
           "temperature": true,
           "reasoning": true,
@@ -10988,7 +10805,7 @@
             }
           ]
         },
-        "minimax/minimax-m2-her": {
+        "minimax/minimax-m2.5": {
           "modalities": {
             "output": [
               "text"
@@ -10999,56 +10816,7 @@
             "output": 1.2
           },
           "limit": {
-            "output": 2048
-          },
-          "temperature": true,
-          "reasoning": false
-        },
-        "minimax/minimax-01": {
-          "modalities": {
-            "output": [
-              "text"
-            ]
-          },
-          "cost": {
-            "input": 0.2,
-            "output": 1.1
-          },
-          "limit": {
-            "output": 40000
-          },
-          "temperature": true,
-          "reasoning": false
-        },
-        "minimax/minimax-m2": {
-          "modalities": {
-            "output": [
-              "text"
-            ]
-          },
-          "cost": {
-            "input": 0.255,
-            "output": 1.02
-          },
-          "limit": {
-            "output": 131072
-          },
-          "temperature": true,
-          "reasoning": true,
-          "reasoning_options": []
-        },
-        "minimax/minimax-m2.5": {
-          "modalities": {
-            "output": [
-              "text"
-            ]
-          },
-          "cost": {
-            "input": 0.27,
-            "output": 0.95
-          },
-          "limit": {
-            "output": 32768
+            "output": 58982
           },
           "temperature": true,
           "reasoning": true,
@@ -11116,19 +10884,198 @@
           },
           "temperature": true,
           "reasoning": false
+        },
+        "google/gemini-omni-1.1-flash": {
+          "type": "video",
+          "modalities": {
+            "output": [
+              "text",
+              "video"
+            ]
+          },
+          "cost": {
+            "input": 1.5,
+            "output": 9
+          },
+          "limit": {
+            "output": 65536
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "high"
+              ]
+            }
+          ]
+        },
+        "google/gemini-omni-1.2-flash": {
+          "modalities": {
+            "output": [
+              "text",
+              "video"
+            ]
+          },
+          "cost": {
+            "input": 1.5,
+            "output": 9
+          },
+          "limit": {
+            "output": 65536
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": [
+            {
+              "type": "effort",
+              "values": [
+                "low",
+                "high"
+              ]
+            }
+          ]
+        },
+        "inclusionai/ling-3.0-tiny": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 0.015,
+            "output": 0.045
+          },
+          "limit": {
+            "output": 250000
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": [
+            {
+              "type": "toggle"
+            }
+          ]
+        },
+        "stealth/crouton-alpha": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 0,
+            "output": 0
+          },
+          "limit": {
+            "output": 943718
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": [
+            {
+              "type": "effort",
+              "values": [
+                "minimal",
+                "low",
+                "medium",
+                "high",
+                "xhigh",
+                "max"
+              ]
+            }
+          ]
+        },
+        "ricursiveai/ripple-65b-preview": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 0.2,
+            "output": 0.6
+          },
+          "limit": {
+            "output": 131072
+          },
+          "temperature": true,
+          "reasoning": false
+        },
+        "liquid/lfm-3-1.7b:free": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 0,
+            "output": 0
+          },
+          "limit": {
+            "output": 8192
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": []
+        },
+        "liquid/lfm-3-1.7b": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 0.08,
+            "output": 0.2
+          },
+          "limit": {
+            "output": 8192
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": []
+        },
+        "tencent/hy4": {
+          "modalities": {
+            "output": [
+              "text"
+            ]
+          },
+          "cost": {
+            "input": 0.417,
+            "output": 1.2505
+          },
+          "limit": {
+            "output": 65536
+          },
+          "temperature": true,
+          "reasoning": true,
+          "reasoning_options": [
+            {
+              "type": "effort",
+              "values": [
+                "none",
+                "low",
+                "high"
+              ]
+            }
+          ]
         }
-      },
-      "id": "openrouter",
-      "name": "OpenRouter",
-      "npm": "@openrouter/ai-sdk-provider",
-      "api": "https://openrouter.ai/api/v1",
-      "env": [
-        "OPENROUTER_API_KEY"
-      ]
+      }
     },
     "mistral": {
+      "id": "mistral",
+      "name": "Mistral",
+      "npm": "@ai-sdk/mistral",
+      "env": [
+        "MISTRAL_API_KEY"
+      ],
       "models": {
         "mistral-embed": {
+          "type": "embedding",
           "modalities": {
             "output": [
               "text"
@@ -11142,8 +11089,7 @@
             "output": 3072
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "embedding"
+          "reasoning": false
         },
         "codestral-2508": {
           "modalities": {
@@ -11667,32 +11613,30 @@
           "reasoning": false
         },
         "voxtral-mini-tts-latest": {
+          "type": "speech",
           "modalities": {
             "output": [
               "audio"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "speech"
+          "reasoning": false
         },
         "voxtral-mini-latest": {
+          "type": "transcription",
           "modalities": {
             "output": [
               "text"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "transcription"
+          "reasoning": false
         },
         "glm-5-2": {
           "modalities": {
@@ -11826,15 +11770,16 @@
           "temperature": true,
           "reasoning": false
         }
-      },
-      "id": "mistral",
-      "name": "Mistral",
-      "npm": "@ai-sdk/mistral",
-      "env": [
-        "MISTRAL_API_KEY"
-      ]
+      }
     },
     "alibaba": {
+      "id": "alibaba",
+      "name": "Alibaba",
+      "npm": "@ai-sdk/openai-compatible",
+      "api": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+      "env": [
+        "DASHSCOPE_API_KEY"
+      ],
       "models": {
         "glm-5.2": {
           "modalities": {
@@ -12066,6 +12011,10 @@
           ]
         },
         "qwen3-omni-flash-realtime": {
+          "type": "realtime",
+          "provider": {
+            "api": "wss://dashscope-intl.aliyuncs.com/api-ws/v1/realtime"
+          },
           "modalities": {
             "output": [
               "text",
@@ -12080,11 +12029,7 @@
             "output": 16384
           },
           "temperature": true,
-          "reasoning": false,
-          "type": "realtime",
-          "provider": {
-            "api": "wss://dashscope-intl.aliyuncs.com/api-ws/v1/realtime"
-          }
+          "reasoning": false
         },
         "qwen2-5-omni-7b": {
           "modalities": {
@@ -12168,6 +12113,10 @@
           ]
         },
         "qwen-omni-turbo-realtime": {
+          "type": "realtime",
+          "provider": {
+            "api": "wss://dashscope-intl.aliyuncs.com/api-ws/v1/realtime"
+          },
           "modalities": {
             "output": [
               "text",
@@ -12182,11 +12131,7 @@
             "output": 2048
           },
           "temperature": true,
-          "reasoning": false,
-          "type": "realtime",
-          "provider": {
-            "api": "wss://dashscope-intl.aliyuncs.com/api-ws/v1/realtime"
-          }
+          "reasoning": false
         },
         "qwen3.7-max": {
           "modalities": {
@@ -12213,18 +12158,17 @@
           ]
         },
         "qwen3-asr-flash": {
+          "type": "transcription",
           "modalities": {
             "output": [
               "text"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 4096
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "transcription"
+          "reasoning": false
         },
         "qwen3-coder-480b-a35b-instruct": {
           "modalities": {
@@ -12485,6 +12429,10 @@
           "reasoning": false
         },
         "qwen3-livetranslate-flash-realtime": {
+          "type": "realtime",
+          "provider": {
+            "api": "wss://dashscope-intl.aliyuncs.com/api-ws/v1/realtime"
+          },
           "modalities": {
             "output": [
               "text",
@@ -12499,11 +12447,7 @@
             "output": 4096
           },
           "temperature": true,
-          "reasoning": false,
-          "type": "realtime",
-          "provider": {
-            "api": "wss://dashscope-intl.aliyuncs.com/api-ws/v1/realtime"
-          }
+          "reasoning": false
         },
         "qwen3.6-27b": {
           "modalities": {
@@ -12987,18 +12931,19 @@
             }
           ]
         }
-      },
-      "id": "alibaba",
-      "name": "Alibaba",
-      "npm": "@ai-sdk/openai-compatible",
-      "api": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
-      "env": [
-        "DASHSCOPE_API_KEY"
-      ]
+      }
     },
     "nvidia": {
+      "id": "nvidia",
+      "name": "Nvidia",
+      "npm": "@ai-sdk/openai-compatible",
+      "api": "https://integrate.api.nvidia.com/v1",
+      "env": [
+        "NVIDIA_API_KEY"
+      ],
       "models": {
         "qwen/qwen-image-edit": {
+          "type": "image",
           "modalities": {
             "output": [
               "image"
@@ -13012,10 +12957,10 @@
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "image"
+          "reasoning": false
         },
         "qwen/qwen-image": {
+          "type": "image",
           "modalities": {
             "output": [
               "image"
@@ -13029,8 +12974,7 @@
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "image"
+          "reasoning": false
         },
         "meta/muse-glimmer-30b": {
           "modalities": {
@@ -13189,26 +13133,10 @@
           ]
         },
         "black-forest-labs/flux.1-dev": {
-          "modalities": {
-            "output": [
-              "image"
-            ]
-          },
-          "cost": {
-            "input": 0,
-            "output": 0
-          },
-          "limit": {
-            "output": 0
-          },
-          "temperature": false,
-          "reasoning": false,
           "type": "image",
           "provider": {
             "api": "https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.1-dev"
-          }
-        },
-        "black-forest-labs/flux_1-kontext-dev": {
+          },
           "modalities": {
             "output": [
               "image"
@@ -13222,13 +13150,13 @@
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
+          "reasoning": false
+        },
+        "black-forest-labs/flux_1-kontext-dev": {
           "type": "image",
           "provider": {
             "api": "https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.1-kontext-dev"
-          }
-        },
-        "black-forest-labs/flux_1-schnell": {
+          },
           "modalities": {
             "output": [
               "image"
@@ -13242,13 +13170,13 @@
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
+          "reasoning": false
+        },
+        "black-forest-labs/flux_1-schnell": {
           "type": "image",
           "provider": {
             "api": "https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.1-schnell"
-          }
-        },
-        "black-forest-labs/flux_2-klein-4b": {
+          },
           "modalities": {
             "output": [
               "image"
@@ -13262,11 +13190,27 @@
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
+          "reasoning": false
+        },
+        "black-forest-labs/flux_2-klein-4b": {
           "type": "image",
           "provider": {
             "api": "https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.2-klein-4b"
-          }
+          },
+          "modalities": {
+            "output": [
+              "image"
+            ]
+          },
+          "cost": {
+            "input": 0,
+            "output": 0
+          },
+          "limit": {
+            "output": 0
+          },
+          "temperature": false,
+          "reasoning": false
         },
         "minimaxai/minimax-m3.1-flash": {
           "modalities": {
@@ -13533,6 +13477,7 @@
           "reasoning": false
         },
         "openai/whisper-large-v3": {
+          "type": "transcription",
           "modalities": {
             "output": [
               "text"
@@ -13546,8 +13491,7 @@
             "output": 4096
           },
           "temperature": true,
-          "reasoning": false,
-          "type": "transcription"
+          "reasoning": false
         },
         "openai/gpt-oss-20b": {
           "modalities": {
@@ -13735,6 +13679,7 @@
           ]
         },
         "nvidia/magpie-tts-zeroshot": {
+          "type": "speech",
           "modalities": {
             "output": [
               "audio"
@@ -13748,10 +13693,10 @@
             "output": 4096
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "speech"
+          "reasoning": false
         },
         "nvidia/llama-nemotron-embed-vl-1b-v2": {
+          "type": "embedding",
           "modalities": {
             "output": [
               "text"
@@ -13765,8 +13710,7 @@
             "output": 2048
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "embedding"
+          "reasoning": false
         },
         "nvidia/riva-translate-4b-instruct-v1.1": {
           "modalities": {
@@ -13806,6 +13750,10 @@
           ]
         },
         "nvidia/rerank-qa-mistral-4b": {
+          "type": "reranking",
+          "provider": {
+            "api": "https://ai.api.nvidia.com/v1/retrieval/nvidia/reranking"
+          },
           "modalities": {
             "output": [
               "text"
@@ -13819,13 +13767,10 @@
             "output": 4096
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "reranking",
-          "provider": {
-            "api": "https://ai.api.nvidia.com/v1/retrieval/nvidia/reranking"
-          }
+          "reasoning": false
         },
         "nvidia/cosmos-transfer2_5-2b": {
+          "type": "video",
           "modalities": {
             "output": [
               "video"
@@ -13839,10 +13784,13 @@
             "output": 4096
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "video"
+          "reasoning": false
         },
         "nvidia/llama-nemotron-rerank-vl-1b-v2": {
+          "type": "reranking",
+          "provider": {
+            "api": "https://ai.api.nvidia.com/v1/retrieval/nvidia/llama-nemotron-rerank-vl-1b-v2/reranking"
+          },
           "modalities": {
             "output": [
               "text"
@@ -13856,11 +13804,7 @@
             "output": 4096
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "reranking",
-          "provider": {
-            "api": "https://ai.api.nvidia.com/v1/retrieval/nvidia/llama-nemotron-rerank-vl-1b-v2/reranking"
-          }
+          "reasoning": false
         },
         "nvidia/bevformer": {
           "modalities": {
@@ -14033,18 +13977,19 @@
           "reasoning": true,
           "reasoning_options": []
         }
-      },
-      "id": "nvidia",
-      "name": "Nvidia",
-      "npm": "@ai-sdk/openai-compatible",
-      "api": "https://integrate.api.nvidia.com/v1",
-      "env": [
-        "NVIDIA_API_KEY"
-      ]
+      }
     },
     "azure": {
+      "id": "azure",
+      "name": "Azure",
+      "npm": "@ai-sdk/azure",
+      "env": [
+        "AZURE_RESOURCE_NAME",
+        "AZURE_API_KEY"
+      ],
       "models": {
         "text-embedding-3-large": {
+          "type": "embedding",
           "modalities": {
             "output": [
               "text"
@@ -14057,10 +14002,12 @@
           "limit": {
             "output": 3072
           },
-          "reasoning": false,
-          "type": "embedding"
+          "reasoning": false
         },
         "gpt-4-turbo": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14074,12 +14021,13 @@
             "output": 4096
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "claude-haiku-5-5": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14108,13 +14056,10 @@
                 "max"
               ]
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "text-embedding-3-small": {
+          "type": "embedding",
           "modalities": {
             "output": [
               "text"
@@ -14127,10 +14072,10 @@
           "limit": {
             "output": 1536
           },
-          "reasoning": false,
-          "type": "embedding"
+          "reasoning": false
         },
         "gpt-image-2.5-sunburst": {
+          "type": "image",
           "modalities": {
             "output": [
               "image"
@@ -14144,10 +14089,13 @@
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "image"
+          "reasoning": false
         },
         "claude-opus-4-8": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14173,13 +14121,12 @@
                 "max"
               ]
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "phi-4-reasoning": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14194,10 +14141,7 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning_options": []
         },
         "gpt-chat-latest": {
           "modalities": {
@@ -14224,6 +14168,10 @@
           ]
         },
         "claude-opus-5-5": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14249,11 +14197,7 @@
                 "max"
               ]
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "gpt-5.6-luna": {
           "modalities": {
@@ -14285,6 +14229,10 @@
           ]
         },
         "deepseek-v4-flash": {
+          "provider": {
+            "npm": "@ai-sdk/openai-compatible",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14309,13 +14257,13 @@
                 "max"
               ]
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/openai-compatible",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
-          }
+          ]
         },
         "model-router": {
+          "provider": {
+            "npm": "@ai-sdk/azure",
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14328,11 +14276,7 @@
           "limit": {
             "output": 16384
           },
-          "reasoning": false,
-          "provider": {
-            "npm": "@ai-sdk/azure",
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "gpt-6-sol": {
           "modalities": {
@@ -14390,6 +14334,10 @@
           ]
         },
         "claude-sonnet-5-5": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14415,13 +14363,12 @@
                 "max"
               ]
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "grok-4-1-fast-non-reasoning": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14435,12 +14382,10 @@
             "output": 8192
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "text-embedding-ada-002": {
+          "type": "embedding",
           "modalities": {
             "output": [
               "text"
@@ -14453,10 +14398,12 @@
           "limit": {
             "output": 1536
           },
-          "reasoning": false,
-          "type": "embedding"
+          "reasoning": false
         },
         "grok-4-20-reasoning": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14471,10 +14418,7 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning_options": []
         },
         "o3-mini": {
           "modalities": {
@@ -14503,6 +14447,9 @@
           ]
         },
         "phi-4-multimodal": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14516,10 +14463,7 @@
             "output": 4096
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "gpt-4.1": {
           "modalities": {
@@ -14538,6 +14482,7 @@
           "reasoning": false
         },
         "gpt-image-1.5": {
+          "type": "image",
           "modalities": {
             "output": [
               "text",
@@ -14552,10 +14497,13 @@
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "image"
+          "reasoning": false
         },
         "claude-sonnet-5": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14584,13 +14532,13 @@
                 "max"
               ]
             }
-          ],
+          ]
+        },
+        "claude-sonnet-4-6": {
           "provider": {
             "npm": "@ai-sdk/anthropic",
             "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
-        },
-        "claude-sonnet-4-6": {
+          },
           "modalities": {
             "output": [
               "text"
@@ -14619,11 +14567,7 @@
               "type": "budget_tokens",
               "min": 1024
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "gpt-5.4-mini": {
           "modalities": {
@@ -14654,6 +14598,10 @@
           ]
         },
         "deepseek-v4-pro": {
+          "provider": {
+            "npm": "@ai-sdk/openai-compatible",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14678,13 +14626,10 @@
                 "max"
               ]
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/openai-compatible",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
-          }
+          ]
         },
         "gpt-image-2": {
+          "type": "image",
           "modalities": {
             "output": [
               "image"
@@ -14698,10 +14643,12 @@
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "image"
+          "reasoning": false
         },
         "gpt-3.5-turbo-1106": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14715,10 +14662,7 @@
             "output": 4096
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "gpt-4.1-mini": {
           "modalities": {
@@ -14737,6 +14681,9 @@
           "reasoning": false
         },
         "phi-4": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14750,12 +14697,10 @@
             "output": 4096
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "gpt-image-1": {
+          "type": "image",
           "modalities": {
             "output": [
               "image"
@@ -14769,16 +14714,17 @@
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "image"
+          "reasoning": false
         },
         "grok-4.7": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
             ]
           },
-          "cost": null,
           "limit": {
             "output": 500000
           },
@@ -14794,10 +14740,7 @@
                 "xhigh"
               ]
             }
-          ],
-          "provider": {
-            "shape": "completions"
-          }
+          ]
         },
         "gpt-5.1-codex-mini": {
           "modalities": {
@@ -14826,6 +14769,9 @@
           ]
         },
         "gpt-3.5-turbo-0125": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14839,12 +14785,12 @@
             "output": 4096
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "phi-4-mini": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14858,10 +14804,7 @@
             "output": 4096
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "gpt-5.1-codex": {
           "modalities": {
@@ -14890,6 +14833,10 @@
           ]
         },
         "claude-opus-4-6": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14918,13 +14865,10 @@
               "type": "budget_tokens",
               "min": 1024
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "gpt-image-2.5-flare": {
+          "type": "image",
           "modalities": {
             "output": [
               "image"
@@ -14938,10 +14882,12 @@
             "output": 0
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "image"
+          "reasoning": false
         },
         "mistral-small-2503": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -14955,10 +14901,7 @@
             "output": 32768
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "gpt-5": {
           "modalities": {
@@ -15014,6 +14957,10 @@
           ]
         },
         "claude-sonnet-4-5": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15033,13 +14980,14 @@
               "type": "budget_tokens",
               "min": 1024
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "cohere-embed-v3-multilingual": {
+          "type": "embedding",
+          "provider": {
+            "npm": "@ai-sdk/openai-compatible",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15053,14 +15001,13 @@
             "output": 1024
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "embedding",
-          "provider": {
-            "npm": "@ai-sdk/openai-compatible",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
-          }
+          "reasoning": false
         },
         "claude-opus-4-5": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15088,13 +15035,12 @@
               "type": "budget_tokens",
               "min": 1024
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "llama-3.3-70b-instruct": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15108,12 +15054,12 @@
             "output": 32768
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "grok-4-20-non-reasoning": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15127,12 +15073,14 @@
             "output": 8192
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "cohere-embed-v-4-0": {
+          "type": "embedding",
+          "provider": {
+            "npm": "@ai-sdk/openai-compatible",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15146,12 +15094,7 @@
             "output": 1536
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "embedding",
-          "provider": {
-            "npm": "@ai-sdk/openai-compatible",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
-          }
+          "reasoning": false
         },
         "gpt-5-mini": {
           "modalities": {
@@ -15181,6 +15124,9 @@
           ]
         },
         "ministral-3b": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15194,12 +15140,12 @@
             "output": 8192
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "gpt-4-turbo-vision": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15213,10 +15159,7 @@
             "output": 4096
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "gpt-5.2": {
           "modalities": {
@@ -15247,6 +15190,9 @@
           ]
         },
         "phi-4-mini-reasoning": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15261,10 +15207,7 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning_options": []
         },
         "o4-mini": {
           "modalities": {
@@ -15293,6 +15236,9 @@
           ]
         },
         "phi-4-reasoning-plus": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15307,10 +15253,7 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning_options": []
         },
         "codex-mini": {
           "modalities": {
@@ -15339,6 +15282,10 @@
           ]
         },
         "kimi-k2.7-code": {
+          "provider": {
+            "npm": "@ai-sdk/openai-compatible",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15353,13 +15300,13 @@
           },
           "temperature": false,
           "reasoning": true,
-          "reasoning_options": [],
-          "provider": {
-            "npm": "@ai-sdk/openai-compatible",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
-          }
+          "reasoning_options": []
         },
         "claude-fable-5": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15384,13 +15331,12 @@
                 "xhigh"
               ]
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "mistral-medium-2505": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15404,12 +15350,13 @@
             "output": 128000
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "claude-mythos-5": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15434,11 +15381,7 @@
                 "xhigh"
               ]
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "gpt-4o-mini": {
           "modalities": {
@@ -15457,6 +15400,9 @@
           "reasoning": false
         },
         "llama-4-maverick-17b-128e-instruct-fp8": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15470,12 +15416,13 @@
             "output": 16384
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "claude-opus-5": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15501,13 +15448,13 @@
                 "max"
               ]
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "deepseek-v4.1-flash": {
+          "provider": {
+            "npm": "@ai-sdk/openai-compatible",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15532,11 +15479,7 @@
                 "max"
               ]
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/openai-compatible",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
-          }
+          ]
         },
         "gpt-5.3-codex": {
           "modalities": {
@@ -15623,6 +15566,10 @@
           ]
         },
         "claude-fable-5-1": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15647,11 +15594,7 @@
                 "xhigh"
               ]
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "gpt-5-nano": {
           "modalities": {
@@ -15707,6 +15650,10 @@
           ]
         },
         "kimi-k2.6": {
+          "provider": {
+            "npm": "@ai-sdk/openai-compatible",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15721,13 +15668,12 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "provider": {
-            "npm": "@ai-sdk/openai-compatible",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
-          }
+          "reasoning_options": []
         },
         "grok-4.6": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15752,10 +15698,7 @@
                 "xhigh"
               ]
             }
-          ],
-          "provider": {
-            "shape": "completions"
-          }
+          ]
         },
         "gpt-5.4": {
           "modalities": {
@@ -15940,6 +15883,11 @@
           "reasoning": false
         },
         "cohere-embed-v3-english": {
+          "type": "embedding",
+          "provider": {
+            "npm": "@ai-sdk/openai-compatible",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
+          },
           "modalities": {
             "output": [
               "text"
@@ -15953,12 +15901,7 @@
             "output": 1024
           },
           "temperature": false,
-          "reasoning": false,
-          "type": "embedding",
-          "provider": {
-            "npm": "@ai-sdk/openai-compatible",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
-          }
+          "reasoning": false
         },
         "gpt-5.4-nano": {
           "modalities": {
@@ -16005,6 +15948,9 @@
           "reasoning": false
         },
         "deepseek-v3.2-speciale": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -16019,10 +15965,7 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning_options": []
         },
         "gpt-5.6-terra": {
           "modalities": {
@@ -16054,6 +15997,9 @@
           ]
         },
         "codestral-2501": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -16067,12 +16013,13 @@
             "output": 256000
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "kimi-k2.5": {
+          "provider": {
+            "npm": "@ai-sdk/openai-compatible",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
+          },
           "modalities": {
             "output": [
               "text"
@@ -16087,11 +16034,7 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "provider": {
-            "npm": "@ai-sdk/openai-compatible",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/models"
-          }
+          "reasoning_options": []
         },
         "gpt-4.1-nano": {
           "modalities": {
@@ -16139,6 +16082,9 @@
           ]
         },
         "grok-4-1-fast-reasoning": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -16153,10 +16099,7 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning_options": []
         },
         "gpt-5-pro": {
           "modalities": {
@@ -16183,6 +16126,9 @@
           ]
         },
         "deepseek-v3.2": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -16197,10 +16143,7 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning_options": []
         },
         "gpt-5.6-sol": {
           "modalities": {
@@ -16232,6 +16175,10 @@
           ]
         },
         "claude-opus-4-7": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -16257,13 +16204,12 @@
                 "max"
               ]
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "cohere-command-a": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -16278,12 +16224,12 @@
           },
           "temperature": true,
           "reasoning": true,
-          "reasoning_options": [],
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning_options": []
         },
         "llama-4-scout-17b-16e-instruct": {
+          "provider": {
+            "shape": "completions"
+          },
           "modalities": {
             "output": [
               "text"
@@ -16297,12 +16243,13 @@
             "output": 8192
           },
           "temperature": true,
-          "reasoning": false,
-          "provider": {
-            "shape": "completions"
-          }
+          "reasoning": false
         },
         "claude-haiku-4-5": {
+          "provider": {
+            "npm": "@ai-sdk/anthropic",
+            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
+          },
           "modalities": {
             "output": [
               "text"
@@ -16322,11 +16269,7 @@
               "type": "budget_tokens",
               "min": 1024
             }
-          ],
-          "provider": {
-            "npm": "@ai-sdk/anthropic",
-            "api": "https://${AZURE_RESOURCE_NAME}.services.ai.azure.com/anthropic/v1"
-          }
+          ]
         },
         "gpt-5.2-codex": {
           "modalities": {
@@ -16355,14 +16298,7 @@
             }
           ]
         }
-      },
-      "id": "azure",
-      "name": "Azure",
-      "npm": "@ai-sdk/azure",
-      "env": [
-        "AZURE_RESOURCE_NAME",
-        "AZURE_API_KEY"
-      ]
+      }
     }
   }
 }
