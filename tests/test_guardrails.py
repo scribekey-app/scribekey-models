@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 
 from scribekey_models.guardrails import (
+    NOTES_PROMPT_HEADROOM_TOKENS,
     PUNCTUATION_FILE_SHA256,
     validate_channel_and_release_pointers,
     validate_identities_and_integrity,
@@ -12,6 +13,7 @@ from scribekey_models.guardrails import (
     validate_model_configuration,
     validate_model_versions,
     validate_no_executable_payloads,
+    validate_notes_catalog,
     validate_redistribution_clearance,
     validate_release_safety,
 )
@@ -756,3 +758,84 @@ def test_shipped_speech_copy_fits_the_card() -> None:
         assert len(best_for) <= 48, model["id"]
         assert not best_for.endswith((".", "!", "?")), model["id"]
         assert best_for.casefold() != model["description"].casefold(), model["id"]
+
+
+# Notes models -------------------------------------------------------------------------------
+
+
+def _notes_model(**overrides: object) -> dict:
+    rev = "a" * 40
+    return {
+        "modelId": "notes",
+        "displayName": "Notes",
+        "bestFor": "Summaries",
+        "description": "Writes a summary.",
+        "experimental": True,
+        "badge": "Experimental",
+        "provenance": {"exportRepository": "org/repo", "exportRevision": rev},
+        "revision": rev,
+        "bundleFileName": "model.gguf",
+        "downloadUrl": f"https://huggingface.co/org/repo/resolve/{rev}/model.gguf",
+        "sizeBytes": 1,
+        "sha256": "b" * 64,
+        "deterministicDecoding": True,
+        "topK": 1,
+        "topP": 1.0,
+        "temperature": 0.0,
+        "repetitionPenalty": None,
+        "capabilities": ["summary", "action_items", "ask"],
+        "pieceTokens": 700,
+        "maxInputTokens": 5600,
+        "maxOutputTokens": 512,
+        "contextTokens": 8192,
+        "maxAskPassages": 6,
+        "askPassageTokens": 80,
+        **overrides,
+    }
+
+
+def _notes_messages(*models: dict) -> list[str]:
+    return [issue.message for issue in validate_notes_catalog({"models": list(models)})]
+
+
+def test_notes_model_as_the_app_uses_it_passes() -> None:
+    assert _notes_messages(_notes_model()) == []
+
+
+def test_notes_rejects_duplicate_ids_and_names() -> None:
+    messages = _notes_messages(_notes_model(), _notes_model())
+    assert "Duplicate notes model id 'notes'" in messages
+    assert "Notes model 'notes' reuses display name of 'notes'" in messages
+
+
+@pytest.mark.parametrize(("overrides", "expected"), [
+    ({"revision": "main"}, "revision must be a 40-character commit hash"),
+    ({"sha256": ""}, "invalid sha256"),
+    ({"sizeBytes": None}, "invalid sizeBytes"),
+    ({"bundleFileName": "../model.gguf"}, "unsafe install path"),
+    ({"downloadUrl": f"https://huggingface.co/org/repo/resolve/{'c' * 40}/model.gguf"}, "does not match Hugging Face revision"),
+    ({"provenance": {"exportRepository": "other/repo", "exportRevision": "a" * 40}}, "does not match Hugging Face provenance"),
+    ({"downloadUrl": f"https://huggingface.co/org/repo/resolve/{'a' * 40}/model.so"}, "executable payload"),
+    ({"temperature": 0.7}, "deterministicDecoding requires"),
+    ({"badge": ""}, "badge and experimental flag disagree"),
+    ({"experimental": False}, "badge and experimental flag disagree"),
+    ({"bestFor": "Summaries."}, "bestFor ends with a full stop"),
+    ({"pieceTokens": 0}, "pieceTokens must be a positive integer"),
+    ({"maxInputTokens": -1}, "maxInputTokens must be a positive integer"),
+    ({"maxInputTokens": 699}, "maxInputTokens is smaller than pieceTokens"),
+    ({"contextTokens": 700 + 512 + NOTES_PROMPT_HEADROOM_TOKENS - 1}, "exceed contextTokens"),
+    ({"maxAskPassages": None}, "offers ask without maxAskPassages and askPassageTokens"),
+    ({"askPassageTokens": 2000}, "maxAskPassages x askPassageTokens"),
+])
+def test_notes_rejects_each_broken_rule(overrides: dict, expected: str) -> None:
+    messages = _notes_messages(_notes_model(**overrides))
+    assert any(expected in message for message in messages), messages
+
+
+def test_notes_without_ask_needs_no_ask_limits() -> None:
+    model = _notes_model(capabilities=["summary"], maxAskPassages=None, askPassageTokens=None)
+    assert _notes_messages(model) == []
+
+
+def test_notes_fits_exactly_at_the_context_limit() -> None:
+    assert _notes_messages(_notes_model(contextTokens=700 + 512 + NOTES_PROMPT_HEADROOM_TOKENS)) == []

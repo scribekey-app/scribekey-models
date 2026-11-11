@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scribekey.app/schemas/notes_model_catalog.schema.json",
+  "title": "ScribeKey notes model catalogue (generated)",
+  "description": "generated/notes_model_catalog.json as Android reads it. Each model is a notes.schema.json entry with experimental and badge always present.",
+  "type": "object",
+  "required": ["schemaVersion", "models"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "models": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "https://scribekey.app/schemas/notes.schema.json#/$defs/notesModel" },
+          { "required": ["experimental", "badge"] }
+        ]
+      }
+    }
+  }
+}

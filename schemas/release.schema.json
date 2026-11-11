@@ -34,7 +34,8 @@
         "diarization": { "$ref": "#/$defs/catalogRef" },
         "cleanup": { "$ref": "#/$defs/catalogRef" },
         "cloudTiers": { "$ref": "#/$defs/catalogRef" },
-        "cloudModels": { "$ref": "#/$defs/catalogRef" }
+        "cloudModels": { "$ref": "#/$defs/catalogRef" },
+        "notes": { "$ref": "#/$defs/catalogRef" }
       }
     },
     "recoveryAssets": {

@@ -80,6 +80,7 @@ def create_release_manifest(
     cleanup_content: str,
     cloud_tiers_content: str | None = None,
     cloud_models_content: str | None = None,
+    notes_content: str | None = None,
     git_commit: str | None = None,
     recovery_cleared_models: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
@@ -108,6 +109,8 @@ def create_release_manifest(
         manifest["catalogs"]["cloudTiers"] = _file_info("cloud_model_tiers.json", cloud_tiers_content)
     if cloud_models_content is not None:
         manifest["catalogs"]["cloudModels"] = _file_info("cloud_models.json", cloud_models_content)
+    if notes_content is not None:
+        manifest["catalogs"]["notes"] = _file_info("notes_model_catalog.json", notes_content)
 
     if git_commit:
         manifest["gitCommit"] = git_commit
@@ -192,6 +195,15 @@ def build_channel_distribution_manifest(
         families = comp["supportedConfigFamilies"]
         if "cloud-model-profiles" not in families:
             comp["supportedConfigFamilies"] = [*families, "cloud-model-profiles"]
+
+    if "notes" in catalogs:
+        # Optional and last: an app that predates notes ignores the key, and older releases keep their bytes.
+        manifest["catalogs"]["notes"] = {
+            "filename": catalogs["notes"]["filename"],
+            "path": f"../releases/{rel_id}/{catalogs['notes']['filename']}",
+            "sha256": catalogs["notes"]["sha256"],
+            "sizeBytes": catalogs["notes"]["sizeBytes"],
+        }
 
     if notes or release_data.get("description"):
         manifest["notes"] = notes or release_data.get("description")
