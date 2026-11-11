@@ -264,8 +264,9 @@ def _notes_validator():
 
 def test_notes_catalogue_projects_the_apps_model_with_its_limits() -> None:
     models = generate_notes_catalog()["models"]
-    assert [m["modelId"] for m in models] == ["lfm2.5-1.2b-instruct-q4_k_m"]
-    model = models[0]
+    # Order is the app's preference: the first model a phone can run is the one it uses.
+    assert [m["modelId"] for m in models] == ["qwen3.5-2b-q4_k_m", "lfm2.5-1.2b-instruct-q4_k_m"]
+    model = models[1]
     assert model["experimental"] is True and model["badge"] == "Experimental"
     assert model["capabilities"] == ["summary", "action_items", "ask"]
     assert (model["pieceTokens"], model["maxInputTokens"], model["maxOutputTokens"], model["contextTokens"]) == (
