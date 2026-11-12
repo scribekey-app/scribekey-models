@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "releaseId": "2026.11.5",
+  "createdAt": "2026-11-12T23:45:13Z",
+  "description": "Adds measured accuracy grades by language to twelve speech models. No model files change.",
+  "catalogs": {
+    "speech": {
+      "filename": "model_catalog.json",
+      "sha256": "da06e5caba7bc3c89e6fcf7f717dcb304a76669a55c427018f98b04a87933619",
+      "sizeBytes": 73852
+    },
+    "diarization": {
+      "filename": "speaker_diarization_manifest.json",
+      "sha256": "229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a",
+      "sizeBytes": 1438
+    },
+    "cleanup": {
+      "filename": "cleanup_model_catalog.json",
+      "sha256": "fa943d33b7ad03993206f08a10002b20324dd7b4e495f17787bde5c2310e1f95",
+      "sizeBytes": 16346
+    },
+    "cloudTiers": {
+      "filename": "cloud_model_tiers.json",
+      "sha256": "bdf58dbe3ffbdc5c765a2b2f8be9cc97d7e7db9761ba82232702e14a69f16e25",
+      "sizeBytes": 14543
+    },
+    "cloudModels": {
+      "filename": "cloud_models.json",
+      "sha256": "d332cda68e19cc185957eddc36aa77d4f1e0138d55cd57a1a33bb6ca60fcd598",
+      "sizeBytes": 143420
+    },
+    "notes": {
+      "filename": "notes_model_catalog.json",
+      "sha256": "972fea32ab08671640e2a2aa7d603ccb67c074dd3f79bc7d0f3eef22ef33dfd4",
+      "sizeBytes": 4699
+    },
+    "search": {
+      "filename": "search_model_catalog.json",
+      "sha256": "7a2a1227603ea6e16718770819de982666283d90460a9f4164b3a14d5ee4b07c",
+      "sizeBytes": 2050
+    }
+  },
+  "gitCommit": "47e956e20e00b8a266a4455261a93a36d9600bf6"
+}
