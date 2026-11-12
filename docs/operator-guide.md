@@ -9,7 +9,7 @@ This document describes the publication authority, promotion workflow, and trust
 2. **Deterministic Outputs (`generated/`)**:
    Derived JSON catalogues and channel manifests. Generated outputs are strictly deterministic and reproducible.
 3. **Immutable Releases (`catalog/releases/`, `generated/releases/`)**:
-   Releases freeze qualified catalogue snapshots (`model_catalog.json`, `speaker_diarization_manifest.json`, `cleanup_model_catalog.json`, and configured cloud model catalogues) under an immutable version tag (e.g. `2026.09.1`).
+   Releases freeze qualified catalogue snapshots (`model_catalog.json`, `speaker_diarization_manifest.json`, `cleanup_model_catalog.json`, `notes_model_catalog.json`, and configured cloud model catalogues) under an immutable version tag (e.g. `2026.09.1`).
 4. **Channel Pointers (`catalog/channels.yaml`, `generated/channels/`)**:
    The `qa` and `stable` channels are pointers referencing immutable releases by release ID and content digests. They do NOT duplicate mutable artifact definitions.
    Channel manifests reference catalogs via relative URI paths (`../releases/<release-id>/<filename>`).

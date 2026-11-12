@@ -153,6 +153,11 @@ def load_channel_targets(root: Path, channel: str = "stable") -> tuple[str, list
         if not catalog_targets:
             raise ValueError(f"Published {catalog_name} catalog contains no model artifact sources")
         targets.extend(catalog_targets)
+    # Optional: releases before the notes catalogue have no reference to it.
+    notes_ref = catalogs.get("notes")
+    if isinstance(notes_ref, dict):
+        path = _resolve_catalog_path(root, channel_path, str(notes_ref.get("path", "")), release_id)
+        targets.extend(_targets_from_catalog("notes", _load_json(path)))
     if not targets:
         raise ValueError(f"Channel '{channel}' contains no model artifact sources")
     return release_id, targets
@@ -249,6 +254,14 @@ def _targets_from_catalog(catalog: str, data: dict[str, object]) -> list[SourceT
     if catalog == "diarization":
         entries = data.get("models", [])
         return _diarization_targets(entries if isinstance(entries, list) else [])
+    if catalog == "notes":
+        entries = data.get("models", [])
+        return [
+            target
+            for entry in (entries if isinstance(entries, list) else [])
+            if isinstance(entry, dict)
+            for target in _file_targets("notes", str(entry.get("modelId", "unknown")), entry, "bundleFileName")
+        ]
     return []
 
 

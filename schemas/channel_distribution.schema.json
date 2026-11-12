@@ -90,7 +90,8 @@
         "diarization": { "$ref": "#/$defs/distributionCatalogRef" },
         "cleanup": { "$ref": "#/$defs/distributionCatalogRef" },
         "cloudTiers": { "$ref": "#/$defs/distributionCatalogRef" },
-        "cloudModels": { "$ref": "#/$defs/distributionCatalogRef" }
+        "cloudModels": { "$ref": "#/$defs/distributionCatalogRef" },
+        "notes": { "$ref": "#/$defs/distributionCatalogRef" }
       }
     },
     "recoveryAssets": {

@@ -23,3 +23,8 @@ The Android client parses published channel manifests (`qa.json`, `stable.json`)
 5. **Relative URI Paths**: Catalogs are referenced relative to the channel document:
    `../releases/<release-id>/<filename>`
    The client resolves catalog URLs relative to the channel document location.
+6. **Optional catalogues**: `catalogs.cloudTiers`, `catalogs.cloudModels` and `catalogs.notes` are optional.
+   Android looks catalogues up by key, so an app that predates one ignores it, and adding it to a release
+   changes nothing it reads. `notes` needs no new `supportedConfigFamilies` entry, so an older app accepts
+   a channel that carries it. A channel only gains `notes` when it is promoted to a release created with it;
+   existing releases and their signed channel manifests stay byte-for-byte the same.

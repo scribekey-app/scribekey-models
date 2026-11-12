@@ -87,3 +87,29 @@ quantisation as `exportVariant`, and the SPDX licence). A replaced model stays i
 
 Before a cleanup model is added, screen it with `scribekey-models cleanbench` (see
 `bench/README.md`). Only small, cleanup-only models qualify.
+
+## Notes models
+
+`catalog/notes.yaml` lists the models that write notes from a transcript on the phone: Summary,
+action items and Ask. Entries take cleanup's identity, download, decoding and licence fields under the
+same names and rules. They also take `experimental` and `badge: Experimental` as speech does. Instead
+of character limits, each entry carries its own token limits, so a weaker or stronger model can
+change what the app does without an app update:
+
+| Field | Unit | What the app does with it |
+| --- | --- | --- |
+| `capabilities` | `summary`, `action_items`, `ask` | Offers only the listed features with this model. |
+| `pieceTokens` | tokens | Splits a transcript into pieces of this size; each piece is one request. |
+| `maxInputTokens` | tokens | The longest transcript it offers notes on. Keep it within the Summary budget: today 8 pieces, the most for which 16 lines still give each piece 2. |
+| `maxOutputTokens` | tokens | The most one request may write. |
+| `contextTokens` | tokens | The context window it opens. |
+| `maxAskPassages` | passages | The most transcript passages one Ask request reads. Required with `ask`. |
+| `askPassageTokens` | tokens | The size of one Ask passage. Required with `ask`. |
+
+`scribekey-models validate` checks that the id and name are unique, the revision is a pinned commit,
+size and SHA-256 are present, every limit is positive and `maxInputTokens` is at least `pieceTokens`.
+It also checks that `pieceTokens + maxOutputTokens`, and for Ask `maxAskPassages × askPassageTokens +
+maxOutputTokens`, leave 1,024 tokens of `contextTokens` for the prompt.
+
+The app reads `generated/notes_model_catalog.json`. A release made after this file existed carries it
+as the optional `notes` catalogue.

@@ -9,7 +9,7 @@ Large model weights remain strictly outside Git history.
 ## Repository Layout
 
 ```text
-catalog/      Canonical human-edited model metadata (speech, cleanup, diarization, releases, channels)
+catalog/      Canonical human-edited model metadata (speech, cleanup, notes, diarization, releases, channels)
 schemas/      JSON schemas for canonical inputs, generated catalogues, and signatures
 generated/    Deterministic runtime catalogues and signed channel manifests
 keys/         Release signing public keys (release-signing.pub)

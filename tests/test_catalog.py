@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import pytest
@@ -10,6 +11,7 @@ from scribekey_models.catalog import (
     generate_all_artifacts,
     generate_cleanup_catalog,
     generate_diarization_manifest,
+    generate_notes_catalog,
     generate_speech_catalog,
     validate,
 )
@@ -248,3 +250,67 @@ def test_parakeet_tdt_ships_npu_builds_for_every_supported_snapdragon() -> None:
         assert [build["soc"] for build in builds] == ["SM8450", "SM8475", "SM8550", "SM8650", "SM8750", "SM8850"]
         assert all(build["runtime"] == "qnn" and build["windowSeconds"] == 30 for build in builds)
     assert all("npuBuilds" not in model for mid, model in models.items() if not mid.startswith("parakeet-0.6b-v"))
+
+
+def _notes_validator():
+    from jsonschema import Draft202012Validator
+    from referencing import Registry, Resource
+
+    notes = json.loads((catalog.SCHEMA_DIR / "notes.schema.json").read_text())
+    generated = json.loads((catalog.SCHEMA_DIR / "notes_model_catalog.schema.json").read_text())
+    registry = Registry().with_resource(notes["$id"], Resource.from_contents(notes))
+    return Draft202012Validator(generated, registry=registry)
+
+
+def test_notes_catalogue_projects_the_apps_model_with_its_limits() -> None:
+    models = generate_notes_catalog()["models"]
+    # Order is the app's preference: the first model a phone can run is the one it uses.
+    assert [m["modelId"] for m in models] == ["qwen3.5-2b-q4_k_m", "lfm2.5-1.2b-instruct-q4_k_m"]
+    model = models[1]
+    assert model["experimental"] is True and model["badge"] == "Experimental"
+    assert model["capabilities"] == ["summary", "action_items", "ask"]
+    assert (model["pieceTokens"], model["maxInputTokens"], model["maxOutputTokens"], model["contextTokens"]) == (
+        700, 5600, 512, 8192,
+    )
+    assert (model["maxAskPassages"], model["askPassageTokens"]) == (6, 80)
+    assert list(_notes_validator().iter_errors(generate_notes_catalog())) == []
+
+
+@pytest.mark.parametrize("overrides", [
+    {"capabilities": ["summary", "translate"]},
+    {"capabilities": []},
+    {"pieceTokens": 0},
+    {"maxInputTokens": 0},
+    {"supportedAbis": ["armeabi-v7a"]},
+    {"bestFor": "x" * 49},
+    {"experimental": None},
+])
+def test_notes_schema_rejects_bad_capabilities_limits_and_copy(overrides: dict) -> None:
+    document = generate_notes_catalog()
+    document["models"][0].update(overrides)
+    assert list(_notes_validator().iter_errors(document))
+
+
+def test_notes_is_optional_in_releases_and_channels() -> None:
+    from scribekey_models.promotion import (
+        build_channel_distribution_manifest,
+        create_release_manifest,
+    )
+
+    plain = create_release_manifest("2026.11.9", "x", speech_content="s", diarization_content="d", cleanup_content="c")
+    assert "notes" not in plain["catalogs"]
+    assert "notes" not in build_channel_distribution_manifest("qa", plain, sequence=1)["catalogs"]
+
+    release = create_release_manifest(
+        "2026.11.9", "x", speech_content="s", diarization_content="d", cleanup_content="c", notes_content="n"
+    )
+    channel = build_channel_distribution_manifest("qa", release, sequence=1)
+    assert list(channel["catalogs"])[-1] == "notes"
+    assert channel["catalogs"]["notes"]["path"] == "../releases/2026.11.9/notes_model_catalog.json"
+    from jsonschema import Draft202012Validator
+
+    release["createdAt"] = "2026-11-11T00:00:00Z"
+    channel["issuedAt"] = "2026-11-11T00:00:00Z"
+    for document, schema in ((release, "release.schema.json"), (channel, "channel_distribution.schema.json")):
+        validator = Draft202012Validator(json.loads((catalog.SCHEMA_DIR / schema).read_text()))
+        assert list(validator.iter_errors(document)) == []

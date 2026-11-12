@@ -243,3 +243,29 @@ def test_a_scribekey_model_version_tag_must_serve_the_pinned_bytes() -> None:
 def test_no_version_tag_target_without_a_version_or_for_third_party_models() -> None:
     assert len(health_module._cleanup_targets(_fast(None))) == 1
     assert len(health_module._cleanup_targets(_fast("1.1", repository="someone/model-GGUF"))) == 1
+
+
+def test_notes_sources_are_checked_only_when_the_release_has_them(tmp_path: Path) -> None:
+    _write_distribution(tmp_path)
+    _, targets = load_channel_targets(tmp_path)
+    assert "notes" not in {target.catalog for target in targets}
+
+    channel_path = tmp_path / "generated" / "channels" / "stable.json"
+    channel = json.loads(channel_path.read_text(encoding="utf-8"))
+    channel["catalogs"]["notes"] = {"path": "../releases/2026.09.1/notes_model_catalog.json"}
+    _write_json(channel_path, channel)
+    _write_json(
+        tmp_path / "generated" / "releases" / "2026.09.1" / "notes_model_catalog.json",
+        {"schemaVersion": 1, "models": [{
+            "modelId": "notes-model",
+            "bundleFileName": "notes.gguf",
+            "downloadUrl": "https://official.example/notes.gguf",
+            "sizeBytes": 4,
+            "sha256": SHA_A,
+        }]},
+    )
+    _, targets = load_channel_targets(tmp_path)
+    notes = [target for target in targets if target.catalog == "notes"]
+    assert [(t.model_id, t.file_name, t.url) for t in notes] == [
+        ("notes-model", "notes.gguf", "https://official.example/notes.gguf"),
+    ]
