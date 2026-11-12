@@ -16,6 +16,7 @@ from scribekey_models.guardrails import (
     validate_notes_catalog,
     validate_redistribution_clearance,
     validate_release_safety,
+    validate_search_catalog,
 )
 
 
@@ -839,3 +840,67 @@ def test_notes_without_ask_needs_no_ask_limits() -> None:
 
 def test_notes_fits_exactly_at_the_context_limit() -> None:
     assert _notes_messages(_notes_model(contextTokens=700 + 512 + NOTES_PROMPT_HEADROOM_TOKENS)) == []
+
+
+# Search models -------------------------------------------------------------------------------
+
+
+def _search_model(**overrides: object) -> dict:
+    rev = "a" * 40
+    return {
+        "modelId": "search",
+        "displayName": "Search",
+        "bestFor": "Search by meaning",
+        "description": "Finds sessions by meaning.",
+        "experimental": True,
+        "badge": "Experimental",
+        "provenance": {"exportRepository": "org/repo", "exportRevision": rev},
+        "revision": rev,
+        "bundleFileName": "model.litertlm",
+        "downloadUrl": f"https://huggingface.co/org/repo/resolve/{rev}/model.litertlm",
+        "sizeBytes": 1,
+        "sha256": "b" * 64,
+        "runtimeFamily": "litert-lm",
+        **overrides,
+    }
+
+
+def _search_messages(*models: dict) -> list[str]:
+    return [issue.message for issue in validate_search_catalog({"models": list(models)})]
+
+
+def test_search_model_as_the_app_uses_it_passes() -> None:
+    assert _search_messages(_search_model()) == []
+
+
+def test_search_rejects_duplicate_ids_and_names() -> None:
+    messages = _search_messages(_search_model(), _search_model())
+    assert "Duplicate search model id 'search'" in messages
+    assert "Search model 'search' reuses display name of 'search'" in messages
+
+
+@pytest.mark.parametrize(("overrides", "expected"), [
+    ({"bundleFileName": "model.gguf"}, "is not a .litertlm file"),
+    ({"downloadUrl": "https://huggingface.co/org/repo/resolve/main/model.litertlm"}, "mutable ref 'main'"),
+    ({"downloadUrl": "https://huggingface.co/org/repo/resolve/v1.0/model.litertlm"}, "must use a 40-character commit hash"),
+    ({"revision": "main"}, "revision must be a 40-character commit hash"),
+    ({"runtimeFamily": "onnx"}, "unknown runtime family 'onnx'"),
+    ({"runtimeFamily": "gguf"}, "must use runtime family 'litert-lm'"),
+    ({"sha256": ""}, "invalid sha256"),
+    ({"sizeBytes": 0}, "invalid sizeBytes"),
+    ({"bundleFileName": "../model.litertlm"}, "unsafe install path"),
+    ({"downloadUrl": f"https://huggingface.co/org/repo/resolve/{'a' * 40}/other.litertlm"}, "does not end in bundleFileName"),
+    ({"provenance": {"exportRepository": "other/repo", "exportRevision": "a" * 40}}, "does not match Hugging Face provenance"),
+    ({"badge": ""}, "badge and experimental flag disagree"),
+    ({"bestFor": "Search by meaning."}, "bestFor ends with a full stop"),
+])
+def test_search_rejects_each_broken_rule(overrides: dict, expected: str) -> None:
+    messages = _search_messages(_search_model(**overrides))
+    assert any(expected in message for message in messages), messages
+
+
+def test_litertlm_weights_may_not_be_tracked_in_git() -> None:
+    from scribekey_models.guardrails import BINARY_EXTENSIONS, KNOWN_RUNTIME_FAMILIES
+
+    assert ".litertlm" in BINARY_EXTENSIONS
+    assert "litert-lm" in KNOWN_RUNTIME_FAMILIES

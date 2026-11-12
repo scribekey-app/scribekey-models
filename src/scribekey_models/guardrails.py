@@ -30,6 +30,7 @@ BINARY_EXTENSIONS = {
     ".pth",
     ".gguf",
     ".tflite",
+    ".litertlm",
     ".ckpt",
     ".tar.gz",
     ".zip",
@@ -51,7 +52,7 @@ EXECUTABLE_PAYLOAD_EXTENSIONS = {
     ".dylib",
     ".dll",
 }
-KNOWN_RUNTIME_FAMILIES = {"sherpa-onnx", "gguf", "pyannote"}
+KNOWN_RUNTIME_FAMILIES = {"sherpa-onnx", "gguf", "pyannote", "litert-lm"}
 KNOWN_CONFIG_FAMILIES = {
     "speech-model-catalog",
     "cleanup-model-catalog",
@@ -1205,24 +1206,37 @@ def validate_notes_catalog(notes_data: dict[str, Any]) -> list[GuardrailIssue]:
         elif name:
             seen_names[name] = mid
 
-        if not HEX40_RE.match(str(model.get("revision", ""))):
-            issues.append(GuardrailIssue(NOTES_SOURCE, f"{label} revision must be a 40-character commit hash"))
-        if not HEX64_RE.match(str(model.get("sha256", ""))):
-            issues.append(GuardrailIssue(NOTES_SOURCE, f"{label} invalid sha256: '{model.get('sha256', '')}'"))
-        size = model.get("sizeBytes")
-        if not isinstance(size, int) or size <= 0:
-            issues.append(GuardrailIssue(NOTES_SOURCE, f"{label} invalid sizeBytes: '{size}'"))
-        if Path(str(model.get("downloadUrl", ""))).suffix.lower() in EXECUTABLE_PAYLOAD_EXTENSIONS:
-            issues.append(GuardrailIssue(NOTES_SOURCE, f"{label} references an executable payload"))
-        if not _is_safe_filename(str(model.get("bundleFileName", ""))):
-            issues.append(GuardrailIssue(NOTES_SOURCE, f"{label} has unsafe install path '{model.get('bundleFileName')}'"))
-        for url in [model.get("downloadUrl", ""), *model.get("downloadUrls", [])]:
-            issues.extend(validate_download_url(NOTES_SOURCE, url, mid))
-        issues.extend(_hugging_face_identity_issues(NOTES_SOURCE, label, model))
+        issues.extend(_single_file_model_issues(NOTES_SOURCE, label, model))
         issues.extend(_greedy_decoding_issues(NOTES_SOURCE, label, model))
-        issues.extend(_experimental_issues(NOTES_SOURCE, label, model))
-        issues.extend(_card_copy_issues(NOTES_SOURCE, label, model))
         issues.extend(_notes_limit_issues(label, model))
+    return issues
+
+
+def _single_file_model_issues(source: str, label: str, model: dict[str, Any]) -> list[GuardrailIssue]:
+    """Pinning, integrity and card copy shared by every catalogue whose entry is one downloaded file."""
+    issues: list[GuardrailIssue] = []
+    mid = model.get("modelId", "unknown")
+    if not HEX40_RE.match(str(model.get("revision", ""))):
+        issues.append(GuardrailIssue(source, f"{label} revision must be a 40-character commit hash"))
+    if not HEX64_RE.match(str(model.get("sha256", ""))):
+        issues.append(GuardrailIssue(source, f"{label} invalid sha256: '{model.get('sha256', '')}'"))
+    size = model.get("sizeBytes")
+    if not isinstance(size, int) or isinstance(size, bool) or size <= 0:
+        issues.append(GuardrailIssue(source, f"{label} invalid sizeBytes: '{size}'"))
+    download_url = str(model.get("downloadUrl", ""))
+    if Path(download_url).suffix.lower() in EXECUTABLE_PAYLOAD_EXTENSIONS:
+        issues.append(GuardrailIssue(source, f"{label} references an executable payload"))
+    bundle = str(model.get("bundleFileName", ""))
+    if not _is_safe_filename(bundle):
+        issues.append(GuardrailIssue(source, f"{label} has unsafe install path '{model.get('bundleFileName')}'"))
+    elif download_url.rsplit("/", 1)[-1] != bundle:
+        # The app installs under bundleFileName, so the URL must serve that file, not another one in the repo.
+        issues.append(GuardrailIssue(source, f"{label} download URL does not end in bundleFileName '{bundle}'"))
+    for url in [download_url, *model.get("downloadUrls", [])]:
+        issues.extend(validate_download_url(source, url, mid))
+    issues.extend(_hugging_face_identity_issues(source, label, model))
+    issues.extend(_experimental_issues(source, label, model))
+    issues.extend(_card_copy_issues(source, label, model))
     return issues
 
 
@@ -1259,4 +1273,36 @@ def _notes_limit_issues(label: str, model: dict[str, Any]) -> list[GuardrailIssu
                     f"{label} maxAskPassages x askPassageTokens + maxOutputTokens + prompt exceed contextTokens",
                 )
             )
+    return issues
+
+
+SEARCH_SOURCE = "catalog/search.yaml"
+SEARCH_RUNTIME_FAMILY = "litert-lm"
+
+
+def validate_search_catalog(search_data: dict[str, Any]) -> list[GuardrailIssue]:
+    """What the schema cannot say about a search model: identity, pinning and the runtime that loads it."""
+    issues: list[GuardrailIssue] = []
+    seen_ids: set[str] = set()
+    seen_names: dict[str, str] = {}
+    for model in search_data.get("models", []):
+        mid = model.get("modelId", "unknown")
+        label = f"Search model '{mid}'"
+        if mid in seen_ids:
+            issues.append(GuardrailIssue(SEARCH_SOURCE, f"Duplicate search model id '{mid}'"))
+        seen_ids.add(mid)
+        name = str(model.get("displayName", "")).strip().casefold()
+        if name in seen_names:
+            issues.append(GuardrailIssue(SEARCH_SOURCE, f"{label} reuses display name of '{seen_names[name]}'"))
+        elif name:
+            seen_names[name] = mid
+
+        if not str(model.get("bundleFileName", "")).endswith(".litertlm"):
+            issues.append(GuardrailIssue(SEARCH_SOURCE, f"{label} bundleFileName is not a .litertlm file"))
+        family = model.get("runtimeFamily")
+        if family not in KNOWN_RUNTIME_FAMILIES:
+            issues.append(GuardrailIssue(SEARCH_SOURCE, f"{label} has unknown runtime family '{family}'"))
+        elif family != SEARCH_RUNTIME_FAMILY:
+            issues.append(GuardrailIssue(SEARCH_SOURCE, f"{label} must use runtime family '{SEARCH_RUNTIME_FAMILY}'"))
+        issues.extend(_single_file_model_issues(SEARCH_SOURCE, label, model))
     return issues

@@ -12,6 +12,7 @@ from scribekey_models.catalog import (
     generate_cleanup_catalog,
     generate_diarization_manifest,
     generate_notes_catalog,
+    generate_search_catalog,
     generate_speech_catalog,
     validate,
 )
@@ -311,6 +312,80 @@ def test_notes_is_optional_in_releases_and_channels() -> None:
 
     release["createdAt"] = "2026-11-11T00:00:00Z"
     channel["issuedAt"] = "2026-11-11T00:00:00Z"
+    for document, schema in ((release, "release.schema.json"), (channel, "channel_distribution.schema.json")):
+        validator = Draft202012Validator(json.loads((catalog.SCHEMA_DIR / schema).read_text()))
+        assert list(validator.iter_errors(document)) == []
+
+
+def _search_validator():
+    from jsonschema import Draft202012Validator
+    from referencing import Registry, Resource
+
+    search = json.loads((catalog.SCHEMA_DIR / "search.schema.json").read_text())
+    generated = json.loads((catalog.SCHEMA_DIR / "search_model_catalog.schema.json").read_text())
+    registry = Registry().with_resource(search["$id"], Resource.from_contents(search))
+    return Draft202012Validator(generated, registry=registry)
+
+
+def test_search_catalogue_is_the_embedding_model_the_app_runs() -> None:
+    models = generate_search_catalog()["models"]
+    assert [m["modelId"] for m in models] == ["embeddinggemma-2-text-270m"]
+    model = models[0]
+    assert model["runtimeFamily"] == "litert-lm" and model["backends"] == ["cpu"]
+    assert model["supportedAbis"] == ["arm64-v8a", "x86_64"]
+    assert (model["embeddingDimensions"], model["normalizeEmbeddings"], model["passageTokens"]) == (256, True, 256)
+    assert (model["bundleFileName"], model["sizeBytes"]) == ("embeddinggemma-2-text-270m.litertlm", 164626432)
+    assert model["experimental"] is True and model["badge"] == "Experimental"
+    assert list(_search_validator().iter_errors(generate_search_catalog())) == []
+
+
+def test_generated_search_catalogue_matches_the_yaml() -> None:
+    rendered = json.dumps(generate_search_catalog(), indent=2, ensure_ascii=False) + "\n"
+    assert (GENERATED_DIR / "search_model_catalog.json").read_text(encoding="utf-8") == rendered
+
+
+@pytest.mark.parametrize("overrides", [
+    {"bundleFileName": "embeddinggemma-2-text-270m.gguf"},
+    {"bundleFileName": "embeddinggemma-2-text-270m.tflite"},
+    {"runtimeFamily": "gguf"},
+    {"runtimeFamily": "onnx"},
+    {"backends": ["tpu"]},
+    {"embeddingDimensions": 300},
+    {"passageTokens": 300},
+    {"supportedAbis": ["armeabi-v7a"]},
+    {"revision": "main"},
+    {"experimental": None},
+])
+def test_search_schema_rejects_wrong_files_runtimes_and_shapes(overrides: dict) -> None:
+    document = generate_search_catalog()
+    document["models"][0].update(overrides)
+    assert list(_search_validator().iter_errors(document))
+
+
+def test_search_is_optional_in_releases_and_channels() -> None:
+    from jsonschema import Draft202012Validator
+
+    from scribekey_models.promotion import (
+        build_channel_distribution_manifest,
+        create_release_manifest,
+    )
+
+    plain = create_release_manifest("2026.11.9", "x", speech_content="s", diarization_content="d", cleanup_content="c")
+    assert "search" not in plain["catalogs"]
+    assert "search" not in build_channel_distribution_manifest("qa", plain, sequence=1)["catalogs"]
+
+    release = create_release_manifest(
+        "2026.11.9", "x", speech_content="s", diarization_content="d", cleanup_content="c",
+        notes_content="n", search_content="e",
+    )
+    channel = build_channel_distribution_manifest("qa", release, sequence=1)
+    assert list(channel["catalogs"])[-1] == "search"
+    assert channel["catalogs"]["search"]["path"] == "../releases/2026.11.9/search_model_catalog.json"
+    release["createdAt"] = "2026-11-12T00:00:00Z"
+    channel["issuedAt"] = "2026-11-12T00:00:00Z"
+    # Promotion adds litert-lm; a fresh dict, because the builder's default shares DEFAULT_COMPATIBILITY's lists.
+    families = channel["compatibility"]["supportedRuntimeFamilies"]
+    channel["compatibility"] = {**channel["compatibility"], "supportedRuntimeFamilies": [*families, "litert-lm"]}
     for document, schema in ((release, "release.schema.json"), (channel, "channel_distribution.schema.json")):
         validator = Draft202012Validator(json.loads((catalog.SCHEMA_DIR / schema).read_text()))
         assert list(validator.iter_errors(document)) == []

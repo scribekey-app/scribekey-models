@@ -269,3 +269,29 @@ def test_notes_sources_are_checked_only_when_the_release_has_them(tmp_path: Path
     assert [(t.model_id, t.file_name, t.url) for t in notes] == [
         ("notes-model", "notes.gguf", "https://official.example/notes.gguf"),
     ]
+
+
+def test_search_sources_are_checked_only_when_the_release_has_them(tmp_path: Path) -> None:
+    _write_distribution(tmp_path)
+    _, targets = load_channel_targets(tmp_path)
+    assert "search" not in {target.catalog for target in targets}
+
+    channel_path = tmp_path / "generated" / "channels" / "stable.json"
+    channel = json.loads(channel_path.read_text(encoding="utf-8"))
+    channel["catalogs"]["search"] = {"path": "../releases/2026.09.1/search_model_catalog.json"}
+    _write_json(channel_path, channel)
+    _write_json(
+        tmp_path / "generated" / "releases" / "2026.09.1" / "search_model_catalog.json",
+        {"schemaVersion": 1, "models": [{
+            "modelId": "search-model",
+            "bundleFileName": "search.litertlm",
+            "downloadUrl": "https://official.example/search.litertlm",
+            "sizeBytes": 4,
+            "sha256": SHA_A,
+        }]},
+    )
+    _, targets = load_channel_targets(tmp_path)
+    search = [target for target in targets if target.catalog == "search"]
+    assert [(t.model_id, t.file_name, t.url) for t in search] == [
+        ("search-model", "search.litertlm", "https://official.example/search.litertlm"),
+    ]

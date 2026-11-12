@@ -68,7 +68,7 @@
               "type": "array",
               "items": {
                 "type": "string",
-                "enum": ["sherpa-onnx", "gguf", "pyannote"]
+                "enum": ["sherpa-onnx", "gguf", "pyannote", "litert-lm"]
               },
               "minItems": 1,
               "uniqueItems": true
