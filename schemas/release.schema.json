@@ -35,7 +35,8 @@
         "cleanup": { "$ref": "#/$defs/catalogRef" },
         "cloudTiers": { "$ref": "#/$defs/catalogRef" },
         "cloudModels": { "$ref": "#/$defs/catalogRef" },
-        "notes": { "$ref": "#/$defs/catalogRef" }
+        "notes": { "$ref": "#/$defs/catalogRef" },
+        "search": { "$ref": "#/$defs/catalogRef" }
       }
     },
     "recoveryAssets": {

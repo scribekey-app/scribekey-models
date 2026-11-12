@@ -53,7 +53,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["sherpa-onnx", "gguf", "pyannote"]
+            "enum": ["sherpa-onnx", "gguf", "pyannote", "litert-lm"]
           },
           "minItems": 1,
           "uniqueItems": true
@@ -91,7 +91,8 @@
         "cleanup": { "$ref": "#/$defs/distributionCatalogRef" },
         "cloudTiers": { "$ref": "#/$defs/distributionCatalogRef" },
         "cloudModels": { "$ref": "#/$defs/distributionCatalogRef" },
-        "notes": { "$ref": "#/$defs/distributionCatalogRef" }
+        "notes": { "$ref": "#/$defs/distributionCatalogRef" },
+        "search": { "$ref": "#/$defs/distributionCatalogRef" }
       }
     },
     "recoveryAssets": {

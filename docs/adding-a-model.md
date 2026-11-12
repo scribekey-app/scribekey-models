@@ -113,3 +113,29 @@ maxOutputTokens`, leave 1,024 tokens of `contextTokens` for the prompt.
 
 The app reads `generated/notes_model_catalog.json`. A release made after this file existed carries it
 as the optional `notes` catalogue.
+
+## Search models
+
+`catalog/search.yaml` lists the embedding models behind Search by meaning. Each turns a passage of a
+transcript, or a query, into one vector, and the app ranks passages by how close their vectors are
+to the query's. Entries take notes' identity, download, licence and `experimental` fields under the
+same names and rules, without decoding or token budgets. They add:
+
+| Field | Value | What the app does with it |
+| --- | --- | --- |
+| `bundleFileName` | `*.litertlm` | The one file it downloads and loads. |
+| `runtimeFamily` | `litert-lm` | The runtime that loads it. Nothing else is accepted. |
+| `backends` | `cpu` | The LiteRT-LM backends it may use. |
+| `embeddingDimensions` | 128, 256, 512 or 768 | The length of every stored vector, for queries and passages alike. |
+| `normalizeEmbeddings` | boolean | Whether it asks for unit-length vectors. |
+| `passageTokens` | 128 to 8192, as the model publishes | The input size it loads for a passage. |
+
+Changing `embeddingDimensions` or `normalizeEmbeddings` makes every stored vector unusable, so the
+app has to index again. Give the replacement a new `modelId`.
+
+`scribekey-models validate` checks that the id and name are unique, the revision is a pinned commit,
+the download URL names that revision, the repository in `provenance` and the `bundleFileName`, size
+and SHA-256 are present, and the runtime family is `litert-lm`.
+
+The app reads `generated/search_model_catalog.json`. A release made after this file existed carries
+it as the optional `search` catalogue, and promoting that release declares `litert-lm` on the channel.

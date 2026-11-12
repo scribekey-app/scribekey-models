@@ -20,6 +20,7 @@ from scribekey_models.guardrails import (
     validate_redistribution_clearance,
     validate_release_safety,
     validate_release_snapshot_integrity,
+    validate_search_catalog,
     validate_signatures,
 )
 from scribekey_models.promotion import build_channel_distribution_manifest
@@ -72,6 +73,10 @@ def load_cleanup_catalog_data() -> dict[str, Any]:
 
 def load_notes_catalog_data() -> dict[str, Any]:
     return _load_yaml(CATALOG_DIR / "notes.yaml")
+
+
+def load_search_catalog_data() -> dict[str, Any]:
+    return _load_yaml(CATALOG_DIR / "search.yaml")
 
 
 CLOUD_TIERS_FILE = CATALOG_DIR / "cloud_tiers.json"
@@ -662,6 +667,17 @@ def generate_notes_catalog() -> dict[str, Any]:
     }
 
 
+def generate_search_catalog() -> dict[str, Any]:
+    # Same projection as notes: experimental and badge always present.
+    return {
+        "schemaVersion": 1,
+        "models": [
+            {**model, "experimental": bool(model.get("experimental", False)), "badge": model.get("badge", "")}
+            for model in load_search_catalog_data().get("models", [])
+        ],
+    }
+
+
 def _render_json(data: dict[str, Any]) -> str:
     return json.dumps(data, indent=2, ensure_ascii=False) + "\n"
 
@@ -687,6 +703,7 @@ def generate_all_artifacts() -> list[GenerationArtifact]:
         artifacts.append(GenerationArtifact("cloud_model_tiers.json", _render_json(cloud_tiers)))
     artifacts.append(GenerationArtifact("cloud_models.json", _render_cloud_models(generate_cloud_models())))
     artifacts.append(GenerationArtifact("notes_model_catalog.json", _render_json(generate_notes_catalog())))
+    artifacts.append(GenerationArtifact("search_model_catalog.json", _render_json(generate_search_catalog())))
 
     # Release manifests are derived metadata. The catalogue files below each release are
     # deliberately NOT generated here: `release create` freezes them once and validation checks
@@ -743,6 +760,7 @@ def validate() -> list[ValidationIssue]:
         (CATALOG_DIR / "cleanup.yaml", SCHEMA_DIR / "cleanup.schema.json"),
         (CATALOG_DIR / "diarization.yaml", SCHEMA_DIR / "diarization.schema.json"),
         (CATALOG_DIR / "notes.yaml", SCHEMA_DIR / "notes.schema.json"),
+        (CATALOG_DIR / "search.yaml", SCHEMA_DIR / "search.schema.json"),
     ]
     if CHANNELS_FILE.exists():
         canonical_sources.append((CHANNELS_FILE, SCHEMA_DIR / "channels.schema.json"))
@@ -783,17 +801,21 @@ def validate() -> list[ValidationIssue]:
         prefix = f"{location}: " if location else ""
         issues.append(ValidationIssue("generated/cloud_models.json", prefix + error.message))
 
-    notes_schema = _load_json(SCHEMA_DIR / "notes.schema.json")
-    notes_validator = Draft202012Validator(
-        _load_json(SCHEMA_DIR / "notes_model_catalog.schema.json"),
-        registry=Registry().with_resource(notes_schema["$id"], Resource.from_contents(notes_schema)),
-    )
-    for error in notes_validator.iter_errors(generate_notes_catalog()):
-        location = ".".join(str(part) for part in error.absolute_path)
-        prefix = f"{location}: " if location else ""
-        issues.append(ValidationIssue("generated/notes_model_catalog.json", prefix + error.message))
-    for g_issue in validate_notes_catalog(load_notes_catalog_data()):
-        issues.append(ValidationIssue(g_issue.source, g_issue.message))
+    for name, generated, guardrail_issues in (
+        ("notes", generate_notes_catalog(), validate_notes_catalog(load_notes_catalog_data())),
+        ("search", generate_search_catalog(), validate_search_catalog(load_search_catalog_data())),
+    ):
+        entry_schema = _load_json(SCHEMA_DIR / f"{name}.schema.json")
+        generated_validator = Draft202012Validator(
+            _load_json(SCHEMA_DIR / f"{name}_model_catalog.schema.json"),
+            registry=Registry().with_resource(entry_schema["$id"], Resource.from_contents(entry_schema)),
+        )
+        for error in generated_validator.iter_errors(generated):
+            location = ".".join(str(part) for part in error.absolute_path)
+            prefix = f"{location}: " if location else ""
+            issues.append(ValidationIssue(f"generated/{name}_model_catalog.json", prefix + error.message))
+        for g_issue in guardrail_issues:
+            issues.append(ValidationIssue(g_issue.source, g_issue.message))
 
     # 2. Guardrails: source refs, identities, safety, pointers, redistribution
     speech_data = load_speech_catalog_data()
