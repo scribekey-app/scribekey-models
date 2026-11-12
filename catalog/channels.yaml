@@ -1,11 +1,11 @@
 schema_version: 1
 channels:
   qa:
-    targetRelease: 2026.11.1
-    sequence: 10
-    issuedAt: '2026-11-02T14:21:31Z'
-    notes: Nemotron English Live, Nemotron 3.5 Multilingual Live and Zipformer English
-      Live graduate from experimental; adds Parakeet Redux (experimental).
+    targetRelease: 2026.11.4
+    sequence: 11
+    issuedAt: '2026-11-12T13:41:21Z'
+    notes: Adds the notes capability (LFM2.5 1.2B, Qwen3.5 2B) and the search capability
+      (EmbeddingGemma 2 text 270M).
     compatibility:
       minAndroidApiLevel: 28
       minAppVersionCode: 22
@@ -14,6 +14,7 @@ channels:
       - sherpa-onnx
       - gguf
       - pyannote
+      - litert-lm
       supportedConfigFamilies:
       - speech-model-catalog
       - cleanup-model-catalog
