@@ -462,6 +462,23 @@ def load_all_releases_data() -> dict[str, dict[str, Any]]:
     return releases
 
 
+def accuracy_grade(error_percent: float) -> str:
+    """Handy's display bands: A under 5% error, B under 10, C under 20, D under 30, F beyond.
+
+    Within A to C each +/- step is a factor of the cube root of 2, so a grade means the same
+    proportional change in error wherever it sits.
+    """
+    if error_percent >= 30:
+        return "F"
+    if error_percent >= 20:
+        return "D"
+    letter, ceiling = next((g, c) for g, c in (("A", 5), ("B", 10), ("C", 20)) if error_percent < c)
+    step = 2 ** (1 / 3)
+    if error_percent < ceiling / step**2:
+        return letter + "+"
+    return letter if error_percent < ceiling / step else letter + "-"
+
+
 def generate_speech_catalog() -> dict[str, Any]:
     raw = load_speech_catalog_data()
     models: list[dict[str, Any]] = []
@@ -501,6 +518,11 @@ def generate_speech_catalog() -> dict[str, Any]:
             entry["counterpartId"] = model["counterpartId"]
         if model.get("languageCodes"):
             entry["languageCodes"] = list(model["languageCodes"])
+        if model.get("accuracy"):
+            entry["accuracy"] = {
+                language: {"grade": accuracy_grade(error), "errorPercent": error}
+                for language, error in model["accuracy"].items()
+            }
         entry["files"] = [
             {
                 "name": file["name"],

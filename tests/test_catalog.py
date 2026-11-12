@@ -7,6 +7,7 @@ import scribekey_models.catalog as catalog_module
 from scribekey_models import catalog
 from scribekey_models.catalog import (
     GENERATED_DIR,
+    accuracy_grade,
     export_generated,
     generate_all_artifacts,
     generate_cleanup_catalog,
@@ -169,6 +170,25 @@ def test_live_and_final_counterparts_and_language_codes_are_projected() -> None:
     assert not models["parakeet-0.6b-v3"].get("deprecated")
     assert models["parakeet-ultra-0.6b"]["outcome"] == "MULTILINGUAL"
     assert "languageCodes" not in models["qwen3-asr-0.6b"]
+
+
+@pytest.mark.parametrize(
+    ("error", "grade"),
+    [(3.12, "A+"), (3.17, "A"), (3.99, "A-"), (5.04, "B+"), (6.3, "B"), (9.92, "B-"), (10.12, "C+"),
+     (12.61, "C"), (19.89, "C-"), (20.04, "D"), (29.94, "D"), (30.11, "F")],
+)
+def test_accuracy_grades_match_handys_bands(error: float, grade: str) -> None:
+    assert accuracy_grade(error) == grade
+
+
+def test_measured_accuracy_is_projected_with_its_grade_and_only_where_measured() -> None:
+    models = {model["id"]: model for model in generate_speech_catalog()["models"]}
+
+    assert models["parakeet-unified-0.6b"]["accuracy"] == {"en": {"grade": "A-", "errorPercent": 3.99}}
+    assert models["canary-180m"]["accuracy"]["de"] == {"grade": "B", "errorPercent": 7.33}
+    # Not measured: no Handy counterpart, or one measured in a different mode than this entry runs.
+    for unmeasured in ("distil-small-en", "zipformer-en-live", "parakeet-unified-0.6b-streaming-560ms"):
+        assert "accuracy" not in models[unmeasured]
 
 
 def test_experimental_flag_is_projected_for_every_model() -> None:
