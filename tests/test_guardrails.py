@@ -3,10 +3,13 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+import yaml
 
 from scribekey_models.guardrails import (
     NOTES_PROMPT_HEADROOM_TOKENS,
     PUNCTUATION_FILE_SHA256,
+    ROOT,
+    _speech_accuracy_issues,
     validate_channel_and_release_pointers,
     validate_identities_and_integrity,
     validate_immutable_source_refs,
@@ -17,6 +20,7 @@ from scribekey_models.guardrails import (
     validate_redistribution_clearance,
     validate_release_safety,
     validate_search_catalog,
+    validate_speech_accuracy,
 )
 
 
@@ -904,3 +908,34 @@ def test_litertlm_weights_may_not_be_tracked_in_git() -> None:
 
     assert ".litertlm" in BINARY_EXTENSIONS
     assert "litert-lm" in KNOWN_RUNTIME_FAMILIES
+
+
+def test_every_speech_model_needs_measured_accuracy_for_each_listed_fleurs_language(tmp_path: Path) -> None:
+    (tmp_path / "partial.json").write_text('{"languages": {"en": {"errorPercent": 5.0}}}')
+
+    assert [i.message for i in _speech_accuracy_issues({"id": "none"}, tmp_path)] == [
+        "Speech model 'none' has no measured accuracy; run bench/asr/fleurs/run_all.sh"
+    ]
+    # "xx" is not a FLEURS language, so it cannot be measured and is not required.
+    partial = {"id": "partial", "languageCodes": ["en", "de", "xx"], "accuracy": {"en": 5.0}}
+    assert [i.message for i in _speech_accuracy_issues(partial, tmp_path)] == [
+        "Speech model 'partial' lists languages with no measured accuracy: de"
+    ]
+
+
+def test_accuracy_must_equal_the_committed_bench_result(tmp_path: Path) -> None:
+    (tmp_path / "ours.json").write_text('{"languages": {"en": {"errorPercent": 6.2}}}')
+
+    assert _speech_accuracy_issues({"id": "ours", "accuracy": {"en": 6.2}}, tmp_path) == []
+    assert [i.message for i in _speech_accuracy_issues({"id": "ours", "accuracy": {"en": 4.0}}, tmp_path)] == [
+        "Speech model 'ours' accuracy.en 4.0 does not match bench/asr/fleurs/results/ours.json"
+    ]
+    assert [i.message for i in _speech_accuracy_issues({"id": "gone", "accuracy": {"en": 4.0}}, tmp_path)] == [
+        "Speech model 'gone' accuracy.en 4.0 does not match bench/asr/fleurs/results/gone.json"
+    ]
+
+
+def test_every_catalogue_speech_model_is_measured() -> None:
+    models = yaml.safe_load((ROOT / "catalog/speech.yaml").read_text())["models"]
+
+    assert [i.message for i in validate_speech_accuracy({"models": models})] == []

@@ -181,14 +181,12 @@ def test_accuracy_grades_match_handys_bands(error: float, grade: str) -> None:
     assert accuracy_grade(error) == grade
 
 
-def test_measured_accuracy_is_projected_with_its_grade_and_only_where_measured() -> None:
+def test_measured_accuracy_is_projected_with_its_grade_for_every_model() -> None:
     models = {model["id"]: model for model in generate_speech_catalog()["models"]}
 
     assert models["parakeet-unified-0.6b"]["accuracy"] == {"en": {"grade": "A-", "errorPercent": 3.99}}
     assert models["canary-180m"]["accuracy"]["de"] == {"grade": "B", "errorPercent": 7.33}
-    # Not measured: no Handy counterpart, or one measured in a different mode than this entry runs.
-    for unmeasured in ("distil-small-en", "zipformer-en-live", "parakeet-unified-0.6b-streaming-560ms"):
-        assert "accuracy" not in models[unmeasured]
+    assert all(model.get("accuracy") for model in models.values())
 
 
 def test_experimental_flag_is_projected_for_every_model() -> None:
