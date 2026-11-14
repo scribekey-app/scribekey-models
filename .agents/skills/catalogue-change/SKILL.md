@@ -49,9 +49,14 @@ with no `accuracy`, a listed language FLEURS has but `accuracy` lacks, or a numb
 `bench/asr/fleurs/results/<id>.json`. So the only way to a number is to run the harness and commit
 its result file with the YAML. `bench/asr/fleurs/README.md` has the method and the commands.
 
+Measuring is automatic. Add or change a model on main or a `measure/**` branch, and **Measure speech
+accuracy** measures what `plan.py` says is missing or stale, then opens a PR from `accuracy/<branch>`
+with the numbers and grades. Review it and merge. `run_all.sh` and `collect.py` stay as the local route.
+
 - The harness runs the exact export the entry downloads, in the mode the app runs it, with the app's
-  segment ceiling or live feed. A new model, a new export revision, or a change to how the app decodes
-  a family means measuring again: delete the language from the result file and rerun.
+  segment ceiling or live feed. A new export revision or a new pinned sherpa-onnx makes a result stale,
+  and the whole model is measured again. A change to how the app decodes a family does not: delete the
+  language from the result file and rerun.
 - Do not copy Handy's or any other published figure. Handy measures a Q8 GGUF build of the source
   model; the shipped sherpa int8 export of Parakeet English measured a grade lower on the same test.
   The recipe is Handy's, credited in `catalog/speech.yaml`, so the grade bands mean the same.

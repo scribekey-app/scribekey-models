@@ -5,6 +5,7 @@
 
 Each artifact is one model's result file holding the language its job measured (plus any committed
 before). A language is taken from the artifact named for it, so two jobs never overwrite each other.
+An artifact measured on another export or sherpa-onnx than the result file replaces the file.
 The YAML is edited line by line, replacing or inserting only the `accuracy:` block, so comments and
 layout survive.
 """
@@ -25,7 +26,9 @@ def merge(artifacts: Path) -> set[str]:
             incoming = json.loads(file.read_text())
             model, lang = incoming["model"], folder.name.removeprefix(f"fleurs-{incoming['model']}-")
             target = HERE / "results" / f"{model}.json"
-            current = json.loads(target.read_text()) if target.exists() else {**incoming, "languages": {}}
+            current = json.loads(target.read_text()) if target.exists() else {}
+            if any(current.get(k) != incoming[k] for k in ("export", "sherpaOnnx")):
+                current = {"languages": {}}  # a stale result keeps none of the old export's numbers
             current.update({k: v for k, v in incoming.items() if k != "languages"})
             current["languages"][lang] = incoming["languages"][lang]
             target.write_text(json.dumps(current, indent=2, sort_keys=True) + "\n")

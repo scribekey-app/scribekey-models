@@ -230,12 +230,15 @@ def main() -> None:
     out_path = RESULTS / f"{model_id}.json"
     RESULTS.mkdir(exist_ok=True)
     result = json.loads(out_path.read_text()) if out_path.exists() else {"model": model_id, "languages": {}}
-    result.update({
+    run = {
         "export": f"{model['provenance']['exportRepository']}@{model['provenance']['exportRevision']}",
         "mode": "streaming" if live else "offline",
         "sherpaOnnx": sherpa_onnx.__version__,
         "dataset": "google/fleurs test",
-    })
+    }
+    if any(result.get(k) != run[k] for k in ("export", "sherpaOnnx")):
+        result["languages"] = {}  # numbers from another export or runtime are not this model's
+    result.update(run)
     for language in languages:
         rows = fleurs_test(language)
         rec = online(model, d) if live else offline(model, d, language)

@@ -1,0 +1,1115 @@
+references:
+- model: canary-180m
+  source: handy-transcribe-cpp
+  url: https://github.com/handy-computer/transcribe.cpp/blob/adfc50210a3f026a655a3e19937d90ef2bf0728c/catalog/canary-180m-flash.json
+  revision: adfc50210a3f026a655a3e19937d90ef2bf0728c
+  fetched: '2026-11-14'
+  upstream: nvidia/canary-180m-flash@b12ab41
+  build: transcribe.cpp Q8_0 GGUF, batch 8, no timestamps; engine sha not recorded; backend not recorded; publication profile
+    not recorded; provenance legacy-published; measured on not recorded
+  dataset: FLEURS test, full split (docs/tools/wer.md)
+  normaliser: whisper_normalizer EnglishTextNormalizer (en), BasicTextNormalizer (other)
+  languages:
+    de:
+      metric: wer
+      errorPercent: 7.33
+    en:
+      metric: wer
+      errorPercent: 5.98
+    es:
+      metric: wer
+      errorPercent: 6.54
+    fr:
+      metric: wer
+      errorPercent: 8.53
+- model: moonshine-base
+  source: handy-transcribe-cpp
+  url: https://github.com/handy-computer/transcribe.cpp/blob/adfc50210a3f026a655a3e19937d90ef2bf0728c/catalog/moonshine-base.json
+  revision: adfc50210a3f026a655a3e19937d90ef2bf0728c
+  fetched: '2026-11-14'
+  upstream: UsefulSensors/moonshine-base@7a73d8d
+  build: transcribe.cpp Q8_0 GGUF, batch 8, no timestamps; engine sha not recorded; backend not recorded; publication profile
+    not recorded; provenance legacy-published; measured on not recorded
+  dataset: FLEURS test, full split (docs/tools/wer.md)
+  normaliser: whisper_normalizer EnglishTextNormalizer (en), BasicTextNormalizer (other)
+  languages:
+    en:
+      metric: wer
+      errorPercent: 12.25
+- model: moonshine-tiny
+  source: handy-transcribe-cpp
+  url: https://github.com/handy-computer/transcribe.cpp/blob/adfc50210a3f026a655a3e19937d90ef2bf0728c/catalog/moonshine-tiny.json
+  revision: adfc50210a3f026a655a3e19937d90ef2bf0728c
+  fetched: '2026-11-14'
+  upstream: UsefulSensors/moonshine-tiny@390624e
+  build: transcribe.cpp Q8_0 GGUF, batch 8, no timestamps; engine sha not recorded; backend not recorded; publication profile
+    not recorded; provenance legacy-published; measured on not recorded
+  dataset: FLEURS test, full split (docs/tools/wer.md)
+  normaliser: whisper_normalizer EnglishTextNormalizer (en), BasicTextNormalizer (other)
+  languages:
+    en:
+      metric: wer
+      errorPercent: 14.13
+- model: nemotron-3.5-0.6b-560ms
+  source: handy-transcribe-cpp
+  url: https://github.com/handy-computer/transcribe.cpp/blob/adfc50210a3f026a655a3e19937d90ef2bf0728c/catalog/nemotron-3.5-asr-streaming-0.6b.json
+  revision: adfc50210a3f026a655a3e19937d90ef2bf0728c
+  fetched: '2026-11-14'
+  upstream: nvidia/nemotron-3.5-asr-streaming-0.6b@24b151a
+  build: transcribe.cpp Q8_0 GGUF, batch 8, no timestamps; engine sha not recorded; backend not recorded; publication profile
+    not recorded; provenance legacy-published; measured on not recorded; streaming chunk size not stated
+  dataset: FLEURS test, full split (docs/tools/wer.md)
+  normaliser: whisper_normalizer EnglishTextNormalizer (en), BasicTextNormalizer (other)
+  languages:
+    ar:
+      metric: wer
+      errorPercent: 15.93
+    bg:
+      metric: wer
+      errorPercent: 22.02
+    cs:
+      metric: wer
+      errorPercent: 23.0
+    da:
+      metric: wer
+      errorPercent: 28.51
+    de:
+      metric: wer
+      errorPercent: 10.33
+    en:
+      metric: wer
+      errorPercent: 7.9
+    es:
+      metric: wer
+      errorPercent: 6.3
+    et:
+      metric: wer
+      errorPercent: 31.84
+    fi:
+      metric: wer
+      errorPercent: 21.91
+    fr:
+      metric: wer
+      errorPercent: 10.78
+    hi:
+      metric: wer
+      errorPercent: 8.61
+    hr:
+      metric: wer
+      errorPercent: 26.21
+    hu:
+      metric: wer
+      errorPercent: 32.12
+    it:
+      metric: wer
+      errorPercent: 5.78
+    ja:
+      metric: cer
+      errorPercent: 13.52
+    ko:
+      metric: cer
+      errorPercent: 8.89
+    nb:
+      metric: wer
+      errorPercent: 19.24
+    nl:
+      metric: wer
+      errorPercent: 13.61
+    pl:
+      metric: wer
+      errorPercent: 17.54
+    pt:
+      metric: wer
+      errorPercent: 8.52
+    ro:
+      metric: wer
+      errorPercent: 28.28
+    ru:
+      metric: wer
+      errorPercent: 12.61
+    sk:
+      metric: wer
+      errorPercent: 23.25
+    sv:
+      metric: wer
+      errorPercent: 24.32
+    tr:
+      metric: wer
+      errorPercent: 15.4
+    uk:
+      metric: wer
+      errorPercent: 14.88
+    vi:
+      metric: wer
+      errorPercent: 13.96
+    zh:
+      metric: cer
+      errorPercent: 18.87
+- model: nemotron-3.5-0.6b-560ms
+  source: model-card:nvidia/nemotron-3.5-asr-streaming-0.6b
+  url: https://huggingface.co/nvidia/nemotron-3.5-asr-streaming-0.6b/blob/ea30d66debe3740a08b573244286791d423d6b3e/README.md
+  revision: ea30d66debe3740a08b573244286791d423d6b3e
+  fetched: '2026-11-14'
+  upstream: nvidia/nemotron-3.5-asr-streaming-0.6b@ea30d66debe3740a08b573244286791d423d6b3e
+  build: NVIDIA checkpoint, cache-aware streaming at 560 ms chunks, language auto-detect (Auto-detect 560 ms column)
+  dataset: FLEURS test
+  normaliser: card's own normalisation (casing, punctuation, numerals); not named
+  languages:
+    ar:
+      metric: wer
+      errorPercent: 12.18
+    bg:
+      metric: wer
+      errorPercent: 24.05
+    cs:
+      metric: wer
+      errorPercent: 22.55
+    da:
+      metric: wer
+      errorPercent: 29.33
+    de:
+      metric: wer
+      errorPercent: 8.58
+    en:
+      metric: wer
+      errorPercent: 8.8
+    es:
+      metric: wer
+      errorPercent: 4.34
+    et:
+      metric: wer
+      errorPercent: 28.03
+    fi:
+      metric: wer
+      errorPercent: 19.36
+    fr:
+      metric: wer
+      errorPercent: 9.46
+    hi:
+      metric: wer
+      errorPercent: 9.26
+    hr:
+      metric: wer
+      errorPercent: 28.95
+    hu:
+      metric: wer
+      errorPercent: 30.2
+    it:
+      metric: wer
+      errorPercent: 4.47
+    ja:
+      metric: cer
+      errorPercent: 12.38
+    ko:
+      metric: cer
+      errorPercent: 7.49
+    nb:
+      metric: wer
+      errorPercent: 18.76
+    nl:
+      metric: wer
+      errorPercent: 12.24
+    pl:
+      metric: wer
+      errorPercent: 18.52
+    pt:
+      metric: wer
+      errorPercent: 5.57
+    ro:
+      metric: wer
+      errorPercent: 29.84
+    ru:
+      metric: wer
+      errorPercent: 10.57
+    sk:
+      metric: wer
+      errorPercent: 24.15
+    sv:
+      metric: wer
+      errorPercent: 23.57
+    tr:
+      metric: wer
+      errorPercent: 11.51
+    uk:
+      metric: wer
+      errorPercent: 15.6
+    vi:
+      metric: wer
+      errorPercent: 12.02
+    zh:
+      metric: cer
+      errorPercent: 20.4
+- model: nemotron-3.5-0.6b-560ms
+  source: open-asr-leaderboard
+  url: https://huggingface.co/spaces/hf-audio/open_asr_leaderboard?version=13-11-2026
+  revision: leaderboard 13-11-2026; space 3b5317f4e49b6cb40502b95065b29fbfe08284ce; dataset 7aa0b0918a319f8f1b66a0b32d24ddd4342b54fb
+  fetched: '2026-11-14'
+  upstream: nvidia/nemotron-3.5-asr-streaming-0.6b (the leaderboard names no revision)
+  build: checkpoint as submitted to the leaderboard; precision and hardware not stated
+  dataset: FLEURS test, as aggregated in nithinraok/asr-leaderboard-datasets
+  normaliser: Open ASR Leaderboard normaliser, Whisper-style (huggingface/open_asr_leaderboard)
+  languages:
+    de:
+      metric: wer
+      errorPercent: 8.44
+    es:
+      metric: wer
+      errorPercent: 4.23
+    fr:
+      metric: wer
+      errorPercent: 9.86
+    it:
+      metric: wer
+      errorPercent: 4.9
+    nl:
+      metric: wer
+      errorPercent: 11.84
+    pt:
+      metric: wer
+      errorPercent: 5.81
+    zh:
+      metric: cer
+      errorPercent: 16.72
+- model: nemotron-3.5-0.6b-560ms
+  source: open-asr-leaderboard-english
+  url: https://huggingface.co/spaces/hf-audio/open_asr_leaderboard?version=13-11-2026
+  revision: leaderboard 13-11-2026; space 3b5317f4e49b6cb40502b95065b29fbfe08284ce; dataset 5f5053c3bbae932f547bf8ebb82f90673541d859
+  fetched: '2026-11-14'
+  upstream: nvidia/nemotron-3.5-asr-streaming-0.6b (the leaderboard names no revision)
+  build: checkpoint as submitted to the leaderboard; precision and hardware not stated
+  dataset: Open ASR Leaderboard English short-form average (not FLEURS; AMI-Cleaned, Earnings22-Cleaned-AA-chunked, Gigaspeech-Cleaned,
+    SPGISpeech, URGENT24, Voice Arena Monsoon, Voxpopuli-AA-Cleaned, Private (scripted), Private (conversational))
+  normaliser: Open ASR Leaderboard normaliser, Whisper-style (huggingface/open_asr_leaderboard)
+  languages:
+    en:
+      metric: wer
+      errorPercent: 11.09
+- model: nemotron-en-0.6b
+  source: handy-transcribe-cpp
+  url: https://github.com/handy-computer/transcribe.cpp/blob/adfc50210a3f026a655a3e19937d90ef2bf0728c/catalog/nemotron-speech-streaming-en-0.6b.json
+  revision: adfc50210a3f026a655a3e19937d90ef2bf0728c
+  fetched: '2026-11-14'
+  upstream: nvidia/nemotron-speech-streaming-en-0.6b@ef3bf40
+  build: transcribe.cpp Q8_0 GGUF, batch 8, no timestamps; engine sha not recorded; backend not recorded; publication profile
+    not recorded; provenance legacy-published; measured on not recorded; streaming chunk size not stated
+  dataset: FLEURS test, full split (docs/tools/wer.md)
+  normaliser: whisper_normalizer EnglishTextNormalizer (en), BasicTextNormalizer (other)
+  languages:
+    en:
+      metric: wer
+      errorPercent: 6.43
+- model: nemotron-en-0.6b
+  source: open-asr-leaderboard-english
+  url: https://huggingface.co/spaces/hf-audio/open_asr_leaderboard?version=13-11-2026
+  revision: leaderboard 13-11-2026; space 3b5317f4e49b6cb40502b95065b29fbfe08284ce; dataset 5f5053c3bbae932f547bf8ebb82f90673541d859
+  fetched: '2026-11-14'
+  upstream: nvidia/nemotron-speech-streaming-en-0.6b (the leaderboard names no revision)
+  build: checkpoint as submitted to the leaderboard; precision and hardware not stated
+  dataset: Open ASR Leaderboard English short-form average (not FLEURS; AMI-Cleaned, Earnings22-Cleaned-AA-chunked, Gigaspeech-Cleaned,
+    SPGISpeech, URGENT24, Voice Arena Monsoon, Voxpopuli-AA-Cleaned, Private (scripted), Private (conversational))
+  normaliser: Open ASR Leaderboard normaliser, Whisper-style (huggingface/open_asr_leaderboard)
+  languages:
+    en:
+      metric: wer
+      errorPercent: 7.47
+- model: parakeet-0.6b-v2
+  source: handy-transcribe-cpp
+  url: https://github.com/handy-computer/transcribe.cpp/blob/adfc50210a3f026a655a3e19937d90ef2bf0728c/catalog/parakeet-tdt-0.6b-v2.json
+  revision: adfc50210a3f026a655a3e19937d90ef2bf0728c
+  fetched: '2026-11-14'
+  upstream: nvidia/parakeet-tdt-0.6b-v2@1b149a3
+  build: transcribe.cpp Q8_0 GGUF, batch 8, no timestamps; engine sha not recorded; backend not recorded; publication profile
+    not recorded; provenance legacy-published; measured on not recorded
+  dataset: FLEURS test, full split (docs/tools/wer.md)
+  normaliser: whisper_normalizer EnglishTextNormalizer (en), BasicTextNormalizer (other)
+  languages:
+    en:
+      metric: wer
+      errorPercent: 4.11
+- model: parakeet-0.6b-v2
+  source: open-asr-leaderboard-english
+  url: https://huggingface.co/spaces/hf-audio/open_asr_leaderboard?version=13-11-2026
+  revision: leaderboard 13-11-2026; space 3b5317f4e49b6cb40502b95065b29fbfe08284ce; dataset 5f5053c3bbae932f547bf8ebb82f90673541d859
+  fetched: '2026-11-14'
+  upstream: nvidia/parakeet-tdt-0.6b-v2 (the leaderboard names no revision)
+  build: checkpoint as submitted to the leaderboard; precision and hardware not stated
+  dataset: Open ASR Leaderboard English short-form average (not FLEURS; AMI-Cleaned, Earnings22-Cleaned-AA-chunked, Gigaspeech-Cleaned,
+    SPGISpeech, URGENT24, Voice Arena Monsoon, Voxpopuli-AA-Cleaned, Private (scripted), Private (conversational))
+  normaliser: Open ASR Leaderboard normaliser, Whisper-style (huggingface/open_asr_leaderboard)
+  languages:
+    en:
+      metric: wer
+      errorPercent: 6.93
+- model: parakeet-0.6b-v3
+  source: handy-transcribe-cpp
+  url: https://github.com/handy-computer/transcribe.cpp/blob/adfc50210a3f026a655a3e19937d90ef2bf0728c/catalog/parakeet-tdt-0.6b-v3.json
+  revision: adfc50210a3f026a655a3e19937d90ef2bf0728c
+  fetched: '2026-11-14'
+  upstream: nvidia/parakeet-tdt-0.6b-v3@6d590f7
+  build: transcribe.cpp Q8_0 GGUF, batch 8, no timestamps; engine sha not recorded; backend not recorded; publication profile
+    not recorded; provenance legacy-published; measured on not recorded
+  dataset: FLEURS test, full split (docs/tools/wer.md)
+  normaliser: whisper_normalizer EnglishTextNormalizer (en), BasicTextNormalizer (other)
+  languages:
+    bg:
+      metric: wer
+      errorPercent: 12.81
+    cs:
+      metric: wer
+      errorPercent: 12.31
+    da:
+      metric: wer
+      errorPercent: 18.64
+    de:
+      metric: wer
+      errorPercent: 5.24
+    el:
+      metric: wer
+      errorPercent: 35.33
+    en:
+      metric: wer
+      errorPercent: 4.83
+    es:
+      metric: wer
+      errorPercent: 3.65
+    et:
+      metric: wer
+      errorPercent: 17.96
+    fi:
+      metric: wer
+      errorPercent: 13.3
+    fr:
+      metric: wer
+      errorPercent: 5.3
+    hr:
+      metric: wer
+      errorPercent: 12.59
+    hu:
+      metric: wer
+      errorPercent: 16.06
+    it:
+      metric: wer
+      errorPercent: 3.02
+    lt:
+      metric: wer
+      errorPercent: 22.2
+    lv:
+      metric: wer
+      errorPercent: 23.77
+    mt:
+      metric: wer
+      errorPercent: 20.63
+    nl:
+      metric: wer
+      errorPercent: 7.66
+    pl:
+      metric: wer
+      errorPercent: 7.37
+    pt:
+      metric: wer
+      errorPercent: 4.96
+    ro:
+      metric: wer
+      errorPercent: 12.62
+    ru:
+      metric: wer
+      errorPercent: 6.54
+    sk:
+      metric: wer
+      errorPercent: 10.19
+    sl:
+      metric: wer
+      errorPercent: 24.3
+    sv:
+      metric: wer
+      errorPercent: 15.25
+    uk:
+      metric: wer
+      errorPercent: 6.84
+- model: parakeet-0.6b-v3
+  source: model-card:moondream/parakeet-ultra
+  url: https://huggingface.co/moondream/parakeet-ultra/blob/73175eb7aeb0d82f1e2a6b53b3aabc10a90bcd0b/README.md
+  revision: 73175eb7aeb0d82f1e2a6b53b3aabc10a90bcd0b
+  fetched: '2026-11-14'
+  upstream: nvidia/parakeet-tdt-0.6b-v3 (revision not stated)
+  build: nvidia/parakeet-tdt-0.6b-v3 in NeMo bf16 (baseline column of the card)
+  dataset: FLEURS test
+  normaliser: Open ASR Leaderboard normalisers and compound-merging alignment as of September 2026 (card)
+  languages:
+    bg:
+      metric: wer
+      errorPercent: 11.9
+    cs:
+      metric: wer
+      errorPercent: 10.85
+    da:
+      metric: wer
+      errorPercent: 16.78
+    de:
+      metric: wer
+      errorPercent: 4.13
+    el:
+      metric: wer
+      errorPercent: 35.71
+    en:
+      metric: wer
+      errorPercent: 4.25
+    es:
+      metric: wer
+      errorPercent: 3.12
+    et:
+      metric: wer
+      errorPercent: 13.23
+    fi:
+      metric: wer
+      errorPercent: 11.05
+    fr:
+      metric: wer
+      errorPercent: 4.81
+    hr:
+      metric: wer
+      errorPercent: 10.93
+    hu:
+      metric: wer
+      errorPercent: 13.65
+    it:
+      metric: wer
+      errorPercent: 2.61
+    lt:
+      metric: wer
+      errorPercent: 21.09
+    lv:
+      metric: wer
+      errorPercent: 21.38
+    mt:
+      metric: wer
+      errorPercent: 19.13
+    nl:
+      metric: wer
+      errorPercent: 6.18
+    pl:
+      metric: wer
+      errorPercent: 6.7
+    pt:
+      metric: wer
+      errorPercent: 4.65
+    ro:
+      metric: wer
+      errorPercent: 11.54
+    ru:
+      metric: wer
+      errorPercent: 5.91
+    sk:
+      metric: wer
+      errorPercent: 9.46
+    sl:
+      metric: wer
+      errorPercent: 21.76
+    sv:
+      metric: wer
+      errorPercent: 13.75
+    uk:
+      metric: wer
+      errorPercent: 5.94
+- model: parakeet-0.6b-v3
+  source: model-card:nvidia/parakeet-tdt-0.6b-v3
+  url: https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3/blob/541d1f99c6b0c3cd0b11a95167540bb8edefd82b/README.md
+  revision: 541d1f99c6b0c3cd0b11a95167540bb8edefd82b
+  fetched: '2026-11-14'
+  upstream: nvidia/parakeet-tdt-0.6b-v3@541d1f99c6b0c3cd0b11a95167540bb8edefd82b
+  build: NVIDIA NeMo checkpoint, TDT greedy decoding, no LM; precision and hardware not stated
+  dataset: FLEURS test
+  normaliser: punctuation and capitalisation removed from reference and hypothesis
+  languages:
+    bg:
+      metric: wer
+      errorPercent: 12.64
+    cs:
+      metric: wer
+      errorPercent: 11.01
+    da:
+      metric: wer
+      errorPercent: 18.41
+    de:
+      metric: wer
+      errorPercent: 5.04
+    el:
+      metric: wer
+      errorPercent: 20.7
+    en:
+      metric: wer
+      errorPercent: 4.85
+    es:
+      metric: wer
+      errorPercent: 3.45
+    et:
+      metric: wer
+      errorPercent: 17.73
+    fi:
+      metric: wer
+      errorPercent: 13.21
+    fr:
+      metric: wer
+      errorPercent: 5.15
+    hr:
+      metric: wer
+      errorPercent: 12.46
+    hu:
+      metric: wer
+      errorPercent: 15.72
+    it:
+      metric: wer
+      errorPercent: 3.0
+    lt:
+      metric: wer
+      errorPercent: 20.35
+    lv:
+      metric: wer
+      errorPercent: 22.84
+    mt:
+      metric: wer
+      errorPercent: 20.46
+    nl:
+      metric: wer
+      errorPercent: 7.48
+    pl:
+      metric: wer
+      errorPercent: 7.31
+    pt:
+      metric: wer
+      errorPercent: 4.76
+    ro:
+      metric: wer
+      errorPercent: 12.44
+    ru:
+      metric: wer
+      errorPercent: 5.51
+    sk:
+      metric: wer
+      errorPercent: 8.82
+    sl:
+      metric: wer
+      errorPercent: 24.03
+    sv:
+      metric: wer
+      errorPercent: 15.08
+    uk:
+      metric: wer
+      errorPercent: 6.79
+- model: parakeet-0.6b-v3
+  source: open-asr-leaderboard
+  url: https://huggingface.co/spaces/hf-audio/open_asr_leaderboard?version=13-11-2026
+  revision: leaderboard 13-11-2026; space 3b5317f4e49b6cb40502b95065b29fbfe08284ce; dataset 7aa0b0918a319f8f1b66a0b32d24ddd4342b54fb
+  fetched: '2026-11-14'
+  upstream: nvidia/parakeet-tdt-0.6b-v3 (the leaderboard names no revision)
+  build: checkpoint as submitted to the leaderboard; precision and hardware not stated
+  dataset: FLEURS test, as aggregated in nithinraok/asr-leaderboard-datasets
+  normaliser: Open ASR Leaderboard normaliser, Whisper-style (huggingface/open_asr_leaderboard)
+  languages:
+    de:
+      metric: wer
+      errorPercent: 4.16
+    es:
+      metric: wer
+      errorPercent: 3.25
+    fr:
+      metric: wer
+      errorPercent: 4.7
+    it:
+      metric: wer
+      errorPercent: 2.48
+    nl:
+      metric: wer
+      errorPercent: 6.38
+    pt:
+      metric: wer
+      errorPercent: 4.47
+- model: parakeet-0.6b-v3
+  source: open-asr-leaderboard-english
+  url: https://huggingface.co/spaces/hf-audio/open_asr_leaderboard?version=13-11-2026
+  revision: leaderboard 13-11-2026; space 3b5317f4e49b6cb40502b95065b29fbfe08284ce; dataset 5f5053c3bbae932f547bf8ebb82f90673541d859
+  fetched: '2026-11-14'
+  upstream: nvidia/parakeet-tdt-0.6b-v3 (the leaderboard names no revision)
+  build: checkpoint as submitted to the leaderboard; precision and hardware not stated
+  dataset: Open ASR Leaderboard English short-form average (not FLEURS; AMI-Cleaned, Earnings22-Cleaned-AA-chunked, Gigaspeech-Cleaned,
+    SPGISpeech, URGENT24, Voice Arena Monsoon, Voxpopuli-AA-Cleaned, Private (scripted), Private (conversational))
+  normaliser: Open ASR Leaderboard normaliser, Whisper-style (huggingface/open_asr_leaderboard)
+  languages:
+    en:
+      metric: wer
+      errorPercent: 7.04
+- model: parakeet-110m
+  source: handy-transcribe-cpp
+  url: https://github.com/handy-computer/transcribe.cpp/blob/adfc50210a3f026a655a3e19937d90ef2bf0728c/catalog/parakeet-tdt_ctc-110m.json
+  revision: adfc50210a3f026a655a3e19937d90ef2bf0728c
+  fetched: '2026-11-14'
+  upstream: nvidia/parakeet-tdt_ctc-110m@431a349
+  build: transcribe.cpp Q8_0 GGUF, batch 8, no timestamps; engine sha not recorded; backend not recorded; publication profile
+    not recorded; provenance legacy-published; measured on not recorded
+  dataset: FLEURS test, full split (docs/tools/wer.md)
+  normaliser: whisper_normalizer EnglishTextNormalizer (en), BasicTextNormalizer (other)
+  languages:
+    en:
+      metric: wer
+      errorPercent: 6.11
+- model: parakeet-redux-0.6b
+  source: model-card:moondream/parakeet-redux
+  url: https://huggingface.co/moondream/parakeet-redux/blob/2bf128600aac4b16946f7ed8372e56117fe5e23b/README.md
+  revision: 2bf128600aac4b16946f7ed8372e56117fe5e23b
+  fetched: '2026-11-14'
+  upstream: moondream/parakeet-redux@2bf128600aac4b16946f7ed8372e56117fe5e23b
+  build: Photon runtime on an NVIDIA GPU (card)
+  dataset: FLEURS test
+  normaliser: Open ASR Leaderboard normalisers and compound-merging alignment as of September 2026 (card)
+  languages:
+    bg:
+      metric: wer
+      errorPercent: 11.23
+    cs:
+      metric: wer
+      errorPercent: 10.25
+    da:
+      metric: wer
+      errorPercent: 15.94
+    de:
+      metric: wer
+      errorPercent: 5.42
+    el:
+      metric: wer
+      errorPercent: 32.48
+    en:
+      metric: wer
+      errorPercent: 4.9
+    es:
+      metric: wer
+      errorPercent: 3.71
+    et:
+      metric: wer
+      errorPercent: 9.15
+    fi:
+      metric: wer
+      errorPercent: 10.38
+    fr:
+      metric: wer
+      errorPercent: 7.71
+    hr:
+      metric: wer
+      errorPercent: 9.26
+    hu:
+      metric: wer
+      errorPercent: 14.15
+    it:
+      metric: wer
+      errorPercent: 3.24
+    lt:
+      metric: wer
+      errorPercent: 17.27
+    lv:
+      metric: wer
+      errorPercent: 12.8
+    mt:
+      metric: wer
+      errorPercent: 13.65
+    nl:
+      metric: wer
+      errorPercent: 7.45
+    pl:
+      metric: wer
+      errorPercent: 8.59
+    pt:
+      metric: wer
+      errorPercent: 4.99
+    ro:
+      metric: wer
+      errorPercent: 10.32
+    ru:
+      metric: wer
+      errorPercent: 7.91
+    sk:
+      metric: wer
+      errorPercent: 7.26
+    sl:
+      metric: wer
+      errorPercent: 16.21
+    sv:
+      metric: wer
+      errorPercent: 12.71
+    uk:
+      metric: wer
+      errorPercent: 7.06
+- model: parakeet-ultra-0.6b
+  source: handy-transcribe-cpp
+  url: https://github.com/handy-computer/transcribe.cpp/blob/adfc50210a3f026a655a3e19937d90ef2bf0728c/catalog/parakeet-ultra.json
+  revision: adfc50210a3f026a655a3e19937d90ef2bf0728c
+  fetched: '2026-11-14'
+  upstream: moondream/parakeet-ultra@73175eb
+  build: transcribe.cpp Q8_0 GGUF, batch 8, no timestamps; engine sha 021aa17d; backend cuda; publication profile asr-publication-v2;
+    provenance not recorded; measured on not recorded
+  dataset: FLEURS test, full split (docs/tools/wer.md)
+  normaliser: whisper_normalizer EnglishTextNormalizer (en), BasicTextNormalizer (other)
+  languages:
+    bg:
+      metric: wer
+      errorPercent: 11.04
+    cs:
+      metric: wer
+      errorPercent: 11.04
+    da:
+      metric: wer
+      errorPercent: 15.98
+    de:
+      metric: wer
+      errorPercent: 4.58
+    el:
+      metric: wer
+      errorPercent: 32.25
+    en:
+      metric: wer
+      errorPercent: 4.26
+    es:
+      metric: wer
+      errorPercent: 3.06
+    et:
+      metric: wer
+      errorPercent: 14.44
+    fi:
+      metric: wer
+      errorPercent: 11.14
+    fr:
+      metric: wer
+      errorPercent: 4.66
+    hr:
+      metric: wer
+      errorPercent: 11.3
+    hu:
+      metric: wer
+      errorPercent: 13.09
+    it:
+      metric: wer
+      errorPercent: 2.34
+    lt:
+      metric: wer
+      errorPercent: 17.06
+    lv:
+      metric: wer
+      errorPercent: 18.04
+    mt:
+      metric: wer
+      errorPercent: 17.01
+    nl:
+      metric: wer
+      errorPercent: 6.7
+    pl:
+      metric: wer
+      errorPercent: 6.16
+    pt:
+      metric: wer
+      errorPercent: 4.16
+    ro:
+      metric: wer
+      errorPercent: 10.12
+    ru:
+      metric: wer
+      errorPercent: 5.63
+    sk:
+      metric: wer
+      errorPercent: 7.83
+    sl:
+      metric: wer
+      errorPercent: 18.98
+    sv:
+      metric: wer
+      errorPercent: 12.83
+    uk:
+      metric: wer
+      errorPercent: 5.71
+- model: parakeet-ultra-0.6b
+  source: model-card:moondream/parakeet-ultra
+  url: https://huggingface.co/moondream/parakeet-ultra/blob/73175eb7aeb0d82f1e2a6b53b3aabc10a90bcd0b/README.md
+  revision: 73175eb7aeb0d82f1e2a6b53b3aabc10a90bcd0b
+  fetched: '2026-11-14'
+  upstream: moondream/parakeet-ultra@73175eb7aeb0d82f1e2a6b53b3aabc10a90bcd0b
+  build: Photon runtime on an NVIDIA GPU (card)
+  dataset: FLEURS test
+  normaliser: Open ASR Leaderboard normalisers and compound-merging alignment as of September 2026 (card)
+  languages:
+    bg:
+      metric: wer
+      errorPercent: 10.09
+    cs:
+      metric: wer
+      errorPercent: 9.97
+    da:
+      metric: wer
+      errorPercent: 14.31
+    de:
+      metric: wer
+      errorPercent: 3.61
+    el:
+      metric: wer
+      errorPercent: 32.25
+    en:
+      metric: wer
+      errorPercent: 3.55
+    es:
+      metric: wer
+      errorPercent: 2.72
+    et:
+      metric: wer
+      errorPercent: 9.69
+    fi:
+      metric: wer
+      errorPercent: 9.19
+    fr:
+      metric: wer
+      errorPercent: 4.32
+    hr:
+      metric: wer
+      errorPercent: 9.65
+    hu:
+      metric: wer
+      errorPercent: 10.76
+    it:
+      metric: wer
+      errorPercent: 2.0
+    lt:
+      metric: wer
+      errorPercent: 16.36
+    lv:
+      metric: wer
+      errorPercent: 15.95
+    mt:
+      metric: wer
+      errorPercent: 14.92
+    nl:
+      metric: wer
+      errorPercent: 5.46
+    pl:
+      metric: wer
+      errorPercent: 5.54
+    pt:
+      metric: wer
+      errorPercent: 3.96
+    ro:
+      metric: wer
+      errorPercent: 9.18
+    ru:
+      metric: wer
+      errorPercent: 5.21
+    sk:
+      metric: wer
+      errorPercent: 7.03
+    sl:
+      metric: wer
+      errorPercent: 16.64
+    sv:
+      metric: wer
+      errorPercent: 11.57
+    uk:
+      metric: wer
+      errorPercent: 4.75
+- model: parakeet-unified-0.6b
+  source: handy-transcribe-cpp
+  url: https://github.com/handy-computer/transcribe.cpp/blob/adfc50210a3f026a655a3e19937d90ef2bf0728c/catalog/parakeet-unified-en-0.6b.json
+  revision: adfc50210a3f026a655a3e19937d90ef2bf0728c
+  fetched: '2026-11-14'
+  upstream: nvidia/parakeet-unified-en-0.6b@d4ac992
+  build: transcribe.cpp Q8_0 GGUF, batch 8, no timestamps; engine sha not recorded; backend not recorded; publication profile
+    not recorded; provenance legacy-published; measured on not recorded
+  dataset: FLEURS test, full split (docs/tools/wer.md)
+  normaliser: whisper_normalizer EnglishTextNormalizer (en), BasicTextNormalizer (other)
+  languages:
+    en:
+      metric: wer
+      errorPercent: 3.99
+- model: qwen3-asr-0.6b
+  source: handy-transcribe-cpp
+  url: https://github.com/handy-computer/transcribe.cpp/blob/adfc50210a3f026a655a3e19937d90ef2bf0728c/catalog/qwen3-asr-0.6b.json
+  revision: adfc50210a3f026a655a3e19937d90ef2bf0728c
+  fetched: '2026-11-14'
+  upstream: Qwen/Qwen3-ASR-0.6B@5eb1441
+  build: transcribe.cpp Q8_0 GGUF, batch 8, no timestamps; engine sha not recorded; backend not recorded; publication profile
+    not recorded; provenance legacy-published; measured on not recorded
+  dataset: FLEURS test, full split (docs/tools/wer.md)
+  normaliser: whisper_normalizer EnglishTextNormalizer (en), BasicTextNormalizer (other)
+  languages:
+    ar:
+      metric: wer
+      errorPercent: 24.51
+    cs:
+      metric: wer
+      errorPercent: 44.5
+    da:
+      metric: wer
+      errorPercent: 36.07
+    de:
+      metric: wer
+      errorPercent: 6.8
+    el:
+      metric: wer
+      errorPercent: 49.12
+    en:
+      metric: wer
+      errorPercent: 4.23
+    es:
+      metric: wer
+      errorPercent: 4.88
+    fa:
+      metric: wer
+      errorPercent: 50.3
+    fi:
+      metric: wer
+      errorPercent: 46.49
+    fil:
+      metric: wer
+      errorPercent: 35.43
+    fr:
+      metric: wer
+      errorPercent: 7.76
+    hi:
+      metric: wer
+      errorPercent: 12.68
+    hu:
+      metric: wer
+      errorPercent: 56.24
+    id:
+      metric: wer
+      errorPercent: 8.49
+    it:
+      metric: wer
+      errorPercent: 5.19
+    ja:
+      metric: cer
+      errorPercent: 8.61
+    ko:
+      metric: cer
+      errorPercent: 5.82
+    mk:
+      metric: wer
+      errorPercent: 35.09
+    ms:
+      metric: wer
+      errorPercent: 17.18
+    nl:
+      metric: wer
+      errorPercent: 13.9
+    pl:
+      metric: wer
+      errorPercent: 25.06
+    pt:
+      metric: wer
+      errorPercent: 6.57
+    ro:
+      metric: wer
+      errorPercent: 40.65
+    ru:
+      metric: wer
+      errorPercent: 10.3
+    sv:
+      metric: wer
+      errorPercent: 35.72
+    th:
+      metric: cer
+      errorPercent: 8.81
+    tr:
+      metric: wer
+      errorPercent: 16.74
+    vi:
+      metric: wer
+      errorPercent: 9.32
+    yue:
+      metric: cer
+      errorPercent: 7.91
+    zh:
+      metric: cer
+      errorPercent: 7.57
+- model: qwen3-asr-0.6b
+  source: model-card:Qwen/Qwen3-ASR-0.6B
+  url: https://huggingface.co/Qwen/Qwen3-ASR-0.6B/blob/5eb144179a02acc5e5ba31e748d22b0cf3e303b0/README.md
+  revision: 5eb144179a02acc5e5ba31e748d22b0cf3e303b0
+  fetched: '2026-11-14'
+  upstream: Qwen/Qwen3-ASR-0.6B@5eb144179a02acc5e5ba31e748d22b0cf3e303b0
+  build: bf16 in vLLM, greedy, max_new_tokens 1024, no language given
+  dataset: FLEURS test
+  normaliser: not stated
+  languages:
+    en:
+      metric: wer
+      errorPercent: 4.39
+    yue:
+      metric: wer
+      errorPercent: 5.79
+    zh:
+      metric: wer
+      errorPercent: 2.88
+- model: qwen3-asr-0.6b
+  source: open-asr-leaderboard
+  url: https://huggingface.co/spaces/hf-audio/open_asr_leaderboard?version=13-11-2026
+  revision: leaderboard 13-11-2026; space 3b5317f4e49b6cb40502b95065b29fbfe08284ce; dataset 7aa0b0918a319f8f1b66a0b32d24ddd4342b54fb
+  fetched: '2026-11-14'
+  upstream: Qwen/Qwen3-ASR-0.6B-hf (the leaderboard names no revision)
+  build: checkpoint as submitted to the leaderboard; precision and hardware not stated
+  dataset: FLEURS test, as aggregated in nithinraok/asr-leaderboard-datasets
+  normaliser: Open ASR Leaderboard normaliser, Whisper-style (huggingface/open_asr_leaderboard)
+  languages:
+    de:
+      metric: wer
+      errorPercent: 5.33
+    es:
+      metric: wer
+      errorPercent: 4.14
+    fr:
+      metric: wer
+      errorPercent: 6.98
+    it:
+      metric: wer
+      errorPercent: 4.51
+    nl:
+      metric: wer
+      errorPercent: 12.79
+    pt:
+      metric: wer
+      errorPercent: 5.81
+    zh:
+      metric: cer
+      errorPercent: 3.24
+- model: qwen3-asr-0.6b
+  source: open-asr-leaderboard-english
+  url: https://huggingface.co/spaces/hf-audio/open_asr_leaderboard?version=13-11-2026
+  revision: leaderboard 13-11-2026; space 3b5317f4e49b6cb40502b95065b29fbfe08284ce; dataset 5f5053c3bbae932f547bf8ebb82f90673541d859
+  fetched: '2026-11-14'
+  upstream: Qwen/Qwen3-ASR-0.6B-hf (the leaderboard names no revision)
+  build: checkpoint as submitted to the leaderboard; precision and hardware not stated
+  dataset: Open ASR Leaderboard English short-form average (not FLEURS; AMI-Cleaned, Earnings22-Cleaned-AA-chunked, Gigaspeech-Cleaned,
+    SPGISpeech, URGENT24, Voice Arena Monsoon, Voxpopuli-AA-Cleaned, Private (scripted), Private (conversational))
+  normaliser: Open ASR Leaderboard normaliser, Whisper-style (huggingface/open_asr_leaderboard)
+  languages:
+    en:
+      metric: wer
+      errorPercent: 7.07
+- model: sensevoice-small
+  source: handy-transcribe-cpp
+  url: https://github.com/handy-computer/transcribe.cpp/blob/adfc50210a3f026a655a3e19937d90ef2bf0728c/catalog/sensevoice-small.json
+  revision: adfc50210a3f026a655a3e19937d90ef2bf0728c
+  fetched: '2026-11-14'
+  upstream: FunAudioLLM/SenseVoiceSmall@3eb3b4e
+  build: transcribe.cpp Q8_0 GGUF, batch 8, no timestamps; engine sha not recorded; backend not recorded; publication profile
+    not recorded; provenance legacy-published; measured on not recorded
+  dataset: FLEURS test, full split (docs/tools/wer.md)
+  normaliser: whisper_normalizer EnglishTextNormalizer (en), BasicTextNormalizer (other)
+  languages:
+    en:
+      metric: wer
+      errorPercent: 7.14
+    ja:
+      metric: cer
+      errorPercent: 7.63
+    ko:
+      metric: cer
+      errorPercent: 8.27
+    yue:
+      metric: cer
+      errorPercent: 37.44
+    zh:
+      metric: cer
+      errorPercent: 10.12

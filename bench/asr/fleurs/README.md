@@ -34,9 +34,16 @@ measurement of a phone, and no copy may say it is.
 
 ## Run
 
-The whole catalogue takes about a day of CPU, so it runs on GitHub. Push to a `measure/**` branch, or
-dispatch **Measure speech accuracy** from main with model ids. One job measures one pair from
-`plan.py`, which lists every pair not yet in `results/`. Then:
+The whole catalogue takes about a day of CPU, so it runs on GitHub, on its own. **Measure speech
+accuracy** starts when `catalog/speech.yaml` or this folder changes on main or a `measure/**` branch,
+or when dispatched with model ids. `plan.py` lists every pair to measure: a language not in `results/`,
+or every language of a model whose result is stale, measured on another export than the catalogue
+ships or another sherpa-onnx than `requirements.txt` pins. One job measures one pair. The collect job
+then merges the results, rewrites each accuracy block, runs `generate` and `validate`, and opens or
+updates a PR from `accuracy/<branch>` with each number, its grade and any pair that failed. Review it
+and merge. A PR whose body says `validate` fails holds partial results; rerun the failed pairs first.
+
+By hand, from a run's artifacts:
 
 ```bash
 gh run download <run-id> --dir /tmp/fleurs-artifacts
