@@ -1,6 +1,8 @@
 # `accuracy` is word or character error percent by language on the FLEURS test split, measured by
-# Handy (https://github.com/handy-computer/models, @handy-computer/models 0.2.3, MIT) on its Q8 build of the
-# same source model. The generator turns each into a grade; thank you to the Handy project.
+# bench/asr/fleurs on the exact export each entry downloads, decoded as the app decodes it. Every model
+# needs one, and `validate` checks each number against bench/asr/fleurs/results/. The recipe is Handy's
+# (https://github.com/handy-computer/transcribe.cpp, docs/tools/wer.md, MIT), so the generator's grades
+# mean what Handy's do; thank you to the Handy project.
 schema_version: 1
 models:
   - id: moonshine-tiny

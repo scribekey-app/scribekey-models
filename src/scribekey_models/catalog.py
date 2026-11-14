@@ -22,6 +22,7 @@ from scribekey_models.guardrails import (
     validate_release_snapshot_integrity,
     validate_search_catalog,
     validate_signatures,
+    validate_speech_accuracy,
 )
 from scribekey_models.promotion import build_channel_distribution_manifest
 
@@ -845,6 +846,9 @@ def validate() -> list[ValidationIssue]:
     diarization_data = load_diarization_catalog_data()
 
     for g_issue in validate_immutable_source_refs(speech_data, cleanup_data, diarization_data):
+        issues.append(ValidationIssue(g_issue.source, g_issue.message))
+
+    for g_issue in validate_speech_accuracy(speech_data):
         issues.append(ValidationIssue(g_issue.source, g_issue.message))
 
     for g_issue in validate_identities_and_integrity(speech_data, cleanup_data, diarization_data):
