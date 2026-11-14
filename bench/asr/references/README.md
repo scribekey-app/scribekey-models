@@ -45,6 +45,7 @@ of flag. It always exits 0, and `report(results_dir, references_path)` returns t
 - **order flip**: two models we measured rank the other way round in one source. One flip between two
   close models is noise. Several flips around one model point at that model's harness setup.
 
-Some real gaps stay under the thresholds. Parakeet Unified English measures 5.75% against Handy's
-3.99% (+44%, +1.76 points), a grade lower for the same model, and is not flagged. The flags catch broken
-runs; read the deltas too.
+Some real gaps stay under the thresholds: a grade's difference can be under 2 points. The flags catch
+broken runs; read the deltas too. They caught one: before clips were scaled to a phone's level, most
+models measured far above every reference, because FLEURS is quiet and int8 exports lose accuracy on
+quiet input.

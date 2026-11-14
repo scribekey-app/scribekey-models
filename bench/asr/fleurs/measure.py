@@ -2,9 +2,10 @@
 
 Recipe (transcribe.cpp `docs/tools/wer.md`): the whole FLEURS test split per language, the
 `transcription` field as reference, Whisper's English normaliser for English and the basic one
-otherwise, character error for zh/yue/ja/ko/th/km/lo/my, greedy decoding, no gain normalisation.
-Two things differ, deliberately: the model is the exact sherpa-onnx export the catalogue ships,
-and it is decoded the way the app decodes it (offline or streaming, segment ceiling, tail padding).
+otherwise, character error for zh/yue/ja/ko/th/km/lo/my, greedy decoding.
+Three things differ, deliberately: the model is the exact sherpa-onnx export the catalogue ships,
+it is decoded the way the app decodes it (offline or streaming, segment ceiling, tail padding), and
+each clip is scaled to a 0.5 peak, the level a phone mic's gain control delivers.
 
     uv run --python 3.12 --with sherpa-onnx==1.13.8 --with jiwer --with whisper-normalizer \
         --with soundfile --with pyarrow --with numpy --with huggingface_hub --with pyyaml \
@@ -71,6 +72,7 @@ ONLINE_TAIL_PADDING_MS = 800
 ONLINE_FEED_MS = 100
 FEATURE_DIM = {"nemo_transducer": 128, "zipformer_transducer": 80}
 THREADS = 2
+PEAK_LEVEL = 0.5  # every clip is scaled to this peak before decoding (README: Method)
 
 
 def entry(model_id: str) -> dict:
@@ -205,6 +207,9 @@ def fleurs_test(language: str) -> list[tuple[str, np.ndarray, str]]:
             audio = audio.mean(axis=1)
         if rate != RATE:
             raise SystemExit(f"{language}: FLEURS clip at {rate} Hz")
+        # A phone mic's gain control delivers speech near this level; most FLEURS clips peak below
+        # 0.05, where the shipped int8 exports lose accuracy (Parakeet v3 en: 7.19 -> 4.31 on 60 clips).
+        audio = audio * (PEAK_LEVEL / max(float(np.abs(audio).max()), 1e-6))
         rows.append((Path(row["path"] or row["audio"]["path"]).stem, audio, row["transcription"]))
     Path(path).resolve().unlink()  # the blob, not just the cache's symlink to it
     Path(path).unlink()

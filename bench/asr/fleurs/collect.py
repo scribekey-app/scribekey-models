@@ -21,6 +21,7 @@ SPEECH = ROOT / "catalog/speech.yaml"
 
 def merge(artifacts: Path) -> set[str]:
     touched = set()
+    (HERE / "results").mkdir(exist_ok=True)
     for folder in sorted(artifacts.glob("fleurs-*")):
         for file in folder.glob("*.json"):
             incoming = json.loads(file.read_text())

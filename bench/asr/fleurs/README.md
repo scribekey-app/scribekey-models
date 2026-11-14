@@ -12,17 +12,21 @@ Handy's publication recipe (transcribe.cpp `docs/tools/wer.md`), so grades mean 
 - the `transcription` field as the reference;
 - Whisper's English normaliser for English, the basic normaliser otherwise;
 - character error for zh, yue, ja, ko, th, km, lo and my, word error for the rest;
-- greedy decoding, no gain normalisation.
+- greedy decoding.
 
-Two things differ, on purpose. The model is the exact sherpa-onnx export the catalogue ships, checked
+Three things differ, on purpose. The model is the exact sherpa-onnx export the catalogue ships, checked
 against its `sha256`, run in sherpa-onnx at the version the app pins. And it is decoded the way the app
 decodes it: offline models in segments of at most 30 s (8 s for Moonshine v2) split at the quietest
 50 ms, live models fed in 100 ms steps with 800 ms of tail silence and no endpointing. The constants are
 copied from the app and named in `measure.py`.
 
-The two differences matter. On 2026-11-14 the shipped int8 export of Parakeet English measured 5.75%
-on FLEURS English, where Handy's Q8 GGUF build measured 3.99%. That is a grade lower for the same source
-model. Handy's figures are therefore not copied into the catalogue: a grade describes what the app runs.
+Each clip is also scaled to a 0.5 peak before decoding. Most FLEURS clips peak below 0.05, far quieter
+than a phone mic delivers after its gain control, and the int8 exports lose accuracy on quiet input:
+on 60 English clips Parakeet v3 measured 7.19% as recorded and 4.31% scaled, against 4.25% published.
+Unscaled, the grades would describe FLEURS's recording level rather than the model.
+
+Published figures measure other builds (Q8 GGUF, NeMo on a GPU), so they are not copied into the
+catalogue: a grade describes what the app runs. `bench/asr/references/` keeps them as a cross-check.
 
 A model is measured on its `languageCodes`. Qwen3 ASR and Nemotron 3.5 list none, so they keep the
 languages they are already graded in. Omnilingual lists none and has no grades, so it is measured on

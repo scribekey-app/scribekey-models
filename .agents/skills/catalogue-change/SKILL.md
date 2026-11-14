@@ -58,8 +58,9 @@ with the numbers and grades. Review it and merge. `run_all.sh` and `collect.py` 
   and the whole model is measured again. A change to how the app decodes a family does not: delete the
   language from the result file and rerun.
 - Do not copy Handy's or any other published figure. Handy measures a Q8 GGUF build of the source
-  model; the shipped sherpa int8 export of Parakeet English measured a grade lower on the same test.
-  The recipe is Handy's, credited in `catalog/speech.yaml`, so the grade bands mean the same.
+  model, not the int8 export the app ships. The recipe is Handy's, credited in `catalog/speech.yaml`,
+  so the grade bands mean the same, with one change: each clip is scaled to a 0.5 peak first, because
+  FLEURS is far quieter than a phone mic and the int8 exports lose accuracy on quiet input.
 - A model with no `languageCodes` is measured on every language any catalogue model is graded in.
 - Measuring needs 1 to 2 GB free per model; check `df -h /` first.
 
