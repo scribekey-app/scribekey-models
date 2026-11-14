@@ -1,0 +1,41 @@
+{
+  "dataset": "google/fleurs test",
+  "export": "csukuangfj/sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8@9077164e0d3dd1d5353743e89ceaa1d3a770838c",
+  "languages": {
+    "de": {
+      "audioSeconds": 11349,
+      "clips": 862,
+      "errorPercent": 8.5,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 7.9
+    },
+    "en": {
+      "audioSeconds": 6388,
+      "clips": 647,
+      "errorPercent": 9.16,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 9.0
+    },
+    "es": {
+      "audioSeconds": 11126,
+      "clips": 908,
+      "errorPercent": 6.66,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 17.0
+    },
+    "fr": {
+      "audioSeconds": 7024,
+      "clips": 676,
+      "errorPercent": 8.83,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 8.5
+    }
+  },
+  "mode": "offline",
+  "model": "canary-180m",
+  "sherpaOnnx": "1.13.8"
+}
