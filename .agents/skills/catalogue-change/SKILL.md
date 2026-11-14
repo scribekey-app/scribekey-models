@@ -1,6 +1,6 @@
 ---
 name: catalogue-change
-description: Change a ScribeKey model catalogue and carry it through to the Android app. Use whenever catalog/*.yaml, a schema, generated/, a release or a channel is touched, when a speech model is added, graded, promoted from experimental or retired, when accuracy grades or Handy benchmark numbers come up, and when someone asks why the app does not show a catalogue change yet.
+description: Change a ScribeKey model catalogue and carry it through to the Android app. Use whenever catalog/*.yaml, a schema, generated/, a release or a channel is touched, when a speech model is added, measured, graded, promoted from experimental or retired, when accuracy grades, FLEURS or benchmark numbers come up, and when someone asks why the app does not show a catalogue change yet.
 ---
 
 # Changing a catalogue
@@ -44,19 +44,22 @@ but a field that becomes required breaks every app that predates it.
 `accuracy_grade()` turns each into the grade the app shows: A under 5%, B under 10%, C under 20%,
 D under 30%, F beyond, with each `+`/`-` a factor of the cube root of 2. Never write a grade by hand.
 
-The numbers come from Handy's published benchmark (`@handy-computer/models` on npm, `catalog.json`,
-`results.<model>.accuracy.<lang>.error`), credited in the comment at the top of `catalog/speech.yaml`.
-Keep that credit, and update the version in it when the numbers are refreshed.
+**Every speech model must have one, measured by `bench/asr/fleurs/`.** `validate` fails a model
+with no `accuracy`, a listed language FLEURS has but `accuracy` lacks, or a number that differs from
+`bench/asr/fleurs/results/<id>.json`. So the only way to a number is to run the harness and commit
+its result file with the YAML. `bench/asr/fleurs/README.md` has the method and the commands.
 
-Give a model an `accuracy` block only when both hold:
+- The harness runs the exact export the entry downloads, in the mode the app runs it, with the app's
+  segment ceiling or live feed. A new model, a new export revision, or a change to how the app decodes
+  a family means measuring again: delete the language from the result file and rerun.
+- Do not copy Handy's or any other published figure. Handy measures a Q8 GGUF build of the source
+  model; the shipped sherpa int8 export of Parakeet English measured a grade lower on the same test.
+  The recipe is Handy's, credited in `catalog/speech.yaml`, so the grade bands mean the same.
+- A model with no `languageCodes` is measured on every language any catalogue model is graded in.
+- Measuring needs 1 to 2 GB free per model; check `df -h /` first.
 
-- Handy measured the same source model (`provenance.sourceModel`), not a sibling or a successor.
-- It was measured in the mode this entry runs in. Parakeet English Live preview has none, because
-  the measurement is of the after-speaking model.
-
-Handy measured a Q8 GGUF build on a desktop. The grade ranks models against each other; it is not a
-phone measurement, and no copy may say it is. Unmeasured as of 2026.11.5: Distil-Whisper, Omnilingual,
-Parakeet Redux, Zipformer English Live, both Moonshine v2 models, Parakeet English Live preview.
+The grade ranks models against each other on a desktop and read speech. It is not a phone
+measurement, and no copy may say it is.
 
 ## Choosing a model to add
 

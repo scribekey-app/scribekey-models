@@ -1,0 +1,8 @@
+sherpa-onnx==1.13.8
+jiwer==4.0.0
+whisper-normalizer==0.1.12
+soundfile==0.13.1
+pyarrow==22.0.0
+numpy==2.3.4
+huggingface_hub==1.1.2
+pyyaml==6.0.3

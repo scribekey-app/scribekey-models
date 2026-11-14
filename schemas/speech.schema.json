@@ -27,6 +27,7 @@
           "supportsPunctuation",
           "supportsLanguageDetection",
           "files",
+          "accuracy",
           "sherpaConfig",
           "info"
         ],

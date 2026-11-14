@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import math
 import re
 from dataclasses import dataclass
@@ -429,6 +430,44 @@ def _validate_speech_presentation(models: list[dict[str, Any]]) -> list[Guardrai
                     f"Speech model '{mid}' counterpart '{counterpart_id}' is retired or deprecated",
                 )
             )
+    return issues
+
+
+# FLEURS test-split languages (transcribe.cpp scripts/wer/languages.py, canonical spellings). A
+# listed language FLEURS has must be measured; one it lacks cannot be, so it is not required.
+FLEURS_LANGUAGES = frozenset(
+    ["af", "am", "ar", "as", "ast", "az", "be", "bg", "bn", "bs", "ca", "ceb", "ckb", "cs", "cy", "da", "de", "el", "en", "es", "et", "fa", "fi", "fil", "fr", "ga", "gl", "gu", "ha", "he", "hi", "hr", "hu", "hy", "id", "ig", "is", "it", "ja", "jv", "ka", "kk", "km", "kn", "ko", "ky", "lb", "lo", "lt", "lv", "mi", "mk", "ml", "mn", "mr", "ms", "mt", "my", "nb", "ne", "nl", "pa", "pl", "ps", "pt", "ro", "ru", "sd", "sk", "sl", "sr", "sv", "sw", "ta", "te", "tg", "th", "tr", "uk", "ur", "uz", "vi", "xh", "yo", "yue", "zh", "zu"]
+)
+SPEECH_BENCH_RESULTS = ROOT / "bench/asr/fleurs/results"
+
+
+def validate_speech_accuracy(speech_data: dict[str, Any]) -> list[GuardrailIssue]:
+    return [issue for model in speech_data.get("models", []) for issue in _speech_accuracy_issues(model)]
+
+
+def _speech_accuracy_issues(model: dict[str, Any], results_dir: Path = SPEECH_BENCH_RESULTS) -> list[GuardrailIssue]:
+    """Every speech model carries a grade the app can show, measured by ``bench/asr/fleurs``.
+
+    Each number must equal the committed harness result for that model, so a figure nobody measured
+    on the shipped export (a published one included) cannot reach a card.
+    """
+    mid = model.get("id", "unknown")
+
+    def issue(message: str) -> GuardrailIssue:
+        return GuardrailIssue("catalog/speech.yaml", f"Speech model '{mid}' {message}")
+
+    accuracy = model.get("accuracy") or {}
+    if not accuracy:
+        return [issue("has no measured accuracy; run bench/asr/fleurs/run_all.sh")]
+    issues: list[GuardrailIssue] = []
+    unmeasured = sorted((set(model.get("languageCodes") or []) & FLEURS_LANGUAGES) - set(accuracy))
+    if unmeasured:
+        issues.append(issue(f"lists languages with no measured accuracy: {', '.join(unmeasured)}"))
+    path = results_dir / f"{mid}.json"
+    measured = json.loads(path.read_text())["languages"] if path.exists() else {}
+    for language, error in accuracy.items():
+        if measured.get(language, {}).get("errorPercent") != error:
+            issues.append(issue(f"accuracy.{language} {error} does not match bench/asr/fleurs/results/{mid}.json"))
     return issues
 
 

@@ -1,0 +1,66 @@
+name: Measure speech accuracy
+
+# Runs bench/asr/fleurs/measure.py for every (model, language) pair plan.py says is missing, one job
+# per pair, and uploads each result. Collect them with bench/asr/fleurs/collect.py, then copy the
+# numbers into catalog/speech.yaml. Push to a measure/** branch to run it, or dispatch it from main.
+on:
+  push:
+    branches: ["measure/**"]
+  workflow_dispatch:
+    inputs:
+      models:
+        description: Model ids separated by spaces (blank for every model)
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: measure-speech-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      empty: ${{ steps.plan.outputs.empty }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: plan
+        env:
+          MODELS: ${{ inputs.models }}
+        run: |
+          pip install -q pyyaml==6.0.3
+          matrix="$(python3 bench/asr/fleurs/plan.py --json $MODELS)"
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          echo "empty=$([ "$(echo "$matrix" | jq '.include | length')" = 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "$matrix" | jq -r '.include[] | "\(.model) \(.lang)"'
+
+  measure:
+    needs: plan
+    if: needs.plan.outputs.empty == 'false'
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
+    name: ${{ matrix.model }} ${{ matrix.lang }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Measure
+        env:
+          BENCH_CACHE: ${{ runner.temp }}/fleurs
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          uv run --python 3.12 --with-requirements bench/asr/fleurs/requirements.txt \
+            python bench/asr/fleurs/measure.py "${{ matrix.model }}" "${{ matrix.lang }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fleurs-${{ matrix.model }}-${{ matrix.lang }}
+          path: bench/asr/fleurs/results/${{ matrix.model }}.json
+          retention-days: 30

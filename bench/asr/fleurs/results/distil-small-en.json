@@ -1,0 +1,17 @@
+{
+  "dataset": "google/fleurs test",
+  "export": "csukuangfj/sherpa-onnx-whisper-distil-small.en@0492324bca9e12a6fca0089bb846f2dd723b50d8",
+  "languages": {
+    "en": {
+      "audioSeconds": 6388,
+      "clips": 647,
+      "errorPercent": 7.32,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 10.6
+    }
+  },
+  "mode": "offline",
+  "model": "distil-small-en",
+  "sherpaOnnx": "1.13.8"
+}

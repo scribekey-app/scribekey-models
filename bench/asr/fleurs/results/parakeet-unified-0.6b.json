@@ -1,0 +1,17 @@
+{
+  "dataset": "google/fleurs test",
+  "export": "csukuangfj2/sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming@8c3a10fb13408c7a7054f6898958bf1c64a8d6c7",
+  "languages": {
+    "en": {
+      "audioSeconds": 6388,
+      "clips": 647,
+      "errorPercent": 5.75,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 28.3
+    }
+  },
+  "mode": "offline",
+  "model": "parakeet-unified-0.6b",
+  "sherpaOnnx": "1.13.8"
+}
