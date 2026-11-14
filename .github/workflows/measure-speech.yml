@@ -28,7 +28,7 @@ jobs:
       matrix: ${{ steps.plan.outputs.matrix }}
       empty: ${{ steps.plan.outputs.empty }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - id: plan
         env:
           MODELS: ${{ inputs.models }}
@@ -50,16 +50,18 @@ jobs:
       matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
     name: ${{ matrix.model }} ${{ matrix.lang }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
       - name: Measure
         env:
           BENCH_CACHE: ${{ runner.temp }}/fleurs
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          uv run --python 3.12 --with-requirements bench/asr/fleurs/requirements.txt \
-            python bench/asr/fleurs/measure.py "${{ matrix.model }}" "${{ matrix.lang }}"
-      - uses: actions/upload-artifact@v4
+          pip install -q -r bench/asr/fleurs/requirements.txt
+          python bench/asr/fleurs/measure.py "${{ matrix.model }}" "${{ matrix.lang }}"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: fleurs-${{ matrix.model }}-${{ matrix.lang }}
           path: bench/asr/fleurs/results/${{ matrix.model }}.json
