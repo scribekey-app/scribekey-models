@@ -184,8 +184,8 @@ def test_accuracy_grades_match_handys_bands(error: float, grade: str) -> None:
 def test_measured_accuracy_is_projected_with_its_grade_for_every_model() -> None:
     models = {model["id"]: model for model in generate_speech_catalog()["models"]}
 
-    assert models["parakeet-unified-0.6b"]["accuracy"] == {"en": {"grade": "A-", "errorPercent": 3.99}}
-    assert models["canary-180m"]["accuracy"]["de"] == {"grade": "B", "errorPercent": 7.33}
+    assert models["parakeet-unified-0.6b"]["accuracy"] == {"en": {"grade": "A-", "errorPercent": 4.26}}
+    assert models["canary-180m"]["accuracy"]["de"] == {"grade": "B-", "errorPercent": 8.5}
     assert all(model.get("accuracy") for model in models.values())
 
 
