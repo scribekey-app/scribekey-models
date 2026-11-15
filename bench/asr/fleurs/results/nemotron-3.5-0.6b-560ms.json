@@ -1,0 +1,233 @@
+{
+  "dataset": "google/fleurs test",
+  "export": "csukuangfj2/sherpa-onnx-nemotron-3.5-asr-streaming-0.6b-560ms-int8-2026-06-11@ab43d895f5985b1bbab8b6eac8607fcdc05343f3",
+  "languages": {
+    "ar": {
+      "audioSeconds": 4685,
+      "clips": 428,
+      "errorPercent": 16.27,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 4.5
+    },
+    "bg": {
+      "audioSeconds": 6687,
+      "clips": 658,
+      "errorPercent": 26.51,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.7
+    },
+    "cs": {
+      "audioSeconds": 8820,
+      "clips": 723,
+      "errorPercent": 27.41,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.9
+    },
+    "da": {
+      "audioSeconds": 10579,
+      "clips": 930,
+      "errorPercent": 32.17,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.8
+    },
+    "de": {
+      "audioSeconds": 11349,
+      "clips": 862,
+      "errorPercent": 11.17,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.9
+    },
+    "en": {
+      "audioSeconds": 6388,
+      "clips": 647,
+      "errorPercent": 8.19,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.8
+    },
+    "es": {
+      "audioSeconds": 11126,
+      "clips": 908,
+      "errorPercent": 6.72,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.7
+    },
+    "et": {
+      "audioSeconds": 10825,
+      "clips": 893,
+      "errorPercent": 34.51,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 4.6
+    },
+    "fi": {
+      "audioSeconds": 11894,
+      "clips": 918,
+      "errorPercent": 24.44,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.4
+    },
+    "fr": {
+      "audioSeconds": 7024,
+      "clips": 676,
+      "errorPercent": 11.83,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.8
+    },
+    "hi": {
+      "audioSeconds": 4832,
+      "clips": 418,
+      "errorPercent": 9.94,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 4.6
+    },
+    "hr": {
+      "audioSeconds": 9237,
+      "clips": 914,
+      "errorPercent": 30.48,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.8
+    },
+    "hu": {
+      "audioSeconds": 11051,
+      "clips": 905,
+      "errorPercent": 35.52,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.8
+    },
+    "it": {
+      "audioSeconds": 12676,
+      "clips": 865,
+      "errorPercent": 6.33,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 7.7
+    },
+    "ja": {
+      "audioSeconds": 8511,
+      "clips": 650,
+      "errorPercent": 14.57,
+      "measuredOn": "2026-11-14",
+      "metric": "cer",
+      "realTimeFactor": 4.6
+    },
+    "ko": {
+      "audioSeconds": 4805,
+      "clips": 382,
+      "errorPercent": 9.38,
+      "measuredOn": "2026-11-14",
+      "metric": "cer",
+      "realTimeFactor": 3.9
+    },
+    "nb": {
+      "audioSeconds": 4489,
+      "clips": 357,
+      "errorPercent": 23.52,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 4.6
+    },
+    "nl": {
+      "audioSeconds": 3487,
+      "clips": 364,
+      "errorPercent": 15.06,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.8
+    },
+    "pl": {
+      "audioSeconds": 7382,
+      "clips": 758,
+      "errorPercent": 19.02,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.5
+    },
+    "pt": {
+      "audioSeconds": 11660,
+      "clips": 919,
+      "errorPercent": 8.9,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.9
+    },
+    "ro": {
+      "audioSeconds": 9099,
+      "clips": 883,
+      "errorPercent": 35.51,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 7.2
+    },
+    "ru": {
+      "audioSeconds": 8994,
+      "clips": 775,
+      "errorPercent": 14.79,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 7.7
+    },
+    "sk": {
+      "audioSeconds": 9409,
+      "clips": 792,
+      "errorPercent": 27.85,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 4.5
+    },
+    "sv": {
+      "audioSeconds": 8399,
+      "clips": 759,
+      "errorPercent": 27.03,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 4.5
+    },
+    "tr": {
+      "audioSeconds": 9380,
+      "clips": 743,
+      "errorPercent": 15.79,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.9
+    },
+    "uk": {
+      "audioSeconds": 8145,
+      "clips": 750,
+      "errorPercent": 18.15,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 7.1
+    },
+    "vi": {
+      "audioSeconds": 10814,
+      "clips": 857,
+      "errorPercent": 15.15,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 3.8
+    },
+    "zh": {
+      "audioSeconds": 11065,
+      "clips": 945,
+      "errorPercent": 22.74,
+      "measuredOn": "2026-11-14",
+      "metric": "cer",
+      "realTimeFactor": 3.9
+    }
+  },
+  "mode": "streaming",
+  "model": "nemotron-3.5-0.6b-560ms",
+  "sherpaOnnx": "1.13.8"
+}
