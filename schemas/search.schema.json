@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scribekey.app/schemas/search.schema.json",
+  "title": "ScribeKey search models",
+  "description": "On-device embedding models behind Search by meaning. Each entry is one LiteRT-LM file and the vector shape the app stores.",
+  "type": "object",
+  "required": ["schema_version", "models"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": 1 },
+    "models": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/searchModel" }
+    }
+  },
+  "$defs": {
+    "searchModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "modelId", "displayName", "description", "bestFor", "info", "provenance",
+        "revision", "bundleFileName", "downloadUrl", "sizeBytes", "sha256",
+        "runtimeFamily", "backends",
+        "minDeviceMemoryGb", "minimumApiLevel", "supportedAbis", "supportedLanguages",
+        "embeddingDimensions", "normalizeEmbeddings", "passageTokens",
+        "license", "attribution", "licenseUrl", "privacyDisclosure"
+      ],
+      "properties": {
+        "modelId": { "type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$" },
+        "displayName": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "bestFor": { "type": "string", "minLength": 1, "maxLength": 48 },
+        "experimental": {
+          "description": "True while the model is still being qualified; the app offers it only in debug and QA builds with its feature toggle on. Needs badge 'Experimental'.",
+          "type": "boolean"
+        },
+        "badge": { "type": "string" },
+        "info": {
+          "type": "object",
+          "required": ["paramsBadge", "architecture", "languages"],
+          "additionalProperties": false,
+          "properties": {
+            "paramsBadge": { "type": "string" },
+            "architecture": { "type": "string" },
+            "languages": { "type": "string" }
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "required": ["sourceModel", "exportRepository", "exportRevision", "exportVariant", "licenseId", "licenseUrl"],
+          "additionalProperties": false,
+          "properties": {
+            "sourceModel": { "type": "string" },
+            "exportRepository": { "type": "string" },
+            "exportRevision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+            "exportVariant": { "type": "string" },
+            "licenseId": { "type": "string" },
+            "licenseUrl": { "type": "string", "format": "uri" }
+          }
+        },
+        "revision": {
+          "description": "Immutable Hugging Face commit the file is downloaded from.",
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "bundleFileName": { "type": "string", "pattern": "^[^/\\\\]+\\.litertlm$" },
+        "downloadUrl": { "type": "string", "format": "uri" },
+        "downloadUrls": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "format": "uri" }
+        },
+        "sizeBytes": { "type": "integer", "minimum": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "runtimeFamily": {
+          "description": "The runtime that loads the file. Search models run on LiteRT-LM only.",
+          "enum": ["litert-lm"]
+        },
+        "backends": {
+          "description": "LiteRT-LM backends the app may use for this file, in order of preference.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["cpu"] }
+        },
+        "minDeviceMemoryGb": {
+          "description": "Total device memory, in GB, below which the app does not offer the model.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "minimumApiLevel": { "type": "integer", "minimum": 1 },
+        "supportedAbis": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["arm64-v8a", "x86_64"] }
+        },
+        "supportedLanguages": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string" }
+        },
+        "embeddingDimensions": {
+          "description": "Length of every stored vector, queries and passages alike. One of the output sizes the model publishes.",
+          "enum": [128, 256, 512, 768]
+        },
+        "normalizeEmbeddings": {
+          "description": "True when the app asks the runtime for unit-length vectors, so similarity is a dot product.",
+          "type": "boolean"
+        },
+        "passageTokens": {
+          "description": "Input size, in tokens, the app loads for a passage. One of the input sizes the model publishes.",
+          "enum": [128, 256, 512, 1024, 2048, 8192]
+        },
+        "license": { "type": "string" },
+        "attribution": { "type": "string" },
+        "licenseUrl": { "type": "string", "format": "uri" },
+        "privacyDisclosure": { "type": "string" }
+      }
+    }
+  }
+}

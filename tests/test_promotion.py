@@ -364,3 +364,26 @@ def test_promotion_override_at_same_sequence_is_rejected(repo_worktree: Path) ->
     priv, _ = generate_keypair()
     with pytest.raises(ValueError, match="Cannot modify compatibility"):
         promote("stable", "2026.09.1", sequence=1, min_app_version_code=22, private_key=priv, root=repo_worktree)
+
+
+def test_promoting_a_release_with_search_declares_litert_lm(repo_worktree: Path) -> None:
+    releases_dir = repo_worktree / "catalog" / "releases"
+    release = yaml.safe_load((releases_dir / "2026.09.2.yaml").read_text(encoding="utf-8"))
+    release["releaseId"] = "2026.09.3"
+    release["catalogs"]["search"] = {"filename": "search_model_catalog.json", "sha256": "8" * 64, "sizeBytes": 400}
+    (releases_dir / "2026.09.3.yaml").write_text(yaml.safe_dump(release), encoding="utf-8")
+    priv, _ = generate_keypair()
+
+    promote("stable", "2026.09.2", private_key=priv, root=repo_worktree)
+    stable = json.loads((repo_worktree / "generated" / "channels" / "stable.json").read_text())
+    assert "litert-lm" not in stable["compatibility"]["supportedRuntimeFamilies"]
+
+    result = promote("qa", "2026.09.3", private_key=priv, root=repo_worktree)
+    qa = json.loads(result.manifest_path.read_text())
+    assert qa["catalogs"]["search"]["path"] == "../releases/2026.09.3/search_model_catalog.json"
+    assert qa["compatibility"]["supportedRuntimeFamilies"][-1] == "litert-lm"
+    assert qa["compatibility"]["minAppVersionCode"] == 10
+    channels = yaml.safe_load((repo_worktree / "catalog" / "channels.yaml").read_text(encoding="utf-8"))
+    assert channels["channels"]["qa"]["compatibility"] == qa["compatibility"]
+    # Re-running the same promotion stays a no-op: channels.yaml records the family it was signed with.
+    assert promote("qa", "2026.09.3", private_key=priv, root=repo_worktree).updated is False

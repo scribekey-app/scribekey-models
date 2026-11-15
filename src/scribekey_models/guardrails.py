@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import math
 import re
 from dataclasses import dataclass
@@ -30,6 +31,7 @@ BINARY_EXTENSIONS = {
     ".pth",
     ".gguf",
     ".tflite",
+    ".litertlm",
     ".ckpt",
     ".tar.gz",
     ".zip",
@@ -51,7 +53,7 @@ EXECUTABLE_PAYLOAD_EXTENSIONS = {
     ".dylib",
     ".dll",
 }
-KNOWN_RUNTIME_FAMILIES = {"sherpa-onnx", "gguf", "pyannote"}
+KNOWN_RUNTIME_FAMILIES = {"sherpa-onnx", "gguf", "pyannote", "litert-lm"}
 KNOWN_CONFIG_FAMILIES = {
     "speech-model-catalog",
     "cleanup-model-catalog",
@@ -390,54 +392,8 @@ def _validate_speech_presentation(models: list[dict[str, Any]]) -> list[Guardrai
         elif name:
             seen_names[name] = mid
 
-        # The badge is copy and ``experimental`` is the gate; Android hides on the flag alone, so
-        # a card that says "Experimental" must be one the gate actually hides, and vice versa.
-        experimental = bool(model.get("experimental"))
-        if (str(model.get("badge", "")).strip().casefold() == "experimental") != experimental:
-            issues.append(
-                GuardrailIssue(
-                    "catalog/speech.yaml",
-                    f"Speech model '{mid}' badge and experimental flag disagree",
-                )
-            )
-        if experimental and (model.get("retired") or model.get("deprecated")):
-            issues.append(
-                GuardrailIssue(
-                    "catalog/speech.yaml",
-                    f"Speech model '{mid}' is experimental and also retired or deprecated",
-                )
-            )
-
-        best_for_text = str(model.get("bestFor", "")).strip()
-        best_for = best_for_text.casefold()
-        description_text = str(model.get("description", "")).strip()
-        description = description_text.casefold()
-        if best_for and best_for == description:
-            issues.append(
-                GuardrailIssue("catalog/speech.yaml", f"Speech model '{mid}' repeats description as bestFor")
-            )
-        if best_for_text.endswith((".", "!", "?")):
-            issues.append(
-                GuardrailIssue("catalog/speech.yaml", f"Speech model '{mid}' bestFor ends with a full stop")
-            )
-        for field, text in (("bestFor", best_for_text), ("description", description_text)):
-            claims = _speech_copy_claims(text)
-            if claims:
-                issues.append(
-                    GuardrailIssue(
-                        "catalog/speech.yaml",
-                        f"Speech model '{mid}' {field} uses unsupported wording: {', '.join(claims)}",
-                    )
-                )
-        if description_text:
-            sentences = [part for part in re.split(r"(?<=[.!?])\s+", description_text) if part]
-            if len(sentences) > 2:
-                issues.append(
-                    GuardrailIssue(
-                        "catalog/speech.yaml",
-                        f"Speech model '{mid}' description must be one or two sentences",
-                    )
-                )
+        issues.extend(_experimental_issues("catalog/speech.yaml", f"Speech model '{mid}'", model))
+        issues.extend(_card_copy_issues("catalog/speech.yaml", f"Speech model '{mid}'", model))
         if not model.get("provenance"):
             issues.append(GuardrailIssue("catalog/speech.yaml", f"Speech model '{mid}' is missing provenance"))
 
@@ -475,6 +431,120 @@ def _validate_speech_presentation(models: list[dict[str, Any]]) -> list[Guardrai
                 )
             )
     return issues
+
+
+# FLEURS test-split languages (transcribe.cpp scripts/wer/languages.py, canonical spellings). A
+# listed language FLEURS has must be measured; one it lacks cannot be, so it is not required.
+FLEURS_LANGUAGES = frozenset(
+    ["af", "am", "ar", "as", "ast", "az", "be", "bg", "bn", "bs", "ca", "ceb", "ckb", "cs", "cy", "da", "de", "el", "en", "es", "et", "fa", "fi", "fil", "fr", "ga", "gl", "gu", "ha", "he", "hi", "hr", "hu", "hy", "id", "ig", "is", "it", "ja", "jv", "ka", "kk", "km", "kn", "ko", "ky", "lb", "lo", "lt", "lv", "mi", "mk", "ml", "mn", "mr", "ms", "mt", "my", "nb", "ne", "nl", "pa", "pl", "ps", "pt", "ro", "ru", "sd", "sk", "sl", "sr", "sv", "sw", "ta", "te", "tg", "th", "tr", "uk", "ur", "uz", "vi", "xh", "yo", "yue", "zh", "zu"]
+)
+SPEECH_BENCH_RESULTS = ROOT / "bench/asr/fleurs/results"
+
+
+def validate_speech_accuracy(speech_data: dict[str, Any]) -> list[GuardrailIssue]:
+    return [issue for model in speech_data.get("models", []) for issue in _speech_accuracy_issues(model)]
+
+
+def _speech_accuracy_issues(model: dict[str, Any], results_dir: Path = SPEECH_BENCH_RESULTS) -> list[GuardrailIssue]:
+    """Every speech model carries a grade the app can show, measured by ``bench/asr/fleurs``.
+
+    Each number must equal the committed harness result for that model, so a figure nobody measured
+    on the shipped export (a published one included) cannot reach a card.
+    """
+    mid = model.get("id", "unknown")
+
+    def issue(message: str) -> GuardrailIssue:
+        return GuardrailIssue("catalog/speech.yaml", f"Speech model '{mid}' {message}")
+
+    accuracy = model.get("accuracy") or {}
+    if not accuracy:
+        return [issue("has no measured accuracy; run bench/asr/fleurs/run_all.sh")]
+    issues: list[GuardrailIssue] = []
+    unmeasured = sorted((set(model.get("languageCodes") or []) & FLEURS_LANGUAGES) - set(accuracy))
+    if unmeasured:
+        issues.append(issue(f"lists languages with no measured accuracy: {', '.join(unmeasured)}"))
+    path = results_dir / f"{mid}.json"
+    measured = json.loads(path.read_text())["languages"] if path.exists() else {}
+    for language, error in accuracy.items():
+        if measured.get(language, {}).get("errorPercent") != error:
+            issues.append(issue(f"accuracy.{language} {error} does not match bench/asr/fleurs/results/{mid}.json"))
+    return issues
+
+
+def _experimental_issues(source: str, label: str, model: dict[str, Any]) -> list[GuardrailIssue]:
+    # The badge is copy and ``experimental`` is the gate; Android hides on the flag alone, so
+    # a card that says "Experimental" must be one the gate actually hides, and vice versa.
+    issues: list[GuardrailIssue] = []
+    experimental = bool(model.get("experimental"))
+    if (str(model.get("badge", "")).strip().casefold() == "experimental") != experimental:
+        issues.append(GuardrailIssue(source, f"{label} badge and experimental flag disagree"))
+    if experimental and (model.get("retired") or model.get("deprecated")):
+        issues.append(GuardrailIssue(source, f"{label} is experimental and also retired or deprecated"))
+    return issues
+
+
+def _card_copy_issues(source: str, label: str, model: dict[str, Any]) -> list[GuardrailIssue]:
+    """``bestFor`` is a label under the name, ``description`` one or two sentences in the sheet."""
+    issues: list[GuardrailIssue] = []
+    best_for_text = str(model.get("bestFor", "")).strip()
+    description_text = str(model.get("description", "")).strip()
+    if best_for_text and best_for_text.casefold() == description_text.casefold():
+        issues.append(GuardrailIssue(source, f"{label} repeats description as bestFor"))
+    if best_for_text.endswith((".", "!", "?")):
+        issues.append(GuardrailIssue(source, f"{label} bestFor ends with a full stop"))
+    for field, text in (("bestFor", best_for_text), ("description", description_text)):
+        claims = _speech_copy_claims(text)
+        if claims:
+            issues.append(GuardrailIssue(source, f"{label} {field} uses unsupported wording: {', '.join(claims)}"))
+    if description_text:
+        sentences = [part for part in re.split(r"(?<=[.!?])\s+", description_text) if part]
+        if len(sentences) > 2:
+            issues.append(GuardrailIssue(source, f"{label} description must be one or two sentences"))
+    return issues
+
+
+def _hugging_face_identity_issues(source: str, label: str, model: dict[str, Any]) -> list[GuardrailIssue]:
+    """A GGUF's download URL must name the pinned revision and the repository its provenance names."""
+    issues: list[GuardrailIssue] = []
+    rev = model.get("revision")
+    hf_match = re.match(r"^https://huggingface\.co/([^/]+/[^/]+)/resolve/([^/]+)/", model.get("downloadUrl", ""))
+    if not hf_match:
+        return issues
+    url_repo, url_rev = hf_match.group(1), hf_match.group(2)
+    if rev and url_rev != rev:
+        issues.append(
+            GuardrailIssue(source, f"{label} download URL does not match Hugging Face revision ({url_rev} vs {rev})")
+        )
+    provenance = model.get("provenance")
+    if isinstance(provenance, dict):
+        export_repo = provenance.get("exportRepository")
+        export_rev = provenance.get("exportRevision")
+        if url_repo != export_repo or url_rev != export_rev:
+            issues.append(
+                GuardrailIssue(
+                    source,
+                    f"{label} download URL does not match Hugging Face provenance ({url_repo}@{url_rev} vs {export_repo}@{export_rev})",
+                )
+            )
+    return issues
+
+
+def _greedy_decoding_issues(source: str, label: str, model: dict[str, Any]) -> list[GuardrailIssue]:
+    if model.get("deterministicDecoding") is not True:
+        return []
+    if (
+        model.get("topK") != 1
+        or model.get("topP") != 1.0
+        or model.get("temperature") != 0.0
+        or model.get("repetitionPenalty") is not None
+    ):
+        return [
+            GuardrailIssue(
+                source,
+                f"{label}: deterministicDecoding requires topK=1, topP=1.0, temperature=0.0, repetitionPenalty=None",
+            )
+        ]
+    return []
 
 
 def _validate_cleanup_presentation(models: list[dict[str, Any]]) -> list[GuardrailIssue]:
@@ -1048,31 +1118,7 @@ def validate_model_configuration(
                 )
             )
 
-        rev = cm.get("revision")
-        url = cm.get("downloadUrl", "")
-        hf_match = re.match(r"^https://huggingface\.co/([^/]+/[^/]+)/resolve/([^/]+)/", url)
-        if hf_match and rev:
-            url_rev = hf_match.group(2)
-            if url_rev != rev:
-                issues.append(
-                    GuardrailIssue(
-                        "catalog/cleanup.yaml",
-                        f"Cleanup model '{cm_id}' download URL does not match Hugging Face revision ({url_rev} vs {rev})",
-                    )
-                )
-
-        provenance = cm.get("provenance")
-        if hf_match and isinstance(provenance, dict):
-            url_repo, url_rev = hf_match.group(1), hf_match.group(2)
-            export_repo = provenance.get("exportRepository")
-            export_rev = provenance.get("exportRevision")
-            if url_repo != export_repo or url_rev != export_rev:
-                issues.append(
-                    GuardrailIssue(
-                        "catalog/cleanup.yaml",
-                        f"Cleanup model '{cm_id}' download URL does not match Hugging Face provenance ({url_repo}@{url_rev} vs {export_repo}@{export_rev})",
-                    )
-                )
+        issues.extend(_hugging_face_identity_issues("catalog/cleanup.yaml", f"Cleanup model '{cm_id}'", cm))
 
         ctx_tokens = cm.get("contextTokens")
         max_out_tokens = cm.get("maxOutputTokens")
@@ -1084,18 +1130,7 @@ def validate_model_configuration(
                 )
             )
 
-        if cm.get("deterministicDecoding") is True:
-            top_k = cm.get("topK")
-            top_p = cm.get("topP")
-            temp = cm.get("temperature")
-            rep_pen = cm.get("repetitionPenalty")
-            if top_k != 1 or top_p != 1.0 or temp != 0.0 or rep_pen is not None:
-                issues.append(
-                    GuardrailIssue(
-                        "catalog/cleanup.yaml",
-                        f"Cleanup model '{cm_id}': deterministicDecoding requires topK=1, topP=1.0, temperature=0.0, repetitionPenalty=None",
-                    )
-                )
+        issues.extend(_greedy_decoding_issues("catalog/cleanup.yaml", f"Cleanup model '{cm_id}'", cm))
 
     # 3. Diarization configuration
     diarization_models = diarization_data.get("models", [])
@@ -1185,3 +1220,128 @@ def validate_model_versions(cleanup_data: dict[str, Any]) -> list[GuardrailIssue
             )
     return issues
 
+
+
+NOTES_SOURCE = "catalog/notes.yaml"
+# shortcut: a fixed allowance for the system prompt, instructions and chat template around the
+# transcript; measure the app's real prompt tokens per model if a model ever runs close to its context.
+NOTES_PROMPT_HEADROOM_TOKENS = 1024
+
+
+def validate_notes_catalog(notes_data: dict[str, Any]) -> list[GuardrailIssue]:
+    """What the schema cannot say about a notes model: identity, pinning and limits that fit together."""
+    issues: list[GuardrailIssue] = []
+    seen_ids: set[str] = set()
+    seen_names: dict[str, str] = {}
+    for model in notes_data.get("models", []):
+        mid = model.get("modelId", "unknown")
+        label = f"Notes model '{mid}'"
+        if mid in seen_ids:
+            issues.append(GuardrailIssue(NOTES_SOURCE, f"Duplicate notes model id '{mid}'"))
+        seen_ids.add(mid)
+        name = str(model.get("displayName", "")).strip().casefold()
+        if name in seen_names:
+            issues.append(GuardrailIssue(NOTES_SOURCE, f"{label} reuses display name of '{seen_names[name]}'"))
+        elif name:
+            seen_names[name] = mid
+
+        issues.extend(_single_file_model_issues(NOTES_SOURCE, label, model))
+        issues.extend(_greedy_decoding_issues(NOTES_SOURCE, label, model))
+        issues.extend(_notes_limit_issues(label, model))
+    return issues
+
+
+def _single_file_model_issues(source: str, label: str, model: dict[str, Any]) -> list[GuardrailIssue]:
+    """Pinning, integrity and card copy shared by every catalogue whose entry is one downloaded file."""
+    issues: list[GuardrailIssue] = []
+    mid = model.get("modelId", "unknown")
+    if not HEX40_RE.match(str(model.get("revision", ""))):
+        issues.append(GuardrailIssue(source, f"{label} revision must be a 40-character commit hash"))
+    if not HEX64_RE.match(str(model.get("sha256", ""))):
+        issues.append(GuardrailIssue(source, f"{label} invalid sha256: '{model.get('sha256', '')}'"))
+    size = model.get("sizeBytes")
+    if not isinstance(size, int) or isinstance(size, bool) or size <= 0:
+        issues.append(GuardrailIssue(source, f"{label} invalid sizeBytes: '{size}'"))
+    download_url = str(model.get("downloadUrl", ""))
+    if Path(download_url).suffix.lower() in EXECUTABLE_PAYLOAD_EXTENSIONS:
+        issues.append(GuardrailIssue(source, f"{label} references an executable payload"))
+    bundle = str(model.get("bundleFileName", ""))
+    if not _is_safe_filename(bundle):
+        issues.append(GuardrailIssue(source, f"{label} has unsafe install path '{model.get('bundleFileName')}'"))
+    elif download_url.rsplit("/", 1)[-1] != bundle:
+        # The app installs under bundleFileName, so the URL must serve that file, not another one in the repo.
+        issues.append(GuardrailIssue(source, f"{label} download URL does not end in bundleFileName '{bundle}'"))
+    for url in [download_url, *model.get("downloadUrls", [])]:
+        issues.extend(validate_download_url(source, url, mid))
+    issues.extend(_hugging_face_identity_issues(source, label, model))
+    issues.extend(_experimental_issues(source, label, model))
+    issues.extend(_card_copy_issues(source, label, model))
+    return issues
+
+
+def _notes_limit_issues(label: str, model: dict[str, Any]) -> list[GuardrailIssue]:
+    issues: list[GuardrailIssue] = []
+    limits = ("pieceTokens", "maxInputTokens", "maxOutputTokens", "contextTokens", "maxAskPassages", "askPassageTokens")
+    for field in limits:
+        value = model.get(field)
+        if value is not None and (not isinstance(value, int) or isinstance(value, bool) or value <= 0):
+            issues.append(GuardrailIssue(NOTES_SOURCE, f"{label} {field} must be a positive integer"))
+    if issues:
+        return issues
+    piece = model.get("pieceTokens", 0)
+    output = model.get("maxOutputTokens", 0)
+    context = model.get("contextTokens", 0)
+    if model.get("maxInputTokens", 0) < piece:
+        issues.append(GuardrailIssue(NOTES_SOURCE, f"{label} maxInputTokens is smaller than pieceTokens"))
+    if piece + output + NOTES_PROMPT_HEADROOM_TOKENS > context:
+        issues.append(
+            GuardrailIssue(
+                NOTES_SOURCE,
+                f"{label} pieceTokens + maxOutputTokens + {NOTES_PROMPT_HEADROOM_TOKENS} prompt tokens "
+                f"exceed contextTokens ({piece} + {output} + {NOTES_PROMPT_HEADROOM_TOKENS} > {context})",
+            )
+        )
+    if "ask" in model.get("capabilities", []):
+        passages, passage_tokens = model.get("maxAskPassages"), model.get("askPassageTokens")
+        if passages is None or passage_tokens is None:
+            issues.append(GuardrailIssue(NOTES_SOURCE, f"{label} offers ask without maxAskPassages and askPassageTokens"))
+        elif passages * passage_tokens + output + NOTES_PROMPT_HEADROOM_TOKENS > context:
+            issues.append(
+                GuardrailIssue(
+                    NOTES_SOURCE,
+                    f"{label} maxAskPassages x askPassageTokens + maxOutputTokens + prompt exceed contextTokens",
+                )
+            )
+    return issues
+
+
+SEARCH_SOURCE = "catalog/search.yaml"
+SEARCH_RUNTIME_FAMILY = "litert-lm"
+
+
+def validate_search_catalog(search_data: dict[str, Any]) -> list[GuardrailIssue]:
+    """What the schema cannot say about a search model: identity, pinning and the runtime that loads it."""
+    issues: list[GuardrailIssue] = []
+    seen_ids: set[str] = set()
+    seen_names: dict[str, str] = {}
+    for model in search_data.get("models", []):
+        mid = model.get("modelId", "unknown")
+        label = f"Search model '{mid}'"
+        if mid in seen_ids:
+            issues.append(GuardrailIssue(SEARCH_SOURCE, f"Duplicate search model id '{mid}'"))
+        seen_ids.add(mid)
+        name = str(model.get("displayName", "")).strip().casefold()
+        if name in seen_names:
+            issues.append(GuardrailIssue(SEARCH_SOURCE, f"{label} reuses display name of '{seen_names[name]}'"))
+        elif name:
+            seen_names[name] = mid
+
+        if not str(model.get("bundleFileName", "")).endswith(".litertlm"):
+            issues.append(GuardrailIssue(SEARCH_SOURCE, f"{label} bundleFileName is not a .litertlm file"))
+        family = model.get("runtimeFamily")
+        if family not in KNOWN_RUNTIME_FAMILIES:
+            issues.append(GuardrailIssue(SEARCH_SOURCE, f"{label} has unknown runtime family '{family}'"))
+        elif family != SEARCH_RUNTIME_FAMILY:
+            issues.append(GuardrailIssue(SEARCH_SOURCE, f"{label} must use runtime family '{SEARCH_RUNTIME_FAMILY}'"))
+        issues.extend(_single_file_model_issues(SEARCH_SOURCE, label, model))
+    return issues

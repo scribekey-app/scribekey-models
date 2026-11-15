@@ -3,17 +3,24 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+import yaml
 
 from scribekey_models.guardrails import (
+    NOTES_PROMPT_HEADROOM_TOKENS,
     PUNCTUATION_FILE_SHA256,
+    ROOT,
+    _speech_accuracy_issues,
     validate_channel_and_release_pointers,
     validate_identities_and_integrity,
     validate_immutable_source_refs,
     validate_model_configuration,
     validate_model_versions,
     validate_no_executable_payloads,
+    validate_notes_catalog,
     validate_redistribution_clearance,
     validate_release_safety,
+    validate_search_catalog,
+    validate_speech_accuracy,
 )
 
 
@@ -756,3 +763,179 @@ def test_shipped_speech_copy_fits_the_card() -> None:
         assert len(best_for) <= 48, model["id"]
         assert not best_for.endswith((".", "!", "?")), model["id"]
         assert best_for.casefold() != model["description"].casefold(), model["id"]
+
+
+# Notes models -------------------------------------------------------------------------------
+
+
+def _notes_model(**overrides: object) -> dict:
+    rev = "a" * 40
+    return {
+        "modelId": "notes",
+        "displayName": "Notes",
+        "bestFor": "Summaries",
+        "description": "Writes a summary.",
+        "experimental": True,
+        "badge": "Experimental",
+        "provenance": {"exportRepository": "org/repo", "exportRevision": rev},
+        "revision": rev,
+        "bundleFileName": "model.gguf",
+        "downloadUrl": f"https://huggingface.co/org/repo/resolve/{rev}/model.gguf",
+        "sizeBytes": 1,
+        "sha256": "b" * 64,
+        "deterministicDecoding": True,
+        "topK": 1,
+        "topP": 1.0,
+        "temperature": 0.0,
+        "repetitionPenalty": None,
+        "capabilities": ["summary", "action_items", "ask"],
+        "pieceTokens": 700,
+        "maxInputTokens": 5600,
+        "maxOutputTokens": 512,
+        "contextTokens": 8192,
+        "maxAskPassages": 6,
+        "askPassageTokens": 80,
+        **overrides,
+    }
+
+
+def _notes_messages(*models: dict) -> list[str]:
+    return [issue.message for issue in validate_notes_catalog({"models": list(models)})]
+
+
+def test_notes_model_as_the_app_uses_it_passes() -> None:
+    assert _notes_messages(_notes_model()) == []
+
+
+def test_notes_rejects_duplicate_ids_and_names() -> None:
+    messages = _notes_messages(_notes_model(), _notes_model())
+    assert "Duplicate notes model id 'notes'" in messages
+    assert "Notes model 'notes' reuses display name of 'notes'" in messages
+
+
+@pytest.mark.parametrize(("overrides", "expected"), [
+    ({"revision": "main"}, "revision must be a 40-character commit hash"),
+    ({"sha256": ""}, "invalid sha256"),
+    ({"sizeBytes": None}, "invalid sizeBytes"),
+    ({"bundleFileName": "../model.gguf"}, "unsafe install path"),
+    ({"downloadUrl": f"https://huggingface.co/org/repo/resolve/{'c' * 40}/model.gguf"}, "does not match Hugging Face revision"),
+    ({"provenance": {"exportRepository": "other/repo", "exportRevision": "a" * 40}}, "does not match Hugging Face provenance"),
+    ({"downloadUrl": f"https://huggingface.co/org/repo/resolve/{'a' * 40}/model.so"}, "executable payload"),
+    ({"temperature": 0.7}, "deterministicDecoding requires"),
+    ({"badge": ""}, "badge and experimental flag disagree"),
+    ({"experimental": False}, "badge and experimental flag disagree"),
+    ({"bestFor": "Summaries."}, "bestFor ends with a full stop"),
+    ({"pieceTokens": 0}, "pieceTokens must be a positive integer"),
+    ({"maxInputTokens": -1}, "maxInputTokens must be a positive integer"),
+    ({"maxInputTokens": 699}, "maxInputTokens is smaller than pieceTokens"),
+    ({"contextTokens": 700 + 512 + NOTES_PROMPT_HEADROOM_TOKENS - 1}, "exceed contextTokens"),
+    ({"maxAskPassages": None}, "offers ask without maxAskPassages and askPassageTokens"),
+    ({"askPassageTokens": 2000}, "maxAskPassages x askPassageTokens"),
+])
+def test_notes_rejects_each_broken_rule(overrides: dict, expected: str) -> None:
+    messages = _notes_messages(_notes_model(**overrides))
+    assert any(expected in message for message in messages), messages
+
+
+def test_notes_without_ask_needs_no_ask_limits() -> None:
+    model = _notes_model(capabilities=["summary"], maxAskPassages=None, askPassageTokens=None)
+    assert _notes_messages(model) == []
+
+
+def test_notes_fits_exactly_at_the_context_limit() -> None:
+    assert _notes_messages(_notes_model(contextTokens=700 + 512 + NOTES_PROMPT_HEADROOM_TOKENS)) == []
+
+
+# Search models -------------------------------------------------------------------------------
+
+
+def _search_model(**overrides: object) -> dict:
+    rev = "a" * 40
+    return {
+        "modelId": "search",
+        "displayName": "Search",
+        "bestFor": "Search by meaning",
+        "description": "Finds sessions by meaning.",
+        "experimental": True,
+        "badge": "Experimental",
+        "provenance": {"exportRepository": "org/repo", "exportRevision": rev},
+        "revision": rev,
+        "bundleFileName": "model.litertlm",
+        "downloadUrl": f"https://huggingface.co/org/repo/resolve/{rev}/model.litertlm",
+        "sizeBytes": 1,
+        "sha256": "b" * 64,
+        "runtimeFamily": "litert-lm",
+        **overrides,
+    }
+
+
+def _search_messages(*models: dict) -> list[str]:
+    return [issue.message for issue in validate_search_catalog({"models": list(models)})]
+
+
+def test_search_model_as_the_app_uses_it_passes() -> None:
+    assert _search_messages(_search_model()) == []
+
+
+def test_search_rejects_duplicate_ids_and_names() -> None:
+    messages = _search_messages(_search_model(), _search_model())
+    assert "Duplicate search model id 'search'" in messages
+    assert "Search model 'search' reuses display name of 'search'" in messages
+
+
+@pytest.mark.parametrize(("overrides", "expected"), [
+    ({"bundleFileName": "model.gguf"}, "is not a .litertlm file"),
+    ({"downloadUrl": "https://huggingface.co/org/repo/resolve/main/model.litertlm"}, "mutable ref 'main'"),
+    ({"downloadUrl": "https://huggingface.co/org/repo/resolve/v1.0/model.litertlm"}, "must use a 40-character commit hash"),
+    ({"revision": "main"}, "revision must be a 40-character commit hash"),
+    ({"runtimeFamily": "onnx"}, "unknown runtime family 'onnx'"),
+    ({"runtimeFamily": "gguf"}, "must use runtime family 'litert-lm'"),
+    ({"sha256": ""}, "invalid sha256"),
+    ({"sizeBytes": 0}, "invalid sizeBytes"),
+    ({"bundleFileName": "../model.litertlm"}, "unsafe install path"),
+    ({"downloadUrl": f"https://huggingface.co/org/repo/resolve/{'a' * 40}/other.litertlm"}, "does not end in bundleFileName"),
+    ({"provenance": {"exportRepository": "other/repo", "exportRevision": "a" * 40}}, "does not match Hugging Face provenance"),
+    ({"badge": ""}, "badge and experimental flag disagree"),
+    ({"bestFor": "Search by meaning."}, "bestFor ends with a full stop"),
+])
+def test_search_rejects_each_broken_rule(overrides: dict, expected: str) -> None:
+    messages = _search_messages(_search_model(**overrides))
+    assert any(expected in message for message in messages), messages
+
+
+def test_litertlm_weights_may_not_be_tracked_in_git() -> None:
+    from scribekey_models.guardrails import BINARY_EXTENSIONS, KNOWN_RUNTIME_FAMILIES
+
+    assert ".litertlm" in BINARY_EXTENSIONS
+    assert "litert-lm" in KNOWN_RUNTIME_FAMILIES
+
+
+def test_every_speech_model_needs_measured_accuracy_for_each_listed_fleurs_language(tmp_path: Path) -> None:
+    (tmp_path / "partial.json").write_text('{"languages": {"en": {"errorPercent": 5.0}}}')
+
+    assert [i.message for i in _speech_accuracy_issues({"id": "none"}, tmp_path)] == [
+        "Speech model 'none' has no measured accuracy; run bench/asr/fleurs/run_all.sh"
+    ]
+    # "xx" is not a FLEURS language, so it cannot be measured and is not required.
+    partial = {"id": "partial", "languageCodes": ["en", "de", "xx"], "accuracy": {"en": 5.0}}
+    assert [i.message for i in _speech_accuracy_issues(partial, tmp_path)] == [
+        "Speech model 'partial' lists languages with no measured accuracy: de"
+    ]
+
+
+def test_accuracy_must_equal_the_committed_bench_result(tmp_path: Path) -> None:
+    (tmp_path / "ours.json").write_text('{"languages": {"en": {"errorPercent": 6.2}}}')
+
+    assert _speech_accuracy_issues({"id": "ours", "accuracy": {"en": 6.2}}, tmp_path) == []
+    assert [i.message for i in _speech_accuracy_issues({"id": "ours", "accuracy": {"en": 4.0}}, tmp_path)] == [
+        "Speech model 'ours' accuracy.en 4.0 does not match bench/asr/fleurs/results/ours.json"
+    ]
+    assert [i.message for i in _speech_accuracy_issues({"id": "gone", "accuracy": {"en": 4.0}}, tmp_path)] == [
+        "Speech model 'gone' accuracy.en 4.0 does not match bench/asr/fleurs/results/gone.json"
+    ]
+
+
+def test_every_catalogue_speech_model_is_measured() -> None:
+    models = yaml.safe_load((ROOT / "catalog/speech.yaml").read_text())["models"]
+
+    assert [i.message for i in validate_speech_accuracy({"models": models})] == []

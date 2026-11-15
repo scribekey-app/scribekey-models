@@ -1,0 +1,110 @@
+schema_version: 1
+# Models that write on-device notes from a transcript: Summary, action items and Ask.
+# Every value below is the one the app hard-codes today (OnDeviceNotesModel.kt, notes/NotesRun.kt,
+# notes/AskResult.kt); the app reads them from here once its catalogue reader lands.
+models:
+  # Order matters: the app takes the first model the phone can run.
+  # Tried on 12 Nov 2026 beside LFM2.5 1.2B on a Mac at the app's llama.cpp pin, same prompts: it kept
+  # the facts of a spoken note the smaller model lost (what was still to buy, what was planned and
+  # why) at about the same speed. Not measured on a phone and not through any quality bar yet. A
+  # third-party quantisation of an Apache 2.0 model, because Qwen publishes no GGUF.
+  - modelId: qwen3.5-2b-q4_k_m
+    displayName: Qwen3.5 2B
+    description: Writes a summary and action items from a transcript and answers questions about it. Runs on your phone.
+    bestFor: Notes on phones with 12 GB or more
+    experimental: true
+    badge: Experimental
+    info:
+      paramsBadge: 2B
+      architecture: Qwen3.5
+      languages: English
+    provenance:
+      sourceModel: Qwen/Qwen3.5-2B
+      exportRepository: unsloth/Qwen3.5-2B-GGUF
+      exportRevision: f6d5376be1edb4d416d56da11e5397a961aca8ae
+      exportVariant: Q4_K_M GGUF
+      licenseId: Apache-2.0
+      licenseUrl: https://huggingface.co/Qwen/Qwen3.5-2B/blob/15852e8c16360a2fea060d615a32b45270f8a8fc/LICENSE
+    revision: f6d5376be1edb4d416d56da11e5397a961aca8ae
+    bundleFileName: Qwen3.5-2B-Q4_K_M.gguf
+    downloadUrl: https://huggingface.co/unsloth/Qwen3.5-2B-GGUF/resolve/f6d5376be1edb4d416d56da11e5397a961aca8ae/Qwen3.5-2B-Q4_K_M.gguf
+    sizeBytes: 1280835840
+    sha256: aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223
+    # 12 GB until a phone run shows it fits in less; the smaller model below covers 10 GB.
+    minDeviceMemoryGb: 12
+    minimumApiLevel: 28
+    supportedAbis: [arm64-v8a, x86_64]
+    supportedLanguages: [en]
+    systemPrompt: You write short, factual notes from transcripts. You never add anything the transcript does not say.
+    promptTemplate: QwenChatMl
+    maxOutputTokens: 512
+    contextTokens: 8192
+    topK: 1
+    topP: 1.0
+    temperature: 0.0
+    repetitionPenalty: null
+    deterministicDecoding: true
+    samplerSeed: 42
+    capabilities: [summary, action_items, ask]
+    pieceTokens: 700
+    # Provisional, as for the model below: the same Summary budget arithmetic, not a measurement.
+    maxInputTokens: 5600
+    maxAskPassages: 6
+    askPassageTokens: 80
+    license: Apache-2.0
+    attribution: Qwen3.5-2B by Alibaba Cloud (Qwen), quantised by Unsloth.
+    licenseUrl: https://huggingface.co/Qwen/Qwen3.5-2B/blob/15852e8c16360a2fea060d615a32b45270f8a8fc/LICENSE
+    privacyDisclosure: Transcript text stays on this device.
+  # Provisional pick, measured only on a Galaxy S25 Ultra (7.7 s for a 700-token piece, app #1795).
+  # Not through any quality bar yet, so experimental.
+  - modelId: lfm2.5-1.2b-instruct-q4_k_m
+    displayName: LFM2.5 1.2B
+    description: Writes a summary and action items from a transcript and answers questions about it. Runs on your phone.
+    bestFor: Summaries, action items and answers
+    experimental: true
+    badge: Experimental
+    info:
+      paramsBadge: 1.2B
+      architecture: LFM2.5 Instruct
+      languages: English
+    provenance:
+      sourceModel: LiquidAI/LFM2.5-1.2B-Instruct
+      exportRepository: LiquidAI/LFM2.5-1.2B-Instruct-GGUF
+      exportRevision: 8ed288026e23958ad9dfa92d53ed773a8eee7125
+      exportVariant: Q4_K_M GGUF
+      licenseId: LFM Open License v1.0
+      licenseUrl: https://huggingface.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF/blob/8ed288026e23958ad9dfa92d53ed773a8eee7125/LICENSE
+    revision: 8ed288026e23958ad9dfa92d53ed773a8eee7125
+    bundleFileName: LFM2.5-1.2B-Instruct-Q4_K_M.gguf
+    downloadUrl: https://huggingface.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF/resolve/8ed288026e23958ad9dfa92d53ed773a8eee7125/LFM2.5-1.2B-Instruct-Q4_K_M.gguf
+    sizeBytes: 730895168
+    sha256: b1b3de114215d9507409a662a501a631095a479a419584e8a2ded6304b19b4f5
+    # 10 GB until a smaller phone is measured.
+    minDeviceMemoryGb: 10
+    minimumApiLevel: 28
+    supportedAbis: [arm64-v8a, x86_64]
+    # The model card at this revision lists eight languages. ScribeKey has only run English notes,
+    # and this field says what ScribeKey supports, so it stays English until another is measured.
+    supportedLanguages: [en]
+    systemPrompt: You write short, factual notes from transcripts. You never add anything the transcript does not say.
+    promptTemplate: Lfm2ChatMl
+    maxOutputTokens: 512
+    contextTokens: 8192
+    topK: 1
+    topP: 1.0
+    temperature: 0.0
+    repetitionPenalty: null
+    deterministicDecoding: true
+    samplerSeed: 42
+    capabilities: [summary, action_items, ask]
+    pieceTokens: 700
+    # Provisional until the model bake-off measures it: 8 pieces of 700, the most for which the
+    # 16-line Summary budget still holds at its minimum of 2 lines a piece.
+    maxInputTokens: 5600
+    maxAskPassages: 6
+    askPassageTokens: 80
+    license: LFM Open License v1.0
+    # The licence names no attribution text and the repository has no NOTICE file; this is the origin credit.
+    attribution: LFM2.5-1.2B-Instruct by Liquid AI.
+    licenseUrl: https://huggingface.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF/blob/8ed288026e23958ad9dfa92d53ed773a8eee7125/LICENSE
+    privacyDisclosure: Transcript text stays on this device.

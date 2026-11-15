@@ -8,6 +8,7 @@ from typing import Any
 import yaml
 from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import SchemaError
+from referencing import Registry, Resource
 
 from scribekey_models.guardrails import (
     validate_channel_and_release_pointers,
@@ -15,10 +16,13 @@ from scribekey_models.guardrails import (
     validate_immutable_source_refs,
     validate_model_configuration,
     validate_no_executable_payloads,
+    validate_notes_catalog,
     validate_redistribution_clearance,
     validate_release_safety,
     validate_release_snapshot_integrity,
+    validate_search_catalog,
     validate_signatures,
+    validate_speech_accuracy,
 )
 from scribekey_models.promotion import build_channel_distribution_manifest
 
@@ -66,6 +70,14 @@ def load_diarization_catalog_data() -> dict[str, Any]:
 
 def load_cleanup_catalog_data() -> dict[str, Any]:
     return _load_yaml(CATALOG_DIR / "cleanup.yaml")
+
+
+def load_notes_catalog_data() -> dict[str, Any]:
+    return _load_yaml(CATALOG_DIR / "notes.yaml")
+
+
+def load_search_catalog_data() -> dict[str, Any]:
+    return _load_yaml(CATALOG_DIR / "search.yaml")
 
 
 CLOUD_TIERS_FILE = CATALOG_DIR / "cloud_tiers.json"
@@ -451,6 +463,23 @@ def load_all_releases_data() -> dict[str, dict[str, Any]]:
     return releases
 
 
+def accuracy_grade(error_percent: float) -> str:
+    """Handy's display bands: A under 5% error, B under 10, C under 20, D under 30, F beyond.
+
+    Within A to C each +/- step is a factor of the cube root of 2, so a grade means the same
+    proportional change in error wherever it sits.
+    """
+    if error_percent >= 30:
+        return "F"
+    if error_percent >= 20:
+        return "D"
+    letter, ceiling = next((g, c) for g, c in (("A", 5), ("B", 10), ("C", 20)) if error_percent < c)
+    step = 2 ** (1 / 3)
+    if error_percent < ceiling / step**2:
+        return letter + "+"
+    return letter if error_percent < ceiling / step else letter + "-"
+
+
 def generate_speech_catalog() -> dict[str, Any]:
     raw = load_speech_catalog_data()
     models: list[dict[str, Any]] = []
@@ -490,6 +519,11 @@ def generate_speech_catalog() -> dict[str, Any]:
             entry["counterpartId"] = model["counterpartId"]
         if model.get("languageCodes"):
             entry["languageCodes"] = list(model["languageCodes"])
+        if model.get("accuracy"):
+            entry["accuracy"] = {
+                language: {"grade": accuracy_grade(error), "errorPercent": error}
+                for language, error in model["accuracy"].items()
+            }
         entry["files"] = [
             {
                 "name": file["name"],
@@ -645,6 +679,28 @@ def generate_cleanup_catalog() -> dict[str, Any]:
     }
 
 
+def generate_notes_catalog() -> dict[str, Any]:
+    # experimental and badge are always present, so Android can tell "not experimental" from absent.
+    return {
+        "schemaVersion": 1,
+        "models": [
+            {**model, "experimental": bool(model.get("experimental", False)), "badge": model.get("badge", "")}
+            for model in load_notes_catalog_data().get("models", [])
+        ],
+    }
+
+
+def generate_search_catalog() -> dict[str, Any]:
+    # Same projection as notes: experimental and badge always present.
+    return {
+        "schemaVersion": 1,
+        "models": [
+            {**model, "experimental": bool(model.get("experimental", False)), "badge": model.get("badge", "")}
+            for model in load_search_catalog_data().get("models", [])
+        ],
+    }
+
+
 def _render_json(data: dict[str, Any]) -> str:
     return json.dumps(data, indent=2, ensure_ascii=False) + "\n"
 
@@ -669,6 +725,8 @@ def generate_all_artifacts() -> list[GenerationArtifact]:
     if cloud_tiers is not None:
         artifacts.append(GenerationArtifact("cloud_model_tiers.json", _render_json(cloud_tiers)))
     artifacts.append(GenerationArtifact("cloud_models.json", _render_cloud_models(generate_cloud_models())))
+    artifacts.append(GenerationArtifact("notes_model_catalog.json", _render_json(generate_notes_catalog())))
+    artifacts.append(GenerationArtifact("search_model_catalog.json", _render_json(generate_search_catalog())))
 
     # Release manifests are derived metadata. The catalogue files below each release are
     # deliberately NOT generated here: `release create` freezes them once and validation checks
@@ -724,6 +782,8 @@ def validate() -> list[ValidationIssue]:
         (CATALOG_DIR / "speech.yaml", SCHEMA_DIR / "speech.schema.json"),
         (CATALOG_DIR / "cleanup.yaml", SCHEMA_DIR / "cleanup.schema.json"),
         (CATALOG_DIR / "diarization.yaml", SCHEMA_DIR / "diarization.schema.json"),
+        (CATALOG_DIR / "notes.yaml", SCHEMA_DIR / "notes.schema.json"),
+        (CATALOG_DIR / "search.yaml", SCHEMA_DIR / "search.schema.json"),
     ]
     if CHANNELS_FILE.exists():
         canonical_sources.append((CHANNELS_FILE, SCHEMA_DIR / "channels.schema.json"))
@@ -764,12 +824,31 @@ def validate() -> list[ValidationIssue]:
         prefix = f"{location}: " if location else ""
         issues.append(ValidationIssue("generated/cloud_models.json", prefix + error.message))
 
+    for name, generated, guardrail_issues in (
+        ("notes", generate_notes_catalog(), validate_notes_catalog(load_notes_catalog_data())),
+        ("search", generate_search_catalog(), validate_search_catalog(load_search_catalog_data())),
+    ):
+        entry_schema = _load_json(SCHEMA_DIR / f"{name}.schema.json")
+        generated_validator = Draft202012Validator(
+            _load_json(SCHEMA_DIR / f"{name}_model_catalog.schema.json"),
+            registry=Registry().with_resource(entry_schema["$id"], Resource.from_contents(entry_schema)),
+        )
+        for error in generated_validator.iter_errors(generated):
+            location = ".".join(str(part) for part in error.absolute_path)
+            prefix = f"{location}: " if location else ""
+            issues.append(ValidationIssue(f"generated/{name}_model_catalog.json", prefix + error.message))
+        for g_issue in guardrail_issues:
+            issues.append(ValidationIssue(g_issue.source, g_issue.message))
+
     # 2. Guardrails: source refs, identities, safety, pointers, redistribution
     speech_data = load_speech_catalog_data()
     cleanup_data = load_cleanup_catalog_data()
     diarization_data = load_diarization_catalog_data()
 
     for g_issue in validate_immutable_source_refs(speech_data, cleanup_data, diarization_data):
+        issues.append(ValidationIssue(g_issue.source, g_issue.message))
+
+    for g_issue in validate_speech_accuracy(speech_data):
         issues.append(ValidationIssue(g_issue.source, g_issue.message))
 
     for g_issue in validate_identities_and_integrity(speech_data, cleanup_data, diarization_data):

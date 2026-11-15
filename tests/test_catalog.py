@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import pytest
@@ -6,10 +7,13 @@ import scribekey_models.catalog as catalog_module
 from scribekey_models import catalog
 from scribekey_models.catalog import (
     GENERATED_DIR,
+    accuracy_grade,
     export_generated,
     generate_all_artifacts,
     generate_cleanup_catalog,
     generate_diarization_manifest,
+    generate_notes_catalog,
+    generate_search_catalog,
     generate_speech_catalog,
     validate,
 )
@@ -168,6 +172,23 @@ def test_live_and_final_counterparts_and_language_codes_are_projected() -> None:
     assert "languageCodes" not in models["qwen3-asr-0.6b"]
 
 
+@pytest.mark.parametrize(
+    ("error", "grade"),
+    [(3.12, "A+"), (3.17, "A"), (3.99, "A-"), (5.04, "B+"), (6.3, "B"), (9.92, "B-"), (10.12, "C+"),
+     (12.61, "C"), (19.89, "C-"), (20.04, "D"), (29.94, "D"), (30.11, "F")],
+)
+def test_accuracy_grades_match_handys_bands(error: float, grade: str) -> None:
+    assert accuracy_grade(error) == grade
+
+
+def test_measured_accuracy_is_projected_with_its_grade_for_every_model() -> None:
+    models = {model["id"]: model for model in generate_speech_catalog()["models"]}
+
+    assert models["parakeet-unified-0.6b"]["accuracy"] == {"en": {"grade": "A-", "errorPercent": 3.99}}
+    assert models["canary-180m"]["accuracy"]["de"] == {"grade": "B", "errorPercent": 7.33}
+    assert all(model.get("accuracy") for model in models.values())
+
+
 def test_experimental_flag_is_projected_for_every_model() -> None:
     models = {model["id"]: model for model in generate_speech_catalog()["models"]}
 
@@ -248,3 +269,141 @@ def test_parakeet_tdt_ships_npu_builds_for_every_supported_snapdragon() -> None:
         assert [build["soc"] for build in builds] == ["SM8450", "SM8475", "SM8550", "SM8650", "SM8750", "SM8850"]
         assert all(build["runtime"] == "qnn" and build["windowSeconds"] == 30 for build in builds)
     assert all("npuBuilds" not in model for mid, model in models.items() if not mid.startswith("parakeet-0.6b-v"))
+
+
+def _notes_validator():
+    from jsonschema import Draft202012Validator
+    from referencing import Registry, Resource
+
+    notes = json.loads((catalog.SCHEMA_DIR / "notes.schema.json").read_text())
+    generated = json.loads((catalog.SCHEMA_DIR / "notes_model_catalog.schema.json").read_text())
+    registry = Registry().with_resource(notes["$id"], Resource.from_contents(notes))
+    return Draft202012Validator(generated, registry=registry)
+
+
+def test_notes_catalogue_projects_the_apps_model_with_its_limits() -> None:
+    models = generate_notes_catalog()["models"]
+    # Order is the app's preference: the first model a phone can run is the one it uses.
+    assert [m["modelId"] for m in models] == ["qwen3.5-2b-q4_k_m", "lfm2.5-1.2b-instruct-q4_k_m"]
+    model = models[1]
+    assert model["experimental"] is True and model["badge"] == "Experimental"
+    assert model["capabilities"] == ["summary", "action_items", "ask"]
+    assert (model["pieceTokens"], model["maxInputTokens"], model["maxOutputTokens"], model["contextTokens"]) == (
+        700, 5600, 512, 8192,
+    )
+    assert (model["maxAskPassages"], model["askPassageTokens"]) == (6, 80)
+    assert list(_notes_validator().iter_errors(generate_notes_catalog())) == []
+
+
+@pytest.mark.parametrize("overrides", [
+    {"capabilities": ["summary", "translate"]},
+    {"capabilities": []},
+    {"pieceTokens": 0},
+    {"maxInputTokens": 0},
+    {"supportedAbis": ["armeabi-v7a"]},
+    {"bestFor": "x" * 49},
+    {"experimental": None},
+])
+def test_notes_schema_rejects_bad_capabilities_limits_and_copy(overrides: dict) -> None:
+    document = generate_notes_catalog()
+    document["models"][0].update(overrides)
+    assert list(_notes_validator().iter_errors(document))
+
+
+def test_notes_is_optional_in_releases_and_channels() -> None:
+    from scribekey_models.promotion import (
+        build_channel_distribution_manifest,
+        create_release_manifest,
+    )
+
+    plain = create_release_manifest("2026.11.9", "x", speech_content="s", diarization_content="d", cleanup_content="c")
+    assert "notes" not in plain["catalogs"]
+    assert "notes" not in build_channel_distribution_manifest("qa", plain, sequence=1)["catalogs"]
+
+    release = create_release_manifest(
+        "2026.11.9", "x", speech_content="s", diarization_content="d", cleanup_content="c", notes_content="n"
+    )
+    channel = build_channel_distribution_manifest("qa", release, sequence=1)
+    assert list(channel["catalogs"])[-1] == "notes"
+    assert channel["catalogs"]["notes"]["path"] == "../releases/2026.11.9/notes_model_catalog.json"
+    from jsonschema import Draft202012Validator
+
+    release["createdAt"] = "2026-11-11T00:00:00Z"
+    channel["issuedAt"] = "2026-11-11T00:00:00Z"
+    for document, schema in ((release, "release.schema.json"), (channel, "channel_distribution.schema.json")):
+        validator = Draft202012Validator(json.loads((catalog.SCHEMA_DIR / schema).read_text()))
+        assert list(validator.iter_errors(document)) == []
+
+
+def _search_validator():
+    from jsonschema import Draft202012Validator
+    from referencing import Registry, Resource
+
+    search = json.loads((catalog.SCHEMA_DIR / "search.schema.json").read_text())
+    generated = json.loads((catalog.SCHEMA_DIR / "search_model_catalog.schema.json").read_text())
+    registry = Registry().with_resource(search["$id"], Resource.from_contents(search))
+    return Draft202012Validator(generated, registry=registry)
+
+
+def test_search_catalogue_is_the_embedding_model_the_app_runs() -> None:
+    models = generate_search_catalog()["models"]
+    assert [m["modelId"] for m in models] == ["embeddinggemma-2-text-270m"]
+    model = models[0]
+    assert model["runtimeFamily"] == "litert-lm" and model["backends"] == ["cpu"]
+    assert model["supportedAbis"] == ["arm64-v8a", "x86_64"]
+    assert (model["embeddingDimensions"], model["normalizeEmbeddings"], model["passageTokens"]) == (256, True, 256)
+    assert (model["bundleFileName"], model["sizeBytes"]) == ("embeddinggemma-2-text-270m.litertlm", 164626432)
+    assert model["experimental"] is True and model["badge"] == "Experimental"
+    assert list(_search_validator().iter_errors(generate_search_catalog())) == []
+
+
+def test_generated_search_catalogue_matches_the_yaml() -> None:
+    rendered = json.dumps(generate_search_catalog(), indent=2, ensure_ascii=False) + "\n"
+    assert (GENERATED_DIR / "search_model_catalog.json").read_text(encoding="utf-8") == rendered
+
+
+@pytest.mark.parametrize("overrides", [
+    {"bundleFileName": "embeddinggemma-2-text-270m.gguf"},
+    {"bundleFileName": "embeddinggemma-2-text-270m.tflite"},
+    {"runtimeFamily": "gguf"},
+    {"runtimeFamily": "onnx"},
+    {"backends": ["tpu"]},
+    {"embeddingDimensions": 300},
+    {"passageTokens": 300},
+    {"supportedAbis": ["armeabi-v7a"]},
+    {"revision": "main"},
+    {"experimental": None},
+])
+def test_search_schema_rejects_wrong_files_runtimes_and_shapes(overrides: dict) -> None:
+    document = generate_search_catalog()
+    document["models"][0].update(overrides)
+    assert list(_search_validator().iter_errors(document))
+
+
+def test_search_is_optional_in_releases_and_channels() -> None:
+    from jsonschema import Draft202012Validator
+
+    from scribekey_models.promotion import (
+        build_channel_distribution_manifest,
+        create_release_manifest,
+    )
+
+    plain = create_release_manifest("2026.11.9", "x", speech_content="s", diarization_content="d", cleanup_content="c")
+    assert "search" not in plain["catalogs"]
+    assert "search" not in build_channel_distribution_manifest("qa", plain, sequence=1)["catalogs"]
+
+    release = create_release_manifest(
+        "2026.11.9", "x", speech_content="s", diarization_content="d", cleanup_content="c",
+        notes_content="n", search_content="e",
+    )
+    channel = build_channel_distribution_manifest("qa", release, sequence=1)
+    assert list(channel["catalogs"])[-1] == "search"
+    assert channel["catalogs"]["search"]["path"] == "../releases/2026.11.9/search_model_catalog.json"
+    release["createdAt"] = "2026-11-12T00:00:00Z"
+    channel["issuedAt"] = "2026-11-12T00:00:00Z"
+    # Promotion adds litert-lm; a fresh dict, because the builder's default shares DEFAULT_COMPATIBILITY's lists.
+    families = channel["compatibility"]["supportedRuntimeFamilies"]
+    channel["compatibility"] = {**channel["compatibility"], "supportedRuntimeFamilies": [*families, "litert-lm"]}
+    for document, schema in ((release, "release.schema.json"), (channel, "channel_distribution.schema.json")):
+        validator = Draft202012Validator(json.loads((catalog.SCHEMA_DIR / schema).read_text()))
+        assert list(validator.iter_errors(document)) == []

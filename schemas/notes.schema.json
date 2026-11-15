@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scribekey.app/schemas/notes.schema.json",
+  "title": "ScribeKey notes models",
+  "description": "Models that write on-device notes (Summary, action items, Ask) from a transcript. Limits are per model, so the app reads them here instead of using global constants.",
+  "type": "object",
+  "required": ["schema_version", "models"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": 1 },
+    "models": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/notesModel" }
+    }
+  },
+  "$defs": {
+    "notesModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "modelId", "displayName", "description", "bestFor", "info", "provenance",
+        "revision", "bundleFileName", "downloadUrl", "sizeBytes", "sha256",
+        "minDeviceMemoryGb", "minimumApiLevel", "supportedAbis", "supportedLanguages",
+        "systemPrompt", "promptTemplate", "maxOutputTokens", "contextTokens",
+        "topK", "topP", "temperature", "repetitionPenalty", "deterministicDecoding", "samplerSeed",
+        "capabilities", "pieceTokens", "maxInputTokens",
+        "license", "attribution", "licenseUrl", "privacyDisclosure"
+      ],
+      "properties": {
+        "modelId": { "type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$" },
+        "displayName": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "bestFor": { "type": "string", "minLength": 1, "maxLength": 48 },
+        "experimental": {
+          "description": "True while the model is still being qualified; the app offers it only in debug and QA builds with its feature toggle on. Needs badge 'Experimental'.",
+          "type": "boolean"
+        },
+        "badge": { "type": "string" },
+        "info": {
+          "type": "object",
+          "required": ["paramsBadge", "architecture", "languages"],
+          "additionalProperties": false,
+          "properties": {
+            "paramsBadge": { "type": "string" },
+            "architecture": { "type": "string" },
+            "languages": { "type": "string" }
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "required": ["sourceModel", "exportRepository", "exportRevision", "exportVariant", "licenseId", "licenseUrl"],
+          "additionalProperties": false,
+          "properties": {
+            "sourceModel": { "type": "string" },
+            "exportRepository": { "type": "string" },
+            "exportRevision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+            "exportVariant": { "type": "string" },
+            "licenseId": { "type": "string" },
+            "licenseUrl": { "type": "string", "format": "uri" }
+          }
+        },
+        "revision": {
+          "description": "Immutable Hugging Face commit the file is downloaded from.",
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "bundleFileName": { "type": "string", "pattern": "^[^/\\\\]+\\.gguf$" },
+        "downloadUrl": { "type": "string", "format": "uri" },
+        "downloadUrls": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "format": "uri" }
+        },
+        "sizeBytes": { "type": "integer", "minimum": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "minDeviceMemoryGb": {
+          "description": "Total device memory, in GB, below which the app does not offer the model.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "minimumApiLevel": { "type": "integer", "minimum": 1 },
+        "supportedAbis": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["arm64-v8a", "x86_64"] }
+        },
+        "supportedLanguages": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string" }
+        },
+        "systemPrompt": { "type": "string" },
+        "promptTemplate": {
+          "description": "The app's prompt template name, such as Lfm2ChatMl.",
+          "type": "string",
+          "minLength": 1
+        },
+        "maxOutputTokens": {
+          "description": "Most tokens one request may generate, in model tokens.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "contextTokens": {
+          "description": "Context window the app opens, in model tokens. Must hold pieceTokens, maxOutputTokens and the prompt.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "topK": { "type": "integer", "minimum": 1 },
+        "topP": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "temperature": { "type": "number", "minimum": 0.0 },
+        "repetitionPenalty": { "type": ["number", "null"] },
+        "deterministicDecoding": { "type": "boolean" },
+        "samplerSeed": { "type": "integer", "minimum": 0 },
+        "capabilities": {
+          "description": "What the app may offer with this model: summary (Summary), action_items (action items), ask (questions about the transcript).",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["summary", "action_items", "ask"] }
+        },
+        "pieceTokens": {
+          "description": "Transcript tokens one request reads. A longer transcript is split into pieces of this size.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxInputTokens": {
+          "description": "Longest transcript, in tokens, the model summarises well on a phone. The app does not offer notes on a longer one. At least pieceTokens.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxAskPassages": {
+          "description": "Most transcript passages one Ask request reads. Required when capabilities has ask.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "askPassageTokens": {
+          "description": "Size of one Ask passage, in tokens. Required when capabilities has ask.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "license": { "type": "string" },
+        "attribution": { "type": "string" },
+        "licenseUrl": { "type": "string", "format": "uri" },
+        "privacyDisclosure": { "type": "string" }
+      }
+    }
+  }
+}

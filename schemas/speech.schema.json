@@ -27,6 +27,7 @@
           "supportsPunctuation",
           "supportsLanguageDetection",
           "files",
+          "accuracy",
           "sherpaConfig",
           "info"
         ],
@@ -252,6 +253,17 @@
             "items": {
               "type": "string",
               "pattern": "^[a-z]{2,3}$"
+            }
+          },
+          "accuracy": {
+            "type": "object",
+            "minProperties": 1,
+            "propertyNames": {
+              "pattern": "^[a-z]{2,3}$"
+            },
+            "additionalProperties": {
+              "type": "number",
+              "exclusiveMinimum": 0
             }
           },
           "counterpartId": {

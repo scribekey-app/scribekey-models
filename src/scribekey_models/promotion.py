@@ -80,6 +80,8 @@ def create_release_manifest(
     cleanup_content: str,
     cloud_tiers_content: str | None = None,
     cloud_models_content: str | None = None,
+    notes_content: str | None = None,
+    search_content: str | None = None,
     git_commit: str | None = None,
     recovery_cleared_models: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
@@ -108,6 +110,10 @@ def create_release_manifest(
         manifest["catalogs"]["cloudTiers"] = _file_info("cloud_model_tiers.json", cloud_tiers_content)
     if cloud_models_content is not None:
         manifest["catalogs"]["cloudModels"] = _file_info("cloud_models.json", cloud_models_content)
+    if notes_content is not None:
+        manifest["catalogs"]["notes"] = _file_info("notes_model_catalog.json", notes_content)
+    if search_content is not None:
+        manifest["catalogs"]["search"] = _file_info("search_model_catalog.json", search_content)
 
     if git_commit:
         manifest["gitCommit"] = git_commit
@@ -193,6 +199,24 @@ def build_channel_distribution_manifest(
         if "cloud-model-profiles" not in families:
             comp["supportedConfigFamilies"] = [*families, "cloud-model-profiles"]
 
+    if "notes" in catalogs:
+        # Optional and last: an app that predates notes ignores the key, and older releases keep their bytes.
+        manifest["catalogs"]["notes"] = {
+            "filename": catalogs["notes"]["filename"],
+            "path": f"../releases/{rel_id}/{catalogs['notes']['filename']}",
+            "sha256": catalogs["notes"]["sha256"],
+            "sizeBytes": catalogs["notes"]["sizeBytes"],
+        }
+
+    if "search" in catalogs:
+        # Optional, like notes. Its runtime family is declared at promotion, so channels.yaml records it.
+        manifest["catalogs"]["search"] = {
+            "filename": catalogs["search"]["filename"],
+            "path": f"../releases/{rel_id}/{catalogs['search']['filename']}",
+            "sha256": catalogs["search"]["sha256"],
+            "sizeBytes": catalogs["search"]["sizeBytes"],
+        }
+
     if notes or release_data.get("description"):
         manifest["notes"] = notes or release_data.get("description")
 
@@ -258,6 +282,10 @@ def promote(
                 "older apps would receive a catalogue they cannot decode."
             )
         channel_comp = {**channel_comp, "minAppVersionCode": min_app_version_code}
+    runtime_families = list(channel_comp.get("supportedRuntimeFamilies", DEFAULT_COMPATIBILITY["supportedRuntimeFamilies"]))
+    if "search" in release_data.get("catalogs", {}) and "litert-lm" not in runtime_families:
+        # An app that reads search needs litert-lm declared; older apps ignore families they do not know.
+        channel_comp = {**channel_comp, "supportedRuntimeFamilies": [*runtime_families, "litert-lm"]}
     target_notes = notes or channel_info.get("notes") or release_data.get("description", "")
 
     # Check sequence monotonicity and anti-rollback requirements

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "channel": "qa",
-  "sequence": 10,
-  "issuedAt": "2026-11-02T14:21:31Z",
-  "releaseId": "2026.11.1",
+  "sequence": 11,
+  "issuedAt": "2026-11-12T13:41:21Z",
+  "releaseId": "2026.11.4",
   "compatibility": {
     "minAndroidApiLevel": 28,
     "minAppVersionCode": 22,
@@ -11,40 +11,60 @@
     "supportedRuntimeFamilies": [
       "sherpa-onnx",
       "gguf",
-      "pyannote"
+      "pyannote",
+      "litert-lm"
     ],
     "supportedConfigFamilies": [
       "speech-model-catalog",
       "cleanup-model-catalog",
-      "speaker-diarization-manifest"
+      "speaker-diarization-manifest",
+      "cloud-model-profiles"
     ]
   },
   "catalogs": {
     "speech": {
       "filename": "model_catalog.json",
-      "path": "../releases/2026.11.1/model_catalog.json",
-      "sha256": "2c9158a4f13124942092294c65c63ed61d5b16e42df2cca79f641b018748d724",
-      "sizeBytes": 61085
+      "path": "../releases/2026.11.4/model_catalog.json",
+      "sha256": "b41330015ac6d59fb547a3c2a604e41baed18e41dd6d0c56d7e465e8966cdbfb",
+      "sizeBytes": 63313
     },
     "diarization": {
       "filename": "speaker_diarization_manifest.json",
-      "path": "../releases/2026.11.1/speaker_diarization_manifest.json",
+      "path": "../releases/2026.11.4/speaker_diarization_manifest.json",
       "sha256": "229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a",
       "sizeBytes": 1438
     },
     "cleanup": {
       "filename": "cleanup_model_catalog.json",
-      "path": "../releases/2026.11.1/cleanup_model_catalog.json",
-      "sha256": "f26755dff0682c6d34730d8f2654c8bf348248462997beb007a747b8d862d56b",
-      "sizeBytes": 16342
+      "path": "../releases/2026.11.4/cleanup_model_catalog.json",
+      "sha256": "fa943d33b7ad03993206f08a10002b20324dd7b4e495f17787bde5c2310e1f95",
+      "sizeBytes": 16346
     },
     "cloudTiers": {
       "filename": "cloud_model_tiers.json",
-      "path": "../releases/2026.11.1/cloud_model_tiers.json",
+      "path": "../releases/2026.11.4/cloud_model_tiers.json",
       "sha256": "bdf58dbe3ffbdc5c765a2b2f8be9cc97d7e7db9761ba82232702e14a69f16e25",
       "sizeBytes": 14543
+    },
+    "cloudModels": {
+      "filename": "cloud_models.json",
+      "path": "../releases/2026.11.4/cloud_models.json",
+      "sha256": "d332cda68e19cc185957eddc36aa77d4f1e0138d55cd57a1a33bb6ca60fcd598",
+      "sizeBytes": 143420
+    },
+    "notes": {
+      "filename": "notes_model_catalog.json",
+      "path": "../releases/2026.11.4/notes_model_catalog.json",
+      "sha256": "972fea32ab08671640e2a2aa7d603ccb67c074dd3f79bc7d0f3eef22ef33dfd4",
+      "sizeBytes": 4699
+    },
+    "search": {
+      "filename": "search_model_catalog.json",
+      "path": "../releases/2026.11.4/search_model_catalog.json",
+      "sha256": "7a2a1227603ea6e16718770819de982666283d90460a9f4164b3a14d5ee4b07c",
+      "sizeBytes": 2050
     }
   },
-  "notes": "Nemotron English Live, Nemotron 3.5 Multilingual Live and Zipformer English Live graduate from experimental; adds Parakeet Redux (experimental).",
-  "gitCommit": "4311eb541f160d5543a5506e130cbf0273d10254"
+  "notes": "Adds the notes capability (LFM2.5 1.2B, Qwen3.5 2B) and the search capability (EmbeddingGemma 2 text 270M).",
+  "gitCommit": "6d934df68fa12c6c56fcc3ffd917a70908e98bff"
 }
