@@ -1,0 +1,17 @@
+{
+  "dataset": "google/fleurs test",
+  "export": "csukuangfj/sherpa-onnx-moonshine-base-en-int8@052b0798ad1bf046a140fdd4efcd9426530fa3f5",
+  "languages": {
+    "en": {
+      "audioSeconds": 6388,
+      "clips": 647,
+      "errorPercent": 11.16,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 22.5
+    }
+  },
+  "mode": "offline",
+  "model": "moonshine-base",
+  "sherpaOnnx": "1.13.8"
+}
