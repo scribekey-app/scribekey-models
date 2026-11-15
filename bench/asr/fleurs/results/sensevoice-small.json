@@ -1,0 +1,49 @@
+{
+  "dataset": "google/fleurs test",
+  "export": "csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17@2365baeacb507f821a0c8120fcee3d484dba7a07",
+  "languages": {
+    "en": {
+      "audioSeconds": 6388,
+      "clips": 647,
+      "errorPercent": 7.5,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 27.2
+    },
+    "ja": {
+      "audioSeconds": 8511,
+      "clips": 650,
+      "errorPercent": 7.82,
+      "measuredOn": "2026-11-14",
+      "metric": "cer",
+      "realTimeFactor": 27.5
+    },
+    "ko": {
+      "audioSeconds": 4805,
+      "clips": 382,
+      "errorPercent": 8.51,
+      "measuredOn": "2026-11-14",
+      "metric": "cer",
+      "realTimeFactor": 22.7
+    },
+    "yue": {
+      "audioSeconds": 9539,
+      "clips": 819,
+      "errorPercent": 37.72,
+      "measuredOn": "2026-11-14",
+      "metric": "cer",
+      "realTimeFactor": 54.6
+    },
+    "zh": {
+      "audioSeconds": 11065,
+      "clips": 945,
+      "errorPercent": 8.1,
+      "measuredOn": "2026-11-14",
+      "metric": "cer",
+      "realTimeFactor": 29.8
+    }
+  },
+  "mode": "offline",
+  "model": "sensevoice-small",
+  "sherpaOnnx": "1.13.8"
+}

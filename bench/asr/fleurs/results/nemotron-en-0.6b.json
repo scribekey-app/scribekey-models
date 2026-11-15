@@ -1,0 +1,17 @@
+{
+  "dataset": "google/fleurs test",
+  "export": "csukuangfj2/sherpa-onnx-nemotron-speech-streaming-en-0.6b-560ms-int8-2026-04-25@52056fdc070914a48dcd68b31b44d6a6f5b85902",
+  "languages": {
+    "en": {
+      "audioSeconds": 6388,
+      "clips": 647,
+      "errorPercent": 6.37,
+      "measuredOn": "2026-11-14",
+      "metric": "wer",
+      "realTimeFactor": 4.3
+    }
+  },
+  "mode": "streaming",
+  "model": "nemotron-en-0.6b",
+  "sherpaOnnx": "1.13.8"
+}
