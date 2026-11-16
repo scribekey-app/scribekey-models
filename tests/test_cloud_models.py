@@ -113,6 +113,28 @@ def test_free_nvidia_embedding_and_rerank_models_are_not_profiles() -> None:
     assert "nvidia/free-rerank" not in generated["providers"]["nvidia"]["models"]
 
 
+def test_nvidia_effort_models_ask_for_their_lowest_effort_and_toggles_still_win() -> None:
+    snapshot = deepcopy(FIXTURE)
+    reasoning = {
+        "modalities": {"output": ["text"]},
+        "cost": {"input": 0, "output": 0},
+        "limit": {"output": 2048},
+        "reasoning": True,
+    }
+    snapshot["providers"]["nvidia"]["models"].update(
+        {
+            "vendor/effort-only": {
+                **reasoning,
+                "reasoning_options": [{"type": "effort", "values": ["low", "medium", "high"]}],
+            },
+            "vendor/toggle": {**reasoning, "reasoning_options": [{"type": "toggle"}]},
+        }
+    )
+    models = generate_cloud_models(snapshot)["providers"]["nvidia"]["models"]
+    assert models["vendor/effort-only"]["reasoningOff"] == {"reasoning_effort": "low"}
+    assert models["vendor/toggle"]["reasoningOff"] == {"chat_template_kwargs": {"enable_thinking": False}}
+
+
 def test_foundry_anthropic_route_and_reasoning_token_fields_are_profiled() -> None:
     snapshot = deepcopy(FIXTURE)
     snapshot["providers"]["azure"]["models"]["claude"] = {
