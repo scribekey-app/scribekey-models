@@ -172,6 +172,8 @@ CLOUD_PROVIDER_PROTOCOLS: dict[str, dict[str, Any]] = {
             "name": "openai-chat-completions",
             "temperatureField": "temperature",
             "reasoningToggleOff": {"chat_template_kwargs": {"enable_thinking": False}},
+            # NIM's chat completions take OpenAI's reasoning_effort for effort-only models (gpt-oss).
+            "reasoningEffortPath": ["reasoning_effort"],
             "reasoningTokenField": "max_tokens",
         },
     },
