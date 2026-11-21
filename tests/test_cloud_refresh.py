@@ -75,7 +75,9 @@ def test_added_model_and_profile_field_changes_are_summarized(tmp_path, monkeypa
     assert "price:" in summary
     assert "outputLimit:" in summary
     assert json.loads(snapshot_path.read_text())["providers"]["openai"]["models"]["new-model"]
-    generated_models = json.loads((catalog.GENERATED_DIR / "cloud_models.json").read_text())["providers"]["openai"]["models"]
+    generated_text = (catalog.GENERATED_DIR / "cloud_models.json").read_text()
+    assert generated_text == catalog._render_cloud_models(json.loads(generated_text))
+    generated_models = json.loads(generated_text)["providers"]["openai"]["models"]
     assert list(generated_models) == [
         *catalog.generate_cloud_models(FIXTURE)["providers"]["openai"]["models"],
         "new-model",
