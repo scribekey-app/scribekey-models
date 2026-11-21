@@ -7,7 +7,7 @@ Three things differ, deliberately: the model is the exact sherpa-onnx export the
 it is decoded the way the app decodes it (offline or streaming, segment ceiling, tail padding), and
 each clip is scaled to a 0.5 peak, the level a phone mic's gain control delivers.
 
-    uv run --python 3.12 --with sherpa-onnx==1.13.8 --with jiwer --with whisper-normalizer \
+    uv run --python 3.12 --with sherpa-onnx==2.0.2 --with jiwer --with whisper-normalizer \
         --with soundfile --with pyarrow --with numpy --with huggingface_hub --with pyyaml \
         bench/asr/fleurs/measure.py <model-id> <lang> [<lang> ...]
 

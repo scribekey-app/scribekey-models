@@ -2,7 +2,7 @@
 
 Parakeet Ultra int8 (`mldecode/parakeet-ultra-onnx-int8` at `3282a6e3`) against the Parakeet v3
 int8 the catalogue shipped (`csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8` at `2bda32ec`).
-Host: macOS, sherpa-onnx 1.13.8, `nemo_transducer`, greedy decoding, 2 threads. Speed figures are
+Host: macOS, sherpa-onnx 2.0.2, `nemo_transducer`, greedy decoding, 2 threads. Speed figures are
 host times; the ratio, not the absolute value, is what carries over to a phone.
 
 Data: 150 LibriSpeech test-other clips and 100 FLEURS test clips each in `en_us`, `de_de`, `es_419`
@@ -30,5 +30,5 @@ total 629,512,715 bytes against 670,478,772 for v3.
 Not measured: a phone, and any language beyond these four.
 
 Reproduce: `extract.py <parquet> <name> <n>` writes `clips/<name>.json`, then `bench.py` scores both
-bundles from directories named `v3/` and `ultra/`. Needs `sherpa-onnx==1.13.8`, `soundfile`,
+bundles from directories named `v3/` and `ultra/`. Needs `sherpa-onnx==2.0.2`, `soundfile`,
 `pyarrow`, `jiwer`, `whisper-normalizer`.
