@@ -23,7 +23,7 @@
       "accuracy": {
         "en": {
           "grade": "C+",
-          "errorPercent": 12.39
+          "errorPercent": 12.11
         }
       },
       "files": [
@@ -174,7 +174,7 @@
       "accuracy": {
         "en": {
           "grade": "C-",
-          "errorPercent": 17.66
+          "errorPercent": 17.53
         }
       },
       "files": [
@@ -246,7 +246,7 @@
       "accuracy": {
         "en": {
           "grade": "C+",
-          "errorPercent": 12.46
+          "errorPercent": 12.4
         }
       },
       "files": [
@@ -318,7 +318,7 @@
       "accuracy": {
         "en": {
           "grade": "B",
-          "errorPercent": 7.13
+          "errorPercent": 7.1
         }
       },
       "files": [
@@ -381,7 +381,7 @@
       "accuracy": {
         "en": {
           "grade": "B",
-          "errorPercent": 6.66
+          "errorPercent": 6.64
         }
       },
       "files": [
@@ -447,19 +447,19 @@
       "accuracy": {
         "de": {
           "grade": "B-",
-          "errorPercent": 8.5
+          "errorPercent": 7.99
         },
         "en": {
-          "grade": "B-",
-          "errorPercent": 9.16
+          "grade": "B+",
+          "errorPercent": 5.66
         },
         "es": {
           "grade": "B",
-          "errorPercent": 6.66
+          "errorPercent": 6.5
         },
         "fr": {
           "grade": "B-",
-          "errorPercent": 8.83
+          "errorPercent": 8.55
         }
       },
       "files": [
@@ -544,11 +544,11 @@
         },
         "de": {
           "grade": "C-",
-          "errorPercent": 17.2
+          "errorPercent": 17.22
         },
         "el": {
           "grade": "F",
-          "errorPercent": 38.96
+          "errorPercent": 39.07
         },
         "en": {
           "grade": "C-",
@@ -556,11 +556,11 @@
         },
         "es": {
           "grade": "C+",
-          "errorPercent": 11.29
+          "errorPercent": 11.24
         },
         "et": {
           "grade": "D",
-          "errorPercent": 28.11
+          "errorPercent": 28.18
         },
         "fa": {
           "grade": "D",
@@ -568,15 +568,15 @@
         },
         "fi": {
           "grade": "D",
-          "errorPercent": 26.31
+          "errorPercent": 26.26
         },
         "fil": {
           "grade": "C-",
-          "errorPercent": 19.78
+          "errorPercent": 19.83
         },
         "fr": {
           "grade": "D",
-          "errorPercent": 22.61
+          "errorPercent": 22.6
         },
         "hi": {
           "grade": "D",
@@ -584,15 +584,15 @@
         },
         "hr": {
           "grade": "F",
-          "errorPercent": 39.05
+          "errorPercent": 39.19
         },
         "hu": {
           "grade": "F",
-          "errorPercent": 36.33
+          "errorPercent": 36.53
         },
         "id": {
           "grade": "D",
-          "errorPercent": 23.17
+          "errorPercent": 23.18
         },
         "it": {
           "grade": "C+",
@@ -616,7 +616,7 @@
         },
         "mk": {
           "grade": "C-",
-          "errorPercent": 18.34
+          "errorPercent": 18.5
         },
         "ms": {
           "grade": "D",
@@ -632,7 +632,7 @@
         },
         "nl": {
           "grade": "D",
-          "errorPercent": 24.21
+          "errorPercent": 24.12
         },
         "pl": {
           "grade": "D",
@@ -640,11 +640,11 @@
         },
         "pt": {
           "grade": "C",
-          "errorPercent": 15.82
+          "errorPercent": 15.76
         },
         "ro": {
           "grade": "D",
-          "errorPercent": 26.24
+          "errorPercent": 26.29
         },
         "ru": {
           "grade": "D",
@@ -652,7 +652,7 @@
         },
         "sk": {
           "grade": "D",
-          "errorPercent": 20.31
+          "errorPercent": 20.46
         },
         "sl": {
           "grade": "F",
@@ -680,11 +680,11 @@
         },
         "yue": {
           "grade": "F",
-          "errorPercent": 30.26
+          "errorPercent": 30.21
         },
         "zh": {
           "grade": "D",
-          "errorPercent": 20.58
+          "errorPercent": 20.53
         }
       },
       "files": [
@@ -738,123 +738,123 @@
       "accuracy": {
         "ar": {
           "grade": "F",
-          "errorPercent": 34.38
+          "errorPercent": 33.5
         },
         "cs": {
           "grade": "F",
-          "errorPercent": 61.42
+          "errorPercent": 60.47
         },
         "da": {
           "grade": "F",
-          "errorPercent": 58.08
+          "errorPercent": 57.41
         },
         "de": {
           "grade": "C+",
-          "errorPercent": 10.48
+          "errorPercent": 10.4
         },
         "el": {
           "grade": "F",
-          "errorPercent": 65.54
+          "errorPercent": 66.3
         },
         "en": {
           "grade": "B+",
-          "errorPercent": 5.21
+          "errorPercent": 5.47
         },
         "es": {
           "grade": "B",
-          "errorPercent": 7.0
+          "errorPercent": 7.29
         },
         "fa": {
           "grade": "F",
-          "errorPercent": 68.21
+          "errorPercent": 68.74
         },
         "fi": {
           "grade": "F",
-          "errorPercent": 58.08
+          "errorPercent": 58.07
         },
         "fil": {
           "grade": "F",
-          "errorPercent": 44.91
+          "errorPercent": 44.87
         },
         "fr": {
           "grade": "C+",
-          "errorPercent": 12.39
+          "errorPercent": 11.98
         },
         "hi": {
           "grade": "D",
-          "errorPercent": 23.6
+          "errorPercent": 24.03
         },
         "hu": {
           "grade": "F",
-          "errorPercent": 72.68
+          "errorPercent": 72.67
         },
         "id": {
           "grade": "C-",
-          "errorPercent": 16.03
+          "errorPercent": 16.05
         },
         "it": {
           "grade": "B-",
-          "errorPercent": 8.66
+          "errorPercent": 8.83
         },
         "ja": {
           "grade": "C+",
-          "errorPercent": 11.35
+          "errorPercent": 12.08
         },
         "ko": {
           "grade": "B",
-          "errorPercent": 6.4
+          "errorPercent": 6.98
         },
         "mk": {
           "grade": "F",
-          "errorPercent": 78.65
+          "errorPercent": 79.25
         },
         "ms": {
           "grade": "D",
-          "errorPercent": 28.99
+          "errorPercent": 29.1
         },
         "nl": {
           "grade": "C-",
-          "errorPercent": 18.59
+          "errorPercent": 19.14
         },
         "pl": {
           "grade": "F",
-          "errorPercent": 42.04
+          "errorPercent": 42.15
         },
         "pt": {
           "grade": "C+",
-          "errorPercent": 10.13
+          "errorPercent": 10.52
         },
         "ro": {
           "grade": "F",
-          "errorPercent": 59.81
+          "errorPercent": 58.72
         },
         "ru": {
           "grade": "C-",
-          "errorPercent": 18.31
+          "errorPercent": 18.74
         },
         "sv": {
           "grade": "F",
-          "errorPercent": 45.99
+          "errorPercent": 46.86
         },
         "th": {
           "grade": "C+",
-          "errorPercent": 11.84
+          "errorPercent": 11.61
         },
         "tr": {
           "grade": "D",
-          "errorPercent": 28.78
+          "errorPercent": 29.32
         },
         "vi": {
           "grade": "C",
-          "errorPercent": 13.76
+          "errorPercent": 13.44
         },
         "yue": {
           "grade": "C+",
-          "errorPercent": 10.48
+          "errorPercent": 10.04
         },
         "zh": {
-          "grade": "B",
-          "errorPercent": 7.7
+          "grade": "B-",
+          "errorPercent": 7.96
         }
       },
       "files": [
@@ -943,7 +943,7 @@
         },
         "ja": {
           "grade": "B",
-          "errorPercent": 7.82
+          "errorPercent": 7.78
         },
         "ko": {
           "grade": "B-",
@@ -951,11 +951,11 @@
         },
         "yue": {
           "grade": "F",
-          "errorPercent": 37.72
+          "errorPercent": 37.73
         },
         "zh": {
           "grade": "B-",
-          "errorPercent": 8.1
+          "errorPercent": 8.05
         }
       },
       "files": [
@@ -1013,7 +1013,7 @@
       "accuracy": {
         "en": {
           "grade": "A-",
-          "errorPercent": 4.43
+          "errorPercent": 4.44
         }
       },
       "files": [
@@ -1163,103 +1163,103 @@
       "accuracy": {
         "bg": {
           "grade": "C-",
-          "errorPercent": 16.86
+          "errorPercent": 16.84
         },
         "cs": {
           "grade": "D",
-          "errorPercent": 23.46
+          "errorPercent": 23.28
         },
         "da": {
           "grade": "D",
-          "errorPercent": 28.39
+          "errorPercent": 29.09
         },
         "de": {
           "grade": "B",
-          "errorPercent": 6.84
+          "errorPercent": 6.9
         },
         "el": {
           "grade": "F",
-          "errorPercent": 43.55
+          "errorPercent": 43.42
         },
         "en": {
           "grade": "B+",
-          "errorPercent": 5.72
+          "errorPercent": 5.8
         },
         "es": {
           "grade": "A-",
-          "errorPercent": 4.14
+          "errorPercent": 4.22
         },
         "et": {
           "grade": "D",
-          "errorPercent": 25.4
+          "errorPercent": 25.61
         },
         "fi": {
           "grade": "C-",
-          "errorPercent": 19.53
+          "errorPercent": 19.71
         },
         "fr": {
           "grade": "B",
-          "errorPercent": 7.47
+          "errorPercent": 7.44
         },
         "hr": {
           "grade": "C-",
-          "errorPercent": 18.4
+          "errorPercent": 18.84
         },
         "hu": {
           "grade": "D",
-          "errorPercent": 29.73
+          "errorPercent": 29.62
         },
         "it": {
           "grade": "A-",
-          "errorPercent": 4.11
+          "errorPercent": 4.06
         },
         "lt": {
           "grade": "F",
-          "errorPercent": 33.98
+          "errorPercent": 33.74
         },
         "lv": {
           "grade": "F",
-          "errorPercent": 44.24
+          "errorPercent": 44.59
         },
         "mt": {
           "grade": "F",
-          "errorPercent": 44.18
+          "errorPercent": 44.42
         },
         "nl": {
           "grade": "B-",
-          "errorPercent": 9.42
+          "errorPercent": 9.35
         },
         "pl": {
           "grade": "C+",
-          "errorPercent": 11.84
+          "errorPercent": 12.05
         },
         "pt": {
           "grade": "B+",
-          "errorPercent": 5.72
+          "errorPercent": 5.75
         },
         "ro": {
           "grade": "D",
-          "errorPercent": 20.31
+          "errorPercent": 20.61
         },
         "ru": {
           "grade": "B-",
-          "errorPercent": 9.18
+          "errorPercent": 9.09
         },
         "sk": {
           "grade": "C-",
-          "errorPercent": 18.38
+          "errorPercent": 17.99
         },
         "sl": {
           "grade": "F",
-          "errorPercent": 46.25
+          "errorPercent": 46.45
         },
         "sv": {
           "grade": "D",
-          "errorPercent": 20.08
+          "errorPercent": 20.07
         },
         "uk": {
           "grade": "B-",
-          "errorPercent": 9.24
+          "errorPercent": 9.16
         }
       },
       "files": [
@@ -1408,103 +1408,103 @@
       "accuracy": {
         "bg": {
           "grade": "C",
-          "errorPercent": 13.87
+          "errorPercent": 13.97
         },
         "cs": {
           "grade": "C",
-          "errorPercent": 14.23
+          "errorPercent": 14.53
         },
         "da": {
           "grade": "D",
-          "errorPercent": 20.15
+          "errorPercent": 20.31
         },
         "de": {
           "grade": "B+",
-          "errorPercent": 5.65
+          "errorPercent": 5.55
         },
         "el": {
           "grade": "F",
-          "errorPercent": 37.51
+          "errorPercent": 37.53
         },
         "en": {
-          "grade": "A-",
-          "errorPercent": 4.88
+          "grade": "B+",
+          "errorPercent": 5.0
         },
         "es": {
           "grade": "A",
-          "errorPercent": 3.5
+          "errorPercent": 3.52
         },
         "et": {
           "grade": "C-",
-          "errorPercent": 18.63
+          "errorPercent": 18.79
         },
         "fi": {
-          "grade": "C-",
-          "errorPercent": 15.89
+          "grade": "C",
+          "errorPercent": 15.68
         },
         "fr": {
           "grade": "B+",
-          "errorPercent": 6.2
+          "errorPercent": 6.18
         },
         "hr": {
           "grade": "C",
-          "errorPercent": 13.69
+          "errorPercent": 13.63
         },
         "hu": {
           "grade": "D",
-          "errorPercent": 20.86
+          "errorPercent": 21.09
         },
         "it": {
           "grade": "A+",
-          "errorPercent": 3.13
+          "errorPercent": 3.07
         },
         "lt": {
           "grade": "D",
-          "errorPercent": 25.64
+          "errorPercent": 25.41
         },
         "lv": {
           "grade": "D",
-          "errorPercent": 25.71
+          "errorPercent": 25.76
         },
         "mt": {
           "grade": "D",
-          "errorPercent": 28.04
+          "errorPercent": 28.05
         },
         "nl": {
           "grade": "B-",
-          "errorPercent": 8.31
+          "errorPercent": 8.36
         },
         "pl": {
           "grade": "B-",
-          "errorPercent": 9.02
+          "errorPercent": 9.12
         },
         "pt": {
           "grade": "A-",
-          "errorPercent": 4.85
+          "errorPercent": 4.86
         },
         "ro": {
           "grade": "C",
-          "errorPercent": 15.07
+          "errorPercent": 15.14
         },
         "ru": {
           "grade": "B",
-          "errorPercent": 7.56
+          "errorPercent": 7.43
         },
         "sk": {
           "grade": "C+",
-          "errorPercent": 12.15
+          "errorPercent": 12.27
         },
         "sl": {
           "grade": "D",
-          "errorPercent": 26.65
+          "errorPercent": 26.26
         },
         "sv": {
-          "grade": "C-",
-          "errorPercent": 15.97
+          "grade": "C",
+          "errorPercent": 15.59
         },
         "uk": {
           "grade": "B",
-          "errorPercent": 7.87
+          "errorPercent": 7.8
         }
       },
       "files": [
@@ -1597,47 +1597,47 @@
       "accuracy": {
         "bg": {
           "grade": "C+",
-          "errorPercent": 12.38
+          "errorPercent": 12.35
         },
         "cs": {
           "grade": "C+",
-          "errorPercent": 11.09
+          "errorPercent": 11.11
         },
         "da": {
           "grade": "C-",
-          "errorPercent": 17.49
+          "errorPercent": 17.45
         },
         "de": {
           "grade": "B",
-          "errorPercent": 6.87
+          "errorPercent": 6.83
         },
         "el": {
           "grade": "F",
-          "errorPercent": 32.11
+          "errorPercent": 32.17
         },
         "en": {
           "grade": "B+",
-          "errorPercent": 5.56
+          "errorPercent": 5.61
         },
         "es": {
           "grade": "A-",
-          "errorPercent": 4.13
+          "errorPercent": 4.1
         },
         "et": {
           "grade": "C",
-          "errorPercent": 13.2
+          "errorPercent": 13.22
         },
         "fi": {
           "grade": "C",
-          "errorPercent": 12.71
+          "errorPercent": 12.76
         },
         "fr": {
           "grade": "B-",
-          "errorPercent": 7.99
+          "errorPercent": 8.2
         },
         "hr": {
           "grade": "C+",
-          "errorPercent": 10.55
+          "errorPercent": 10.62
         },
         "hu": {
           "grade": "C-",
@@ -1649,11 +1649,11 @@
         },
         "lt": {
           "grade": "C-",
-          "errorPercent": 18.52
+          "errorPercent": 18.48
         },
         "lv": {
           "grade": "C",
-          "errorPercent": 14.44
+          "errorPercent": 14.45
         },
         "mt": {
           "grade": "C",
@@ -1661,19 +1661,19 @@
         },
         "nl": {
           "grade": "B-",
-          "errorPercent": 9.03
+          "errorPercent": 8.98
         },
         "pl": {
           "grade": "B-",
-          "errorPercent": 9.38
+          "errorPercent": 9.3
         },
         "pt": {
           "grade": "B+",
-          "errorPercent": 5.22
+          "errorPercent": 5.28
         },
         "ro": {
           "grade": "C+",
-          "errorPercent": 11.22
+          "errorPercent": 11.23
         },
         "ru": {
           "grade": "B-",
@@ -1685,15 +1685,15 @@
         },
         "sl": {
           "grade": "C-",
-          "errorPercent": 18.77
+          "errorPercent": 18.79
         },
         "sv": {
           "grade": "C",
-          "errorPercent": 13.95
+          "errorPercent": 13.94
         },
         "uk": {
           "grade": "B",
-          "errorPercent": 7.54
+          "errorPercent": 7.57
         }
       },
       "files": [
@@ -1763,7 +1763,7 @@
       "accuracy": {
         "en": {
           "grade": "A-",
-          "errorPercent": 4.26
+          "errorPercent": 4.18
         }
       },
       "files": [
@@ -1844,8 +1844,8 @@
       ],
       "accuracy": {
         "en": {
-          "grade": "B",
-          "errorPercent": 7.36
+          "grade": "B+",
+          "errorPercent": 5.1
         }
       },
       "files": [
@@ -1991,7 +1991,7 @@
         },
         "cs": {
           "grade": "D",
-          "errorPercent": 27.41
+          "errorPercent": 27.25
         },
         "da": {
           "grade": "F",
@@ -1999,7 +1999,7 @@
         },
         "de": {
           "grade": "C+",
-          "errorPercent": 11.17
+          "errorPercent": 11.03
         },
         "en": {
           "grade": "B-",
@@ -2027,7 +2027,7 @@
         },
         "hr": {
           "grade": "F",
-          "errorPercent": 30.48
+          "errorPercent": 30.44
         },
         "hu": {
           "grade": "F",
@@ -2039,11 +2039,11 @@
         },
         "ja": {
           "grade": "C",
-          "errorPercent": 14.57
+          "errorPercent": 14.53
         },
         "ko": {
           "grade": "B-",
-          "errorPercent": 9.38
+          "errorPercent": 9.46
         },
         "nb": {
           "grade": "D",
@@ -2055,11 +2055,11 @@
         },
         "pl": {
           "grade": "C-",
-          "errorPercent": 19.02
+          "errorPercent": 19.26
         },
         "pt": {
           "grade": "B-",
-          "errorPercent": 8.9
+          "errorPercent": 8.87
         },
         "ro": {
           "grade": "F",
@@ -2071,27 +2071,27 @@
         },
         "sk": {
           "grade": "D",
-          "errorPercent": 27.85
+          "errorPercent": 27.67
         },
         "sv": {
           "grade": "D",
-          "errorPercent": 27.03
+          "errorPercent": 27.24
         },
         "tr": {
           "grade": "C",
-          "errorPercent": 15.79
+          "errorPercent": 15.54
         },
         "uk": {
           "grade": "C-",
-          "errorPercent": 18.15
+          "errorPercent": 18.14
         },
         "vi": {
           "grade": "C",
-          "errorPercent": 15.15
+          "errorPercent": 15.22
         },
         "zh": {
           "grade": "D",
-          "errorPercent": 22.74
+          "errorPercent": 23.01
         }
       },
       "files": [
@@ -2208,7 +2208,7 @@
       "accuracy": {
         "en": {
           "grade": "B-",
-          "errorPercent": 9.6
+          "errorPercent": 9.63
         }
       },
       "files": [
