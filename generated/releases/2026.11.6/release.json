@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "releaseId": "2026.11.6",
+  "createdAt": "2026-11-21T03:53:17Z",
+  "description": "Refreshes cloud model profiles from models.dev and grades every speech model on FLEURS clips scaled to a phone's level.",
+  "catalogs": {
+    "speech": {
+      "filename": "model_catalog.json",
+      "sha256": "c08303f1ca1dec5d4bfd602b80e7c38ae6ddb2ec7a8cf9ad14a65f9cd2a49942",
+      "sizeBytes": 79867
+    },
+    "diarization": {
+      "filename": "speaker_diarization_manifest.json",
+      "sha256": "229b8094db91950594ca6338e2f73dffe7d84c521e7fead0a5140a1e77b7a65a",
+      "sizeBytes": 1438
+    },
+    "cleanup": {
+      "filename": "cleanup_model_catalog.json",
+      "sha256": "fa943d33b7ad03993206f08a10002b20324dd7b4e495f17787bde5c2310e1f95",
+      "sizeBytes": 16346
+    },
+    "cloudTiers": {
+      "filename": "cloud_model_tiers.json",
+      "sha256": "bdf58dbe3ffbdc5c765a2b2f8be9cc97d7e7db9761ba82232702e14a69f16e25",
+      "sizeBytes": 14543
+    },
+    "cloudModels": {
+      "filename": "cloud_models.json",
+      "sha256": "61dd72097d459cdd84d76131b7ac10b662792cd5d062e5fa49c08db67c6a91d7",
+      "sizeBytes": 147474
+    },
+    "notes": {
+      "filename": "notes_model_catalog.json",
+      "sha256": "972fea32ab08671640e2a2aa7d603ccb67c074dd3f79bc7d0f3eef22ef33dfd4",
+      "sizeBytes": 4699
+    },
+    "search": {
+      "filename": "search_model_catalog.json",
+      "sha256": "7a2a1227603ea6e16718770819de982666283d90460a9f4164b3a14d5ee4b07c",
+      "sizeBytes": 2050
+    }
+  },
+  "gitCommit": "4d34e471d90d2a722e35a0a752543a7544a0e9e0"
+}
