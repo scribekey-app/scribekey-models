@@ -188,5 +188,6 @@ def refresh_cloud_models() -> tuple[str, str] | None:
     snapshot_path = catalog.CLOUD_MODELS_SNAPSHOT_FILE
     profiles_path = catalog.GENERATED_DIR / "cloud_models.json"
     snapshot_path.write_text(catalog._render_json(snapshot), encoding="utf-8")
-    profiles_path.write_text(catalog._render_json(profiles), encoding="utf-8")
+    # The same compact form `generate` writes, so `generate --check` passes on a refresh PR.
+    profiles_path.write_text(catalog._render_cloud_models(profiles), encoding="utf-8")
     return summary, snapshot["source"]["sha256"]
