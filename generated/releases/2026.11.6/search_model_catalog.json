@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "models": [
+    {
+      "modelId": "embeddinggemma-2-text-270m",
+      "displayName": "EmbeddingGemma 2",
+      "description": "Finds sessions by what they mean, not only the words in them. Runs on your phone.",
+      "bestFor": "Search by meaning",
+      "experimental": true,
+      "badge": "Experimental",
+      "info": {
+        "paramsBadge": "270M",
+        "architecture": "EmbeddingGemma 2 Text",
+        "languages": "English"
+      },
+      "provenance": {
+        "sourceModel": "google/embeddinggemma-2",
+        "exportRepository": "litert-community/embeddinggemma-2-text-270m-litert-lm",
+        "exportRevision": "9be6e8b90982095dc05c2bd162e4b954ee4dbac7",
+        "exportVariant": "int4 QAT LiteRT-LM, CPU/GPU file",
+        "licenseId": "Apache-2.0",
+        "licenseUrl": "https://huggingface.co/google/embeddinggemma-2/blob/f9972ac22e696a105c482202646979e33e4b5a1e/README.md"
+      },
+      "revision": "9be6e8b90982095dc05c2bd162e4b954ee4dbac7",
+      "bundleFileName": "embeddinggemma-2-text-270m.litertlm",
+      "downloadUrl": "https://huggingface.co/litert-community/embeddinggemma-2-text-270m-litert-lm/resolve/9be6e8b90982095dc05c2bd162e4b954ee4dbac7/embeddinggemma-2-text-270m.litertlm",
+      "sizeBytes": 164626432,
+      "sha256": "2d079ee2f6f066b1f368e8d7c819f55214eaef1d0513b312321901f30ab286fb",
+      "runtimeFamily": "litert-lm",
+      "backends": [
+        "cpu"
+      ],
+      "minDeviceMemoryGb": 6,
+      "minimumApiLevel": 28,
+      "supportedAbis": [
+        "arm64-v8a",
+        "x86_64"
+      ],
+      "supportedLanguages": [
+        "en"
+      ],
+      "embeddingDimensions": 256,
+      "normalizeEmbeddings": true,
+      "passageTokens": 256,
+      "license": "Apache-2.0",
+      "attribution": "EmbeddingGemma 2 by Google DeepMind, LiteRT-LM build from litert-community.",
+      "licenseUrl": "https://huggingface.co/google/embeddinggemma-2/blob/f9972ac22e696a105c482202646979e33e4b5a1e/README.md",
+      "privacyDisclosure": "Transcript text stays on this device."
+    }
+  ]
+}
