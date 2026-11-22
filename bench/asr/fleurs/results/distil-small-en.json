@@ -5,13 +5,13 @@
     "en": {
       "audioSeconds": 6388,
       "clips": 647,
-      "errorPercent": 7.13,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 7.1,
+      "measuredOn": "2026-11-21",
       "metric": "wer",
-      "realTimeFactor": 6.2
+      "realTimeFactor": 8.2
     }
   },
   "mode": "offline",
   "model": "distil-small-en",
-  "sherpaOnnx": "1.13.8"
+  "sherpaOnnx": "2.0.2"
 }

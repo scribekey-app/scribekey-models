@@ -5,13 +5,13 @@
     "en": {
       "audioSeconds": 6388,
       "clips": 647,
-      "errorPercent": 4.43,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 4.44,
+      "measuredOn": "2026-11-21",
       "metric": "wer",
-      "realTimeFactor": 13.9
+      "realTimeFactor": 13.8
     }
   },
   "mode": "offline",
   "model": "parakeet-0.6b-v2",
-  "sherpaOnnx": "1.13.8"
+  "sherpaOnnx": "2.0.2"
 }
