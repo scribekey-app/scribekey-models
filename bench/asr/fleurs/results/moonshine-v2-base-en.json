@@ -5,13 +5,13 @@
     "en": {
       "audioSeconds": 6388,
       "clips": 647,
-      "errorPercent": 12.46,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 12.4,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 33.6
+      "realTimeFactor": 66.2
     }
   },
   "mode": "offline",
   "model": "moonshine-v2-base-en",
-  "sherpaOnnx": "1.13.8"
+  "sherpaOnnx": "2.0.2"
 }

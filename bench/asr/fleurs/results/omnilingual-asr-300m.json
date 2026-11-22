@@ -5,136 +5,136 @@
     "ar": {
       "audioSeconds": 4685,
       "clips": 428,
-      "errorPercent": 23.26,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 23.44,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 6.3
+      "realTimeFactor": 5.0
     },
     "bg": {
       "audioSeconds": 6687,
       "clips": 658,
-      "errorPercent": 31.5,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 31.28,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 6.3
+      "realTimeFactor": 5.2
     },
     "cs": {
       "audioSeconds": 8820,
       "clips": 723,
       "errorPercent": 27.65,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 13.5
+      "realTimeFactor": 12.6
     },
     "da": {
       "audioSeconds": 10579,
       "clips": 930,
-      "errorPercent": 38.53,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 38.83,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 6.1
+      "realTimeFactor": 5.1
     },
     "de": {
       "audioSeconds": 11349,
       "clips": 862,
-      "errorPercent": 17.2,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 17.22,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 4.9
+      "realTimeFactor": 7.7
     },
     "el": {
       "audioSeconds": 6862,
       "clips": 650,
       "errorPercent": 38.96,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 6.3
+      "realTimeFactor": 7.1
     },
     "en": {
       "audioSeconds": 6388,
       "clips": 647,
-      "errorPercent": 19.06,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 18.94,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 6.4
+      "realTimeFactor": 5.2
     },
     "es": {
       "audioSeconds": 11126,
       "clips": 908,
-      "errorPercent": 11.29,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 11.24,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 5.0
+      "realTimeFactor": 7.6
     },
     "et": {
       "audioSeconds": 10825,
       "clips": 893,
-      "errorPercent": 28.11,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 28.18,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 5.0
+      "realTimeFactor": 7.6
     },
     "fa": {
       "audioSeconds": 13322,
       "clips": 871,
       "errorPercent": 28.52,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 6.0
+      "realTimeFactor": 5.8
     },
     "fi": {
       "audioSeconds": 11894,
       "clips": 918,
       "errorPercent": 26.31,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 12.8
+      "realTimeFactor": 6.2
     },
     "fil": {
       "audioSeconds": 17243,
       "clips": 964,
-      "errorPercent": 19.78,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 19.83,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 4.8
+      "realTimeFactor": 12.1
     },
     "fr": {
       "audioSeconds": 7024,
       "clips": 676,
       "errorPercent": 22.61,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 7.9
+      "realTimeFactor": 7.5
     },
     "hi": {
       "audioSeconds": 4832,
       "clips": 418,
       "errorPercent": 20.4,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 7.6
+      "realTimeFactor": 6.3
     },
     "hr": {
       "audioSeconds": 9237,
       "clips": 914,
-      "errorPercent": 39.05,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 39.19,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 5.1
+      "realTimeFactor": 6.4
     },
     "hu": {
       "audioSeconds": 11051,
       "clips": 905,
       "errorPercent": 36.33,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 6.2
+      "realTimeFactor": 11.6
     },
     "id": {
       "audioSeconds": 8515,
       "clips": 687,
       "errorPercent": 23.17,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
       "realTimeFactor": 5.0
     },
@@ -142,63 +142,63 @@
       "audioSeconds": 12676,
       "clips": 865,
       "errorPercent": 11.86,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 6.1
+      "realTimeFactor": 11.5
     },
     "ja": {
       "audioSeconds": 8511,
       "clips": 650,
-      "errorPercent": 22.1,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 22.06,
+      "measuredOn": "2026-11-22",
       "metric": "cer",
-      "realTimeFactor": 6.2
+      "realTimeFactor": 5.1
     },
     "ko": {
       "audioSeconds": 4805,
       "clips": 382,
       "errorPercent": 13.98,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "cer",
-      "realTimeFactor": 4.9
+      "realTimeFactor": 5.0
     },
     "lt": {
       "audioSeconds": 10687,
       "clips": 986,
       "errorPercent": 43.34,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 12.5
+      "realTimeFactor": 6.9
     },
     "lv": {
       "audioSeconds": 10219,
       "clips": 851,
       "errorPercent": 32.61,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 7.4
+      "realTimeFactor": 6.3
     },
     "mk": {
       "audioSeconds": 11533,
       "clips": 973,
-      "errorPercent": 18.34,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 18.5,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 5.0
+      "realTimeFactor": 6.3
     },
     "ms": {
       "audioSeconds": 8150,
       "clips": 749,
       "errorPercent": 27.5,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 13.6
+      "realTimeFactor": 7.8
     },
     "mt": {
       "audioSeconds": 12771,
       "clips": 926,
       "errorPercent": 28.92,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
       "realTimeFactor": 6.2
     },
@@ -206,124 +206,124 @@
       "audioSeconds": 4489,
       "clips": 357,
       "errorPercent": 24.71,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 13.5
+      "realTimeFactor": 13.1
     },
     "nl": {
       "audioSeconds": 3487,
       "clips": 364,
-      "errorPercent": 24.21,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 24.12,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 5.3
+      "realTimeFactor": 5.1
     },
     "pl": {
       "audioSeconds": 7382,
       "clips": 758,
-      "errorPercent": 25.19,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 25.06,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 5.6
+      "realTimeFactor": 5.2
     },
     "pt": {
       "audioSeconds": 11660,
       "clips": 919,
       "errorPercent": 15.82,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 12.4
+      "realTimeFactor": 7.4
     },
     "ro": {
       "audioSeconds": 9099,
       "clips": 883,
-      "errorPercent": 26.24,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 26.29,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 5.2
+      "realTimeFactor": 6.4
     },
     "ru": {
       "audioSeconds": 8994,
       "clips": 775,
-      "errorPercent": 28.23,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 28.2,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 5.0
+      "realTimeFactor": 13.7
     },
     "sk": {
       "audioSeconds": 9409,
       "clips": 792,
-      "errorPercent": 20.31,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 20.46,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 5.0
+      "realTimeFactor": 6.2
     },
     "sl": {
       "audioSeconds": 8173,
       "clips": 834,
-      "errorPercent": 34.0,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 34.24,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 5.2
+      "realTimeFactor": 7.8
     },
     "sv": {
       "audioSeconds": 8399,
       "clips": 759,
-      "errorPercent": 37.8,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 37.88,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 5.1
+      "realTimeFactor": 12.2
     },
     "th": {
       "audioSeconds": 12318,
       "clips": 1021,
       "errorPercent": 13.9,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "cer",
-      "realTimeFactor": 13.0
+      "realTimeFactor": 7.5
     },
     "tr": {
       "audioSeconds": 9380,
       "clips": 743,
       "errorPercent": 25.87,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 12.5
+      "realTimeFactor": 12.8
     },
     "uk": {
       "audioSeconds": 8145,
       "clips": 750,
       "errorPercent": 31.43,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 6.3
+      "realTimeFactor": 6.4
     },
     "vi": {
       "audioSeconds": 10814,
       "clips": 857,
-      "errorPercent": 27.08,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 27.18,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 5.0
+      "realTimeFactor": 7.5
     },
     "yue": {
       "audioSeconds": 9539,
       "clips": 819,
       "errorPercent": 30.26,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "cer",
       "realTimeFactor": 5.1
     },
     "zh": {
       "audioSeconds": 11065,
       "clips": 945,
-      "errorPercent": 20.58,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 20.53,
+      "measuredOn": "2026-11-22",
       "metric": "cer",
-      "realTimeFactor": 5.1
+      "realTimeFactor": 7.6
     }
   },
   "mode": "offline",
   "model": "omnilingual-asr-300m",
-  "sherpaOnnx": "1.13.8"
+  "sherpaOnnx": "2.0.2"
 }

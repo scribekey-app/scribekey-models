@@ -132,7 +132,7 @@ models:
     languageCodes:
       - en
     accuracy:
-      en: 17.66
+      en: 17.53
     files:
       - name: encoder_model.ort
         downloadUrl: https://huggingface.co/csukuangfj2/sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27/resolve/d1e6c30921780b8508d04b492dfb3ce8a51605d4/encoder_model.ort
@@ -184,7 +184,7 @@ models:
     languageCodes:
       - en
     accuracy:
-      en: 12.46
+      en: 12.4
     files:
       - name: encoder_model.ort
         downloadUrl: https://huggingface.co/csukuangfj2/sherpa-onnx-moonshine-base-en-quantized-2026-02-27/resolve/8f4d6c58c03d40bcea40043bb7120a878f2bbef6/encoder_model.ort
@@ -236,7 +236,7 @@ models:
     languageCodes:
       - en
     accuracy:
-      en: 7.13
+      en: 7.1
     files:
       - name: encoder.int8.onnx
         downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-whisper-distil-small.en/resolve/0492324bca9e12a6fca0089bb846f2dd723b50d8/distil-small.en-encoder.int8.onnx
@@ -282,7 +282,7 @@ models:
     languageCodes:
       - en
     accuracy:
-      en: 6.66
+      en: 6.64
     files:
       - name: model.onnx
         downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000/resolve/3af92f152d32c836acabf38f4c993bc96b80eb2d/model.onnx
@@ -331,10 +331,10 @@ models:
       - de
       - fr
     accuracy:
-      de: 8.5
-      en: 9.16
-      es: 6.66
-      fr: 8.83
+      de: 7.99
+      en: 5.64
+      es: 6.47
+      fr: 8.55
     files:
       - name: encoder.int8.onnx
         downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/resolve/9077164e0d3dd1d5353743e89ceaa1d3a770838c/encoder.int8.onnx
@@ -385,46 +385,46 @@ models:
     supportsPunctuation: false
     supportsLanguageDetection: false
     accuracy:
-      ar: 23.26
-      bg: 31.5
+      ar: 23.44
+      bg: 31.28
       cs: 27.65
-      da: 38.53
-      de: 17.2
+      da: 38.83
+      de: 17.22
       el: 38.96
-      en: 19.06
-      es: 11.29
-      et: 28.11
+      en: 18.94
+      es: 11.24
+      et: 28.18
       fa: 28.52
       fi: 26.31
-      fil: 19.78
+      fil: 19.83
       fr: 22.61
       hi: 20.4
-      hr: 39.05
+      hr: 39.19
       hu: 36.33
       id: 23.17
       it: 11.86
-      ja: 22.1
+      ja: 22.06
       ko: 13.98
       lt: 43.34
       lv: 32.61
-      mk: 18.34
+      mk: 18.5
       ms: 27.5
       mt: 28.92
       nb: 24.71
-      nl: 24.21
-      pl: 25.19
+      nl: 24.12
+      pl: 25.06
       pt: 15.82
-      ro: 26.24
-      ru: 28.23
-      sk: 20.31
-      sl: 34.0
-      sv: 37.8
+      ro: 26.29
+      ru: 28.2
+      sk: 20.46
+      sl: 34.24
+      sv: 37.88
       th: 13.9
       tr: 25.87
       uk: 31.43
-      vi: 27.08
+      vi: 27.18
       yue: 30.26
-      zh: 20.58
+      zh: 20.53
     files:
       - name: model.int8.onnx
         downloadUrl: https://huggingface.co/csukuangfj2/sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12/resolve/6fc542a3b0661c8278cca1230c34deb989f31202/model.int8.onnx
@@ -465,36 +465,35 @@ models:
     supportsPunctuation: true
     supportsLanguageDetection: false
     accuracy:
-      ar: 34.38
-      cs: 61.42
-      da: 58.08
-      de: 10.48
-      el: 65.54
-      en: 5.21
-      es: 7.0
-      fa: 68.21
-      fi: 58.08
-      fil: 44.91
-      fr: 12.39
-      hi: 23.6
-      hu: 72.68
-      id: 16.03
-      it: 8.66
-      ja: 11.35
-      ko: 6.4
-      mk: 78.65
-      ms: 28.99
-      nl: 18.59
-      pl: 42.04
-      pt: 10.13
-      ro: 59.81
-      ru: 18.31
-      sv: 45.99
-      th: 11.84
-      tr: 28.78
-      vi: 13.76
-      yue: 10.48
-      zh: 7.7
+      ar: 32.4
+      cs: 60.32
+      da: 65.45
+      de: 10.56
+      el: 66.3
+      en: 5.47
+      es: 7.29
+      fa: 70.5
+      fi: 58.75
+      fil: 44.85
+      fr: 11.98
+      hi: 23.19
+      hu: 72.67
+      id: 16.05
+      it: 8.83
+      ja: 12.19
+      ko: 6.62
+      ms: 29.1
+      nl: 18.45
+      pl: 42.15
+      pt: 10.52
+      ro: 58.72
+      ru: 18.57
+      sv: 46.36
+      th: 11.58
+      tr: 29.32
+      vi: 13.44
+      yue: 10.04
+      zh: 8.05
     files:
       - name: conv_frontend.onnx
         downloadUrl: https://huggingface.co/csukuangfj2/sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/resolve/68818b2313fe77bd06f6a7c5068ff3ef59d02b8a/conv_frontend.onnx
@@ -560,7 +559,7 @@ models:
       ja: 7.82
       ko: 8.51
       yue: 37.72
-      zh: 8.1
+      zh: 8.05
     files:
       - name: model.int8.onnx
         downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/resolve/2365baeacb507f821a0c8120fcee3d484dba7a07/model.int8.onnx
@@ -603,7 +602,7 @@ models:
     languageCodes:
       - en
     accuracy:
-      en: 4.43
+      en: 4.44
     files:
       - name: encoder.int8.onnx
         downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/resolve/1ab9323565ddb038682214b292f588070a538ce2/encoder.int8.onnx
@@ -721,31 +720,31 @@ models:
       - ru
       - uk
     accuracy:
-      bg: 16.86
-      cs: 23.46
-      da: 28.39
-      de: 6.84
-      el: 43.55
-      en: 5.72
-      es: 4.14
-      et: 25.4
-      fi: 19.53
-      fr: 7.47
-      hr: 18.4
-      hu: 29.73
-      it: 4.11
-      lt: 33.98
-      lv: 44.24
-      mt: 44.18
-      nl: 9.42
-      pl: 11.84
-      pt: 5.72
-      ro: 20.31
-      ru: 9.18
-      sk: 18.38
-      sl: 46.25
-      sv: 20.08
-      uk: 9.24
+      bg: 16.84
+      cs: 23.39
+      da: 29.07
+      de: 6.9
+      el: 43.42
+      en: 5.8
+      es: 4.21
+      et: 25.61
+      fi: 19.68
+      fr: 7.52
+      hr: 18.84
+      hu: 29.61
+      it: 4.06
+      lt: 33.74
+      lv: 44.59
+      mt: 44.03
+      nl: 9.44
+      pl: 11.96
+      pt: 5.82
+      ro: 20.62
+      ru: 9.22
+      sk: 18.21
+      sl: 46.45
+      sv: 19.88
+      uk: 9.16
     files:
       - name: encoder.int8.onnx
         downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/resolve/2bda32ec70b097a55adaa07d9a7173915b43cc78/encoder.int8.onnx
@@ -862,31 +861,31 @@ models:
       - ru
       - uk
     accuracy:
-      bg: 13.87
-      cs: 14.23
-      da: 20.15
-      de: 5.65
+      bg: 14.09
+      cs: 14.53
+      da: 20.31
+      de: 5.55
       el: 37.51
-      en: 4.88
+      en: 5.0
       es: 3.5
-      et: 18.63
-      fi: 15.89
-      fr: 6.2
-      hr: 13.69
-      hu: 20.86
-      it: 3.13
-      lt: 25.64
-      lv: 25.71
-      mt: 28.04
-      nl: 8.31
-      pl: 9.02
-      pt: 4.85
-      ro: 15.07
-      ru: 7.56
-      sk: 12.15
-      sl: 26.65
-      sv: 15.97
-      uk: 7.87
+      et: 18.78
+      fi: 15.6
+      fr: 6.18
+      hr: 13.63
+      hu: 20.98
+      it: 3.07
+      lt: 25.41
+      lv: 25.66
+      mt: 28.05
+      nl: 8.29
+      pl: 9.13
+      pt: 4.81
+      ro: 15.14
+      ru: 7.43
+      sk: 12.27
+      sl: 26.29
+      sv: 15.59
+      uk: 7.69
     files:
       - name: encoder.int8.onnx
         downloadUrl: https://huggingface.co/mldecode/parakeet-ultra-onnx-int8/resolve/3282a6e32885b431c1543d58c7710e6e3412eac0/encoder.int8.onnx
@@ -961,31 +960,31 @@ models:
       - ru
       - uk
     accuracy:
-      bg: 12.38
-      cs: 11.09
-      da: 17.49
-      de: 6.87
-      el: 32.11
-      en: 5.56
-      es: 4.13
-      et: 13.2
-      fi: 12.71
-      fr: 7.99
-      hr: 10.55
+      bg: 12.35
+      cs: 11.11
+      da: 17.45
+      de: 6.83
+      el: 32.17
+      en: 5.61
+      es: 4.1
+      et: 13.22
+      fi: 12.76
+      fr: 8.2
+      hr: 10.62
       hu: 16.92
       it: 3.45
-      lt: 18.52
-      lv: 14.44
+      lt: 18.48
+      lv: 14.45
       mt: 15.51
-      nl: 9.03
-      pl: 9.38
-      pt: 5.22
-      ro: 11.22
+      nl: 8.98
+      pl: 9.3
+      pt: 5.28
+      ro: 11.23
       ru: 8.51
       sk: 8.3
-      sl: 18.77
-      sv: 13.95
-      uk: 7.54
+      sl: 18.79
+      sv: 13.94
+      uk: 7.57
     files:
       - name: encoder.int8.onnx
         downloadUrl: https://huggingface.co/cohearo/sherpa-onnx-nemo-parakeet-redux/resolve/5168f843ba8f01bf24594f58e5d21f28f63fbb44/encoder.onnx
@@ -1036,7 +1035,7 @@ models:
     languageCodes:
       - en
     accuracy:
-      en: 4.26
+      en: 4.17
     files:
       - name: encoder.int8.onnx
         downloadUrl: https://huggingface.co/csukuangfj2/sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/resolve/8c3a10fb13408c7a7054f6898958bf1c64a8d6c7/encoder.int8.onnx
@@ -1095,7 +1094,7 @@ models:
     languageCodes:
       - en
     accuracy:
-      en: 7.36
+      en: 5.12
     files:
       - name: encoder.int8.onnx
         downloadUrl: https://huggingface.co/csukuangfj2/sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-streaming-560ms/resolve/7551fd26fc810cc1e4e043e608db4d13b59be31e/encoder.int8.onnx
@@ -1200,11 +1199,11 @@ models:
       bg: 26.51
       cs: 27.41
       da: 32.17
-      de: 11.17
-      en: 8.19
+      de: 11.03
+      en: 7.87
       es: 6.72
-      et: 34.51
-      fi: 24.44
+      et: 34.48
+      fi: 24.58
       fr: 11.83
       hi: 9.94
       hr: 30.48
@@ -1213,16 +1212,16 @@ models:
       ja: 14.57
       ko: 9.38
       nb: 23.52
-      nl: 15.06
-      pl: 19.02
+      nl: 15.12
+      pl: 19.26
       pt: 8.9
-      ro: 35.51
-      ru: 14.79
+      ro: 35.81
+      ru: 14.84
       sk: 27.85
-      sv: 27.03
+      sv: 27.24
       tr: 15.79
-      uk: 18.15
-      vi: 15.15
+      uk: 18.14
+      vi: 15.22
       zh: 22.74
     files:
       - name: encoder.int8.onnx
@@ -1317,7 +1316,7 @@ models:
     languageCodes:
       - en
     accuracy:
-      en: 9.6
+      en: 9.63
     files:
       - name: encoder.int8.onnx
         downloadUrl: https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21/resolve/9a65b6ea94c311ca770c2bf895b30f456a22d703/encoder-epoch-99-avg-1.int8.onnx

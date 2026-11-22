@@ -5,37 +5,37 @@
     "de": {
       "audioSeconds": 11349,
       "clips": 862,
-      "errorPercent": 8.5,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 7.99,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 7.9
+      "realTimeFactor": 17.7
     },
     "en": {
       "audioSeconds": 6388,
       "clips": 647,
-      "errorPercent": 9.16,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 5.64,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 9.0
+      "realTimeFactor": 7.7
     },
     "es": {
       "audioSeconds": 11126,
       "clips": 908,
-      "errorPercent": 6.66,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 6.47,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 17.0
+      "realTimeFactor": 7.8
     },
     "fr": {
       "audioSeconds": 7024,
       "clips": 676,
-      "errorPercent": 8.83,
-      "measuredOn": "2026-11-14",
+      "errorPercent": 8.55,
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 8.5
+      "realTimeFactor": 8.4
     }
   },
   "mode": "offline",
   "model": "canary-180m",
-  "sherpaOnnx": "1.13.8"
+  "sherpaOnnx": "2.0.2"
 }

@@ -6,12 +6,12 @@
       "audioSeconds": 6388,
       "clips": 647,
       "errorPercent": 12.39,
-      "measuredOn": "2026-11-14",
+      "measuredOn": "2026-11-22",
       "metric": "wer",
-      "realTimeFactor": 43.9
+      "realTimeFactor": 81.7
     }
   },
   "mode": "offline",
   "model": "moonshine-tiny",
-  "sherpaOnnx": "1.13.8"
+  "sherpaOnnx": "2.0.2"
 }
